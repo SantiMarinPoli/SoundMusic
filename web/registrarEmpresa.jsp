@@ -9,15 +9,10 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-
     </head>
 
     <body>
-
-        <%@include file="navbar.jsp" %>
-
         <div class="container main-container">
-
 
             <div class="row">
                 <div class="col-md-2"></div>
@@ -26,12 +21,25 @@
 
                     <h3>Registro de Empresa Difunsora</h3>
                     <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <a href="empresa.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Empresa</button>
+                        </div>
+                    </div>
+
                     <br>
 
                     <form>
                         <div class="form-group">
                             <label>Nombre de la Compañia</label>
                             <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresaTxt" placeholder="Ingresar la empresa difunsora">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Seleccionar una imagen de la empresa</label>
+                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
                         </div>
 
                         <div class="form-group bg-light">
@@ -54,17 +62,12 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Agregar Artista</label>
+                            <input type="text" class="form-control" id="textAgregarArtista" placeholder="Agregar artista"> 
+                        </div>
 
-                            <div class="form-row">
-                                <div class="col">
-                                    <label>Agregar Artista</label>
-                                    <input type="text" class="form-control" id="textAgregarArtista" placeholder="Agregar artista"> 
-                                </div>
-                                <div class="col">
-                                    <button type="button" class="btn btn-outline-primary" id="btnAgregarArtista">Agregar Artista</button>
-                                </div>
-                            </div>
-
+                        <div class="form-group">
+                            <button type="button" class="btn btn-outline-primary  " id="btnAgregarArtista">Agregar Artista</button>
                         </div>
 
                         <div class="form-group">
@@ -85,13 +88,11 @@
             <div class="col-md-2"></div>
 
         </div>
-    </div>
-
-    <!--SCRIPT-->
-    <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
-    <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
-    <script src="js/agregarArtista.js" type="text/javascript"></script>
-    <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
-</body>
+        <!--SCRIPT-->
+        <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
+        <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
+        <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/agregarArtista.js" type="text/javascript"></script>
+    </body>
 
 </html>

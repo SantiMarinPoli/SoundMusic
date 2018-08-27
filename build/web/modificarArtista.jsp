@@ -15,8 +15,6 @@
 
     <body>
 
-        <%@include file="navbar.jsp" %>
-
         <div class="container main-container">
 
             <div class="row">
@@ -24,6 +22,11 @@
 
                     <h3>Modificar el Artista de <small>XXXX</small></h3>
                     <hr>
+                    <div class="row">
+                        <div class="col">
+                            <a href="empresa.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                        </div>
+                    </div>
                     <br>
 
 
@@ -104,7 +107,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Seleccionar una imagen</label>
                             <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">

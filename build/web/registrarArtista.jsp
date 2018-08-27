@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -15,8 +14,6 @@
 
     <body>
 
-        <%@include file="navbar.jsp" %>
-
         <div class="container main-container">
 
             <div class="row">
@@ -24,13 +21,25 @@
 
                     <h3>Registro de Artista</h3>
                     <hr>
-                    <br>
 
+                    <div class="row">
+                        <div class="col">
+                            <a href="artista.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Empresa</button>
+                        </div>
+                    </div>
+
+                    <br>
 
                     <form>
                         <div class="form-group">
                             <label>Nombre de Artista</label>
                             <input type="text" class="form-control" id="textNomArtista" name="nomArtista" placeholder="ingresar el nombre del artista">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Seleccionar una Imagen del Artista</label>
+                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
                         </div>
 
                         <div class="form-group">
@@ -41,6 +50,11 @@
                                 <option>POP</option>
                                 <option>Regaetoon</option>
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Seleccionar una Imagen del Albun</label>
+                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
                         </div>
 
                         <div class="form-row">
@@ -103,11 +117,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Seleccionar una imagen</label>
-                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
                         </div>
 
                         <button type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar">Registrar Usuario</button>

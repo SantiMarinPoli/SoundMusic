@@ -4,6 +4,7 @@ body{
     
 }
 
+/*Modulo del Home*/
 .bg{
 
     background: url("../img/fondo.jpg") no-repeat;
@@ -50,6 +51,9 @@ body{
     cursor: pointer;
 }
 
+
+
+
 /* Animaciones */
 
 .animated {
@@ -93,4 +97,8 @@ body{
 .is-invalid  input{
     color: red;
 }
+
+/*Modulo Empresa*/
+
+
 

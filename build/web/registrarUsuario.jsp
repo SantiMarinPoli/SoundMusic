@@ -14,10 +14,7 @@
 
     <body>
 
-        <%@include file="navbar.jsp" %>
-
         <div class="container main-container">
-
 
             <div class="row">
                 <div class="col-md-2"></div>
@@ -26,6 +23,15 @@
 
                     <h3>Registro de Usuario</h3>
                     <hr>
+                    <br>
+
+                    <div class="row">
+                        <div class="col">
+                            <a href="usuario.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nuevo Usuario</button>
+                        </div>
+                    </div>
+
                     <br>
 
                     <form>
@@ -79,14 +85,14 @@
                                 <input type="password" class="form-control" id="textRepeatPass" placeholder="Password">
                             </div>
                         </div>
-                        
+
                         <br>
 
                         <div class="form-group">
                             <label >Numero del Celular</label>
                             <input type="number" class="form-control" name="numCelular" id="numPhone"placeholder="Ingrese el numero de celular"
                         </div>
-                        
+
                         <br>
                         <div class="form-group">
                             <div class="form-check">
@@ -97,7 +103,7 @@
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary" id="btnGuardar">Registrar Usuario</button>
- 
+
                     </form>
                 </div>
             </div>
