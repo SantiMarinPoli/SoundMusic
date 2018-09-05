@@ -31,10 +31,11 @@
 
                     <br>
 
-                    <form>
+                    <form name="formulario_empresa ">
                         <div class="form-group">
                             <label>Nombre de la Compañia</label>
                             <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresaTxt" placeholder="Ingresar la empresa difunsora">
+                            <div class="invalid-feedback">El campo nombre empresa debe ser obligatorio</div>
                         </div>
 
                         <div class="form-group">
@@ -42,24 +43,26 @@
                             <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
                         </div>
 
-                        <div class="form-group bg-light">
-                            <label>Tipo de Empresa</label>
+                        <div class="form-group bg-light radio">
+                            <h8> Tipo de Empresa</h8>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa1Txt" value="Audio">
-                                <label for="tipoEmpresa1Txt">Audio</label>
+                                <label for="tipoEmpresa1Txt" class="form-check-label error">Audio</label>
                             </div>
 
                             <div class="form-check">
-                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa2Txt" value="Video">
-                                <label for="tipoEmpresa2Txt">Video</label>
+                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa2Txt" value="Descarga">
+                                <label for="tipoEmpresa2Txt" class="form-check-label">Descarga</label>
                             </div>
 
-                            <div class=" form-check">
-                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa3Txt" value="Descarga">
-                                <label for="tipoEmpresa3Txt">Descarga</label>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa3Txt" value="Video">
+                                <label for="tipoEmpresa3Txt" class="form-check-label">Video</label>
+                                <div class="invalid-feedback">Seleccionar una seleccion en el campo tipo empresa.</div>
                             </div>
 
                         </div>
+
 
                         <div class="form-group">
                             <label>Agregar Artista</label>
@@ -70,14 +73,24 @@
                             <button type="button" class="btn btn-outline-primary  " id="btnAgregarArtista">Agregar Artista</button>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group ">
                             <ul class="list-group listaArtista" id="lista">
                                 <li class="list-group-item disabled "><a href="#" >Guns and Roses</a></li>
                                 <li class="list-group-item disabled "><a href="#" >JBailvin</a></li>
                                 <li class="list-group-item disabled "><a href="#" >Beatles</a></li>
                                 <li class="list-group-item disabled "><a href="#" >Avicci</a></li>
                             </ul>
+                        </div>
 
+                        <br>
+
+                        <div class="form-group">
+                            <div class="form-check checkbox">
+                                <input class="form-check-input" type="checkbox" id="terminos" name="terminos">
+                                <label class="form-check-label" for="terminos">
+                                    Terminos y condiciones
+                                </label>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar">Guardar Empresa</button>
@@ -92,6 +105,7 @@
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/validacionEmpresa.js" type="text/javascript"></script>
         <script src="js/agregarArtista.js" type="text/javascript"></script>
     </body>
 
