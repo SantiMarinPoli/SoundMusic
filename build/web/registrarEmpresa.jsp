@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -31,7 +30,7 @@
 
                     <br>
 
-                    <form name="formulario_empresa ">
+                    <form name="formulario_empresa">
                         <div class="form-group">
                             <label>Nombre de la Compañia</label>
                             <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresaTxt" placeholder="Ingresar la empresa difunsora">
@@ -66,7 +65,7 @@
 
                         <div class="form-group">
                             <label>Agregar Artista</label>
-                            <input type="text" class="form-control" id="textAgregarArtista" placeholder="Agregar artista"> 
+                            <input type="text" name="agregarArtista"  class="form-control" id="textAgregarArtista" placeholder="Agregar artista"> 
                         </div>
 
                         <div class="form-group">
@@ -93,7 +92,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar">Guardar Empresa</button>
+                        <input type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar" value="Guardar Empresa">
 
                     </form>
                 </div>
@@ -102,8 +101,8 @@
 
         </div>
         <!--SCRIPT-->
-        <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
+        <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="js/validacionEmpresa.js" type="text/javascript"></script>
         <script src="js/agregarArtista.js" type="text/javascript"></script>

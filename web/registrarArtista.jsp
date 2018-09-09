@@ -8,8 +8,6 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
-
     </head>
 
     <body>
@@ -31,10 +29,38 @@
 
                     <br>
 
-                    <form>
+                    <form name="formulario_artista">
+                        <div class="form-row">
+                            <div class="col">
+                                <label>Nombre</label>
+                                <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingresar el nombre">
+                                <div class="invalid-feedback">El campo del nombre debe ser obligatorio</div>
+                            </div>
+                            <div class="col">
+                                <label>Apellido</label>
+                                <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Ingresar el apellido">
+                                <div class="invalid-feedback">El campo del nombre debe ser obligatorio</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group radio">
+                            <br>
+                            <h8>Genero</h8>
+                            <br>
+                            <input class="form-check-input " type="radio" name="sexo" id="textSex1" value="Masculino" >
+                            <label class="form-check-label " for="textSex1">Masculino</label>
+
+                            <input class="form-check-input " type="radio" name="sexo" id="textSex2" value="Femenino">
+                            <label class="form-check-label" for="textSex2">Femenino</label>
+                            <br>
+                            <div class="invalid-feedback ">Debe seleccionar un campo</div>
+
+                        </div>
+
                         <div class="form-group">
                             <label>Nombre de Artista</label>
                             <input type="text" class="form-control" id="textNomArtista" name="nomArtista" placeholder="ingresar el nombre del artista">
+                            <div class="invalid-feedback">El campo nombre artista es obligatorio</div>
                         </div>
 
                         <div class="form-group">
@@ -50,47 +76,49 @@
                                 <option>POP</option>
                                 <option>Regaetoon</option>
                             </select>
+                            <div class="invalid-feedback">Debe seleccionar un genero musical</div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Seleccionar una Imagen del Albun</label>
-                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
-                        </div>
-
-                        <div class="form-row">
-                            <div class="col">
-                                <label>Nombre del Albun</label>
-                                <input type="text" class="form-control" id="textNomAlbun" placeholder="Ingresar el nuevo albun">
+                        <div class="bg-light container">
+                            <div class="form-group">
+                                <label>Seleccionar una Imagen del Albun</label>
+                                <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
                             </div>
-                            <div class="col">
-                                <label>Empresa Difunsora</label>
-                                <select class="form-control" name="nomEmpresa" id="selectEmpresa">
-                                    <option>Napster</option>
-                                    <option>Spotyfy</option>
-                                    <option>!Music</option>
-                                </select>
-                            </div>
-                        </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Nombre del Albun</label>
+                                    <input type="text" class="form-control" id="textNomAlbun" placeholder="Ingresar el nuevo albun">
+                                    <div class="invalid-feedback">El campo nombre de albun es obligatorio</div>
 
+                                </div>
+                                <div class="col">
+                                    <label>Empresa Difunsora</label>
+                                    <select class="form-control" name="nomEmpresa" id="selectEmpresa">
+                                        <option>Napster</option>
+                                        <option>Spotyfy</option>
+                                        <option>!Music</option>
+                                    </select>
+                                    <div class="invalid-feedback">Debes seleccionar una empresa difunsora</div>
+                                </div>
+                            </div>
+
+                            <br>
+
+                            <div class="form-group">
+                                <label>No# Canciones</label>
+                                <input type="number" name="numCanciones" id="numCanciones" class="form-control" placeholder="Ingresar numero de canciones">
+                                <div class="invalid-feedback">El campo numero de canciones es obligatorio</div>
+                            </div>
+
+                            <br>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-outline-success">Agregar Cancion</button>
+                            </div>
+                            <br>
+
+                        </div>
                         <br>
-
-                        <div class="form-row">
-                            <div class="col">
-                                <label>Nombre de la cancion</label>
-                                <textarea class="form-control" rows="3" name="nomCancion" id="txtNomCancion" placeholder="Ingresar una cancion"></textarea>
-                            </div>
-                            <div class="col">
-                                <label>Colaboracion del artista</label>
-                                <input type="text" class="form-control" name="featArtista" id="textFeatArtista" placeholder="Ingresar el artista">
-                            </div>
-                        </div>
-
-                        <br>
-
-                        <div class="form-group">
-                            <button type="button" class="btn btn-outline-success">Agregar Cancion</button>
-
-                        </div>
 
                         <div class="form-group">
 
@@ -98,8 +126,9 @@
                                 <thead class="thead-dark">
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre del albun</th>
-                                <th scope="col">Nombre de Cancion</th>
-                                <th scope="col">Fecha</th>
+                                <th scope="col">No. Cancion</th>
+                                <th scope="col">Empresa Difunsora</th>
+                                <th scope="col">Fecha Lanzamiento</th>
                                 <th></th>
                                 </thead>
                                 <tbody>
@@ -107,9 +136,9 @@
                                         <th scope="row">1</th>
                                         <td>Wake Up</td>
                                         <td>
-                                            <a href="#" class="badge badge-primary">Levels</a>
-                                            <a href="#" class="badge badge-primary">Friends of mine Feat Vargar & Lagola</a>
+                                            <span class="badge badge-primary">10</span>
                                         </td>
+                                        <td>Spotify</td>
                                         <td>26/08/2018</td>
                                         <td>
                                             <button type="button" class="btn btn-danger">Borrar</button>
@@ -120,14 +149,16 @@
                         </div>
 
                         <button type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar">Registrar Usuario</button>
-
+                    </form>
                 </div>
             </div>
         </div>
 
         <!--SCRIPT-->
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
+        <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/validacionArtista.js" type="text/javascript"></script>
     </body>
 
 </html>

@@ -1,98 +1,67 @@
-(function () {
-
+$(function () {
     var formulario = document.formulario_empresa,
             elementos = formulario.elements;
-
-// Funciones
+// FUNCIONES
     var validarInputs = function () {
         for (var i = 0; i < elementos.length; i++) {
-            if (elementos[i].type === "text") {
-
-                if (elementos[i].value === 0) {
-                    console.log("El campo, " + elementos[i].name + " esta incompleto.");
-                    elementos[i].className = elementos[i].className + " is-invalid";
+            if (elementos[i].type == "text") {
+                if (elementos[i].value == 0) {
+                    console.log("El campo, " + elementos[i].name + " esta incompleto");
+                    elementos[i].className = elementos[i].className + "  is-invalid";
                     return false;
                 } else {
-                    elementos[i].className = elementos[i].className.remplace("is-invalid", "");
-                }
-
-            }
-        }
-        return true;
-    };
-
-    var validarRadios = function () {
-        var opciones = document.getElementsByName("tipoEmpresa"),
-                resultado = false;
-
-        for (var i = 0; i < elementos.length; i++) {
-            if (elementos[i].type === "radio" && elementos[i].name === "tipoEmpresa") {
-                for (var j = 0; j < opciones.length; j++) {
-                    if (opciones[j].checked) {
-                        resultado = true;
-                        break;
-                    }
-                }
-
-                if (resultado === false) {
-                    elementos[i].parentNode.className = elementos[i].parentNode.className + " is-invalid";
-                    console.log("El campo tipo empresa esta incompleto");
-                    return false;
-                } else {
-                    elementos[i].parentNode.className = elementos[i].parentNode.className.replace("is-invalid", "");
-                    return true;
+                    elementos[i].className = elementos[i].className.replace("is-invalid", "");
                 }
             }
         }
-    };
+    return true;
+};
 
-    var validarCheckbox = function () {
-        var opciones = document.getElementsByName("terminos"),
-                resultado = false;
-
-        for (var i = 0; i < elementos.length; i++) {
-            if (elementos[i].type === "checkbox") {
-                for (var j = 0; j < opciones.length; j++) {
-                    if (opciones[j].checked) {
-                        resultado = true;
-                        break;
-                    }
-                }
-
-                if (resultado === false) {
-                    elementos[i].parentNode.className = elementos[i].parentNode.className + " is-invalid";
-                    console.log("Los terminos y condiciones  esta incompleto");
-                    return false;
-                } else {
-                    elementos[i].parentNode.className = elementos[i].parentNode.className.replace("is-invalid", "");
-                    return true;
-                }
-            }
-        }
-    };
+//    var validarRadio = function () {
+//        var op = document.getElementsByName("sexo"),
+//                res = false;
+//
+//        for (var i = 0; i < elementos.length; i++) {
+//            if (elementos[i].type == "radio" && elementos[i].name == "sexo") {
+//                console.log("Error metodo");
+//                for (var j = 0; j < op.length; j++) {
+//                    if (op[j].checked) {
+//                        console.log("Error checked");
+//                        res = true;
+//                        break;
+//                    }
+//                }
+//
+//                if (res == false) {
+//                    elementos[i].parentNode.className = elementos[i].parentNode.className + " is-invalid";
+//                    console.log("El campo esta incompleto");
+//                    return false;
+//                } else {
+//                    console.log("ERROR RADIO");
+//                    elementos[i].parentNode.className = elementos[i].parentNode.className.remplace("is-invalid", "");
+//                    return true;
+//                }
+//            }
+//        }
+//
+//    };
 
     var enviar = function (e) {
-
         if (!validarInputs()) {
-            console.log("falta validar los inputs");
+            console.log("Falta validar los inputs");
             e.preventDefault();
-        } else if (!validarRadios()) {
-            console.log("falta validar los radios");
+        } else if (!validarRadio()) {
+            console.log("Falta validar los radios");
             e.preventDefault();
         } else if (!validarCheckbox()) {
-            console.log("falta validar los checkbox");
-            e.preventDefault();
-        } else if (!validarFile()) {
-            console.log("falta validar el input file");
+            console.log("Falta validar los checkbox");
             e.preventDefault();
         } else {
-            console.log("Enviar correctamente");
+            console.log("Envio exitosamente");
             e.preventDefault();
-
         }
     };
 
-//    Funciones blur y focus
     var focusInput = function () {
         this.parentElement.children[1].className = "form-control active";
         this.parentElement.children[0].className = this.parentElement.children[0].className.replace("is-invalid", "");
@@ -103,18 +72,15 @@
             this.parentElement.children[1].className = "form-control is-invalid";
             this.parentElement.children[0].className = this.parentElement.children[0].className + " is-invalid";
         }
-
     };
 
-//Eventos
+//EVENTOS
     formulario.addEventListener("submit", enviar);
 
     for (var i = 0; i < elementos.length; i++) {
-        if (elementos[i].type === "text" && elementos[i].name === "nomEmpresa") {
+        if (elementos[i].type == "text") {
             elementos[i].addEventListener("focus", focusInput);
             elementos[i].addEventListener("blur", blurInput);
         }
     }
-
 }());
-

@@ -10,7 +10,7 @@ $(function () {
                     elementos[i].className = elementos[i].className + "  is-invalid";
                     return false;
                 } else {
-                    elementos[i].className = elementos[i].className.remplace("is-invalid", "");
+                    elementos[i].className = elementos[i].className.replace("is-invalid", "");
                 }
             }
         }
@@ -22,11 +22,11 @@ $(function () {
             return false;
 
         } else {
-            elementos.pass1.className = elementos.pass1.className.remplace("is-invalid", "");
-            elementos.pass2.className = elementos.pass2.className.remplace("is-invalid", "");
+            elementos.pass1.className = elementos.pass1.className.replace("is-invalid", "");
+            elementos.pass2.className = elementos.pass2.className.replace("is-invalid", "");
         }
-        return true;
-    };
+    return true;
+};
 
 //    var validarRadio = function () {
 //        var op = document.getElementsByName("sexo"),
