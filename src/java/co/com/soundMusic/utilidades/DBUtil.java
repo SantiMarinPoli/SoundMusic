@@ -21,8 +21,8 @@ public class DBUtil {
 
             //Guardar en un string el nombre de usuario
             //y contraseña de la conexion de la base de datos
-            String nombreUsuario = "";
-            String password = "";
+            String nombreUsuario = "SOUNDMUSIC";
+            String password = "SOUNDMUSIC2018";
             //Guardamos en un String la url de nuestra base de datos
             String url = "jdbc:oracle:thin:@localhost:1521:XE";
 
