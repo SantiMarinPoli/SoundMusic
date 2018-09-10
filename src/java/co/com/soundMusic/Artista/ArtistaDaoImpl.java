@@ -1,7 +1,9 @@
 package co.com.soundMusic.Artista;
 
+import co.com.soundMusic.Contacto.ContactoDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +18,7 @@ import java.util.List;
 public class ArtistaDaoImpl implements IArtistaDao {
 
     private Connection conexion;
+    private ContactoDaoImpl contacto = new ContactoDaoImpl();
 
     public ArtistaDaoImpl() {
         conexion = DBUtil.getConexion();
@@ -33,8 +36,22 @@ public class ArtistaDaoImpl implements IArtistaDao {
         // Se avanza el cursor de a una fila 
         // Cuando se alcalza el fin del cursor, la funcion retorna false
         while (rs.next()) {
-            //Codigo para guardar los datos de las filas en 
-            //modelo artistas y agregar a la arraylist
+            int idArtista = rs.getInt("ID_ARTISTA");
+            String primerNombre = rs.getString("PRIMER_NOMBRE");
+            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
+            String primerApellido = rs.getString("PRIMER_APELLIDO");
+            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
+            String nombreArtistico = rs.getString("NOMBRE_ARTISTICO");
+            String genero = rs.getString("GENERO");
+            int totalCanciones = rs.getInt("TOTAL_CANCIONES");
+            Date fechaCreacion = rs.getDate("FECHA_CREACION");
+            String status = rs.getString("STATUS");
+            int idContacto = rs.getInt("ID_CONTACTO_ARTISTA");
+
+            Artista artista = new Artista(idArtista, primerNombre, segundoNombre,
+                    primerApellido, segundoApellido, nombreArtistico, genero,
+                    totalCanciones, fechaCreacion, status, contacto.obtenerContacto(idContacto));
+            listaArtistas.add(artista);
         }
 
         stmt.close();
@@ -45,16 +62,31 @@ public class ArtistaDaoImpl implements IArtistaDao {
     public Artista obtenerArtista(int idArtista) throws SQLException {
         String sql = "";
         PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(0, idArtista);
+        ps.setInt(1, idArtista);
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            //Codigo para guardar los datos de la consulta en
-            //un objeto artista
+            int idArt = rs.getInt("ID_ARTISTA");
+            String primerNombre = rs.getString("PRIMER_NOMBRE");
+            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
+            String primerApellido = rs.getString("PRIMER_APELLIDO");
+            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
+            String nombreArtistico = rs.getString("NOMBRE_ARTISTICO");
+            String genero = rs.getString("GENERO");
+            int totalCanciones = rs.getInt("TOTAL_CANCIONES");
+            Date fechaCreacion = rs.getDate("FECHA_CREACION");
+            String status = rs.getString("STATUS");
+            int idContacto = rs.getInt("ID_CONTACTO_ARTISTA");
 
+            Artista artista = new Artista(idArt, primerNombre, segundoNombre,
+                    primerApellido, segundoApellido, nombreArtistico, genero,
+                    totalCanciones, fechaCreacion, status,
+                    contacto.obtenerContacto(idContacto));
+
+            return artista;
         }
-        Artista artista = new Artista();
-        return artista;
+
+        return null;
     }
 
     @Override
@@ -62,16 +94,24 @@ public class ArtistaDaoImpl implements IArtistaDao {
         String sql = "";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
-        //Codigo para guardar cada parametro de artista en el
-        // ps: ps.setString(1, artista.getidArtista());
+        ps.setString(1, artista.getPrimerNombre());
+        ps.setString(2, artista.getSegundoNombre());
+        ps.setString(3, artista.getPrimerApellido());
+        ps.setString(4, artista.getSegundoApellido());
+        ps.setString(5, artista.getNombreArtistico());
+        ps.setString(6, artista.getGenero());
+        ps.setInt(7, artista.getTotalCanciones());
+        ps.setDate(8, artista.getFechaCreacion());
+        ps.setString(9, artista.getStatus());
+        ps.setInt(10, artista.getContacto().getIdContacto());
         ps.executeUpdate();
     }
 
     @Override
-    public void eliminarArtista(int idArtista) throws SQLException {
+    public void eliminarArtista(String status) throws SQLException {
         String sql = "";
         PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(1, idArtista);
+        ps.setString(1, status);
         ps.executeUpdate();
     }
 
@@ -80,8 +120,16 @@ public class ArtistaDaoImpl implements IArtistaDao {
         String sql = "";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
-        //Codigo para guardar cada parametro de artista en el
-        // ps: ps.setString(1, artista.getidArtista());
+        ps.setString(1, artista.getPrimerNombre());
+        ps.setString(2, artista.getSegundoNombre());
+        ps.setString(3, artista.getPrimerApellido());
+        ps.setString(4, artista.getSegundoApellido());
+        ps.setString(5, artista.getNombreArtistico());
+        ps.setString(6, artista.getGenero());
+        ps.setInt(7, artista.getTotalCanciones());
+        ps.setDate(8, artista.getFechaCreacion());
+        ps.setString(9, artista.getStatus());
+        ps.setInt(10, artista.getContacto().getIdContacto());
         ps.executeUpdate();
     }
 }

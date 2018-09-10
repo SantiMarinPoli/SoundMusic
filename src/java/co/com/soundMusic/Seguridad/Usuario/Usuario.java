@@ -1,5 +1,6 @@
 package co.com.soundMusic.Seguridad.Usuario;
 
+import co.com.soundMusic.Contacto.Contacto;
 import java.sql.Date;
 
 /**
@@ -15,11 +16,12 @@ public class Usuario {
     private String segundoApellido;
     private Date fechaCreacion;
     private String status;
+    private Contacto contacto;
 
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaCreacion, String status) {
+    public Usuario(int idUsuario, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaCreacion, String status, Contacto contacto) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -27,6 +29,7 @@ public class Usuario {
         this.segundoApellido = segundoApellido;
         this.fechaCreacion = fechaCreacion;
         this.status = status;
+        this.contacto = contacto;
     }
 
     public int getIdUsuario() {
@@ -83,6 +86,14 @@ public class Usuario {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Contacto getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
     }
 
     @Override

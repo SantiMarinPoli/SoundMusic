@@ -1,5 +1,6 @@
 package co.com.soundMusic.Artista;
 
+import co.com.soundMusic.Contacto.Contacto;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -15,15 +16,19 @@ public class Artista {
     private String primerApellido;
     private String segundoApellido;
     private String nombreArtistico;
-    private Character genero;
+    private String genero;
     private int totalCanciones;
     private Date fechaCreacion;
     private String status;
+    private Contacto contacto;
 
     public Artista() {
     }
 
-    public Artista(int idArtista, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, String nombreArtistico, Character genero, int totalCanciones, Date fechaCreacion, String status) {
+    public Artista(int idArtista, String primerNombre, String segundoNombre,
+            String primerApellido, String segundoApellido,
+            String nombreArtistico, String genero, int totalCanciones,
+            Date fechaCreacion, String status, Contacto contacto) {
         this.idArtista = idArtista;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -34,6 +39,7 @@ public class Artista {
         this.totalCanciones = totalCanciones;
         this.fechaCreacion = fechaCreacion;
         this.status = status;
+        this.contacto = contacto;
     }
 
     public int getIdArtista() {
@@ -84,11 +90,11 @@ public class Artista {
         this.nombreArtistico = nombreArtistico;
     }
 
-    public Character getGenero() {
+    public String getGenero() {
         return genero;
     }
 
-    public void setGenero(Character genero) {
+    public void setGenero(String genero) {
         this.genero = genero;
     }
 
@@ -114,6 +120,18 @@ public class Artista {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Contacto getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
+    }
+
+    public void setContacto(String direccion) {
+        this.contacto = new Contacto(direccion);
     }
 
     @Override
