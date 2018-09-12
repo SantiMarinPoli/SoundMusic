@@ -29,7 +29,9 @@ public class ArtistaDaoImpl implements IArtistaDao {
         List<Artista> listaArtistas = new ArrayList<>();
 
         Statement stmt = conexion.createStatement();
-        String sql = "";
+        String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA\n"
+                + "FROM ARTISTA;";
 
         ResultSet rs = stmt.executeQuery(sql);
 
@@ -60,7 +62,10 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public Artista obtenerArtista(int idArtista) throws SQLException {
-        String sql = "";
+        String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA\n"
+                + "FROM ARTISTA\n"
+                + "WHERE ID_ARTISTA=?;";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idArtista);
         ResultSet rs = ps.executeQuery();
@@ -91,7 +96,9 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public void crearArtista(Artista artista) throws SQLException {
-        String sql = "";
+        String sql = "INSERT INTO ARTISTA (PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA)\n"
+                + "VALUES (?,?,?,?,?,?,?,?,?,?);";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, artista.getPrimerNombre());
@@ -108,16 +115,22 @@ public class ArtistaDaoImpl implements IArtistaDao {
     }
 
     @Override
-    public void eliminarArtista(String status) throws SQLException {
-        String sql = "";
+    public void eliminarArtista(String status, int idArtista) throws SQLException {
+        String sql = "UPDATE ARTISTA\n"
+                + "SET STATUS=?\n"
+                + "WHERE ID_ARTISTA=?;";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, status);
+        ps.setInt(2, idArtista);
         ps.executeUpdate();
     }
 
     @Override
     public void actualizarArtista(Artista artista) throws SQLException {
-        String sql = "";
+        String sql = "UPDATE ARTISTA\n"
+                + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
+                + "NOMBRE_ARTISTICO=?,GENERO=?,TOTAL_CANCIONES=?,FECHA_CREACION=?,STATUS=?,ID_CONTACTO_ARTISTA=?\n"
+                + "WHERE ID_ARTISTA=?;";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, artista.getPrimerNombre());
@@ -130,6 +143,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setDate(8, artista.getFechaCreacion());
         ps.setString(9, artista.getStatus());
         ps.setInt(10, artista.getContacto().getIdContacto());
+        ps.setInt(11, artista.getIdArtista());
         ps.executeUpdate();
     }
 }

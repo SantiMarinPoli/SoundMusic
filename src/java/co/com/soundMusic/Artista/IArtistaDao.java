@@ -12,6 +12,6 @@ public interface IArtistaDao {
     List<Artista> obtenerArtistas() throws SQLException;
     Artista obtenerArtista (int idArtista) throws SQLException;
     void crearArtista(Artista artista) throws SQLException;
-    void eliminarArtista (String status) throws SQLException;
+    void eliminarArtista (String status, int idArtista) throws SQLException;
     void actualizarArtista (Artista artista) throws SQLException;
 }

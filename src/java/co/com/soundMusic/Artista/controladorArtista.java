@@ -69,10 +69,11 @@ public class controladorArtista extends HttpServlet {
             }
             if (opcion.equals("borrar")) {
                 String statusArtista = (String) request.getParameter("statusArtista");
+                int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
 
                 ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
                 try {
-                    daoArtista.eliminarArtista(statusArtista);
+                    daoArtista.eliminarArtista(statusArtista, idArtista);
                     List<Artista> lstArtista = daoArtista.obtenerArtistas();
                     request.setAttribute("lstArtista", lstArtista);
                     RequestDispatcher vista = request.getRequestDispatcher("/artista.jsp");
