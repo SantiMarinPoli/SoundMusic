@@ -1,0 +1,14 @@
+body{
+    font-family: sans-serif;
+}
+
+.main-container{
+    margin-top: 34px;
+    margin-bottom: 34px;
+}
+
+.posicion-checkbox{
+    display: block;
+    margin-top: 25px;
+    top: 50px;
+}
