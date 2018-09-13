@@ -31,8 +31,10 @@
                     <br>
 
                     <form name="formulario_empresa">
+                        <input type="hidden" name="cod" value="0">
+
                         <div class="form-group">
-                            <label>Nombre de la Compañia</label>
+                            <label>Nombre de la Compañia*</label>
                             <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresaTxt" placeholder="Ingresar la empresa difunsora">
                             <div class="invalid-feedback">El campo nombre empresa debe ser obligatorio</div>
                         </div>
@@ -43,7 +45,7 @@
                         </div>
 
                         <div class="form-group bg-light radio">
-                            <h8> Tipo de Empresa</h8>
+                            <h8> Tipo de Empresa*</h8>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa1Txt" value="Audio">
                                 <label for="tipoEmpresa1Txt" class="form-check-label error">Audio</label>
@@ -83,6 +85,32 @@
 
                         <br>
 
+                        <div class="form-row">
+                            <div class="col">
+                                <label>Total numero de albunes</label>
+                                <input type="number" name="totalnumAlbunes" class="form-control" value="10" disabled="">
+                            </div>
+                            <div class="col">
+                                <label>Total de albunes</label>
+                                <input tytype="text" name="totalAlbunes" class="form-control" value="$ 30.000.000 COP" disabled="">
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label>Total numero de canciones</label>
+                                <input type="number" name="totalnumCanciones" class="form-control" value="30" disabled="">
+                            </div>
+                            <div class="col">
+                                <label>Total de canciones</label>
+                                <input tytype="text" name="totalCanciones" class="form-control" value="$ 100.000.000 COP" disabled="">
+                            </div>
+                        </div>
+
+                        <br>
+
                         <div class="form-group">
                             <div class="form-check checkbox">
                                 <input class="form-check-input" type="checkbox" id="terminos" name="terminos">
@@ -92,6 +120,7 @@
                             </div>
                         </div>
 
+                        <br>
                         <input type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar" value="Guardar Empresa">
 
                     </form>
