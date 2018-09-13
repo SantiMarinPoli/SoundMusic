@@ -31,7 +31,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         Statement stmt = conexion.createStatement();
         String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
                 + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA\n"
-                + "FROM ARTISTA;";
+                + "FROM ARTISTA";
 
         ResultSet rs = stmt.executeQuery(sql);
 
@@ -65,7 +65,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
                 + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA\n"
                 + "FROM ARTISTA\n"
-                + "WHERE ID_ARTISTA=?;";
+                + "WHERE ID_ARTISTA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idArtista);
         ResultSet rs = ps.executeQuery();
@@ -98,7 +98,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
     public void crearArtista(Artista artista) throws SQLException {
         String sql = "INSERT INTO ARTISTA (PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
                 + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA)\n"
-                + "VALUES (?,?,?,?,?,?,?,?,?,?);";
+                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, artista.getPrimerNombre());
@@ -130,7 +130,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         String sql = "UPDATE ARTISTA\n"
                 + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
                 + "NOMBRE_ARTISTICO=?,GENERO=?,TOTAL_CANCIONES=?,FECHA_CREACION=?,STATUS=?,ID_CONTACTO_ARTISTA=?\n"
-                + "WHERE ID_ARTISTA=?;";
+                + "WHERE ID_ARTISTA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, artista.getPrimerNombre());

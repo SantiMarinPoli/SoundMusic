@@ -22,7 +22,9 @@ public class EmpresaDifusora {
     public EmpresaDifusora() {
     }
 
-    public EmpresaDifusora(int idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion, String status, TipoEmpresaDifusora tipoActividad, CostoActividad costoOperacion, Contacto contacto) {
+    public EmpresaDifusora(int idEmpresaDifusora, String nombre, Date fechaCreacion, 
+            Date fechaTerminacion, String status, TipoEmpresaDifusora tipoActividad, 
+            CostoActividad costoOperacion, Contacto contacto) {
         this.idEmpresaDifusora = idEmpresaDifusora;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;

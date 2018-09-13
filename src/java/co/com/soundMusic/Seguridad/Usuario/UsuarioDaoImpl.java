@@ -26,7 +26,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         List<Usuario> listaUsuarios = new ArrayList<>();
 
         Statement stmt = conexion.createStatement();
-        String sql = "";
+        String sql = "SELECT ID_USUARIO,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                + "FECHA_CREACION,STATUS,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO\n"
+                + "FROM USUARIO";
 
         ResultSet rs = stmt.executeQuery(sql);
 
@@ -43,7 +45,10 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     @Override
     public Usuario obtenerUsuario(int idUsuario) throws SQLException {
-        String sql = "";
+        String sql = "SELECT ID_USUARIO,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                + "FECHA_CREACION,STATUS,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO\n"
+                + "FROM USUARIO\n"
+                + "WHERE ID_USUARIO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(0, idUsuario);
         ResultSet rs = ps.executeQuery();
@@ -59,7 +64,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     @Override
     public void crearUsuario(Usuario usuario) throws SQLException {
-        String sql = "";
+        String sql = "INSERT INTO USUARIO (PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                + "FECHA_CREACION,STATUS,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO)\n"
+                + "VALUES (?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         //Codigo para guardar cada parametro de usuario en el
@@ -69,7 +76,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     @Override
     public void eliminarUsuario(int idUsuario) throws SQLException {
-        String sql = "";
+        String sql = "UPDATE USUARIO\n"
+                + "SET STATUS=?\n"
+                + "WHERE ID_USUARIO=?;";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idUsuario);
         ps.executeUpdate();
@@ -77,7 +86,10 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     @Override
     public void actualizarUsuario(Usuario usuario) throws SQLException {
-        String sql = "";
+        String sql = "UPDATE USUARIO\n"
+                + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
+                + "FECHA_CREACION=?,STATUS=?,ID_PERFIL_USUARIO=?,ID_LOGIN_USUARIO=?,ID_CONTACTO_USUARIO=?\n"
+                + "WHERE ID_USUARIO=?; ";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         //Codigo para guardar cada parametro de artista en el
