@@ -10,4 +10,6 @@ import java.util.List;
 public interface IPermisosDao {
 
     List<Permisos> obtenerPermisos() throws SQLException;
+    public Permisos obtenerPermiso(int idPermisos) throws SQLException;
+    public void crearPermiso (Permisos permisos) throws SQLException;
 }

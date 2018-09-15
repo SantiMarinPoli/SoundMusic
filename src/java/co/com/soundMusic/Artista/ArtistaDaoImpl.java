@@ -18,10 +18,11 @@ import java.util.List;
 public class ArtistaDaoImpl implements IArtistaDao {
 
     private Connection conexion;
-    private ContactoDaoImpl contacto = new ContactoDaoImpl();
+    private ContactoDaoImpl contacto;
 
     public ArtistaDaoImpl() {
         conexion = DBUtil.getConexion();
+        contacto= new ContactoDaoImpl();
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public Artista obtenerArtista(int idArtista) throws SQLException {
-        String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+        String sql = "SELECT PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
                 + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA\n"
                 + "FROM ARTISTA\n"
                 + "WHERE ID_ARTISTA=?";
@@ -71,7 +72,6 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            int idArt = rs.getInt("ID_ARTISTA");
             String primerNombre = rs.getString("PRIMER_NOMBRE");
             String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
             String primerApellido = rs.getString("PRIMER_APELLIDO");
@@ -83,7 +83,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
             String status = rs.getString("STATUS");
             int idContacto = rs.getInt("ID_CONTACTO_ARTISTA");
 
-            Artista artista = new Artista(idArt, primerNombre, segundoNombre,
+            Artista artista = new Artista(idArtista, primerNombre, segundoNombre,
                     primerApellido, segundoApellido, nombreArtistico, genero,
                     totalCanciones, fechaCreacion, status,
                     contacto.obtenerContacto(idContacto));

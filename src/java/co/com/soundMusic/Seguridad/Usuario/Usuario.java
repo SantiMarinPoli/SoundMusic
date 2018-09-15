@@ -1,6 +1,8 @@
 package co.com.soundMusic.Seguridad.Usuario;
 
 import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Seguridad.CuentaUsuario.UsuarioLogin;
+import co.com.soundMusic.Seguridad.PermisosYPerfiles.Perfil;
 import java.sql.Date;
 
 /**
@@ -16,12 +18,16 @@ public class Usuario {
     private String segundoApellido;
     private Date fechaCreacion;
     private String status;
+    private Perfil perfil;
+    private UsuarioLogin usuarioLogin;
     private Contacto contacto;
 
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaCreacion, String status, Contacto contacto) {
+    public Usuario(int idUsuario, String primerNombre, String segundoNombre,
+            String primerApellido, String segundoApellido, Date fechaCreacion,
+            String status, Perfil perfil, UsuarioLogin usuarioLogin, Contacto contacto) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -29,6 +35,8 @@ public class Usuario {
         this.segundoApellido = segundoApellido;
         this.fechaCreacion = fechaCreacion;
         this.status = status;
+        this.perfil = perfil;
+        this.usuarioLogin = usuarioLogin;
         this.contacto = contacto;
     }
 
@@ -94,6 +102,22 @@ public class Usuario {
 
     public void setContacto(Contacto contacto) {
         this.contacto = contacto;
+    }
+
+    public UsuarioLogin getUsuarioLogin() {
+        return usuarioLogin;
+    }
+
+    public void setUsuarioLogin(UsuarioLogin usuarioLogin) {
+        this.usuarioLogin = usuarioLogin;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
     }
 
     @Override

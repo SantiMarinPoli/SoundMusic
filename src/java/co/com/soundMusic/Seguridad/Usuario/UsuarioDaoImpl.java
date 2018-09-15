@@ -1,7 +1,11 @@
 package co.com.soundMusic.Seguridad.Usuario;
 
+import co.com.soundMusic.Contacto.ContactoDaoImpl;
+import co.com.soundMusic.Seguridad.CuentaUsuario.UsuarioLoginDaoImpl;
+import co.com.soundMusic.Seguridad.PermisosYPerfiles.PerfilDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,9 +20,15 @@ import java.util.List;
 public class UsuarioDaoImpl implements IUsuarioDao {
 
     private Connection conexion;
+    private ContactoDaoImpl contacto;
+    private UsuarioLoginDaoImpl usuarioLogin;
+    private PerfilDaoImpl perfil;
 
     public UsuarioDaoImpl() {
         conexion = DBUtil.getConexion();
+        contacto = new ContactoDaoImpl();
+        usuarioLogin = new UsuarioLoginDaoImpl();
+        perfil = new PerfilDaoImpl();
     }
 
     @Override
@@ -32,11 +42,24 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
         ResultSet rs = stmt.executeQuery(sql);
 
-        // Se avanza el cursor de a una fila 
-        // Cuando se alcalza el fin del cursor, la funcion retorna false
         while (rs.next()) {
-            //Codigo para guardar los datos de las filas en 
-            //modelo Usuario y agregar a la arraylist
+            int idUsuario = rs.getInt("ID_USUARIO");
+            String primerNombre = rs.getString("PRIMER_NOMBRE");
+            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
+            String primerApellido = rs.getString("PRIMER_APELLIDO");
+            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
+            Date fechaCreacion = rs.getDate("FECHA_CREACION");
+            String status = rs.getString("STATUS");
+            int idPerfilUsuario = rs.getInt("ID_PERFIL_USUARIO");
+            int idLoginUsuario = rs.getInt("ID_LOGIN_USUARIO");
+            int idContacto = rs.getInt("ID_CONTACTO_USUARIO");
+
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                    primerApellido, segundoApellido, fechaCreacion, status,
+                    perfil.obtenerPerfil(idPerfilUsuario),
+                    usuarioLogin.obtenerUsuarioLogin(idLoginUsuario),
+                    contacto.obtenerContacto(idContacto));
+            listaUsuarios.add(usuario);
         }
 
         stmt.close();
@@ -50,16 +73,30 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 + "FROM USUARIO\n"
                 + "WHERE ID_USUARIO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(0, idUsuario);
+        ps.setInt(1, idUsuario);
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            //Codigo para guardar los datos de la consulta en
-            //un objeto artista
+            String primerNombre = rs.getString("PRIMER_NOMBRE");
+            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
+            String primerApellido = rs.getString("PRIMER_APELLIDO");
+            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
+            Date fechaCreacion = rs.getDate("FECHA_CREACION");
+            String status = rs.getString("STATUS");
+            int idPerfilUsuario = rs.getInt("ID_PERFIL_USUARIO");
+            int idLoginUsuario = rs.getInt("ID_LOGIN_USUARIO");
+            int idContacto = rs.getInt("ID_CONTACTO_USUARIO");
 
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                    primerApellido, segundoApellido, fechaCreacion, status,
+                    perfil.obtenerPerfil(idPerfilUsuario),
+                    usuarioLogin.obtenerUsuarioLogin(idLoginUsuario),
+                    contacto.obtenerContacto(idContacto));
+
+            return usuario;
         }
-        Usuario usuario = new Usuario();
-        return usuario;
+
+        return null;
     }
 
     @Override
@@ -69,18 +106,26 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 + "VALUES (?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
-        //Codigo para guardar cada parametro de usuario en el
-        // ps: ps.setString(1, usuario.getidUsuario());
+        ps.setString(1, usuario.getPrimerNombre());
+        ps.setString(2, usuario.getSegundoNombre());
+        ps.setString(3, usuario.getPrimerApellido());
+        ps.setString(4, usuario.getSegundoApellido());
+        ps.setDate(5, usuario.getFechaCreacion());
+        ps.setString(6, usuario.getStatus());
+        ps.setInt(7, usuario.getPerfil().getIdPerfil());
+        ps.setInt(8, usuario.getUsuarioLogin().getIdUsuarioLogin());
+        ps.setInt(9, usuario.getContacto().getIdContacto());
         ps.executeUpdate();
     }
 
     @Override
-    public void eliminarUsuario(int idUsuario) throws SQLException {
+    public void eliminarUsuario(String status, int idUsuario) throws SQLException {
         String sql = "UPDATE USUARIO\n"
                 + "SET STATUS=?\n"
                 + "WHERE ID_USUARIO=?;";
         PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(1, idUsuario);
+        ps.setString(1, status);
+        ps.setInt(2, idUsuario);
         ps.executeUpdate();
     }
 
@@ -92,8 +137,16 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 + "WHERE ID_USUARIO=?; ";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
-        //Codigo para guardar cada parametro de artista en el
-        // ps: ps.setString(1, usuario.getidUsuario());
+        ps.setString(1, usuario.getPrimerNombre());
+        ps.setString(2, usuario.getSegundoNombre());
+        ps.setString(3, usuario.getPrimerApellido());
+        ps.setString(4, usuario.getSegundoApellido());
+        ps.setDate(5, usuario.getFechaCreacion());
+        ps.setString(6, usuario.getStatus());
+        ps.setInt(7, usuario.getPerfil().getIdPerfil());
+        ps.setInt(8, usuario.getUsuarioLogin().getIdUsuarioLogin());
+        ps.setInt(9, usuario.getContacto().getIdContacto());
+        ps.setInt(10, usuario.getIdUsuario());
         ps.executeUpdate();
     }
 
