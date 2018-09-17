@@ -26,7 +26,7 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <a href="registrarArtista.jsp" class="btn btn-success">Registrar Empresa</a>
+                            <a href="registrarArtista.jsp" class="btn btn-success">Registrar Artista</a>
                         </div>
                     </div>
 

@@ -23,7 +23,6 @@
                     <div class="row">
                         <div class="col">
                             <a href="artista.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
-                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Empresa</button>
                         </div>
                     </div>
 
@@ -73,11 +72,11 @@
 
                         </div>
 
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label>Fecha Nacimiento*</label>
                             <input type="date" name="fechaNac" id="fechaNac" class="form-control">
                             <div class="invalid-feedback ">La fecha de nacimiento es un campo obligatorio</div>
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <label>Lugar de Nacimiento*</label>
@@ -101,17 +100,17 @@
                             <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
                         </div>
 
-                        <div class="form-group">
-                            <label>Genero Musical*</label>
-                            <select class="form-control" id="selectGenero" name="generoMusical">
-                                <option>Seleccionar Genero Musical</option>
-                                <option>Electronica</option>
-                                <option>Rock and Roll</option>
-                                <option>POP</option>
-                                <option>Regaetoon</option>
-                            </select>
-                            <div class="invalid-feedback">Debe seleccionar un genero musical</div>
-                        </div>
+                        <!-- <div class="form-group">
+                             <label>Genero Musical*</label>
+                             <select class="form-control" id="selectGenero" name="generoMusical">
+                                 <option>Seleccionar Genero Musical</option>
+                                 <option>Electronica</option>
+                                 <option>Rock and Roll</option>
+                                 <option>POP</option>
+                                 <option>Regaetoon</option>
+                             </select>
+                             <div class="invalid-feedback">Debe seleccionar un genero musical</div>
+                         </div>-->
 
                         <div class="bg-light container">
                             <div class="form-group">
@@ -168,7 +167,7 @@
                             <br>
 
                             <div class="form-group">
-                                <label>Fecha Finalizacion*</label>
+                                <label>Fecha de Lanzamiento*</label>
                                 <input type="date" name="fechaFin" id="fechaFin" class="form-control">
                                 <div class="invalid-feedback">El campo fecha finalizada es obligatorio</div>
                             </div>
@@ -211,7 +210,8 @@
                             </table>
                         </div>
 
-                        <button type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar">Registrar Usuario</button>
+                        <input type="submit" value="Modificar Artista" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
+                        <%@include file="confirmacion.jsp" %>
                     </form>
                 </div>
             </div>

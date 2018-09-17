@@ -37,11 +37,7 @@
                     <form name="formulario_usuario">
                         <input type="hidden" name="cod" value="0">
 
-                        <div class="form-group">
-                            <label class="">Identificacion*</label>
-                            <input type="number" class="form-control"name="id" id="id" placeholder="Ingrese el numero Idenficacion">
-                            <div class="invalid-feedback ">Identificacion es un campo obligatorio</div>
-                        </div>
+
 
                         <div class="form-row">
                             <div class="col">
@@ -86,11 +82,11 @@
 
                         </div>
 
-                        <div class="form-group">
+                        <!--<div class="form-group">
                             <label>Fecha de Nacimiento*</label>
                             <input type="date" name="fechaNac" id="birthDate" class="form-control" >
                             <div class="invalid-feedback ">La fecha de nacimiento es un campo obligatorio</div>
-                        </div>
+                        </div>-->
 
                         <div class="form-group">
                             <label>Correo*</label>
@@ -128,7 +124,7 @@
                                 <div class="invalid-feedback ">El numero celular debe ser obligatorio</div>
                             </div>
                             <div class="col">
-                                <label >Numero del Telefono*</label>
+                                <label >Numero del Telefono</label>
                                 <input type="number" class="form-control" name="numTel" id="numTel"placeholder="Ingrese el numero de telefonico" >
                                 <div class="invalid-feedback ">El numero telefonico debe ser obligatorio</div>
                             </div>
@@ -155,7 +151,8 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar">
+                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
+                        <%@include file="confirmacion.jsp" %>
                     </form>
                 </div>
             </div>

@@ -121,7 +121,8 @@
                         </div>
 
                         <br>
-                        <input type="submit" class="btn btn-outline-primary btn-block" id="btnGuardar" value="Guardar Empresa">
+                        <input type="submit" value="Modificar Empresa" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
+                        <%@include file="confirmacion.jsp" %>
 
                     </form>
                 </div>
