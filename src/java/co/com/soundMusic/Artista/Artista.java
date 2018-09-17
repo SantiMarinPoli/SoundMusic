@@ -17,29 +17,26 @@ public class Artista {
     private String segundoApellido;
     private String nombreArtistico;
     private String genero;
-    private int totalCanciones;
+    private Date fechaNacimiento;
     private Date fechaCreacion;
     private String status;
     private Contacto contacto;
 
-    public Artista() {
+    public Artista(int idArtista, String[] datos, Date[] fechas, Contacto contacto) {
+        this.idArtista = idArtista;
+        this.primerNombre = datos[0];
+        this.segundoNombre = datos[1];
+        this.primerApellido = datos[2];
+        this.segundoApellido = datos[3];
+        this.nombreArtistico = datos[4];
+        this.genero = datos[5];
+        this.fechaNacimiento = fechas[0];
+        this.fechaCreacion = fechas[1];
+        this.status = datos[6];
+        this.contacto = contacto;
     }
 
-    public Artista(int idArtista, String primerNombre, String segundoNombre,
-            String primerApellido, String segundoApellido,
-            String nombreArtistico, String genero, int totalCanciones,
-            Date fechaCreacion, String status, Contacto contacto) {
-        this.idArtista = idArtista;
-        this.primerNombre = primerNombre;
-        this.segundoNombre = segundoNombre;
-        this.primerApellido = primerApellido;
-        this.segundoApellido = segundoApellido;
-        this.nombreArtistico = nombreArtistico;
-        this.genero = genero;
-        this.totalCanciones = totalCanciones;
-        this.fechaCreacion = fechaCreacion;
-        this.status = status;
-        this.contacto = contacto;
+    public Artista() {
     }
 
     public int getIdArtista() {
@@ -98,12 +95,12 @@ public class Artista {
         this.genero = genero;
     }
 
-    public int getTotalCanciones() {
-        return totalCanciones;
+    public Date getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setTotalCanciones(int totalCanciones) {
-        this.totalCanciones = totalCanciones;
+    public void setFechaNacimiento(Date fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public Date getFechaCreacion() {
@@ -129,47 +126,7 @@ public class Artista {
     public void setContacto(Contacto contacto) {
         this.contacto = contacto;
     }
+    
+    
 
-    public void setContacto(String direccion) {
-        this.contacto = new Contacto(direccion);
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 73 * hash + Objects.hashCode(this.nombreArtistico);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Artista other = (Artista) obj;
-        if (!Objects.equals(this.nombreArtistico, other.nombreArtistico)) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Artista{" + "idArtista=" + idArtista
-                + ", primerNombre=" + primerNombre
-                + ", segundoNombre=" + segundoNombre
-                + ", primerApellido=" + primerApellido
-                + ", segundoApellido=" + segundoApellido
-                + ", nombreArtistico=" + nombreArtistico
-                + ", genero=" + genero
-                + ", totalCanciones=" + totalCanciones
-                + ", fechaCreacion=" + fechaCreacion
-                + ", status=" + status + '}';
-    }
 }

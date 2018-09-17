@@ -158,7 +158,7 @@ public class controladorArtista extends HttpServlet {
             String segundoApellido = request.getParameter("segundoApellido");
             String nombreArtistico = request.getParameter("nombreArtistico");
             String genero = request.getParameter("genero");
-            int totalCanciones = Integer.parseInt((String) request.getParameter("totalCanciones"));
+            Date fechaNacimiento= Date.valueOf(request.getParameter("fechaNacimiento"));
             //Date fechaCreacion = Date.valueOf(fechaHora.now());
             Date fechaCreacion = Date.valueOf(LocalDate.now());
             String status = "A";
@@ -168,9 +168,11 @@ public class controladorArtista extends HttpServlet {
             //
             Contacto contacto = new Contacto();
 
-            Artista artista = new Artista(idArtista, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, nombreArtistico, genero,
-                    totalCanciones, fechaCreacion, status, contacto);
+            String[] datos = {primerNombre, segundoNombre,
+                primerApellido, segundoApellido, nombreArtistico, genero, status};
+            Date[] fechas = {fechaNacimiento, fechaCreacion};
+
+            Artista artista = new Artista(idArtista, datos, fechas, contacto);
             ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
             daoArtista.crearArtista(artista);
         } catch (SQLException ex) {

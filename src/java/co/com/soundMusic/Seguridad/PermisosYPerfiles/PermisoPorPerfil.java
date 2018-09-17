@@ -1,5 +1,8 @@
 package co.com.soundMusic.Seguridad.PermisosYPerfiles;
 
+import co.com.soundMusic.Seguridad.Permisos.Permisos;
+import co.com.soundMusic.Seguridad.Perfiles.Perfil;
+
 /**
  *
  * @author Santiago Medina Pelaez

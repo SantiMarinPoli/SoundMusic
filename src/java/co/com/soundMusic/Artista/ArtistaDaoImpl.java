@@ -22,7 +22,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     public ArtistaDaoImpl() {
         conexion = DBUtil.getConexion();
-        contacto= new ContactoDaoImpl();
+        contacto = new ContactoDaoImpl();
     }
 
     @Override
@@ -46,14 +46,17 @@ public class ArtistaDaoImpl implements IArtistaDao {
             String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
             String nombreArtistico = rs.getString("NOMBRE_ARTISTICO");
             String genero = rs.getString("GENERO");
-            int totalCanciones = rs.getInt("TOTAL_CANCIONES");
+            Date fechaNacimiento = rs.getDate("FECHA_NACIMIENTO");
             Date fechaCreacion = rs.getDate("FECHA_CREACION");
             String status = rs.getString("STATUS");
             int idContacto = rs.getInt("ID_CONTACTO_ARTISTA");
 
-            Artista artista = new Artista(idArtista, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, nombreArtistico, genero,
-                    totalCanciones, fechaCreacion, status, contacto.obtenerContacto(idContacto));
+            String[] datos = {primerNombre, segundoNombre,
+                primerApellido, segundoApellido, nombreArtistico, genero, status};
+            Date[] fechas = {fechaNacimiento, fechaCreacion};
+
+            Artista artista = new Artista(idArtista, datos, fechas, contacto.obtenerContacto(idContacto));
+
             listaArtistas.add(artista);
         }
 
@@ -78,15 +81,16 @@ public class ArtistaDaoImpl implements IArtistaDao {
             String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
             String nombreArtistico = rs.getString("NOMBRE_ARTISTICO");
             String genero = rs.getString("GENERO");
-            int totalCanciones = rs.getInt("TOTAL_CANCIONES");
+            Date fechaNacimiento = rs.getDate("FECHA_NACIMIENTO");
             Date fechaCreacion = rs.getDate("FECHA_CREACION");
             String status = rs.getString("STATUS");
             int idContacto = rs.getInt("ID_CONTACTO_ARTISTA");
 
-            Artista artista = new Artista(idArtista, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, nombreArtistico, genero,
-                    totalCanciones, fechaCreacion, status,
-                    contacto.obtenerContacto(idContacto));
+            String[] datos = {primerNombre, segundoNombre,
+                primerApellido, segundoApellido, nombreArtistico, genero, status};
+            Date[] fechas = {fechaNacimiento, fechaCreacion};
+
+            Artista artista = new Artista(idArtista, datos, fechas, contacto.obtenerContacto(idContacto));
 
             return artista;
         }
@@ -107,7 +111,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setString(4, artista.getSegundoApellido());
         ps.setString(5, artista.getNombreArtistico());
         ps.setString(6, artista.getGenero());
-        ps.setInt(7, artista.getTotalCanciones());
+        ps.setDate(7, artista.getFechaNacimiento());
         ps.setDate(8, artista.getFechaCreacion());
         ps.setString(9, artista.getStatus());
         ps.setInt(10, artista.getContacto().getIdContacto());
@@ -139,7 +143,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setString(4, artista.getSegundoApellido());
         ps.setString(5, artista.getNombreArtistico());
         ps.setString(6, artista.getGenero());
-        ps.setInt(7, artista.getTotalCanciones());
+        ps.setDate(7, artista.getFechaNacimiento());
         ps.setDate(8, artista.getFechaCreacion());
         ps.setString(9, artista.getStatus());
         ps.setInt(10, artista.getContacto().getIdContacto());
