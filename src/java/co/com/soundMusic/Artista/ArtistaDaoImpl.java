@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  *
- * @author sanme
+ * @author Santiago Medina Pelaez
  */
 public class ArtistaDaoImpl implements IArtistaDao {
 

@@ -13,17 +13,21 @@ public class Album {
     private String nombre;
     private int numeroCanciones;
     private Date fechaFinalizacion;
+    private String estado;
     private Ciudad ciudad;
+    private Artista artista;    
 
     public Album() {
     }
 
-    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, Ciudad ciudad) {
+    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, String estado, Ciudad ciudad, artista artista) {
         this.idAlbum = idAlbum;
         this.nombre = nombre;
         this.numeroCanciones = numeroCanciones;
         this.fechaFinalizacion = fechaFinalizacion;
+        this.estado=estado;
         this.ciudad = ciudad;
+        this.artista=artista;
     }
 
     public int getIdAlbum() {
@@ -58,6 +62,14 @@ public class Album {
         this.fechaFinalizacion = fechaFinalizacion;
     }
 
+    public String geetEstado() {
+        return estado;
+    }
+
+    public void setestado(String estado) {
+        this.estado = estado;
+    }
+
     public Ciudad getCiudad() {
         return ciudad;
     }
@@ -66,8 +78,12 @@ public class Album {
         this.ciudad = ciudad;
     }
     
-    
+    public Artista getArtista(){
+        return artista;
+    }
  
-    
+    public void setArtista(Artista artista){
+        this.artista=artista;
+    }
     
 }
