@@ -24,6 +24,7 @@
                     <hr>
                     <br>
                     <div class="row">
+                        
                         <div class="col">
                             <a href="registrarUsuario.jsp" class="btn btn-success">Registrar Usuario</a>
                         </div>
