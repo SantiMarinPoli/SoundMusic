@@ -1,5 +1,6 @@
 package co.com.soundMusic.Artista.Album;
 
+import co.com.soundMusic.Artista.Artista;
 import co.com.soundMusic.Contacto.Ciudad.Ciudad;
 import java.sql.Date;
 
@@ -20,7 +21,7 @@ public class Album {
     public Album() {
     }
 
-    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, String estado, Ciudad ciudad, artista artista) {
+    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, String estado, Ciudad ciudad, Artista artista) {
         this.idAlbum = idAlbum;
         this.nombre = nombre;
         this.numeroCanciones = numeroCanciones;
