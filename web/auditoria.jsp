@@ -30,37 +30,29 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th>#</th>
-                                <th>Nombre y apellido</th>
                                 <th>Nombre de Usuario</th>
                                 <th>Tipo Usuario</th>
-                                <th>Fecha inicio</th>
-                                <th>Fecha Finalizacion</th>
+                                <th>Fecha Modificacion</th>
                                 <th>Operaciones</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <th>1</th>
-                                <td>Anonimus</td>
                                 <td>admin</td>
                                 <td>Administrador</td>
                                 <td>11/09/2018 15:05PM</td>
-                                <td>11/09/2018 16:15PM</td>
                                 <td>
                                     <span class="badge badge-primary">Modificar Usuario</span>
-                                    <span class="badge badge-primary">Registrar empresa</span>
                                 </td>
                             </tr>
                             <tr>
                                 <th>2</th>
-                                <td>Santiago Marin</td>
                                 <td>santiMarin</td>
                                 <td>Operador</td>
                                 <td>12/09/2018 10:05AM</td>
-                                <td>11/09/2018 11:30AM</td>
                                 <td>
                                     <span class="badge badge-primary">Modificar Usuario</span>
-                                    <span class="badge badge-primary">Registrar empresa</span>
                                 </td>
                             </tr>
                         </tbody>
