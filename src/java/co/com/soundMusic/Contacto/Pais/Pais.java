@@ -1,4 +1,4 @@
-package co.com.soundMusic.Contacto.Pais;
+package java.co.com.soundMusic.Contacto.Pais;
 
 /**
  *

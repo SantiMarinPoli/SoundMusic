@@ -1,4 +1,4 @@
-package co.com.soundMusic.Contacto.Ciudad;
+package java.co.com.soundMusic.Contacto.Ciudad;
 
 import co.com.soundMusic.Contacto.Pais.Pais;
 
