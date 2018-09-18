@@ -20,7 +20,7 @@ public class ContactoDaoImpl implements IContactoDao {
 
     @Override
     public Contacto obtenerContacto(int idCont) throws SQLException {
-        String sql = "SELECT ID_CONTACTO, DIRECCION, BARRIO, TELEFONO, CELULAR, EMAIL\n"
+        String sql = "SELECT ID_CONTACTO, DIRECCION, BARRIO, TELEFONO, CELULAR, EMAIL, ID_CIUDAD\n"
                 + "FROM CONTACTO\n"
                 + "WHERE ID_CONTACTO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
@@ -34,9 +34,10 @@ public class ContactoDaoImpl implements IContactoDao {
             String telefono = rs.getString("TELEFONO");
             String celular = rs.getString("CELULAR");
             String email = rs.getString("EMAIL");
+            int idCiudad = rs.getInt("ID_CIUDAD");
 
             Contacto contacto = new Contacto(idContacto, direccion, barrio, telefono,
-                    celular, email);
+                    celular, email, idCiudad);
             return contacto;
         }
         return null;
@@ -57,15 +58,6 @@ public class ContactoDaoImpl implements IContactoDao {
     }
 
     @Override
-    public void eliminarContacto(int idContacto) throws SQLException {
-        //Duda de si este metodo se necesita?????
-        String sql = "";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(1, idContacto);
-        ps.executeUpdate();
-    }
-
-    @Override
     public void actualizarContacto(Contacto contacto) throws SQLException {
         String sql = "UPDATE CONTACTO\n"
                 + "SET DIRECCION=?, BARRIO=?, TELEFONO=?, CELULAR=?, EMAIL=?\n"
@@ -79,6 +71,19 @@ public class ContactoDaoImpl implements IContactoDao {
         ps.setString(5, contacto.getEmail());
         ps.setInt(6, contacto.getIdContacto());
         ps.executeUpdate();
+    }
+
+    public int getUltimoIdContacto() throws SQLException {
+        String sql = "SELECT CONTACTO_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int idContacto = rs.getInt("CONTACTO_SEQ.CURRVAL");
+            return idContacto;
+        }
+
+        return -1;
     }
 
 }

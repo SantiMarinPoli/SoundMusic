@@ -25,8 +25,8 @@ $(function () {
             elementos.pass1.className = elementos.pass1.className.replace("is-invalid", "");
             elementos.pass2.className = elementos.pass2.className.replace("is-invalid", "");
         }
-    return true;
-};
+        return true;
+    };
 
 //    var validarRadio = function () {
 //        var op = document.getElementsByName("sexo"),
@@ -69,7 +69,7 @@ $(function () {
             e.preventDefault();
         } else {
             console.log("Envio exitosamente");
-            e.preventDefault();
+                e.preventDefault();
         }
     };
 
@@ -89,9 +89,12 @@ $(function () {
     formulario.addEventListener("submit", enviar);
 
     for (var i = 0; i < elementos.length; i++) {
-        if ((elementos[i].type == "text") || (elementos[i].type == "number") || (elementos[i].type == "password") || (elementos[i].type == "date") ) {
+        if ((elementos[i].type == "text") || (elementos[i].type == "number") || (elementos[i].type == "password") || (elementos[i].type == "date")) {
             elementos[i].addEventListener("focus", focusInput);
             elementos[i].addEventListener("blur", blurInput);
         }
     }
+
+
+    
 }());

@@ -1,6 +1,5 @@
 package co.com.soundMusic.Artista;
 
-import co.com.soundMusic.Negocio.Logros.Logro;
 import java.sql.Date;
 
 /**
@@ -10,17 +9,17 @@ import java.sql.Date;
 public class LogroArtista {
 
     private int idLogroArtista;
-    private Logro logro;
-    private Artista artista;
+    private int idLogro;
+    private int idArtista;
     private Date fechaPremiacion;
 
     public LogroArtista() {
     }
 
-    public LogroArtista(int idLogroArtista, Logro logro, Artista artista, Date fechaPremiacion) {
+    public LogroArtista(int idLogroArtista, int idLogro, int idArtista, Date fechaPremiacion) {
         this.idLogroArtista = idLogroArtista;
-        this.logro = logro;
-        this.artista = artista;
+        this.idLogro = idLogro;
+        this.idArtista = idArtista;
         this.fechaPremiacion = fechaPremiacion;
     }
 
@@ -32,20 +31,20 @@ public class LogroArtista {
         this.idLogroArtista = idLogroArtista;
     }
 
-    public Logro getLogro() {
-        return logro;
+    public int getIdLogro() {
+        return idLogro;
     }
 
-    public void setLogro(Logro logro) {
-        this.logro = logro;
+    public void setIdLogro(int idLogro) {
+        this.idLogro = idLogro;
     }
 
-    public Artista getArtista() {
-        return artista;
+    public int getIdArtista() {
+        return idArtista;
     }
 
-    public void setArtista(Artista artista) {
-        this.artista = artista;
+    public void setIdArtista(int idArtista) {
+        this.idArtista = idArtista;
     }
 
     public Date getFechaPremiacion() {

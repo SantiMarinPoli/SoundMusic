@@ -12,18 +12,20 @@ public class Contacto {
     private String telefono;
     private String celular;
     private String email;
+    private int idCiudad;
 
     public Contacto() {
     }
 
     public Contacto(int idContacto, String direccion, String barrio,
-            String telefono, String celular, String email) {
+            String telefono, String celular, String email, int idCiudad) {
         this.idContacto = idContacto;
         this.direccion = direccion;
         this.barrio = barrio;
         this.telefono = telefono;
         this.celular = celular;
         this.email = email;
+        this.idContacto = idContacto;
     }
 
     public Contacto(String direccion) {
@@ -78,14 +80,12 @@ public class Contacto {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "Contacto{" + "idContacto=" + idContacto
-                + ", direccion=" + direccion
-                + ", barrio=" + barrio
-                + ", telefono=" + telefono
-                + ", celular=" + celular
-                + ", email=" + email + '}';
+    public int getIdCiudad() {
+        return idCiudad;
+    }
+
+    public void setIdCiudad(int idCiudad) {
+        this.idCiudad = idCiudad;
     }
 
 }
