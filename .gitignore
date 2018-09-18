@@ -1,6 +1,3 @@
 /dist/
-src/java/co/com/soundMusic/Artista/Album/AlbumDaoImpl.java
-src/java/co/com/soundMusic/Artista/Album/Album.java
-src/java/co/com/soundMusic/Artista/ArtistaDaoImpl.java
-src/java/co/com/soundMusic/Artista/Album/IAlbumDao.java
+
 
