@@ -9,7 +9,6 @@ import java.sql.SQLException;
 public interface IContactoDao {
 
     Contacto obtenerContacto(int idContacto) throws SQLException;
-    void crearContacto(Contacto contacto) throws SQLException;
-    void eliminarContacto (int idContacto) throws SQLException;
+    void crearContacto(Contacto contacto) throws SQLException;    
     void actualizarContacto (Contacto contacto) throws SQLException;
 }

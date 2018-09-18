@@ -31,7 +31,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
         Statement stmt = conexion.createStatement();
         String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA\n"
+                + "NOMBRE_ARTISTICO,GENERO,FECHA_NACIMIENTO,FECHA_CREACION,STATUS,ID_CONTACTO\n"
                 + "FROM ARTISTA";
 
         ResultSet rs = stmt.executeQuery(sql);
@@ -49,13 +49,13 @@ public class ArtistaDaoImpl implements IArtistaDao {
             Date fechaNacimiento = rs.getDate("FECHA_NACIMIENTO");
             Date fechaCreacion = rs.getDate("FECHA_CREACION");
             String status = rs.getString("STATUS");
-            int idContacto = rs.getInt("ID_CONTACTO_ARTISTA");
+            int idContacto = rs.getInt("ID_CONTACTO");
 
             String[] datos = {primerNombre, segundoNombre,
                 primerApellido, segundoApellido, nombreArtistico, genero, status};
             Date[] fechas = {fechaNacimiento, fechaCreacion};
 
-            Artista artista = new Artista(idArtista, datos, fechas, contacto.obtenerContacto(idContacto));
+            Artista artista = new Artista(idArtista, datos, fechas, idContacto);
 
             listaArtistas.add(artista);
         }
@@ -66,8 +66,8 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public Artista obtenerArtista(int idArtista) throws SQLException {
-        String sql = "SELECT PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA\n"
+        String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                 + "NOMBRE_ARTISTICO,GENERO,FECHA_NACIMIENTO,FECHA_CREACION,STATUS,ID_CONTACTO\n"
                 + "FROM ARTISTA\n"
                 + "WHERE ID_ARTISTA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
@@ -90,7 +90,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
                 primerApellido, segundoApellido, nombreArtistico, genero, status};
             Date[] fechas = {fechaNacimiento, fechaCreacion};
 
-            Artista artista = new Artista(idArtista, datos, fechas, contacto.obtenerContacto(idContacto));
+            Artista artista = new Artista(idArtista, datos, fechas, idContacto);
 
             return artista;
         }
@@ -101,7 +101,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
     @Override
     public void crearArtista(Artista artista) throws SQLException {
         String sql = "INSERT INTO ARTISTA (PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "NOMBRE_ARTISTICO,GENERO,TOTAL_CANCIONES,FECHA_CREACION,STATUS,ID_CONTACTO_ARTISTA)\n"
+                + "NOMBRE_ARTISTICO,GENERO,FECHA_NACIMIENTO,FECHA_CREACION,STATUS,ID_CONTACTO)\n"
                 + "VALUES (?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
@@ -114,7 +114,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setDate(7, artista.getFechaNacimiento());
         ps.setDate(8, artista.getFechaCreacion());
         ps.setString(9, artista.getStatus());
-        ps.setInt(10, artista.getContacto().getIdContacto());
+        ps.setInt(10, artista.getIdContacto);
         ps.executeUpdate();
     }
 
@@ -133,7 +133,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
     public void actualizarArtista(Artista artista) throws SQLException {
         String sql = "UPDATE ARTISTA\n"
                 + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
-                + "NOMBRE_ARTISTICO=?,GENERO=?,TOTAL_CANCIONES=?,FECHA_CREACION=?,STATUS=?,ID_CONTACTO_ARTISTA=?\n"
+                + "NOMBRE_ARTISTICO=?,GENERO=?,FECHA_NACIMIENTO=?,FECHA_CREACION=?,STATUS=?,ID_CONTACTO=?\n"
                 + "WHERE ID_ARTISTA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
@@ -146,7 +146,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setDate(7, artista.getFechaNacimiento());
         ps.setDate(8, artista.getFechaCreacion());
         ps.setString(9, artista.getStatus());
-        ps.setInt(10, artista.getContacto().getIdContacto());
+        ps.setInt(10, artista.getIdContacto());
         ps.setInt(11, artista.getIdArtista());
         ps.executeUpdate();
     }

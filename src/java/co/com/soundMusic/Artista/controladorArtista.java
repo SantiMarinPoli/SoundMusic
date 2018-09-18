@@ -1,6 +1,7 @@
 package co.com.soundMusic.Artista;
 
 import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Contacto.ContactoDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
@@ -22,17 +23,17 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Santiago Medina Pelaez
  */
-@WebServlet(name = "controladorArtista", urlPatterns = {"/controladorArtista"})
+@WebServlet(name = "controladorArtista", urlPatterns = { "/controladorArtista" })
 public class controladorArtista extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,14 +52,15 @@ public class controladorArtista extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -94,10 +96,10 @@ public class controladorArtista extends HttpServlet {
     /**
      * Handles the HTTP <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -115,7 +117,7 @@ public class controladorArtista extends HttpServlet {
             }
             if (operacion.equals("editar")) {
                 int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
-                //editarArtista(request, response, idArtista);
+                // editarArtista(request, response, idArtista);
             }
         }
     }
@@ -130,8 +132,8 @@ public class controladorArtista extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void mostrarPaginaArtista(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void mostrarPaginaArtista(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
 
         List<Artista> lstArtista = daoArtista.obtenerArtistas();
@@ -140,8 +142,8 @@ public class controladorArtista extends HttpServlet {
         vista.forward(request, response);
     }
 
-    private void actulizarLstArtista(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException, SQLException {
+    private void actulizarLstArtista(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
 
         List<Artista> lstArtista = daoArtista.obtenerArtistas();
@@ -150,29 +152,34 @@ public class controladorArtista extends HttpServlet {
 
     private void crearArtista(HttpServletRequest request, HttpServletResponse response) {
 
-        try {
-            int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
+        try {            
             String primerNombre = request.getParameter("primerNombre");
             String segundoNombre = request.getParameter("segundoNombre");
             String primerApellido = request.getParameter("primerApellido");
             String segundoApellido = request.getParameter("segundoApellido");
             String nombreArtistico = request.getParameter("nombreArtistico");
             String genero = request.getParameter("genero");
-            Date fechaNacimiento= Date.valueOf(request.getParameter("fechaNacimiento"));
-            //Date fechaCreacion = Date.valueOf(fechaHora.now());
+            Date fechaNacimiento= Date.valueOf(request.getParameter("fechaNacimiento"));            
             Date fechaCreacion = Date.valueOf(LocalDate.now());
             String status = "A";
 
-            //CODIGO PARA EL CONTACTO!!!!!
-            //CODIGOOOOO
-            //
-            Contacto contacto = new Contacto();
+            String celular=request.getParameter("celular");
+            String telefono=request.getParameter("telefono");
+            String direccion=request.getParameter("direccion");
+            String barrio=request.getParameter("barrio");
+            String email=request.getParameter("email");
+            int idCiudad= Integer.parseInt((String)request.getParameter("idCiudad"));
+
+            Contacto contacto = new Contacto(0,direccion,barrio,telefono,celular,email,idCiudad);
+            ContactoDaoImpl daoContacto= new ContactoDaoImpl();
+            daoContacto.crearContacto(contacto);
+            int idContacto= daoContacto.getUltimoIdContacto();
 
             String[] datos = {primerNombre, segundoNombre,
                 primerApellido, segundoApellido, nombreArtistico, genero, status};
             Date[] fechas = {fechaNacimiento, fechaCreacion};
 
-            Artista artista = new Artista(idArtista, datos, fechas, contacto);
+            Artista artista = new Artista(0, datos, fechas, idContacto);
             ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
             daoArtista.crearArtista(artista);
         } catch (SQLException ex) {

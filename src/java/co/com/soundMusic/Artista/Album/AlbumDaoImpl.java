@@ -27,7 +27,7 @@ public class AlbumDaoImpl implements IAlbumDao {
     }
 
     @Override
-    public List<Album> obtenerAlbumes() throws SQLException {
+    public List<Album> obtenerAlbumes(int idUsuario) throws SQLException {
     }
 
     @Override
@@ -36,10 +36,6 @@ public class AlbumDaoImpl implements IAlbumDao {
 
     @Override
     void crearAlbum(Album album) throws SQLException {
-    }
-
-    @Override
-    public void eliminarAlbum(String estado, int idAlbum) throws SQLException {
     }
 
     @Override

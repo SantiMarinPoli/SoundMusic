@@ -57,15 +57,6 @@ public class ContactoDaoImpl implements IContactoDao {
     }
 
     @Override
-    public void eliminarContacto(int idContacto) throws SQLException {
-        //Duda de si este metodo se necesita?????
-        String sql = "";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(1, idContacto);
-        ps.executeUpdate();
-    }
-
-    @Override
     public void actualizarContacto(Contacto contacto) throws SQLException {
         String sql = "UPDATE CONTACTO\n"
                 + "SET DIRECCION=?, BARRIO=?, TELEFONO=?, CELULAR=?, EMAIL=?\n"
@@ -79,6 +70,19 @@ public class ContactoDaoImpl implements IContactoDao {
         ps.setString(5, contacto.getEmail());
         ps.setInt(6, contacto.getIdContacto());
         ps.executeUpdate();
+    }
+
+    public int getUltimoIdContacto()throws SQLException {
+        String sql = "SELECT CONTACTO_SEQ.CURRVAL\n"
+        + "FROM DUAL"
+
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int idContacto= rs.getInt("CONTACTO_SEQ.CURRVAL");
+            return idContacto;
+        }
+
+        return null;
     }
 
 }

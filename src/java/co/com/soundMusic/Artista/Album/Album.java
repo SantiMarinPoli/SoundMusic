@@ -1,6 +1,7 @@
 package co.com.soundMusic.Artista.Album;
 
 import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+import co.com.soundMusic.Aartista;
 import java.sql.Date;
 
 /**
@@ -12,20 +13,18 @@ public class Album {
     private int idAlbum;
     private String nombre;
     private int numeroCanciones;
-    private Date fechaFinalizacion;
-    private String estado;
+    private Date fechaFinalizacion;    
     private Ciudad ciudad;
     private Artista artista;    
 
     public Album() {
     }
 
-    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, String estado, Ciudad ciudad, artista artista) {
+    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, Ciudad ciudad, Aartista artista) {
         this.idAlbum = idAlbum;
         this.nombre = nombre;
         this.numeroCanciones = numeroCanciones;
-        this.fechaFinalizacion = fechaFinalizacion;
-        this.estado=estado;
+        this.fechaFinalizacion = fechaFinalizacion;        
         this.ciudad = ciudad;
         this.artista=artista;
     }
@@ -60,14 +59,6 @@ public class Album {
 
     public void setFechaFinalizacion(Date fechaFinalizacion) {
         this.fechaFinalizacion = fechaFinalizacion;
-    }
-
-    public String geetEstado() {
-        return estado;
-    }
-
-    public void setestado(String estado) {
-        this.estado = estado;
     }
 
     public Ciudad getCiudad() {
