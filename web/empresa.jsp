@@ -102,7 +102,7 @@
                             <img src="img/empresas/spotyfy.png" class="img img-thumbnail "/>
                         </div>
                         <div class="col">
-                            <h4>Spotyfy</h4>
+                            <h4>Spotify</h4>
                             <hr>
                             <br>
                             <table class="table">

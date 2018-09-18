@@ -115,6 +115,7 @@
                     <hr>
                     <br> 
 
+                    <!--LISTA DE ALBUN INICIO-->
                     <div class="row">
                         <div class="col-4">
                             <img src="img/artistas/axwell&ingrosso/art4.jpg" class="img img-thumbnail "/>
@@ -125,19 +126,13 @@
                             <br>
                             <table class="table">
                                 <thead>
-
-                                <h5>                                
-                                    <img src="img/artistas/axwell&ingrosso/albun1.jpg" class="img img-thumbnail icon-artista"/>
-                                    More Than You Know
-                                </h5> 
-
-                                <tr class="thead-dark">
-                                    <th></th>
-                                    <th scope="col">Nombre de la cancion</th>
-                                    <th scope="col">Ganancia</th>
-                                    <th scope="col">Empresa Difunsora</th>
-                                    <th scope="col">Fecha de Produccion</th>
-                                </tr>
+                                    <tr class="thead-dark">
+                                        <th scope="col">Imagen</th>
+                                        <th scope="col">Nombre del Albun</th>
+                                        <th scope="col">No. Canciones</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Mes de Lanzamiento</th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
@@ -146,9 +141,9 @@
                                             <img src="img/artistas/axwell&ingrosso/albun1.jpg" class="img img-thumbnail icon-artista"/>
                                         </th>
                                         <td>More Than You Know</td>
-                                        <td class="text-success">$50.000 COP</td>
-                                        <td>Spotyfy</td>
-                                        <td>8 de diciembre del 2017</td>
+                                        <td>15</td>
+                                        <td class="text-success">COP $500.000</td>
+                                        <td>Mayo 2018</td>
                                     </tr>
 
                                     <tr>
@@ -156,28 +151,36 @@
                                             <img src="img/artistas/axwell&ingrosso/albun1.jpg" class="img img-thumbnail icon-artista"/>
                                         </th>
                                         <td>Renegade</td>
-                                        <td class="text-success">$50.000 COP</td>
-                                        <td>Spotyfy</td>
-                                        <td>8 de diciembre del 2017</td>
+                                        <td>30</td>
+                                        <td class="text-success">COP $500.000</td>
+                                        <td>Mayo 2018</td>
+
                                     </tr>
                                 </tbody>
                             </table>
                             <br>
+                        </div>
+                    </div>
+                    <!--LISTA DE ALBUN FIN-->
+
+                    <!--LISTA DE ALBUN INICIO-->
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="img/artistas/axwell&ingrosso/art4.jpg" class="img img-thumbnail "/>
+                        </div>
+                        <div class="col">
+                            <h4>Axwell & Ingrosso</h4>
+                            <hr>
+                            <br>
                             <table class="table">
                                 <thead>
-
-                                <h5>                                
-                                    <img src="img/artistas/axwell&ingrosso/albun1.jpg" class="img img-thumbnail icon-artista"/>
-                                    More Than You Know
-                                </h5> 
-
-                                <tr class="thead-dark">
-                                    <th></th>
-                                    <th scope="col">Nombre de la cancion</th>
-                                    <th scope="col">Ganancia</th>
-                                    <th scope="col">Empresa Difunsora</th>
-                                    <th scope="col">Fecha de Produccion</th>
-                                </tr>
+                                    <tr class="thead-dark">
+                                        <th scope="col">Imagen</th>
+                                        <th scope="col">Nombre del Albun</th>
+                                        <th scope="col">No. Canciones</th>
+                                        <th scope="col">Total</th>
+                                        <th scope="col">Mes de Lanzamiento</th>
+                                    </tr>
                                 </thead>
 
                                 <tbody>
@@ -186,9 +189,9 @@
                                             <img src="img/artistas/axwell&ingrosso/albun1.jpg" class="img img-thumbnail icon-artista"/>
                                         </th>
                                         <td>More Than You Know</td>
-                                        <td class="text-success">$50.000 COP</td>
-                                        <td>Spotyfy</td>
-                                        <td>8 de diciembre del 2017</td>
+                                        <td>15</td>
+                                        <td class="text-success">COP $500.000</td>
+                                        <td>Mayo 2018</td>
                                     </tr>
 
                                     <tr>
@@ -196,16 +199,17 @@
                                             <img src="img/artistas/axwell&ingrosso/albun1.jpg" class="img img-thumbnail icon-artista"/>
                                         </th>
                                         <td>Renegade</td>
-                                        <td class="text-success">$50.000 COP</td>
-                                        <td>Spotyfy</td>
-                                        <td>8 de diciembre del 2017</td>
+                                        <td>30</td>
+                                        <td class="text-success">COP $500.000</td>
+                                        <td>Mayo 2018</td>
+
                                     </tr>
                                 </tbody>
                             </table>
+                            <br>
                         </div>
-
-
                     </div>
+                    <!--LISTA DE ALBUN FIN-->
 
 
                 </div>
