@@ -79,7 +79,7 @@ public class ContactoDaoImpl implements IContactoDao {
         PreparedStatement ps = conexion.prepareStatement(sql);
         ResultSet rs = ps.executeQuery(sql);
         while (rs.next()) {
-            int idContacto = rs.getInt("CONTACTO_SEQ.CURRVAL");
+            int idContacto = rs.getInt("CURRVAL");
             return idContacto;
         }
 
