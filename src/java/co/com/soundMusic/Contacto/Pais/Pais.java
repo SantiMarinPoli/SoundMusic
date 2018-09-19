@@ -1,4 +1,4 @@
-package co.com.soundMusic.Contacto.Pais;
+import co.com.soundMusic.Contacto.Pais.Pais;
 
 /**
  *
@@ -28,7 +28,4 @@ public class Pais {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
-
 }

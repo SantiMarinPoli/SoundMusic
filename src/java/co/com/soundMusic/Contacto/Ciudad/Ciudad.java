@@ -1,7 +1,5 @@
 package co.com.soundMusic.Contacto.Ciudad;
 
-import co.com.soundMusic.Contacto.Pais.Pais;
-
 /**
  *
  * @author Santiago Medina Pelaez
@@ -9,12 +7,12 @@ import co.com.soundMusic.Contacto.Pais.Pais;
 public class Ciudad {
     private int idCiudad;
     private String nombre;
-    private Pais pais;
+    private int idPais;
 
-    public Ciudad(int idCiudad, String nombre, Pais pais) {
+    public Ciudad(int idCiudad, String nombre, int idPais) {
         this.idCiudad = idCiudad;
         this.nombre = nombre;
-        this.pais = pais;
+        this.idPais = idPais;
     }
 
     public int getIdCiudad() {
@@ -33,13 +31,11 @@ public class Ciudad {
         this.nombre = nombre;
     }
 
-    public Pais getPais() {
-        return pais;
+    public Pais getIdPais() {
+        return idPais;
     }
 
-    public void setPais(Pais pais) {
-        this.pais = pais;
+    public void setPais(int idPais) {
+        this.idPais = idPais;
     }
-
-   
 }
