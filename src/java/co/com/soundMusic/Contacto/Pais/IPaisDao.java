@@ -1,4 +1,4 @@
-package java.co.com.soundMusic.Contacto.Pais;
+package co.com.soundMusic.Contacto.Pais;
 
 public interface IPaisDao{
     
