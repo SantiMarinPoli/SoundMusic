@@ -91,7 +91,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
         ps.setString(4, empresaDifusora.getStatus());
         ps.setInt(5, empresaDifusora.getIdTipoActividad());
         ps.setInt(6, empresaDifusora.getIdContacto());
-        ps.setInt(7, empresaDifusora.getIdCostoActividad());
+        ps.setInt(7, empresaDifusora.getIdCostoOperacion());
         ps.executeUpdate();
     }
 
@@ -117,7 +117,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
         ps.setString(4, empresaDifusora.getStatus());
         ps.setInt(5, empresaDifusora.getIdTipoActividad());
         ps.setInt(6, empresaDifusora.getIdContacto());
-        ps.setInt(7, empresaDifusora.getIdCostoActividad());
+        ps.setInt(7, empresaDifusora.getIdCostoOperacion());
         ps.setInt(8, empresaDifusora.getIdEmpresaDifusora());
         ps.executeUpdate();
     }

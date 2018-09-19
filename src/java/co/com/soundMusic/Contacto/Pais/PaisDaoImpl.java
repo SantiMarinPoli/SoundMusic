@@ -17,7 +17,7 @@ public class PaisDaoImpl implements IPaisDao {
         conexion = DBUtil.getConexion();
     }
 
-    @override
+    @Override
     public List<Pais> obtenerPaises() throws SQLException {
         List<Pais> listaPaises = new ArrayList<>();
         Statement stmt = conexion.createStatement();
@@ -38,7 +38,7 @@ public class PaisDaoImpl implements IPaisDao {
         return listaPaises;
     }
 
-    @override
+    @Override
     public Pais obtenerPais(int idPais) throws SQLException {
         String sql = "SELECT ID_PAIS, NOMBRE\n" + "FROM PAIS\n" + "WHERE ID_PAIS=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
@@ -54,7 +54,7 @@ public class PaisDaoImpl implements IPaisDao {
         return null;
     }
 
-    @override
+    @Override
     public void crearPais(Pais pais) throws SQLException {
         String sql = "INSERT INTO PAIS (NOMBRE)\n" + "VALUES (?)\n";
         PreparedStatement ps = conexion.prepareStatement(sql);
@@ -63,7 +63,7 @@ public class PaisDaoImpl implements IPaisDao {
         ps.executeUpdate();
     }
 
-    @override
+    @Override
     public void actualizarPais(Pais pais) throws SQLException {
         String sql = "UPDATE PAIS" + "SET NOMBRE=?\n" + "WHERE ID_PAIS=?";
         PreparedStatement ps = conexion.prepareStatement(sql);

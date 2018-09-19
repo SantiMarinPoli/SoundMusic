@@ -1,4 +1,4 @@
-import co.com.soundMusic.Contacto.Pais;
+package co.com.soundMusic.Contacto.Pais;
 
 /**
  *

@@ -16,6 +16,7 @@ import java.util.List;
  * @author Santiago Medina Pelaez
  */
 public class CiudadDaoImpl implements ICiudadDao {
+
     private Connection conexion;
     private PaisDaoImpl pais;
 
@@ -48,7 +49,7 @@ public class CiudadDaoImpl implements ICiudadDao {
     }
 
     @Override
-    public Ciudad obtenerCiudad(int idCiudad) {
+    public Ciudad obtenerCiudad(int idCiudad) throws SQLException {
         String sql = "SELECT ID_CIUDAD, NOMBRE, ID_PAIS\n" + "FROM CIUDAD\n" + "WHERE ID_CIUDAD=?\n";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idCiudad);
@@ -67,7 +68,7 @@ public class CiudadDaoImpl implements ICiudadDao {
     }
 
     @Override
-    public void crearCiudad(Ciudad ciudad) {
+    public void crearCiudad(Ciudad ciudad) throws SQLException {
         String sql = "INSERT INTO CIUDAD (NOMBRE, ID_PAIS)\n" + "VALUES (?,?)\n";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
@@ -77,7 +78,7 @@ public class CiudadDaoImpl implements ICiudadDao {
     }
 
     @Override
-    public void actualizarCiudad(Ciudad ciudad) {
+    public void actualizarCiudad(Ciudad ciudad) throws SQLException {
         String sql = "UPDATE CIUDAD \n" + "SET NOMBRE=?, ID_PAIS=? \n" + "WHERE ID_CIUDAD=?\n";
         PreparedStatement ps = conexion.prepareStatement(sql);
 

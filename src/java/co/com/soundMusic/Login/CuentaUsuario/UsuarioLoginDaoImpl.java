@@ -2,7 +2,6 @@ package co.com.soundMusic.Login.CuentaUsuario;
 
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +29,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
         while (rs.next()) {
             String nombreUsuario = rs.getString("NOMBRE_USUARIO");
-            String contrasenaUsuario = rs.getString("CONTRASENA");            
+            String contrasenaUsuario = rs.getString("CONTRASENA");
 
             UsuarioLogin usuarioLogin = new UsuarioLogin(idUsuarioLogin,
                     nombreUsuario, contrasenaUsuario);
@@ -46,7 +45,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, usuarioLogin.getNombreUsuario());
-        ps.setString(2, usuarioLogin.getContrasena());        
+        ps.setString(2, usuarioLogin.getContrasena());
         ps.executeUpdate();
     }
 
@@ -58,7 +57,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, usuarioLogin.getNombreUsuario());
         ps.setString(2, usuarioLogin.getContrasena());
-        ps.setDate(3, usuarioLogin.getIdUsuarioLogin();
+        ps.setInt(3, usuarioLogin.getIdUsuarioLogin());
         ps.executeUpdate();
     }
 }

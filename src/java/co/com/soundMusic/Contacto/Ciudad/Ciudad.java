@@ -31,7 +31,7 @@ public class Ciudad {
         this.nombre = nombre;
     }
 
-    public Pais getIdPais() {
+    public int getIdPais() {
         return idPais;
     }
 
