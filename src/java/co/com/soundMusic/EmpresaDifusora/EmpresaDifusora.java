@@ -1,8 +1,5 @@
 package co.com.soundMusic.EmpresaDifusora;
 
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
-import co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora;
 import java.sql.Date;
 
 /**
@@ -15,24 +12,23 @@ public class EmpresaDifusora {
     private Date fechaCreacion;
     private Date fechaTerminacion;
     private String status;
-    private TipoEmpresaDifusora tipoActividad;
-    private CostoActividad costoOperacion;
-    private Contacto contacto; 
+    private int idTipoActividad;
+    private int idContacto;
+    private int idCostoOperacion;
 
     public EmpresaDifusora() {
     }
 
-    public EmpresaDifusora(int idEmpresaDifusora, String nombre, Date fechaCreacion, 
-            Date fechaTerminacion, String status, TipoEmpresaDifusora tipoActividad, 
-            CostoActividad costoOperacion, Contacto contacto) {
+    public EmpresaDifusora(int idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
+            String status, int idTipoActividad, int idContacto, int idCostoOperacion) {
         this.idEmpresaDifusora = idEmpresaDifusora;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaTerminacion = fechaTerminacion;
         this.status = status;
-        this.tipoActividad = tipoActividad;
-        this.costoOperacion = costoOperacion;
-        this.contacto = contacto;
+        this.idTipoActividad = idTipoActividad;
+        this.idContacto = idContacto;
+        this.idCostoOperacion = idCostoOperacion;
     }
 
     public int getIdEmpresaDifusora() {
@@ -75,29 +71,28 @@ public class EmpresaDifusora {
         this.status = status;
     }
 
-    public TipoEmpresaDifusora getTipoActividad() {
-        return tipoActividad;
+    public int getIdTipoActividad() {
+        return idTipoActividad;
     }
 
-    public void setTipoActividad(TipoEmpresaDifusora tipoActividad) {
-        this.tipoActividad = tipoActividad;
+    public void setTipoActividad(int idTipoActividad) {
+        this.idTipoActividad = idTipoActividad;
     }
 
-    public CostoActividad getCostoOperacion() {
-        return costoOperacion;
+    public int getIdCostoOperacion() {
+        return idCostoOperacion;
     }
 
-    public void setCostoOperacion(CostoActividad costoOperacion) {
-        this.costoOperacion = costoOperacion;
+    public void setIdCostoOperacion(int idCostoOperacion) {
+        this.idCostoOperacion = idCostoOperacion;
     }
 
-    public Contacto getContacto() {
-        return contacto;
+    public int getIdContacto() {
+        return idContacto;
     }
 
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
+    public void setIdContacto(int idContacto) {
+        this.idContacto = idContacto;
     }
-   
-    
+
 }
