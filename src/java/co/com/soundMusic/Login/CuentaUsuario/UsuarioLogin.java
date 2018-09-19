@@ -1,6 +1,5 @@
 package co.com.soundMusic.Login.CuentaUsuario;
 
-import java.sql.Date;
 
 /**
  *
@@ -11,16 +10,14 @@ public class UsuarioLogin {
     private int idUsuarioLogin;
     private String nombreUsuario;
     private String contrasena;
-    private Date fechaRegistro;
 
     public UsuarioLogin() {
     }
 
-    public UsuarioLogin(int idUsuarioLogin, String nombreUsuario, String contrasena, Date fechaRegistro) {
+    public UsuarioLogin(int idUsuarioLogin, String nombreUsuario, String contrasena) {
         this.idUsuarioLogin = idUsuarioLogin;
         this.nombreUsuario = nombreUsuario;
-        this.contrasena = contrasena;
-        this.fechaRegistro = fechaRegistro;
+        this.contrasena = contrasena;        
     }
 
     public int getIdUsuarioLogin() {
@@ -46,13 +43,4 @@ public class UsuarioLogin {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
-
-    public Date getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(Date fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
-
 }

@@ -21,7 +21,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     @Override
     public UsuarioLogin obtenerUsuarioLogin(int idUsuarioLogin) throws SQLException {
-        String sql = "SELECT NOMBRE_USUARIO,CONTRASENA,FECHA_REGISTRO\n"
+        String sql = "SELECT NOMBRE_USUARIO,CONTRASENA\n"
                 + "FROM USUARIO_LOGIN\n"
                 + "WHERE ID_USUARIO_LOGIN=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
@@ -30,11 +30,10 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
         while (rs.next()) {
             String nombreUsuario = rs.getString("NOMBRE_USUARIO");
-            String contrasenaUsuario = rs.getString("CONTRASENA");
-            Date fechaRegistro = rs.getDate("FECHA_REGISTRO");
+            String contrasenaUsuario = rs.getString("CONTRASENA");            
 
             UsuarioLogin usuarioLogin = new UsuarioLogin(idUsuarioLogin,
-                    nombreUsuario, contrasenaUsuario, fechaRegistro);
+                    nombreUsuario, contrasenaUsuario);
             return usuarioLogin;
         }
         return null;
@@ -42,25 +41,24 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     @Override
     public void crearUsuarioLogin(UsuarioLogin usuarioLogin) throws SQLException {
-        String sql = "INSERT INTO USUARIO_LOGIN (NOMBRE_USUARIO,CONTRASENA,FECHA_REGISTRO)\n"
-                + "VALUES (?,?,?)";
+        String sql = "INSERT INTO USUARIO_LOGIN (NOMBRE_USUARIO,CONTRASENA)\n"
+                + "VALUES (?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, usuarioLogin.getNombreUsuario());
-        ps.setString(2, usuarioLogin.getContrasena());
-        ps.setDate(3, usuarioLogin.getFechaRegistro());
+        ps.setString(2, usuarioLogin.getContrasena());        
         ps.executeUpdate();
     }
 
     @Override
     public void actualizarUsuarioLogin(UsuarioLogin usuarioLogin) throws SQLException {
         String sql = "UPDATE USUARIO_LOGIN\n"
-                + "SET NOMBRE_USUARIO=?,CONTRASENA=?,FECHA_REGISTRO=?\n"
+                + "SET NOMBRE_USUARIO=?,CONTRASENA=?\n"
                 + "WHERE ID_USUARIO_LOGIN=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, usuarioLogin.getNombreUsuario());
         ps.setString(2, usuarioLogin.getContrasena());
-        ps.setDate(3, usuarioLogin.getFechaRegistro());
+        ps.setDate(3, usuarioLogin.getIdUsuarioLogin();
         ps.executeUpdate();
     }
 }
