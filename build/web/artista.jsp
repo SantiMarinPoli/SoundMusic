@@ -63,7 +63,7 @@
                                 </td>
                                 <td>Abril 2018</td>
                                 <td class="text-success">$5.000.000 COP</td>
-                                <td><span class="badge badge-success">Activo</span></td>
+                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
                                 <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
 
@@ -81,7 +81,7 @@
 
                                 <td>Agosto 2018</td>
                                 <td class="text-success">$800.000 COP</td>
-                                <td><span class="badge badge-danger">Inactivo</span></td>
+                                <td><a href="#" class="badge badge-danger btnActivar" activarUsuario="0">Inactivo</a></td>
                                 <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
 
@@ -99,7 +99,7 @@
                                 </td>
                                 <td>Abril 2018</td>
                                 <td class="text-success">$20.000.000 COP</td>
-                                <td><span class="badge badge-success">Activo</span></td>
+                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
                                 <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
                         </tbody>
@@ -221,6 +221,7 @@
         <!--SCRIPT-->
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/artista.js" type="text/javascript"></script>
         <script src="js/navbar.js" type="text/javascript"></script>
     </body>
 

@@ -56,7 +56,7 @@
                                 <td>Administrador</td>
                                 <td>admin</td>
                                 <td>22/08/2018 18:44</td>
-                                <td><a href="#" class="badge badge-success">Activado</a></td>
+                                <td><a href="#" class="badge badge-success btnActivar" idUsuario="1" activarUsuario="0">Activado</a></td>
                                 <td><a href="modificarUsuario.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
 
@@ -68,7 +68,7 @@
                                 <td>Operador</td>
                                 <td>santiC</td>
                                 <td>21/08/2018 9:00</td>
-                                <td><a href="#"class="badge badge-success">Activado</a></td>
+                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activado</a></td>
                                 <td><button type="button" class="btn btn-warning">Actualizar</button></td>
                             </tr>
 
@@ -80,7 +80,7 @@
                                 <td>Operador</td>
                                 <td>melany</td>
                                 <td>21/08/2018 12:10</td>
-                                <td><a href="#" class="badge badge-danger">Desactivado</a></td>
+                                <td><a href="#" class="badge badge-success btnActivar" idUsuario="1" activarUsuario="0">Activado</a></td>
                                 <td><button type="button" class="btn btn-warning">Actualizar</button></td>
                             </tr>
 
@@ -92,7 +92,7 @@
                                 <td>Operador</td>
                                 <td>santiM</td>
                                 <td>24/08/2018 13:10</td>
-                                <td><a  href="#"class="badge badge-success">Activado</a></td>
+                                <td><a href="#" class="badge badge-success btnActivar" idUsuario="1" activarUsuario="0">Activado</a></td>
                                 <td><button type="button" class="btn btn-warning">Actualizar</button></td>
                             </tr>
                         </tbody>
@@ -106,6 +106,7 @@
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/usuario.js" type="text/javascript"></script>
         <script src="js/navbar.js" type="text/javascript"></script>
     </body>
 

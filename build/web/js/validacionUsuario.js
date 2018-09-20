@@ -69,7 +69,7 @@ $(function () {
             e.preventDefault();
         } else {
             console.log("Envio exitosamente");
-                e.preventDefault();
+            e.preventDefault();
         }
     };
 
@@ -94,7 +94,4 @@ $(function () {
             elementos[i].addEventListener("blur", blurInput);
         }
     }
-
-
-    
 }());
