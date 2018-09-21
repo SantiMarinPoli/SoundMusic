@@ -9,6 +9,7 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
     </head>
 
@@ -42,7 +43,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Nombre*</label>
-                                <input type="text" class="form-control" name="nombre1" id="nom1" placeholder="Ingresar el primer nombre" >
+                                <input type="text" class="form-control " name="nombre1" id="nom1 texto" placeholder="Ingresar el primer nombre" >
                                 <div class="invalid-feedback ">El primer nombre es un campo obligatorio</div>
 
                             </div>
@@ -53,17 +54,17 @@
                         </div>
 
                         <br>
-                        
+
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Apellido*</label>
-                                <input type="text" class="form-control" name="apellido1" id="apellido1" placeholder="Ingresar el primer apellido " >
+                                <input type="text" class="form-control " name="apellido1" id="apellido1 texto" placeholder="Ingresar el primer apellido " >
                                 <div class="invalid-feedback ">El primer apellido es un campo obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Segundo Apellido*</label>
-                                <input type="text" class="form-control" name="apellido2" id="apellido2" placeholder="Ingresar el segundo apellido">
+                                <input type="text" class="form-control " name="apellido2" id="apellido2 texto" placeholder="Ingresar el segundo apellido">
                                 <div class="invalid-feedback ">El segundo apellido es un campo obligatorio</div>
                             </div>
                         </div>
@@ -152,7 +153,7 @@
 
                         <br>
                         <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
-                        <%@include file="confirmacion.jsp" %>
+                  <!--     <%@include file="confirmacion.jsp" %>-->
                     </form>
                 </div>
             </div>
@@ -165,6 +166,7 @@
     <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
     <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
     <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+    <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
     <script src="js/validacionUsuario.js" type="text/javascript"></script>
 </body>
 
