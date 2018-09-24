@@ -1,6 +1,9 @@
 package co.com.soundMusic.Artista;
 
+import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.Contacto.ContactoDaoImpl;
+import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.Date;
@@ -18,11 +21,11 @@ import java.util.List;
 public class ArtistaDaoImpl implements IArtistaDao {
 
     private Connection conexion;
-    private ContactoDaoImpl contacto;
+    private ContactoDaoImpl contactoDao;
 
     public ArtistaDaoImpl() {
         conexion = DBUtil.getConexion();
-        contacto = new ContactoDaoImpl();
+        contactoDao = new ContactoDaoImpl();
     }
 
     @Override
@@ -30,32 +33,42 @@ public class ArtistaDaoImpl implements IArtistaDao {
         List<Artista> listaArtistas = new ArrayList<>();
 
         Statement stmt = conexion.createStatement();
-        String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "NOMBRE_ARTISTICO,GENERO,FECHA_NACIMIENTO,FECHA_CREACION,STATUS,ID_CONTACTO\n"
-                + "FROM ARTISTA";
+
+        String sql = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, "
+                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
+                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, "
+                + "CONT.ID_CONTACTO AS CONTACTO, CONT.CELULAR AS CELULAR, "
+                + "CONT.TELEFONO AS TELEFONO,\n"
+                + "CONT.DIRECCION AS DIRECCION, CONT.BARRIO AS BARRIO, "
+                + "CONT.EMAIL AS EMAIL, CIU.ID_CIUDAD AS CIUDAD, CIU.NOMBRE AS NOMBRE_CIUDAD,\n"
+                + "PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS\n"
+                + "FROM ARTISTA AR INNER JOIN CONTACTO CONT\n"
+                + "ON AR.ID_CONTACTO = CONT.ID_CONTACTO\n"
+                + "INNER JOIN CIUDAD CIU\n"
+                + "ON CONT.ID_CIUDAD = CIU.ID_CIUDAD\n"
+                + "INNER JOIN PAIS PA\n"
+                + "ON CIU.ID_PAIS = PA.ID_PAIS ORDER BY AR.ID_ARTISTA";
 
         ResultSet rs = stmt.executeQuery(sql);
 
-        // Se avanza el cursor de a una fila 
-        // Cuando se alcalza el fin del cursor, la funcion retorna false
         while (rs.next()) {
-            int idArtista = rs.getInt("ID_ARTISTA");
-            String primerNombre = rs.getString("PRIMER_NOMBRE");
-            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
-            String primerApellido = rs.getString("PRIMER_APELLIDO");
-            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
-            String nombreArtistico = rs.getString("NOMBRE_ARTISTICO");
-            String genero = rs.getString("GENERO");
-            Date fechaNacimiento = rs.getDate("FECHA_NACIMIENTO");
-            Date fechaCreacion = rs.getDate("FECHA_CREACION");
-            String status = rs.getString("STATUS");
-            int idContacto = rs.getInt("ID_CONTACTO");
 
-            String[] datos = {primerNombre, segundoNombre,
-                primerApellido, segundoApellido, nombreArtistico, genero, status};
-            Date[] fechas = {fechaNacimiento, fechaCreacion};
+            Pais pais = new Pais(rs.getInt("PAIS"), rs.getString("NOMBRE_PAIS"));
 
-            Artista artista = new Artista(idArtista, datos, fechas, idContacto);
+            Ciudad ciudad = new Ciudad(rs.getInt("CIUDAD"), rs.getString("NOMBRE_CIUDAD"), pais);
+
+            String[] datosContacto = {rs.getString("CELULAR"), rs.getString("TELEFONO"),
+                rs.getString("DIRECCION"), rs.getString("BARRIO"), rs.getString("EMAIL")};
+
+            Contacto contacto = new Contacto(rs.getInt("CONTACTO"), datosContacto, ciudad);
+
+            String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
+                rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"),
+                rs.getString("NOMBRE_ARTISTICO"), rs.getString("GENERO"), rs.getString("STATUS")};
+
+            Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
+
+            Artista artista = new Artista(rs.getInt("ID_ARTISTA"), datosArtista, fechasArtista, contacto);
 
             listaArtistas.add(artista);
         }
@@ -66,8 +79,8 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public Artista obtenerArtista(int idArtista) throws SQLException {
-        String sql = "SELECT ID_ARTISTA,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                 + "NOMBRE_ARTISTICO,GENERO,FECHA_NACIMIENTO,FECHA_CREACION,STATUS,ID_CONTACTO\n"
+        String sql = "SELECT PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
+                + "NOMBRE_ARTISTICO,GENERO,FECHA_NACIMIENTO,FECHA_CREACION,STATUS,ID_CONTACTO\n"
                 + "FROM ARTISTA\n"
                 + "WHERE ID_ARTISTA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
@@ -75,22 +88,14 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            String primerNombre = rs.getString("PRIMER_NOMBRE");
-            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
-            String primerApellido = rs.getString("PRIMER_APELLIDO");
-            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
-            String nombreArtistico = rs.getString("NOMBRE_ARTISTICO");
-            String genero = rs.getString("GENERO");
-            Date fechaNacimiento = rs.getDate("FECHA_NACIMIENTO");
-            Date fechaCreacion = rs.getDate("FECHA_CREACION");
-            String status = rs.getString("STATUS");
-            int idContacto = rs.getInt("ID_CONTACTO_ARTISTA");
+            String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
+                rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"),
+                rs.getString("NOMBRE_ARTISTICO"), rs.getString("GENERO"),
+                rs.getString("STATUS")};
+            Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
 
-            String[] datos = {primerNombre, segundoNombre,
-                primerApellido, segundoApellido, nombreArtistico, genero, status};
-            Date[] fechas = {fechaNacimiento, fechaCreacion};
-
-            Artista artista = new Artista(idArtista, datos, fechas, idContacto);
+            Artista artista = new Artista(idArtista, datosArtista, fechasArtista,
+                    contactoDao.obtenerContacto(rs.getInt("ID_CONTACTO")));
 
             return artista;
         }
@@ -114,7 +119,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setDate(7, artista.getFechaNacimiento());
         ps.setDate(8, artista.getFechaCreacion());
         ps.setString(9, artista.getStatus());
-        ps.setInt(10, artista.getIdContacto());
+        ps.setInt(10, artista.getContacto().getIdContacto());
         ps.executeUpdate();
     }
 
@@ -146,7 +151,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setDate(7, artista.getFechaNacimiento());
         ps.setDate(8, artista.getFechaCreacion());
         ps.setString(9, artista.getStatus());
-        ps.setInt(10, artista.getIdContacto());
+        ps.setInt(10, artista.getContacto().getIdContacto());
         ps.setInt(11, artista.getIdArtista());
         ps.executeUpdate();
     }

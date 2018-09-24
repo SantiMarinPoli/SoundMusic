@@ -40,7 +40,9 @@ public class PaisDaoImpl implements IPaisDao {
 
     @Override
     public Pais obtenerPais(int idPais) throws SQLException {
-        String sql = "SELECT ID_PAIS, NOMBRE\n" + "FROM PAIS\n" + "WHERE ID_PAIS=?";
+        String sql = "SELECT ID_PAIS, NOMBRE\n" 
+                + "FROM PAIS\n" 
+                + "WHERE ID_PAIS=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idPais);
         ResultSet rs = ps.executeQuery();

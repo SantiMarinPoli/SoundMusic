@@ -1,5 +1,6 @@
 package co.com.soundMusic.Artista;
 
+import co.com.soundMusic.Contacto.Contacto;
 import java.sql.Date;
 
 /**
@@ -18,20 +19,20 @@ public class Artista {
     private Date fechaNacimiento;
     private Date fechaCreacion;
     private String status;
-    private int idContacto;
+    private Contacto contacto;
 
-    public Artista(int idArtista, String[] datos, Date[] fechas, int idContacto) {
+    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista, Contacto contacto) {
         this.idArtista = idArtista;
-        this.primerNombre = datos[0];
-        this.segundoNombre = datos[1];
-        this.primerApellido = datos[2];
-        this.segundoApellido = datos[3];
-        this.nombreArtistico = datos[4];
-        this.genero = datos[5];
-        this.fechaNacimiento = fechas[0];
-        this.fechaCreacion = fechas[1];
-        this.status = datos[6];
-        this.idContacto = idContacto;
+        this.primerNombre = datosArtista[0];
+        this.segundoNombre = datosArtista[1];
+        this.primerApellido = datosArtista[2];
+        this.segundoApellido = datosArtista[3];
+        this.nombreArtistico = datosArtista[4];
+        this.genero = datosArtista[5];
+        this.fechaNacimiento = fechasArtista[0];
+        this.fechaCreacion = fechasArtista[1];
+        this.status = datosArtista[6];
+        this.contacto = contacto;
     }
 
     public Artista() {
@@ -117,12 +118,11 @@ public class Artista {
         this.status = status;
     }
 
-    public int getIdContacto() {
-        return idContacto;
+    public Contacto getContacto() {
+        return contacto;
     }
 
-    public void setIdContacto(int idContacto) {
-        this.idContacto = idContacto;
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
     }
-
 }

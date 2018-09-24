@@ -1,5 +1,6 @@
 package co.com.soundMusic.Contacto;
 
+import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,31 +14,28 @@ import java.sql.SQLException;
 public class ContactoDaoImpl implements IContactoDao {
 
     private Connection conexion;
+    private CiudadDaoImpl ciudad;
 
     public ContactoDaoImpl() {
         conexion = DBUtil.getConexion();
+        ciudad = new CiudadDaoImpl();
     }
 
     @Override
-    public Contacto obtenerContacto(int idCont) throws SQLException {
-        String sql = "SELECT ID_CONTACTO, CELULAR, TELEFONO, DIRECCION, BARRIO, EMAIL, ID_CIUDAD\n"
+    public Contacto obtenerContacto(int idContacto) throws SQLException {
+        String sql = "SELECT CELULAR, TELEFONO, DIRECCION, BARRIO, EMAIL, ID_CIUDAD\n"
                 + "FROM CONTACTO\n"
                 + "WHERE ID_CONTACTO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setInt(1, idCont);
+        ps.setInt(1, idContacto);
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
-            int idContacto = rs.getInt("ID_CONTACTO");
-            String direccion = rs.getString("DIRECCION");
-            String barrio = rs.getString("BARRIO");
-            String telefono = rs.getString("TELEFONO");
-            String celular = rs.getString("CELULAR");
-            String email = rs.getString("EMAIL");
-            int idCiudad = rs.getInt("ID_CIUDAD");
 
-            Contacto contacto = new Contacto(idContacto, direccion, barrio, telefono,
-                    celular, email, idCiudad);
+            String[] datosContacto = {rs.getString("CELULAR"), rs.getString("TELEFONO"), rs.getString("DIRECCION"),
+                rs.getString("BARRIO"), rs.getString("EMAIL")};
+
+            Contacto contacto = new Contacto(idContacto, datosContacto, ciudad.obtenerCiudad(rs.getInt("ID_CIUDAD")));
             return contacto;
         }
         return null;
@@ -45,16 +43,16 @@ public class ContactoDaoImpl implements IContactoDao {
 
     @Override
     public void crearContacto(Contacto contacto) throws SQLException {
-        String sql = "INSERT INTO CONTACTO (CELULAR, TELEFONO,\n"
-                + "DIRECCION, BARRIO, EMAIL, ID_CIUDAD) VALUES (?,?,?,?,?,?)";
+        String sql = "INSERT INTO CONTACTO (CELULAR, TELEFONO, DIRECCION,BARRIO,EMAIL, ID_CIUDAD) \n"
+                + "VALUES (?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
-        ps.setString(1, contacto.getDireccion());
-        ps.setString(2, contacto.getBarrio());
-        ps.setString(3, contacto.getTelefono());
-        ps.setString(4, contacto.getCelular());
+        ps.setString(1, contacto.getCelular());
+        ps.setString(2, contacto.getTelefono());
+        ps.setString(3, contacto.getDireccion());
+        ps.setString(4, contacto.getBarrio());
         ps.setString(5, contacto.getEmail());
-        ps.setInt(6, contacto.getIdCiudad());
+        ps.setInt(6, contacto.getCiudad().getIdCiudad());
         ps.executeUpdate();
     }
 
@@ -68,9 +66,9 @@ public class ContactoDaoImpl implements IContactoDao {
         ps.setString(1, contacto.getCelular());
         ps.setString(2, contacto.getTelefono());
         ps.setString(3, contacto.getDireccion());
-        ps.setString(4, contacto.getBarrio());        
+        ps.setString(4, contacto.getBarrio());
         ps.setString(5, contacto.getEmail());
-        ps.setInt(6, contacto.getIdCiudad());
+        ps.setInt(6, contacto.getCiudad().getIdCiudad());
         ps.setInt(7, contacto.getIdContacto());
         ps.executeUpdate();
     }
@@ -84,8 +82,7 @@ public class ContactoDaoImpl implements IContactoDao {
             int idContacto = rs.getInt("CURRVAL");
             return idContacto;
         }
-
         return -1;
     }
-
+    
 }

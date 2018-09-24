@@ -1,5 +1,7 @@
 package co.com.soundMusic.Contacto;
 
+import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+
 /**
  *
  * @author Santiago Medina Pelaez
@@ -7,29 +9,24 @@ package co.com.soundMusic.Contacto;
 public class Contacto {
 
     private int idContacto;
+    private String celular;
+    private String telefono;
     private String direccion;
     private String barrio;
-    private String telefono;
-    private String celular;
     private String email;
-    private int idCiudad;
+    private Ciudad ciudad;
 
     public Contacto() {
     }
 
-    public Contacto(int idContacto, String direccion, String barrio,
-            String telefono, String celular, String email, int idCiudad) {
+    public Contacto(int idContacto, String[] datosContacto, Ciudad ciudad) {
         this.idContacto = idContacto;
-        this.direccion = direccion;
-        this.barrio = barrio;
-        this.telefono = telefono;
-        this.celular = celular;
-        this.email = email;
-        this.idContacto = idContacto;
-    }
-
-    public Contacto(String direccion) {
-        this.direccion = direccion;
+        this.celular = datosContacto[0];
+        this.telefono = datosContacto[1];
+        this.direccion = datosContacto[2];
+        this.barrio = datosContacto[3];
+        this.email = datosContacto[4];
+        this.ciudad = ciudad;
     }
 
     public int getIdContacto() {
@@ -38,6 +35,22 @@ public class Contacto {
 
     public void setIdContacto(int idContacto) {
         this.idContacto = idContacto;
+    }
+
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) {
+        this.celular = celular;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getDireccion() {
@@ -56,22 +69,6 @@ public class Contacto {
         this.barrio = barrio;
     }
 
-    public String getTelefono() {
-        return telefono;
-    }
-
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
-
-    public String getCelular() {
-        return celular;
-    }
-
-    public void setCelular(String celular) {
-        this.celular = celular;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -80,12 +77,12 @@ public class Contacto {
         this.email = email;
     }
 
-    public int getIdCiudad() {
-        return idCiudad;
+    public Ciudad getCiudad() {
+        return ciudad;
     }
 
-    public void setIdCiudad(int idCiudad) {
-        this.idCiudad = idCiudad;
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
     }
 
 }

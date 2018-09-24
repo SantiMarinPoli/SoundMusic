@@ -1,5 +1,11 @@
-
+<%-- 
+    Document   : PruebaArtista
+    Created on : 23/09/2018
+    Author     : Santiago Medina Peláez
+--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="co.com.soundMusic.Artista.Artista"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,7 +32,7 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <a href="registrarArtista.jsp" class="btn btn-success">Registrar Artista</a>
+                            <a href="controladorArtista?opcion=crearArtista" class="btn btn-success">Registrar Artista</a>
                         </div>
                     </div>
 
@@ -67,41 +73,28 @@
                                 <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
 
-                            <tr>
-                                <td scope="row">2</td>
-                                <td>Bad Bunny</td>
-                                <td><img src="img/art2.png"  class="img img-fluid icon-artista"/></td>
-                                <td>Ninguno</td>
-                                <td>Trap, Reegaeton</td>
-                                <td>5</td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Google Music</span>
-                                </td>
-
-                                <td>Agosto 2018</td>
-                                <td class="text-success">$800.000 COP</td>
-                                <td><a href="#" class="badge badge-danger btnActivar" activarUsuario="0">Inactivo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
-                            </tr>
-
-                            <tr>
-                                <td scope="row">3</td>
-                                <td>Guns And Roses</td>
-                                <td><img src="img/art3.png"  class="img img-fluid icon-artista"/></td>
-                                <td><img src="icon/discoOro.png"  class="img img-thumbnail"/></td>
-                                <td>Rock and Roll</td>
-                                <td>50</td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Spotyfy</span>
-                                    <span class="badge badge-primary">Itunes Music</span>
-                                </td>
-                                <td>Abril 2018</td>
-                                <td class="text-success">$20.000.000 COP</td>
-                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
-                            </tr>
+                            <%
+                                List<Artista> listarArtistas = (List<Artista>) request.getAttribute("lstArtista");
+                                for (Artista artista : listarArtistas) {
+                                    out.print("<tr>");
+                                    out.print("<td scope='row'>" + artista.getIdArtista() + "</td>");                                    
+                                    out.print("<td>" + artista.getNombreArtistico() + "</td>");
+                                    out.print("<td><img src='img/art1.jpg'  class='img img-fluid icon-artista'/></td>");
+                                    out.print("<td><img src='icon/discoPlat.png'  class='img img-thumbnail'/></td>");
+                                    out.print("<td>" + artista.getGenero() + "</td>");
+                                    out.print("<td>" + "10" + "</td>");
+                                    out.print("<td class='text-success'>" 
+                                            + "<span class='badge badge-primary'>"+"Youtube"+"</span>"
+                                            + "</td>");
+                                    out.print("<td>" + artista.getFechaCreacion() + "</td>");
+                                    out.print("<td class='text-success'>" + "$5.000.000 COP" + "</td>");
+                                    out.print("<td>" + artista.getStatus() + "</td>");                                                                        
+                                    out.print("<td><a href='controladorArtista?opcion=editar&idArtista="
+                                            + artista.getIdArtista() + "' class='btn btn-warning'>"
+                                            +"Actualizar"+"<a/></td>");
+                                    out.print("</tr>");
+                                }
+                            %>
                         </tbody>
                     </table>
                 </div>
