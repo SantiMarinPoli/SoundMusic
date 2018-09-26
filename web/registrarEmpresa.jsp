@@ -8,6 +8,7 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -121,8 +122,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Registrar Empresa" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
-                        <%@include file="confirmacion.jsp" %>
+                        <input type="submit" value="Registrar Empresa" class="btn btn-primary" id="btnGuardar" >
 
                     </form>
                 </div>
@@ -134,6 +134,7 @@
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
         <script src="js/validacionEmpresa.js" type="text/javascript"></script>
         <script src="js/agregarArtista.js" type="text/javascript"></script>
     </body>

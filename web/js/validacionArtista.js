@@ -17,13 +17,39 @@ $(function () {
         }
     };
 
+
     var enviar = function (e) {
         if (!validarInputs()) {
-            console.log("Faltar validar los inputs");
+            console.log("Falta validar los inputs");
+            swal({
+                position: 'top-end',
+                type: 'error',
+                title: 'Faltan completar unos campos oblgatorio',
+                showConfirmButton: false,
+                timer: 1500
+            })
             e.preventDefault();
         } else {
             console.log("Envio exitosamente");
+            swal({
+                title: '¿Estas seguro quiere enviar los datos?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, guardar!'
+            }).then((result) => {
+                if (result.value) {
+                    swal(
+                            'Guardado!',
+                            'Envio exitosamente.',
+                            'success'
+                            );
+                }
+            });
             e.preventDefault();
+
         }
     };
 

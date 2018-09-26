@@ -152,8 +152,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
-                  <!--     <%@include file="confirmacion.jsp" %>-->
+                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar">
                     </form>
                 </div>
             </div>
