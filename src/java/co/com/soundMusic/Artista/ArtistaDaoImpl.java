@@ -155,4 +155,17 @@ public class ArtistaDaoImpl implements IArtistaDao {
         ps.setInt(11, artista.getIdArtista());
         ps.executeUpdate();
     }
+
+    public int getUltimmoIdArtista() throws SQLException {
+        String sql = "SELECT ARTISTA_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int idArtista = rs.getInt("CURRVAL");
+            return idArtista;
+        }
+        return -1;
+    }
 }
