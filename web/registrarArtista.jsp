@@ -130,9 +130,9 @@
                                     <label>Empresa Difunsora*</label>
                                     <select class="form-control" name="nomEmpresa" id="selectEmpresa">
                                         <option>Seleccionar la empresa difunsora</option>
-                                        <option>Napster</option>
-                                        <option>Spotyfy</option>
-                                        <option>!Music</option>
+                                        <option value="Napster">Napster</option>
+                                        <option value="Spotify">Spotify</option>
+                                        <option value="!Music">!Music</option>
                                     </select>
                                     <div class="invalid-feedback">Debes seleccionar una empresa difunsora</div>
                                 </div>
@@ -148,7 +148,7 @@
                                 </div>
                                 <div class="col">
                                     <label>Total Canciones</label>
-                                    <input type="text" name="totalCanciones" class="form-control" value="$0.0" disabled>
+                                    <input type="text" name="totalCanciones" class="form-control" id="totalCanciones" value="$0.0" disabled>
                                 </div>
                             </div>
 
