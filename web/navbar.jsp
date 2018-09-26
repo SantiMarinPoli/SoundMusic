@@ -22,9 +22,6 @@
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="auditoria.jsp">Log de Auditoria</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="controladorArtista?opcion=listarArtistas">Prueba Artista</a>
             </li>            
         </ul>
         <div class="row">
