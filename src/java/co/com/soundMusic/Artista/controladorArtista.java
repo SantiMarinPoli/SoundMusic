@@ -101,7 +101,7 @@ public class controladorArtista extends HttpServlet {
                     request.setAttribute("lstCiudad", lstCiudad); 
 
                     RequestDispatcher vista
-                            = request.getRequestDispatcher("/PruebaRegistrarArtista.jsp");
+                            = request.getRequestDispatcher("/registrarArtista.jsp");
                     vista.forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(controladorArtista.class.getName()).log(Level.SEVERE, null, ex);
@@ -122,7 +122,7 @@ public class controladorArtista extends HttpServlet {
                     Artista artista = daoArtista.obtenerArtista(idArtista);
                     request.setAttribute("artista", artista);
 
-                    RequestDispatcher vista = request.getRequestDispatcher("PruebaModificarArtista.jsp");
+                    RequestDispatcher vista = request.getRequestDispatcher("modificarArtista.jsp");
                     vista.forward(request, response);
                 } catch (SQLException ex) {
                     System.out.println("Excepción: " + ex.getMessage());
@@ -177,7 +177,7 @@ public class controladorArtista extends HttpServlet {
 
         List<Artista> lstArtista = daoArtista.obtenerArtistas();
         request.setAttribute("lstArtista", lstArtista);
-        RequestDispatcher vista = request.getRequestDispatcher("/PruebaArtista.jsp");
+        RequestDispatcher vista = request.getRequestDispatcher("/artista.jsp");
         
         vista.forward(request, response);
     }
