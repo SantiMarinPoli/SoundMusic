@@ -150,4 +150,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         ps.executeUpdate();
     }
 
+    boolean ingresarUsuario(String nom_usuario, String password_us) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

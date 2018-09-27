@@ -22,15 +22,15 @@
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         
 
-                        <form class="form-container">
+                        <form class="form-container" method="post" action="controladorUsuario">
                                 <h1>Iniciar Sesion</h1>
                                 <div class="form-group">
                                   <label for="exampleInputEmail1">Nombre del Usuario</label>
-                                  <input type="email" class="form-control" id="textUsuario" placeholder="Ingresar el nombre del usuario">
+                                  <input type="email" name="nomUsuario" class="form-control" id="textUsuario" placeholder="Ingresar el nombre del usuario">
                                 </div>
                                 <div class="form-group">
                                   <label for="exampleInputPassword1">Contraseña</label>
-                                  <input type="password" class="form-control" id="textPassword" placeholder="Ingredar la contraseña">
+                                  <input type="password" name="password" class="form-control" id="textPassword" placeholder="Ingredar la contraseña">
                                 </div>
                             
                             <button type="submit" class="btn btn-success btn-block" id="btnIngresar">Ingresar</button>

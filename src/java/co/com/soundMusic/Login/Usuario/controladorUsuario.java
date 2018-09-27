@@ -7,10 +7,14 @@ package co.com.soundMusic.Login.Usuario;
 
 import co.com.soundMusic.Contacto.Ciudad.Ciudad;
 import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
+import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
+import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
+import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -39,18 +44,24 @@ public class controladorUsuario extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet controladorUsuario</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet controladorUsuario at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        
+        PrintWriter out = response.getWriter();
+        
+        String nomUsuario = request.getParameter("nomUsuario");
+        String password = request.getParameter("password");
+        
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        
+        if (daoUsuario.ingresarUsuario(nomUsuario, password)) {
+            
+            HttpSession objSesion = request.getSession(true);
+            objSesion.setAttribute("nomUsuario", nomUsuario);
+            
+            response.sendRedirect("home.jsp");
+        } else {
+            response.sendRedirect("login.jsp");
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -75,7 +86,7 @@ public class controladorUsuario extends HttpServlet {
                 }
             }
             if (opcion.equals("borrar")) {
-
+                
             }
             if (opcion.equals("crearUsuario")) {
                 try {
@@ -83,19 +94,18 @@ public class controladorUsuario extends HttpServlet {
                     CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
                     List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
                     List<Pais> lstPais = paisDao.obtenerPaises();
-
+                    
                     request.setAttribute("lstPais", lstPais);
                     request.setAttribute("lstCiudad", lstCiudad);
-
-                    RequestDispatcher vista
-                            = request.getRequestDispatcher("/registrarUsuario.jsp");
+                    
+                    RequestDispatcher vista = request.getRequestDispatcher("/registrarUsuario.jsp");
                     vista.forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (opcion.equals("editar")) {
-
+                
             }
         }
     }
@@ -112,7 +122,7 @@ public class controladorUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String operacion = request.getParameter("operacion");
-
+        
         if (operacion != null) {
             if (operacion.equalsIgnoreCase("crear")) {
                 try {
@@ -142,26 +152,42 @@ public class controladorUsuario extends HttpServlet {
     private void mostrarPaginaUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
-
+        
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
         request.setAttribute("lstUsuario", lstUsuario);
         RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
-
+        
         vista.forward(request, response);
     }
-
+    
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        int idUsuario = Integer.parseInt(request.getParameter("cod"));
+        String primerNombre = request.getParameter("");
+        String segundoNombre = request.getParameter("");
+        String primerApellido = request.getParameter("");
+        String segundoApellido = request.getParameter("");
+        Date fechaCreacion = Date.valueOf(request.getParameter(""));
+        String satus = request.getParameter("");
+        Perfil perfil = null;
+        UsuarioLogin usuarioLogin = null;
+        Contacto contacto = null;
+        
+        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion, satus, perfil, usuarioLogin, contacto);
+        
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        daoUsuario.crearUsuario(usuario);
+        
     }
-
+    
     private void actulizarLstUsuario(HttpServletRequest request, HttpServletResponse response) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     private void editarArtista(HttpServletRequest request, HttpServletResponse response, int idUsuario)
             throws IOException, NumberFormatException, ServletException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }
