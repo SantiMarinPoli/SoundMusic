@@ -34,6 +34,19 @@ public class Artista {
         this.status = datosArtista[6];
         this.contacto = contacto;
     }
+    
+    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista) {
+        this.idArtista = idArtista;
+        this.primerNombre = datosArtista[0];
+        this.segundoNombre = datosArtista[1];
+        this.primerApellido = datosArtista[2];
+        this.segundoApellido = datosArtista[3];
+        this.nombreArtistico = datosArtista[4];
+        this.genero = datosArtista[5];
+        this.fechaNacimiento = fechasArtista[0];
+        this.fechaCreacion = fechasArtista[1];
+        this.status = datosArtista[6];        
+    }
 
     public Artista() {
     }
