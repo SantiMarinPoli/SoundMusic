@@ -55,7 +55,9 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
             Pais pais = new Pais(rs.getInt("PAIS"), rs.getString("NOMBRE_PAIS"));
 
-            Ciudad ciudad = new Ciudad(rs.getInt("CIUDAD"), rs.getString("NOMBRE_CIUDAD"), pais);
+            int idCiudad = rs.getInt("CIUDAD");
+            String nombreCiudad = rs.getString("NOMBRE_CIUDAD");
+            Ciudad ciudad = new Ciudad(idCiudad, nombreCiudad, pais);
 
             String[] datosContacto = {rs.getString("CELULAR"), rs.getString("TELEFONO"),
                 rs.getString("DIRECCION"), rs.getString("BARRIO"), rs.getString("EMAIL")};

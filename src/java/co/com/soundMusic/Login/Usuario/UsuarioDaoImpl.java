@@ -148,6 +148,5 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         ps.setInt(9, usuario.getContacto().getIdContacto());
         ps.setInt(10, usuario.getIdUsuario());
         ps.executeUpdate();
-    }
-
+    }    
 }

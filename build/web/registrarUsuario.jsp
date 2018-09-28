@@ -35,7 +35,7 @@
 
                     <br>
 
-                    <form name="formulario_usuario">
+                    <form name="formulario_usuario" action="" method="post">
                         <input type="hidden" name="cod" value="0">
 
 

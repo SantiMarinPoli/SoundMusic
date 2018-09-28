@@ -8,6 +8,7 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
     <body>
@@ -23,6 +24,7 @@
                     <div class="row">
                         <div class="col">
                             <a href="artista.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Cancion</button>
                         </div>
                     </div>
 
@@ -128,9 +130,9 @@
                                     <label>Empresa Difunsora*</label>
                                     <select class="form-control" name="nomEmpresa" id="selectEmpresa">
                                         <option>Seleccionar la empresa difunsora</option>
-                                        <option>Napster</option>
-                                        <option>Spotyfy</option>
-                                        <option>!Music</option>
+                                        <option value="Napster">Napster</option>
+                                        <option value="Spotify">Spotify</option>
+                                        <option value="!Music">!Music</option>
                                     </select>
                                     <div class="invalid-feedback">Debes seleccionar una empresa difunsora</div>
                                 </div>
@@ -146,7 +148,7 @@
                                 </div>
                                 <div class="col">
                                     <label>Total Canciones</label>
-                                    <input type="text" name="totalCanciones" class="form-control" value="$0.0" disabled>
+                                    <input type="text" name="totalCanciones" class="form-control" id="totalCanciones" value="$0.0" disabled>
                                 </div>
                             </div>
 
@@ -210,8 +212,7 @@
                             </table>
                         </div>
 
-                        <input type="submit" value="Modificar Artista" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
-                        <%@include file="confirmacion.jsp" %>
+                        <input type="submit" value="Registrar Artista" class="btn btn-primary" id="btnGuardar">
                     </form>
                 </div>
             </div>
@@ -221,6 +222,7 @@
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
         <script src="js/validacionArtista.js" type="text/javascript"></script>
     </body>
 

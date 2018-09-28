@@ -14,18 +14,13 @@ import org.junit.Ignore;
  */
 public class ArtistaDaoImplTest {
 
-    ArtistaDaoImpl daoArtista;
-    Artista Artistaprueba;
 
     public ArtistaDaoImplTest() {
     }
 
     @Before
     public void setUp() {
-        daoArtista = new ArtistaDaoImpl();
-        String[] datosArtista = {"SANTIAGO", null, "MEDINA", "PELAEZ", "MC DINA", "M", "A"};
-        Date[] fechasArtista = {Date.valueOf("1992-06-01"), null};
-        Artistaprueba = new Artista(1, datosArtista, fechasArtista);
+
     }
 
     @After
@@ -37,12 +32,13 @@ public class ArtistaDaoImplTest {
      *
      * @throws java.lang.Exception
      */
-    @Test
+    @Test    
+    @Ignore
     public void testObtenerArtistas() throws Exception {
         System.out.println("obtenerArtistas");
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
-        List<Artista> resultadoEsperado = null;
 
+        //List<Artista> resultadoEsperado = null;
         List<Artista> resultadoActual = daoArtista.obtenerArtistas();
 
         assertFalse(resultadoActual.isEmpty());
@@ -58,6 +54,9 @@ public class ArtistaDaoImplTest {
     public void testObtenerArtista() throws Exception {
         System.out.println("obtenerArtista");
         int idArtista = 1;
+        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+        String[] datosArtista = {"SANTIAGO", null, "MEDINA", "PELAEZ", "MC DINA", "M", "A"};        
+       Artista  Artistaprueba = new Artista(idArtista, datosArtista);
 
         Artista resultadoActual = daoArtista.obtenerArtista(idArtista);
 
@@ -68,9 +67,10 @@ public class ArtistaDaoImplTest {
         assertEquals(Artistaprueba.getSegundoApellido(), resultadoActual.getSegundoApellido());
         assertEquals(Artistaprueba.getNombreArtistico(), resultadoActual.getNombreArtistico());
         assertEquals(Artistaprueba.getGenero(), resultadoActual.getGenero());
-        assertEquals(Artistaprueba.getFechaNacimiento(), resultadoActual.getFechaNacimiento());
-        assertTrue("Dates aren't close enough to each other!",
-                Math.abs(Artistaprueba.getFechaNacimiento().getTime() - resultadoActual.getFechaNacimiento().getTime()) < 1000);
+        assertEquals(Artistaprueba.getStatus(), resultadoActual.getStatus());
+        //assertEquals(Artistaprueba.getFechaNacimiento(), resultadoActual.getFechaNacimiento());
+        //assertTrue("Dates aren't close enough to each other!",
+        //      Math.abs(Artistaprueba.getFechaNacimiento().getTime() - resultadoActual.getFechaNacimiento().getTime()) < 1000);
     }
 
     /**
