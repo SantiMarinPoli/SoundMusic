@@ -10,6 +10,7 @@
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="style/regalias.style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
     </head>
 
@@ -32,7 +33,6 @@
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
-                                <th></th>
                                 <th>Nombre Artista</th>
                                 <th>Albun</th>
                                 <th>Empresa Difunsora</th>
@@ -43,19 +43,21 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
-                                    <div class="custom-control custom-checkbox posicion-checkbox">
-                                        <input type="checkbox" name="check" class="custom-control-input" id="check">
-                                        <label class="custom-control-label" for="check"></label>
-
-                                    </div>
-                                </td>
                                 <td>Martin Garrix</td>
                                 <td>Animals</td>
                                 <td>Spinin Records</td>
                                 <td>11/09/2018 00:00PM</td>
                                 <td class="text-success">$500.000 COP</td>
-                                <td class="text-danger">No Listo</td>
+                                <td><a href="#" class="badge badge-danger btnActivar" activarRegalias="">Pendiente</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Martin Garrix</td>
+                                <td>Animals</td>
+                                <td>Spinin Records</td>
+                                <td>11/09/2018 00:00PM</td>
+                                <td class="text-success">$500.000 COP</td>
+                                <td><a href="#" class="badge badge-danger btnActivar" activarRegalias="">Pendiente</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -69,6 +71,8 @@
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
+        <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
+        <script src="js/regalias.js" type="text/javascript"></script>
         <script src="js/navbar.js" type="text/javascript"></script>
     </body>
 
