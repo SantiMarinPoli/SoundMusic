@@ -13,6 +13,12 @@
 
     </head>
 
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Music Sound</a>
+        </nav>
+    </header>
+
     <body>
 
         <div class="container main-container">
@@ -83,12 +89,6 @@
 
                         </div>
 
-                        <!--<div class="form-group">
-                            <label>Fecha de Nacimiento*</label>
-                            <input type="date" name="fechaNac" id="birthDate" class="form-control" >
-                            <div class="invalid-feedback ">La fecha de nacimiento es un campo obligatorio</div>
-                        </div>-->
-
                         <div class="form-group">
                             <label>Correo*</label>
                             <input type="email" name="email" id="email" class="form-control" placeholder="Ingresar el correo electronico">
@@ -128,6 +128,26 @@
                                 <label >Numero del Telefono</label>
                                 <input type="number" class="form-control" name="numTel" id="numTel"placeholder="Ingrese el numero de telefonico" >
                                 <div class="invalid-feedback ">El numero telefonico debe ser obligatorio</div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label >Ciudad*</label>
+                                <select class="form-control" name="ciudad" id="ciudad">
+                                    <option>Seleccionar la ciudad</option>
+                                    <option value="Colombia">Colombia</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="Estados Unidos">Estados Unidos</option>
+                                </select>
+                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
+                            </div>
+                            <div class="col">
+                                <label >Pais</label>
+                                <input type="text" class="form-control" name="pais" id="pais "placeholder="Ingrese el pais" >
+                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
                             </div>
                         </div>
 

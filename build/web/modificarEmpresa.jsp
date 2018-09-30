@@ -8,7 +8,14 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
     </head>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Music Sound</a>
+        </nav>
+    </header>
 
     <body>
         <div class="container main-container">
@@ -18,13 +25,12 @@
 
                 <div class="col-md-8">
 
-                    <h3>Modificar Empresa Difunsora</h3>
+                    <h3>Modificar Empresa Difusora</h3>
                     <hr>
 
                     <div class="row">
                         <div class="col">
                             <a href="empresa.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
-                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Empresa</button>
                         </div>
                     </div>
 
@@ -59,11 +65,15 @@
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa3Txt" value="Video">
                                 <label for="tipoEmpresa3Txt" class="form-check-label">Video</label>
+                            </div>
+
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa3Txt" value="Video">
+                                <label for="tipoEmpresa3Txt" class="form-check-label">Disco Fisico</label>
                                 <div class="invalid-feedback">Seleccionar una seleccion en el campo tipo empresa.</div>
                             </div>
 
                         </div>
-
 
                         <div class="form-group">
                             <label>Agregar Artista</label>
@@ -85,31 +95,22 @@
 
                         <br>
 
-                        <div class="form-row">
-                            <div class="col">
-                                <label>Total numero de albunes</label>
-                                <input type="number" name="totalnumAlbunes" class="form-control" value="10" disabled="">
-                            </div>
-                            <div class="col">
-                                <label>Total de albunes</label>
-                                <input tytype="text" name="totalAlbunes" class="form-control" value="$ 30.000.000 COP" disabled="">
-                            </div>
+                        <div class="form-group">
+                            <label>Correo de la empresa*</label>
+                            <input type="email" class="form-control" name="correo" id="correo" placeholder="Ingresar el correo electronico principal">
+                            <div class="invalid-feedback">El campo correo sera obligatorio.</div>
                         </div>
 
-                        <br>
-
-                        <div class="form-row">
-                            <div class="col">
-                                <label>Total numero de canciones</label>
-                                <input type="number" name="totalnumCanciones" class="form-control" value="30" disabled="">
-                            </div>
-                            <div class="col">
-                                <label>Total de canciones</label>
-                                <input tytype="text" name="totalCanciones" class="form-control" value="$ 100.000.000 COP" disabled="">
-                            </div>
+                        <div class="form-group">
+                            <label>Numero Telefonico</label>
+                            <input type="number" class="form-control" name="numFijo"  id="numFijo" placeholder="Ingresar el numero telefonico principal">
                         </div>
 
-                        <br>
+                        <div class="form-group">
+                            <label>Valor de la Operacion*</label>
+                            <input type="number" class="form-control" name="valorOp"  id="valorOp" placeholder="Ingresar el valor de la operacion">
+                            <div class="invalid-feedback">El campo valor operacion sera obligatorio.</div>
+                        </div>
 
                         <div class="form-group">
                             <div class="form-check checkbox">
@@ -121,8 +122,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Modificar Empresa" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
-                        <%@include file="confirmacion.jsp" %>
+                        <input type="submit" value="Registrar Empresa" class="btn btn-primary btn-block" id="btnGuardar" >
 
                     </form>
                 </div>
@@ -134,6 +134,7 @@
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+        <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
         <script src="js/validacionEmpresa.js" type="text/javascript"></script>
         <script src="js/agregarArtista.js" type="text/javascript"></script>
     </body>

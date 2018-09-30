@@ -11,6 +11,12 @@
         <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Music Sound</a>
+        </nav>
+    </header>
+
     <body>
 
         <div class="container main-container">

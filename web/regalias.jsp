@@ -30,11 +30,17 @@
                     <hr>
                     <br>
 
+                    <div class="row">
+                        <div class="col">
+                            <a href="caluloRegalias.jsp" class="btn btn-success">CalcularRegalias</a>
+                        </div>
+                    </div>
+
                     <table class="table">
                         <thead class="thead-dark">
                             <tr>
                                 <th>Nombre Artista</th>
-                                <th>Albun</th>
+                                <th>Bonificacion</th>
                                 <th>Empresa Difunsora</th>
                                 <th>Fecha de Pago</th>
                                 <th>Sueldo</th>
@@ -44,7 +50,7 @@
                         <tbody>
                             <tr>
                                 <td>Martin Garrix</td>
-                                <td>Animals</td>
+                                <td> </td>
                                 <td>Spinin Records</td>
                                 <td>11/09/2018 00:00PM</td>
                                 <td class="text-success">$500.000 COP</td>
@@ -53,7 +59,7 @@
 
                             <tr>
                                 <td>Martin Garrix</td>
-                                <td>Animals</td>
+                                <td></td>
                                 <td>Spinin Records</td>
                                 <td>11/09/2018 00:00PM</td>
                                 <td class="text-success">$500.000 COP</td>
