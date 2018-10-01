@@ -20,9 +20,10 @@ public class Artista {
     private Date fechaNacimiento;
     private Date fechaCreacion;
     private String status;
-    private Contacto contacto;
+    private String rutaImagen;
+    private int idContacto;
 
-    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista, Contacto contacto) {
+    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista, int idContacto) {
         this.idArtista = idArtista;
         this.primerNombre = datosArtista[0];
         this.segundoNombre = datosArtista[1];
@@ -33,20 +34,8 @@ public class Artista {
         this.fechaNacimiento = fechasArtista[0];
         this.fechaCreacion = fechasArtista[1];
         this.status = datosArtista[6];
-        this.contacto = contacto;
-    }
-
-    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista) {
-        this.idArtista = idArtista;
-        this.primerNombre = datosArtista[0];
-        this.segundoNombre = datosArtista[1];
-        this.primerApellido = datosArtista[2];
-        this.segundoApellido = datosArtista[3];
-        this.nombreArtistico = datosArtista[4];
-        this.genero = datosArtista[5];
-        this.fechaNacimiento = fechasArtista[0];
-        this.fechaCreacion = fechasArtista[1];
-        this.status = datosArtista[6];        
+        this.rutaImagen = datosArtista[7];
+        this.idContacto = idContacto;
     }
 
     public Artista() {
@@ -132,12 +121,20 @@ public class Artista {
         this.status = status;
     }
 
-    public Contacto getContacto() {
-        return contacto;
+    public String getRutaImagen (){
+        return rutaImagen;
     }
 
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
+    public void setRutaImagen(String rutaImagen){
+        this.rutaImagen=rutaImagen;
+    }
+
+    public int getIdContacto() {
+        return idContacto;
+    }
+
+    public void setIdContacto(int idContacto) {
+        this.idContacto = idContacto;
     }
 
     @Override
@@ -167,7 +164,5 @@ public class Artista {
             return false;
         }
         return true;
-    }
-    
-    
+    }        
 }

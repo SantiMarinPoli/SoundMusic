@@ -14,6 +14,7 @@ public class EmpresaDifusora {
     private Date fechaCreacion;
     private Date fechaTerminacion;
     private String status;
+    private String rutaImagen;
     private int idTipoActividad;
     private int idContacto;
     private int idCostoOperacion;
@@ -22,12 +23,13 @@ public class EmpresaDifusora {
     }
 
     public EmpresaDifusora(int idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
-            String status, int idTipoActividad, int idContacto, int idCostoOperacion) {
+            String status, String rutaImagen, int idTipoActividad, int idContacto, int idCostoOperacion) {
         this.idEmpresaDifusora = idEmpresaDifusora;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaTerminacion = fechaTerminacion;
         this.status = status;
+        this.rutaImagen = rutaImagen;
         this.idTipoActividad = idTipoActividad;
         this.idContacto = idContacto;
         this.idCostoOperacion = idCostoOperacion;
@@ -71,6 +73,14 @@ public class EmpresaDifusora {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getRutaImagen (){
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen){
+        this.rutaImagen=rutaImagen;
     }
 
     public int getIdTipoActividad() {

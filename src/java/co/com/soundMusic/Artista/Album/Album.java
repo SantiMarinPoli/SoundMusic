@@ -1,7 +1,5 @@
 package co.com.soundMusic.Artista.Album;
 
-import co.com.soundMusic.Artista.Artista;
-import co.com.soundMusic.Contacto.Ciudad.Ciudad;
 import java.sql.Date;
 
 /**
@@ -14,19 +12,22 @@ public class Album {
     private String nombre;
     private int numeroCanciones;
     private Date fechaFinalizacion;
-    private Ciudad ciudad;
-    private Artista artista;
+    private String rutaImagen;
+    private int idCiudad;
+    private int idArtista;
 
     public Album() {
     }
 
-    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, Ciudad ciudad, Artista artista) {
+    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, 
+                String rutaImagen, int idCiudad, int idArtista) {
         this.idAlbum = idAlbum;
         this.nombre = nombre;
         this.numeroCanciones = numeroCanciones;
         this.fechaFinalizacion = fechaFinalizacion;
-        this.ciudad = ciudad;
-        this.artista = artista;
+        this.rutaImagen=rutaImagen;
+        this.ciudad = idCiudad;
+        this.artista = idArtista;
     }
 
     public int getIdAlbum() {
@@ -61,20 +62,28 @@ public class Album {
         this.fechaFinalizacion = fechaFinalizacion;
     }
 
-    public Ciudad getCiudad() {
-        return ciudad;
+    public String getRutaImagen (){
+        return this.rutaImagen;
     }
 
-    public void setCiudad(Ciudad ciudad) {
-        this.ciudad = ciudad;
+    public void setRutaImagen(String rutaImagen){
+        this.rutaImagen=rutaImagen;
     }
 
-    public Artista getArtista() {
-        return artista;
+    public int getIdCiudad() {
+        return idCiudad;
     }
 
-    public void setArtista(Artista artista) {
-        this.artista = artista;
+    public void setIdCiudad(int idCiudad) {
+        this.idCiudad = idCiudad;
+    }
+
+    public int getIdArtista() {
+        return idArtista;
+    }
+
+    public void setIdArtista(int idArtista) {
+        this.idArtista = idArtista;
     }
 
 }
