@@ -60,4 +60,17 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
         ps.setInt(3, usuarioLogin.getIdUsuarioLogin());
         ps.executeUpdate();
     }
+
+    public boolean sesionPermitida(String nombreUsuario, String password) throws SQLException {
+        String sql = "SELECT * FROM USUARIO_LOGIN WHERE \n"
+                + "NOMBRE_USUARIO=? AND CONTRASENA=?";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setString(1, nombreUsuario);
+        ps.setString(2, password);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -1,6 +1,8 @@
 package co.com.soundMusic.Login.Usuario;
 
+import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Objects;
 
 /**
@@ -172,7 +174,8 @@ public class Usuario {
                 + ", status=" + status + '}';
     }
 
-    boolean ingresarUsuario(String nom_usuario, String password_us) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean ingresarUsuario(String nom_usuario, String password_us) throws SQLException {
+        UsuarioLoginDaoImpl usuarioLogin = new UsuarioLoginDaoImpl();
+        return usuarioLogin.sesionPermitida(nom_usuario, password_us);
     }
 }

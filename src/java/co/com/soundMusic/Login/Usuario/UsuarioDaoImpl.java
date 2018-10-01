@@ -119,7 +119,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         String sql = "UPDATE USUARIO\n"
                 + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
                 + "FECHA_CREACION=?,STATUS=?,ID_PERFIL_USUARIO=?,ID_LOGIN_USUARIO=?,ID_CONTACTO_USUARIO=?\n"
-                + "WHERE ID_USUARIO=?; ";
+                + "WHERE ID_USUARIO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, usuario.getPrimerNombre());
