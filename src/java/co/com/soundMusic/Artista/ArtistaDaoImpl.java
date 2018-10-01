@@ -28,10 +28,10 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
         Statement stmt = conexion.createStatement();
 
-        String sql = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, "
-                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
-                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
-                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO \n" + "FROM ARTISTA \n" + " ORDER BY AR.ID_ARTISTA";
+        String sql = "SELECT ID_ARTISTA, PRIMER_NOMBRE, SEGUNDO_NOMBRE, "
+                + "PRIMER_APELLIDO, SEGUNDO_APELLIDO, NOMBRE_ARTISTICO, GENERO, \n"
+                + "FECHA_NACIMIENTO, FECHA_CREACION, STATUS, \n"
+                + "RUTA_IMAGEN, ID_CONTACTO AS CONTACTO \n" + "FROM ARTISTA \n" + " ORDER BY AR.ID_ARTISTA";
 
         ResultSet rs = stmt.executeQuery(sql);
 

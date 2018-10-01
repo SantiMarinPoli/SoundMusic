@@ -21,29 +21,21 @@ public class ArtistaDaoImplTest {
     ArtistaDaoImpl daoArtista;
     Artista artistaPrueba, artistaPruebaAct;
     List<Artista> pruebaLstArtista;
-    Contacto contacto;
-    Ciudad ciudad;
-    Pais pais;
 
     public ArtistaDaoImplTest() {
     }
 
     @Before
     public void setUp() throws SQLException {
-        pais = new Pais(1, "COLOMBIA");
-        ciudad = new Ciudad(1, "MEDELLIN", pais);
-
-        String[] datosContacto = {"3164349117", "5836395", "MI CASA", "MI BARRIO", "SANMEDI@45.COM"};
-        contacto = new Contacto(1, datosContacto, ciudad);
         daoArtista = new ArtistaDaoImpl();
         String[] datosArtista = {"SANTIAGO", null, "MEDINA", "PELAEZ", "MC DINA", "M", "A"};
         Date[] fechasArtista = {Date.valueOf("1992-06-01"), Date.valueOf(LocalDate.now())};
 
-        artistaPrueba = new Artista(1, datosArtista, fechasArtista, contacto);
+        artistaPrueba = new Artista(1, datosArtista, fechasArtista, 1);
 
         String[] datosArtistaAct = {"MELANY", null, "PALACIOS", "FONNEGRA", "MELY P", "F", "A"};
         Date[] fechasArtistaAct = {Date.valueOf("1992-08-01"), Date.valueOf(LocalDate.now())};
-        artistaPruebaAct = new Artista(7, datosArtistaAct, fechasArtistaAct, contacto);
+        artistaPruebaAct = new Artista(7, datosArtistaAct, fechasArtistaAct, 1);
     }
 
     @After
@@ -126,7 +118,7 @@ public class ArtistaDaoImplTest {
      *
      * @throws java.lang.Exception
      */
-    @Test    
+    @Test
     public void testActualizarArtista() throws Exception {
         System.out.println("actualizarArtista");
 

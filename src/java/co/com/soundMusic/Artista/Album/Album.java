@@ -26,8 +26,8 @@ public class Album {
         this.numeroCanciones = numeroCanciones;
         this.fechaFinalizacion = fechaFinalizacion;
         this.rutaImagen=rutaImagen;
-        this.ciudad = idCiudad;
-        this.artista = idArtista;
+        this.idCiudad = idCiudad;
+        this.idArtista = idArtista;
     }
 
     public int getIdAlbum() {

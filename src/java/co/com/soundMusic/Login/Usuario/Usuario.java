@@ -1,8 +1,5 @@
 package co.com.soundMusic.Login.Usuario;
 
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
-import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -19,16 +16,16 @@ public class Usuario {
     private String segundoApellido;
     private Date fechaCreacion;
     private String status;
-    private Perfil perfil;
-    private UsuarioLogin usuarioLogin;
-    private Contacto contacto;
+    private int idPerfil;
+    private int idUsuarioLogin;
+    private int idContacto;
 
     public Usuario() {
     }
 
     public Usuario(int idUsuario, String primerNombre, String segundoNombre,
             String primerApellido, String segundoApellido, Date fechaCreacion,
-            String status, Perfil perfil, UsuarioLogin usuarioLogin, Contacto contacto) {
+            String status, int idPerfil, int idUsuarioLogin, int idContacto) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -36,9 +33,9 @@ public class Usuario {
         this.segundoApellido = segundoApellido;
         this.fechaCreacion = fechaCreacion;
         this.status = status;
-        this.perfil = perfil;
-        this.usuarioLogin = usuarioLogin;
-        this.contacto = contacto;
+        this.idPerfil = idPerfil;
+        this.idUsuarioLogin = idUsuarioLogin;
+        this.idContacto = idContacto;
     }
 
     public Usuario(int idUsuario, String[] datosUsuario, Date fechaCreacion) {
@@ -107,28 +104,28 @@ public class Usuario {
         this.status = status;
     }
 
-    public Contacto getContacto() {
-        return contacto;
+    public int getIdContacto() {
+        return idContacto;
     }
 
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
+    public void setIdContacto(int idContacto) {
+        this.idContacto = idContacto;
     }
 
-    public UsuarioLogin getUsuarioLogin() {
-        return usuarioLogin;
+    public int getIdUsuarioLogin() {
+        return idUsuarioLogin;
     }
 
-    public void setUsuarioLogin(UsuarioLogin usuarioLogin) {
-        this.usuarioLogin = usuarioLogin;
+    public void setIdUsuarioLogin(int idUsuarioLogin) {
+        this.idUsuarioLogin = idUsuarioLogin;
     }
 
-    public Perfil getPerfil() {
-        return perfil;
+    public int getIdPerfil() {
+        return idPerfil;
     }
 
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
+    public void setidPerfil(int idPerfil) {
+        this.idPerfil = idPerfil;
     }
 
     @Override
@@ -175,4 +172,7 @@ public class Usuario {
                 + ", status=" + status + '}';
     }
 
+    boolean ingresarUsuario(String nom_usuario, String password_us) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

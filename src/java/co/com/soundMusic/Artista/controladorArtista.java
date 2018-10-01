@@ -203,8 +203,10 @@ public class controladorArtista extends HttpServlet {
             String email = request.getParameter("email");
 
             String[] datosContacto = {celular, telefono, direccion, barrio, email};
+            
+            int idCiudad= Integer.parseInt(request.getParameter("idCiudad"));
 
-            Contacto contacto = new Contacto(0, datosContacto, ciudad);
+            Contacto contacto = new Contacto(0, datosContacto, idCiudad);
             ContactoDaoImpl daoContacto = new ContactoDaoImpl();
             daoContacto.crearContacto(contacto);
 
@@ -222,7 +224,7 @@ public class controladorArtista extends HttpServlet {
                 primerApellido, segundoApellido, nombreArtistico, genero, status};
             Date[] fechasArtista = {fechaNacimiento, fechaCreacion};
 
-            Artista artista = new Artista(0, datosArtista, fechasArtista, daoContacto.obtenerContacto(daoContacto.getUltimoIdContacto()));
+            Artista artista = new Artista(0, datosArtista, fechasArtista, daoContacto.getUltimoIdContacto());
             ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
             daoArtista.crearArtista(artista);
         } catch (SQLException ex) {
@@ -247,7 +249,8 @@ public class controladorArtista extends HttpServlet {
 
             String[] datosContacto = {celular, telefono, direccion, barrio, email};
 
-            Contacto contacto = new Contacto(idContacto, datosContacto, ciudad);
+            int idCiudad= Integer.parseInt(request.getParameter("idCiudad"));
+            Contacto contacto = new Contacto(idContacto, datosContacto,idCiudad);
             ContactoDaoImpl daoContacto = new ContactoDaoImpl();
             daoContacto.actualizarContacto(contacto);
 
@@ -267,7 +270,7 @@ public class controladorArtista extends HttpServlet {
             Date[] fechasArtista = {fechaNacimiento, fechaCreacion};
 
             Artista artista = new Artista(idArtista, datosArtista, fechasArtista,
-                    contacto);
+                    idContacto);
 
             ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
             daoArtista.actualizarArtista(artista);
@@ -296,7 +299,7 @@ public class controladorArtista extends HttpServlet {
         CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
         try {
             if (idCiudad == 0) {
-                ciudadDao.crearCiudad(new Ciudad(idCiudad, nombreCiudad, pais));
+                ciudadDao.crearCiudad(new Ciudad(idCiudad, nombreCiudad, pais.getIdPais()));
             }
             return ciudadDao.obtenerCiudad(idCiudad);
         } catch (SQLException ex) {

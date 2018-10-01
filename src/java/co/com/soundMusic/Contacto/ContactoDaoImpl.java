@@ -35,7 +35,7 @@ public class ContactoDaoImpl implements IContactoDao {
             String[] datosContacto = {rs.getString("CELULAR"), rs.getString("TELEFONO"), rs.getString("DIRECCION"),
                 rs.getString("BARRIO"), rs.getString("EMAIL")};
 
-            Contacto contacto = new Contacto(idContacto, datosContacto, ciudad.obtenerCiudad(rs.getInt("ID_CIUDAD")));
+            Contacto contacto = new Contacto(idContacto, datosContacto, rs.getInt("ID_CIUDAD"));
             return contacto;
         }
         return null;
@@ -52,7 +52,7 @@ public class ContactoDaoImpl implements IContactoDao {
         ps.setString(3, contacto.getDireccion());
         ps.setString(4, contacto.getBarrio());
         ps.setString(5, contacto.getEmail());
-        ps.setInt(6, contacto.getCiudad().getIdCiudad());
+        ps.setInt(6, contacto.getIdCiudad());
         ps.executeUpdate();
     }
 
@@ -68,7 +68,7 @@ public class ContactoDaoImpl implements IContactoDao {
         ps.setString(3, contacto.getDireccion());
         ps.setString(4, contacto.getBarrio());
         ps.setString(5, contacto.getEmail());
-        ps.setInt(6, contacto.getCiudad().getIdCiudad());
+        ps.setInt(6, contacto.getIdCiudad());
         ps.setInt(7, contacto.getIdContacto());
         ps.executeUpdate();
     }

@@ -170,11 +170,11 @@ public class controladorUsuario extends HttpServlet {
         String segundoApellido = request.getParameter("");
         Date fechaCreacion = Date.valueOf(request.getParameter(""));
         String satus = request.getParameter("");
-        Perfil perfil = null;
-        UsuarioLogin usuarioLogin = null;
-        Contacto contacto = null;
+        int idPerfil = 0;
+        int idUsuarioLogin = 0;
+        int idContacto = 0;
 
-        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion, satus, perfil, usuarioLogin, contacto);
+        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion, satus, idPerfil, idUsuarioLogin, idContacto);
 
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
         daoUsuario.crearUsuario(usuario);

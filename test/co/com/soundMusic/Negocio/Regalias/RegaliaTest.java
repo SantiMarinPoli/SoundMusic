@@ -25,8 +25,6 @@ public class RegaliaTest {
     ArtistaEmpresa artistaEmpresa;
     Artista artista;
     Contacto contacto;
-    Ciudad ciudad;
-    Pais pais;
     EmpresaDifusora empresaDifusora;
     CostoActividad costo;
 
@@ -35,18 +33,12 @@ public class RegaliaTest {
 
     @Before
     public void setUp() throws SQLException,InvocationTargetException {
-        pais = new Pais(1, "COLOMBIA");
-        ciudad = new Ciudad(1, "MEDELLIN", pais);
-
-        String[] datosContacto = {"3164349117", "5836395", "MI CASA", "MI BARRIO", "SANMEDI@45.COM"};
-        contacto = new Contacto(1, datosContacto, ciudad);
-
         String[] datosArtista = {"SANTIAGO", null, "MEDINA", "PELAEZ", "MC DINA", "M", "A"};
         Date[] fechasArtista = {Date.valueOf("1992-06-01"), Date.valueOf(LocalDate.now())};
 
-        artista = new Artista(1, datosArtista, fechasArtista, contacto);
+        artista = new Artista(1, datosArtista, fechasArtista, 1);
 
-        empresaDifusora = new EmpresaDifusora(1, "YOUTUBE", Date.valueOf("2018-06-01"), null, "A", 1, 1, 1);
+        empresaDifusora = new EmpresaDifusora(1, "YOUTUBE", Date.valueOf("2018-06-01"), null, "A",null ,1, 1, 1);
         artistaEmpresa = new ArtistaEmpresa(1, artista, empresaDifusora);
 
         costo = new CostoActividad(1, 10, Date.valueOf("2018-08-08"), null);
