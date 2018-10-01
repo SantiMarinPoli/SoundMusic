@@ -9,8 +9,15 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
     </head>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Music Sound</a>
+        </nav>
+    </header>
 
     <body>
 
@@ -28,21 +35,18 @@
                     <div class="row">
                         <div class="col">
                             <a href="usuario.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
-                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nuevo Usuario</button>
                         </div>
                     </div>
 
                     <br>
 
-                    <form name="formulario_usuario">
+                    <form name="formulario_usuario" action="" method="post">
                         <input type="hidden" name="cod" value="0">
-
-
 
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Nombre*</label>
-                                <input type="text" class="form-control" name="nombre1" id="nom1" placeholder="Ingresar el primer nombre" >
+                                <input type="text" class="form-control " name="nombre1" id="nom1 texto" placeholder="Ingresar el primer nombre" >
                                 <div class="invalid-feedback ">El primer nombre es un campo obligatorio</div>
 
                             </div>
@@ -57,13 +61,13 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Apellido*</label>
-                                <input type="text" class="form-control" name="apellido1" id="apellido1" placeholder="Ingresar el primer apellido " >
+                                <input type="text" class="form-control " name="apellido1" id="apellido1 texto" placeholder="Ingresar el primer apellido " >
                                 <div class="invalid-feedback ">El primer apellido es un campo obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Segundo Apellido*</label>
-                                <input type="text" class="form-control" name="apellido2" id="apellido2" placeholder="Ingresar el segundo apellido">
+                                <input type="text" class="form-control " name="apellido2" id="apellido2 texto" placeholder="Ingresar el segundo apellido">
                                 <div class="invalid-feedback ">El segundo apellido es un campo obligatorio</div>
                             </div>
                         </div>
@@ -81,12 +85,6 @@
                             <div class="invalid-feedback ">Debe seleccionar un campo</div>
 
                         </div>
-
-                        <!--<div class="form-group">
-                            <label>Fecha de Nacimiento*</label>
-                            <input type="date" name="fechaNac" id="birthDate" class="form-control" >
-                            <div class="invalid-feedback ">La fecha de nacimiento es un campo obligatorio</div>
-                        </div>-->
 
                         <div class="form-group">
                             <label>Correo*</label>
@@ -132,6 +130,26 @@
 
                         <br>
 
+                        <div class="form-row">
+                            <div class="col">
+                                <label >Ciudad*</label>
+                                <select class="form-control" name="ciudad" id="ciudad">
+                                    <option>Seleccionar la ciudad</option>
+                                    <option value="Colombia">Colombia</option>
+                                    <option value="Mexico">Mexico</option>
+                                    <option value="Estados Unidos">Estados Unidos</option>
+                                </select>
+                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
+                            </div>
+                            <div class="col">
+                                <label >Pais</label>
+                                <input type="text" class="form-control" name="pais" id="pais "placeholder="Ingrese el pais" >
+                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
+                            </div>
+                        </div>
+
+                        <br>
+
                         <div class="form-group">
                             <label>Direccion Actual</label>
                             <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingresar la direccion actual">
@@ -151,8 +169,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Modificar Usuario" class="btn btn-primary" id="btnGuardar" data-toggle="modal" data-target="#alerta">
-                        <%@include file="confirmacion.jsp" %>
+                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar">
                     </form>
                 </div>
             </div>
@@ -165,6 +182,7 @@
     <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
     <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
     <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
+    <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
     <script src="js/validacionUsuario.js" type="text/javascript"></script>
 </body>
 

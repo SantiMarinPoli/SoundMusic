@@ -11,6 +11,12 @@
         <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
     </head>
 
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Music Sound</a>
+        </nav>
+    </header>
+
     <body>
 
         <div class="container main-container">
@@ -24,7 +30,6 @@
                     <div class="row">
                         <div class="col">
                             <a href="artista.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
-                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Cancion</button>
                         </div>
                     </div>
 

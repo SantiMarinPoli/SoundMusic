@@ -13,8 +13,8 @@
                 <!--<a class="nav-link" href="controladorUsuario?opcion=listarUsuarios">Usuarios</a>-->
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="empresa.jsp">Empresas Difunsoras</a>
-               <!-- <a class="nav-link" href="controladorEmpresaDifusora?opcion=listarEmpresa">Empresas Difunsoras</a>-->
+                <a class="nav-link" href="empresa.jsp">Empresas Difusoras</a>
+               <!-- <a class="nav-link" href="controladorEmpresaDifusora?opcion=listarEmpresa">Empresas Difusoras</a>-->
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="artista.jsp">Artistas</a>

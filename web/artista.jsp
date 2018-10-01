@@ -38,12 +38,9 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre de Artista</th>
                                 <th scope="col">Foto</th>
-                                <th scope="col">Bonificacion</th>
-                                <th scope="col">Genero</th>
                                 <th scope="col">No# Albunes</th>
                                 <th scope="col">Contrato</th>
                                 <th scope="col">Mes y Año</th>
-                                <th scope="col">Total Mensual</th>
                                 <th scope="col">Permisos</th>
                                 <th scope="col">Operaciones</th>
                             </tr>
@@ -54,15 +51,12 @@
                                 <td scope="row">1</td>
                                 <td>Avicci</td>
                                 <td><img src="img/art1.jpg"  class="img img-fluid icon-artista"/></td>
-                                <td><img src="icon/discoPlat.png"  class="img img-thumbnail"/></td>
-                                <td>Electronica</td>
                                 <td>10</td>
                                 <td class="text-success">
                                     <span class="badge badge-primary">Youtube</span>
                                     <span class="badge badge-primary">Spotyfy</span>
                                 </td>
                                 <td>Abril 2018</td>
-                                <td class="text-success">$5.000.000 COP</td>
                                 <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
                                 <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
@@ -71,8 +65,6 @@
                                 <td scope="row">2</td>
                                 <td>Bad Bunny</td>
                                 <td><img src="img/art2.png"  class="img img-fluid icon-artista"/></td>
-                                <td>Ninguno</td>
-                                <td>Trap, Reegaeton</td>
                                 <td>5</td>
                                 <td class="text-success">
                                     <span class="badge badge-primary">Youtube</span>
@@ -80,7 +72,6 @@
                                 </td>
 
                                 <td>Agosto 2018</td>
-                                <td class="text-success">$800.000 COP</td>
                                 <td><a href="#" class="badge badge-danger btnActivar" activarUsuario="0">Inactivo</a></td>
                                 <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
@@ -89,8 +80,6 @@
                                 <td scope="row">3</td>
                                 <td>Guns And Roses</td>
                                 <td><img src="img/art3.png"  class="img img-fluid icon-artista"/></td>
-                                <td><img src="icon/discoOro.png"  class="img img-thumbnail"/></td>
-                                <td>Rock and Roll</td>
                                 <td>50</td>
                                 <td class="text-success">
                                     <span class="badge badge-primary">Youtube</span>
@@ -98,7 +87,6 @@
                                     <span class="badge badge-primary">Itunes Music</span>
                                 </td>
                                 <td>Abril 2018</td>
-                                <td class="text-success">$20.000.000 COP</td>
                                 <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
                                 <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
@@ -106,7 +94,8 @@
                     </table>
                 </div>
             </div>
-
+            <br>
+            <br>
             <!--Tablas Recientes de los albunes-->
             <div class="row">
                 <div class="col-md-12">

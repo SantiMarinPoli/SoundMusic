@@ -40,8 +40,7 @@
                                 <th scope="col">Total Artista</th>
                                 <th scope="col">Total Albunes</th>
                                 <th scope="col">Mes y Año</th>
-                                <th scope="col">Total Mensual</th>
-                                <th scope="col">Operaciones</th>
+                                <th scope="col"></th>
                             </tr>
                         </thead>
 
@@ -52,7 +51,6 @@
                                 <td>3</td>
                                 <td>20</td>
                                 <td>Abril 2018</td>
-                                <td class="text-success">$5.000.000 COP</td>
                                 <td><a href="modificarEmpresa.jsp"  class="btn btn-warning">Actualizar</a></td>
                             </tr>
 
@@ -62,7 +60,6 @@
                                 <td>5</td>
                                 <td>10</td>
                                 <td>Julio 2018</td>
-                                <td class="text-success">$3.000.000 COP</td>
                                 <td><a href="modificarEmpresa.jsp"  class="btn btn-warning">Actualizar</a></td>
                             </tr>
                             <tr>
@@ -71,7 +68,6 @@
                                 <td>5</td>
                                 <td>40</td>
                                 <td>Junio 2018</td>
-                                <td class="text-success">$20.000.000 COP</td>
                                 <td><a href="modificarEmpresa.jsp"  class="btn btn-warning">Actualizar</a></td>
                             </tr>
                             <tr>
@@ -80,7 +76,6 @@
                                 <td>20</td>
                                 <td>50</td>
                                 <td>Agosto 2018</td>
-                                <td class="text-success">$40.000.000 COP</td>
                                 <td><a href="modificarEmpresa.jsp"  class="btn btn-warning">Actualizar</a></td>
                             </tr>
 
@@ -89,6 +84,9 @@
 
                 </div>
             </div>
+            
+            <br>
+            <br>
 
             <div class="row">
                 <div class="col-md-12">
@@ -98,9 +96,6 @@
                     <br> 
 
                     <div class="row">
-                        <div class="col-4">
-                            <img src="img/empresas/spotyfy.png" class="img img-thumbnail "/>
-                        </div>
                         <div class="col">
                             <h4>Spotify</h4>
                             <hr>
