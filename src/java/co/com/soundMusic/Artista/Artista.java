@@ -2,6 +2,7 @@ package co.com.soundMusic.Artista;
 
 import co.com.soundMusic.Contacto.Contacto;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
@@ -34,15 +35,17 @@ public class Artista {
         this.status = datosArtista[6];
         this.contacto = contacto;
     }
-    
-    public Artista(int idArtista, String[] datosArtista) {
+
+    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista) {
         this.idArtista = idArtista;
         this.primerNombre = datosArtista[0];
         this.segundoNombre = datosArtista[1];
         this.primerApellido = datosArtista[2];
         this.segundoApellido = datosArtista[3];
         this.nombreArtistico = datosArtista[4];
-        this.genero = datosArtista[5];        
+        this.genero = datosArtista[5];
+        this.fechaNacimiento = fechasArtista[0];
+        this.fechaCreacion = fechasArtista[1];
         this.status = datosArtista[6];        
     }
 
@@ -136,4 +139,35 @@ public class Artista {
     public void setContacto(Contacto contacto) {
         this.contacto = contacto;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + this.idArtista;
+        hash = 47 * hash + Objects.hashCode(this.nombreArtistico);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Artista other = (Artista) obj;
+        if (this.idArtista != other.idArtista) {
+            return false;
+        }
+        if (!Objects.equals(this.nombreArtistico, other.nombreArtistico)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

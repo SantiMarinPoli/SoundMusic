@@ -9,11 +9,11 @@ import java.util.List;
  *
  * @author Santiago Medina Pelaez
  */
-public class ArtistaEmpresaDaoImpl implements IArtistaEmpresDao {
+public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
     private Connection conexion;
 
-    private ArtistaEmpresaDaoImpl() {
+    public ArtistaEmpresaDaoImpl() {
         conexion = DBUtil.getConexion();
     }
 

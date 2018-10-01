@@ -55,9 +55,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
             Pais pais = new Pais(rs.getInt("PAIS"), rs.getString("NOMBRE_PAIS"));
 
-            int idCiudad = rs.getInt("CIUDAD");
-            String nombreCiudad = rs.getString("NOMBRE_CIUDAD");
-            Ciudad ciudad = new Ciudad(idCiudad, nombreCiudad, pais);
+            Ciudad ciudad = new Ciudad(rs.getInt("CIUDAD"), rs.getString("NOMBRE_CIUDAD"), pais);
 
             String[] datosContacto = {rs.getString("CELULAR"), rs.getString("TELEFONO"),
                 rs.getString("DIRECCION"), rs.getString("BARRIO"), rs.getString("EMAIL")};
@@ -100,7 +98,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
                     contactoDao.obtenerContacto(rs.getInt("ID_CONTACTO")));
 
             return artista;
-        }
+       }
 
         return null;
     }
@@ -129,7 +127,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
     public void eliminarArtista(String status, int idArtista) throws SQLException {
         String sql = "UPDATE ARTISTA\n"
                 + "SET STATUS=?\n"
-                + "WHERE ID_ARTISTA=?;";
+                + "WHERE ID_ARTISTA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setString(1, status);
         ps.setInt(2, idArtista);

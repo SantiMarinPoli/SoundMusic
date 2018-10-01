@@ -13,21 +13,19 @@ public class Logro {
     private String criterio;
     private float cantidadCriterio;
     private Date fechaCreacion;
-    private Date fechaFinal;
-    private String status;
+    private Date fechaFinal;    
     private float premio;
 
     public Logro() {
     }
 
-    public Logro(int idLogro, String nombreLogro, String criterio, float cantidadCriterio, Date fechaCreacion, Date fechaFinal, String status, float premio) {
+    public Logro(int idLogro, String nombreLogro, String criterio, float cantidadCriterio, Date fechaCreacion, Date fechaFinal, float premio) {
         this.idLogro = idLogro;
         this.nombreLogro = nombreLogro;
         this.criterio = criterio;
         this.cantidadCriterio = cantidadCriterio;
         this.fechaCreacion = fechaCreacion;
         this.fechaFinal = fechaFinal;
-        this.status = status;
         this.premio = premio;
     }
 
@@ -77,14 +75,6 @@ public class Logro {
 
     public void setFechaFinal(Date fechaFinal) {
         this.fechaFinal = fechaFinal;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public float getPremio() {

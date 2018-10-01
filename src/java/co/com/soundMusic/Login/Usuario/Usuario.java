@@ -4,6 +4,7 @@ import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
@@ -38,6 +39,16 @@ public class Usuario {
         this.perfil = perfil;
         this.usuarioLogin = usuarioLogin;
         this.contacto = contacto;
+    }
+
+    public Usuario(int idUsuario, String[] datosUsuario, Date fechaCreacion) {
+        this.idUsuario = idUsuario;
+        this.primerNombre = datosUsuario[0];
+        this.segundoNombre = datosUsuario[1];
+        this.primerApellido = datosUsuario[2];
+        this.segundoApellido = datosUsuario[3];
+        this.fechaCreacion = fechaCreacion;
+        this.status = datosUsuario[4];
     }
 
     public int getIdUsuario() {
@@ -122,8 +133,10 @@ public class Usuario {
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 11 * hash + this.idUsuario;
+        int hash = 7;
+        hash = 61 * hash + this.idUsuario;
+        hash = 61 * hash + Objects.hashCode(this.primerNombre);
+        hash = 61 * hash + Objects.hashCode(this.primerApellido);
         return hash;
     }
 
@@ -142,6 +155,12 @@ public class Usuario {
         if (this.idUsuario != other.idUsuario) {
             return false;
         }
+        if (!Objects.equals(this.primerNombre, other.primerNombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.primerApellido, other.primerApellido)) {
+            return false;
+        }
         return true;
     }
 
@@ -156,7 +175,4 @@ public class Usuario {
                 + ", status=" + status + '}';
     }
 
-    boolean ingresarUsuario(String nom_usuario, String password_us) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

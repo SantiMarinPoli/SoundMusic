@@ -1,12 +1,14 @@
 package co.com.soundMusic.EmpresaDifusora;
 
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
  * @author Santiago Medina Pelaez
  */
 public class EmpresaDifusora {
+
     private int idEmpresaDifusora;
     private String nombre;
     private Date fechaCreacion;
@@ -93,6 +95,35 @@ public class EmpresaDifusora {
 
     public void setIdContacto(int idContacto) {
         this.idContacto = idContacto;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + this.idEmpresaDifusora;
+        hash = 13 * hash + Objects.hashCode(this.nombre);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EmpresaDifusora other = (EmpresaDifusora) obj;
+        if (this.idEmpresaDifusora != other.idEmpresaDifusora) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
     }
 
 }

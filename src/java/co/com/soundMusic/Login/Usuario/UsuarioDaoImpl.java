@@ -148,5 +148,19 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         ps.setInt(9, usuario.getContacto().getIdContacto());
         ps.setInt(10, usuario.getIdUsuario());
         ps.executeUpdate();
-    }    
+    }
+
+    public int getUltimoIdUsuario() throws SQLException {
+        String sql = "SELECT USUARIO_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int idUsuario = rs.getInt("CURRVAL");
+            return idUsuario;
+        }
+        return -1;
+    }
+
 }

@@ -19,7 +19,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
 
     private Connection conexion;
 
-    private EmpresaDifusoraDaoImpl() {
+    public EmpresaDifusoraDaoImpl() {
         conexion = DBUtil.getConexion();
     }
 
@@ -57,7 +57,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
     public EmpresaDifusora obtenerEmpresaDifusora(int idEmpresaDifusora) throws SQLException {
         String sql = "SELECT ID_EMPRESA_DIFUSORA,NOMBRE,FECHA_CREACION,FECHA_TERMINACION,STATUS,\n"
                 + "ID_TIPO_ACTIVIDAD, ID_CONTACTO, ID_COSTO_ACTIVIDAD\n" + "FROM EMPRESA_DIFUSORA"
-                + "WHERE ID_EMPRESA_DIFUSORA=?;";
+                + "WHERE ID_EMPRESA_DIFUSORA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idEmpresaDifusora);
         ResultSet rs = ps.executeQuery();
@@ -108,7 +108,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
     public void actualizarEmpresaDifusora(EmpresaDifusora empresaDifusora) throws SQLException {
         String sql = "UPDATE EMPRESA_DIFUSORA\n"
                 + "SET NOMBRE=?,FECHA_CREACION=?,FECHA_TERMINACION=?,STATUS=?,\n"
-                + "ID_TIPO_ACTIVIDAD=?, ID_CONTACTO=?, ID_COSTO_ACTIVIDAD=?\n" + "WHERE ID_EMPRESA_DIFUSORA=?;";
+                + "ID_TIPO_ACTIVIDAD=?, ID_CONTACTO=?, ID_COSTO_ACTIVIDAD=?\n" + "WHERE ID_EMPRESA_DIFUSORA=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, empresaDifusora.getNombre());
@@ -120,5 +120,18 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
         ps.setInt(7, empresaDifusora.getIdCostoOperacion());
         ps.setInt(8, empresaDifusora.getIdEmpresaDifusora());
         ps.executeUpdate();
+    }
+
+    public int getUltimoIdEmpresaDifusora() throws SQLException {
+        String sql = "SELECT EMPRESA_DIFUSORA_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int idEmpresaDifusora = rs.getInt("CURRVAL");
+            return idEmpresaDifusora;
+        }
+        return -1;
     }
 }

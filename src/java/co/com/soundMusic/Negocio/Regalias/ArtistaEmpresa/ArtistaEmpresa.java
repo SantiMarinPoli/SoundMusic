@@ -45,5 +45,4 @@ public class ArtistaEmpresa {
     public void setEmpresaDifusora(EmpresaDifusora empresaDifusora) {
         this.empresaDifusora = empresaDifusora;
     }
-
 }
