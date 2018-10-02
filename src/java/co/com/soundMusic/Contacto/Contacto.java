@@ -1,6 +1,5 @@
 package co.com.soundMusic.Contacto;
 
-import co.com.soundMusic.Contacto.Ciudad.Ciudad;
 
 /**
  *
@@ -14,19 +13,19 @@ public class Contacto {
     private String direccion;
     private String barrio;
     private String email;
-    private Ciudad ciudad;
+    private int idCiudad;
 
     public Contacto() {
     }
 
-    public Contacto(int idContacto, String[] datosContacto, Ciudad ciudad) {
+    public Contacto(int idContacto, String[] datosContacto, int idCiudad) {
         this.idContacto = idContacto;
         this.celular = datosContacto[0];
         this.telefono = datosContacto[1];
         this.direccion = datosContacto[2];
         this.barrio = datosContacto[3];
         this.email = datosContacto[4];
-        this.ciudad = ciudad;
+        this.idCiudad = idCiudad;
     }
 
     public int getIdContacto() {
@@ -77,12 +76,12 @@ public class Contacto {
         this.email = email;
     }
 
-    public Ciudad getCiudad() {
-        return ciudad;
+    public int getIdCiudad() {
+        return idCiudad;
     }
 
-    public void setCiudad(Ciudad ciudad) {
-        this.ciudad = ciudad;
+    public void setIdCiudad(int idCiudad) {
+        this.idCiudad = idCiudad;
     }
 
 }

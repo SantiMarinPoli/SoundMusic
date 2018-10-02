@@ -42,7 +42,7 @@ public class controladorUsuario extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("text/html;charset=UTF-8");
 
         PrintWriter out = response.getWriter();
@@ -86,7 +86,19 @@ public class controladorUsuario extends HttpServlet {
                 }
             }
             if (opcion.equals("borrar")) {
+                int idUsuario = Integer.parseInt((String) request.getParameter("IdUsuario"));
 
+                UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+                try{
+                    daoUsuario.eliminarUsuario("I", idUsuario);
+                    List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
+                    request.setAttribute("lstUsuario",lstUsuario);
+                    RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
+                    vista.forward(request, response);
+                }catch (SQLException ex) {
+                    System.out.println("Excepción: " + ex.getMessage());
+                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             if (opcion.equals("crearUsuario")) {
                 try {
@@ -170,11 +182,11 @@ public class controladorUsuario extends HttpServlet {
         String segundoApellido = request.getParameter("");
         Date fechaCreacion = Date.valueOf(request.getParameter(""));
         String satus = request.getParameter("");
-        Perfil perfil = null;
-        UsuarioLogin usuarioLogin = null;
-        Contacto contacto = null;
+        int idPerfil = 0;
+        int idUsuarioLogin = 0;
+        int idContacto = 0;
 
-        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion, satus, perfil, usuarioLogin, contacto);
+        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion, satus, idPerfil, idUsuarioLogin, idContacto);
 
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
         daoUsuario.crearUsuario(usuario);

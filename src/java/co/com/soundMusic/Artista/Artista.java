@@ -2,6 +2,7 @@ package co.com.soundMusic.Artista;
 
 import co.com.soundMusic.Contacto.Contacto;
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
@@ -19,9 +20,10 @@ public class Artista {
     private Date fechaNacimiento;
     private Date fechaCreacion;
     private String status;
-    private Contacto contacto;
+    private String rutaImagen;
+    private int idContacto;
 
-    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista, Contacto contacto) {
+    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista, int idContacto) {
         this.idArtista = idArtista;
         this.primerNombre = datosArtista[0];
         this.segundoNombre = datosArtista[1];
@@ -32,18 +34,8 @@ public class Artista {
         this.fechaNacimiento = fechasArtista[0];
         this.fechaCreacion = fechasArtista[1];
         this.status = datosArtista[6];
-        this.contacto = contacto;
-    }
-    
-    public Artista(int idArtista, String[] datosArtista) {
-        this.idArtista = idArtista;
-        this.primerNombre = datosArtista[0];
-        this.segundoNombre = datosArtista[1];
-        this.primerApellido = datosArtista[2];
-        this.segundoApellido = datosArtista[3];
-        this.nombreArtistico = datosArtista[4];
-        this.genero = datosArtista[5];        
-        this.status = datosArtista[6];        
+        this.rutaImagen = datosArtista[7];
+        this.idContacto = idContacto;
     }
 
     public Artista() {
@@ -129,11 +121,48 @@ public class Artista {
         this.status = status;
     }
 
-    public Contacto getContacto() {
-        return contacto;
+    public String getRutaImagen (){
+        return rutaImagen;
     }
 
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
+    public void setRutaImagen(String rutaImagen){
+        this.rutaImagen=rutaImagen;
     }
+
+    public int getIdContacto() {
+        return idContacto;
+    }
+
+    public void setIdContacto(int idContacto) {
+        this.idContacto = idContacto;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + this.idArtista;
+        hash = 47 * hash + Objects.hashCode(this.nombreArtistico);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Artista other = (Artista) obj;
+        if (this.idArtista != other.idArtista) {
+            return false;
+        }
+        if (!Objects.equals(this.nombreArtistico, other.nombreArtistico)) {
+            return false;
+        }
+        return true;
+    }        
 }

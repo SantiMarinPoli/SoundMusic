@@ -1,8 +1,5 @@
 package co.com.soundMusic.Login.Usuario;
 
-import co.com.soundMusic.Contacto.ContactoDaoImpl;
-import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
-import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.Date;
@@ -19,16 +16,10 @@ import java.util.List;
  */
 public class UsuarioDaoImpl implements IUsuarioDao {
 
-    private Connection conexion;
-    private ContactoDaoImpl contacto;
-    private UsuarioLoginDaoImpl usuarioLogin;
-    private PerfilDaoImpl perfil;
+    private Connection conexion;    
 
     public UsuarioDaoImpl() {
-        conexion = DBUtil.getConexion();
-        contacto = new ContactoDaoImpl();
-        usuarioLogin = new UsuarioLoginDaoImpl();
-        perfil = new PerfilDaoImpl();
+        conexion = DBUtil.getConexion();        
     }
 
     @Override
@@ -54,11 +45,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             int idLoginUsuario = rs.getInt("ID_LOGIN_USUARIO");
             int idContacto = rs.getInt("ID_CONTACTO_USUARIO");
 
-            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, fechaCreacion, status,
-                    perfil.obtenerPerfil(idPerfilUsuario),
-                    usuarioLogin.obtenerUsuarioLogin(idLoginUsuario),
-                    contacto.obtenerContacto(idContacto));
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, 
+                    fechaCreacion, status, idPerfilUsuario, idLoginUsuario, idContacto);
             listaUsuarios.add(usuario);
         }
 
@@ -86,12 +74,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             int idPerfilUsuario = rs.getInt("ID_PERFIL_USUARIO");
             int idLoginUsuario = rs.getInt("ID_LOGIN_USUARIO");
             int idContacto = rs.getInt("ID_CONTACTO_USUARIO");
-
-            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, fechaCreacion, status,
-                    perfil.obtenerPerfil(idPerfilUsuario),
-                    usuarioLogin.obtenerUsuarioLogin(idLoginUsuario),
-                    contacto.obtenerContacto(idContacto));
+            
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, 
+            fechaCreacion, status, idPerfilUsuario, idLoginUsuario, idContacto);
 
             return usuario;
         }
@@ -112,9 +97,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         ps.setString(4, usuario.getSegundoApellido());
         ps.setDate(5, usuario.getFechaCreacion());
         ps.setString(6, usuario.getStatus());
-        ps.setInt(7, usuario.getPerfil().getIdPerfil());
-        ps.setInt(8, usuario.getUsuarioLogin().getIdUsuarioLogin());
-        ps.setInt(9, usuario.getContacto().getIdContacto());
+        ps.setInt(7, usuario.getIdPerfil());
+        ps.setInt(8, usuario.getIdUsuarioLogin());
+        ps.setInt(9, usuario.getIdContacto());
         ps.executeUpdate();
     }
 
@@ -134,7 +119,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         String sql = "UPDATE USUARIO\n"
                 + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
                 + "FECHA_CREACION=?,STATUS=?,ID_PERFIL_USUARIO=?,ID_LOGIN_USUARIO=?,ID_CONTACTO_USUARIO=?\n"
-                + "WHERE ID_USUARIO=?; ";
+                + "WHERE ID_USUARIO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, usuario.getPrimerNombre());
@@ -143,10 +128,24 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         ps.setString(4, usuario.getSegundoApellido());
         ps.setDate(5, usuario.getFechaCreacion());
         ps.setString(6, usuario.getStatus());
-        ps.setInt(7, usuario.getPerfil().getIdPerfil());
-        ps.setInt(8, usuario.getUsuarioLogin().getIdUsuarioLogin());
-        ps.setInt(9, usuario.getContacto().getIdContacto());
+        ps.setInt(7, usuario.getIdPerfil());
+        ps.setInt(8, usuario.getIdUsuarioLogin());
+        ps.setInt(9, usuario.getIdContacto());
         ps.setInt(10, usuario.getIdUsuario());
         ps.executeUpdate();
-    }    
+    }
+
+    public int getUltimoIdUsuario() throws SQLException {
+        String sql = "SELECT USUARIO_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int idUsuario = rs.getInt("CURRVAL");
+            return idUsuario;
+        }
+        return -1;
+    }
+
 }

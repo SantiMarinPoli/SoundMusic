@@ -1,12 +1,16 @@
 package co.com.soundMusic.Artista;
 
+import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Contacto.Pais.Pais;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 
 /**
  *
@@ -14,13 +18,24 @@ import org.junit.Ignore;
  */
 public class ArtistaDaoImplTest {
 
+    ArtistaDaoImpl daoArtista;
+    Artista artistaPrueba, artistaPruebaAct;
+    List<Artista> pruebaLstArtista;
 
     public ArtistaDaoImplTest() {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws SQLException {
+        daoArtista = new ArtistaDaoImpl();
+        String[] datosArtista = {"SANTIAGO", null, "MEDINA", "PELAEZ", "MC DINA", "M", "A"};
+        Date[] fechasArtista = {Date.valueOf("1992-06-01"), Date.valueOf(LocalDate.now())};
 
+        artistaPrueba = new Artista(1, datosArtista, fechasArtista, 1);
+
+        String[] datosArtistaAct = {"MELANY", null, "PALACIOS", "FONNEGRA", "MELY P", "F", "A"};
+        Date[] fechasArtistaAct = {Date.valueOf("1992-08-01"), Date.valueOf(LocalDate.now())};
+        artistaPruebaAct = new Artista(7, datosArtistaAct, fechasArtistaAct, 1);
     }
 
     @After
@@ -32,17 +47,12 @@ public class ArtistaDaoImplTest {
      *
      * @throws java.lang.Exception
      */
-    @Test    
-    @Ignore
+    @Test
     public void testObtenerArtistas() throws Exception {
         System.out.println("obtenerArtistas");
-        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
-
-        //List<Artista> resultadoEsperado = null;
+        List<Artista> resultadoEsperado = null;
         List<Artista> resultadoActual = daoArtista.obtenerArtistas();
-
         assertFalse(resultadoActual.isEmpty());
-        //assertEquals(expResult, result);
     }
 
     /**
@@ -54,23 +64,17 @@ public class ArtistaDaoImplTest {
     public void testObtenerArtista() throws Exception {
         System.out.println("obtenerArtista");
         int idArtista = 1;
-        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
-        String[] datosArtista = {"SANTIAGO", null, "MEDINA", "PELAEZ", "MC DINA", "M", "A"};        
-       Artista  Artistaprueba = new Artista(idArtista, datosArtista);
-
         Artista resultadoActual = daoArtista.obtenerArtista(idArtista);
-
-        assertEquals(Artistaprueba.getIdArtista(), resultadoActual.getIdArtista());
-        assertEquals(Artistaprueba.getPrimerNombre(), resultadoActual.getPrimerNombre());
-        assertEquals(Artistaprueba.getSegundoNombre(), resultadoActual.getSegundoNombre());
-        assertEquals(Artistaprueba.getPrimerApellido(), resultadoActual.getPrimerApellido());
-        assertEquals(Artistaprueba.getSegundoApellido(), resultadoActual.getSegundoApellido());
-        assertEquals(Artistaprueba.getNombreArtistico(), resultadoActual.getNombreArtistico());
-        assertEquals(Artistaprueba.getGenero(), resultadoActual.getGenero());
-        assertEquals(Artistaprueba.getStatus(), resultadoActual.getStatus());
-        //assertEquals(Artistaprueba.getFechaNacimiento(), resultadoActual.getFechaNacimiento());
-        //assertTrue("Dates aren't close enough to each other!",
-        //      Math.abs(Artistaprueba.getFechaNacimiento().getTime() - resultadoActual.getFechaNacimiento().getTime()) < 1000);
+        assertEquals(artistaPrueba.getIdArtista(), resultadoActual.getIdArtista());
+        assertEquals(artistaPrueba.getPrimerNombre(), resultadoActual.getPrimerNombre());
+        assertEquals(artistaPrueba.getSegundoNombre(), resultadoActual.getSegundoNombre());
+        assertEquals(artistaPrueba.getPrimerApellido(), resultadoActual.getPrimerApellido());
+        assertEquals(artistaPrueba.getSegundoApellido(), resultadoActual.getSegundoApellido());
+        assertEquals(artistaPrueba.getNombreArtistico(), resultadoActual.getNombreArtistico());
+        assertEquals(artistaPrueba.getGenero(), resultadoActual.getGenero());
+        assertEquals(artistaPrueba.getFechaNacimiento(), resultadoActual.getFechaNacimiento());
+        assertTrue("Dates aren't close enough to each other!", Math.abs(
+                artistaPrueba.getFechaNacimiento().getTime() - resultadoActual.getFechaNacimiento().getTime()) < 1000);
     }
 
     /**
@@ -79,14 +83,15 @@ public class ArtistaDaoImplTest {
      * @throws java.lang.Exception
      */
     @Test
-    @Ignore
     public void testCrearArtista() throws Exception {
         System.out.println("crearArtista");
-        Artista artista = null;
-        ArtistaDaoImpl instance = new ArtistaDaoImpl();
-        instance.crearArtista(artista);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        daoArtista.crearArtista(artistaPrueba);
+        int idArtistaPrueba = daoArtista.getUltimmoIdArtista();
+        Artista artistaEsperado = artistaPrueba;
+        artistaEsperado.setIdArtista(idArtistaPrueba);
+        Artista artistaActual = daoArtista.obtenerArtista(idArtistaPrueba);
+
+        assertEquals(artistaEsperado, artistaActual);
     }
 
     /**
@@ -95,15 +100,17 @@ public class ArtistaDaoImplTest {
      * @throws java.lang.Exception
      */
     @Test
-    @Ignore
     public void testEliminarArtista() throws Exception {
         System.out.println("eliminarArtista");
-        String status = "";
-        int idArtista = 0;
-        ArtistaDaoImpl instance = new ArtistaDaoImpl();
-        instance.eliminarArtista(status, idArtista);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        String status = "I";
+        int idArtista = 6;
+        Artista artistaPruebaElim = artistaPrueba;
+        artistaPruebaElim.setStatus("I");
+        artistaPruebaElim.setIdArtista(idArtista);
+        daoArtista.eliminarArtista(status, idArtista);
+        Artista resultadoActual = daoArtista.obtenerArtista(idArtista);
+
+        assertEquals(artistaPruebaElim, resultadoActual);
     }
 
     /**
@@ -112,14 +119,29 @@ public class ArtistaDaoImplTest {
      * @throws java.lang.Exception
      */
     @Test
-    @Ignore
     public void testActualizarArtista() throws Exception {
         System.out.println("actualizarArtista");
-        Artista artista = null;
-        ArtistaDaoImpl instance = new ArtistaDaoImpl();
-        instance.actualizarArtista(artista);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        daoArtista.actualizarArtista(artistaPruebaAct);
+        Artista resultadoActual = daoArtista.obtenerArtista(7);
+
+        assertEquals(artistaPruebaAct, resultadoActual);
     }
 
+    /**
+     * Test of GetUltimmoIdArtista method, of class ArtistaDaoImpl.
+     *
+     * @throws java.lang.Exception
+     */
+    @Test
+    public void testGetUltimmoIdArtista() throws Exception {
+        System.out.println("getUltimmoIdArtista");
+
+        daoArtista.crearArtista(artistaPrueba);
+        pruebaLstArtista = daoArtista.obtenerArtistas();
+        int resultadoEsperado = pruebaLstArtista.get(pruebaLstArtista.size() - 1).getIdArtista();
+        int resultadoActual = daoArtista.getUltimmoIdArtista();
+
+        assertEquals(resultadoEsperado, resultadoActual);
+    }
 }

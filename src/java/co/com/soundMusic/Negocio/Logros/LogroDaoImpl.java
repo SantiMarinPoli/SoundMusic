@@ -1,45 +1,46 @@
-package co.com.soundMusic.Artista.Album;
+package co.com.soundMusic.Negocio.Logros;
 
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Santiago Medina Pelaez
  */
-public class AlbumDaoImpl implements IAlbumDao {
-    private Connection conexion;    
+public class LogroDaoImpl implements ILogroDao {
 
-    public AlbumDaoImpl() {
-        conexion = DBUtil.getConexion();        
+    private Connection conexion;
+
+    public LogroDaoImpl() {
+        conexion = DBUtil.getConexion();
     }
 
     @Override
-    public List<Album> obtenerAlbumes(int idUsuario) throws SQLException {
+    public List<Logro> obtenerLogros() throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Album obtenerAlbum(int idAlbum) throws SQLException {
+    public Logro obtenerLogro(int idLogro) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void crearAlbum(Album album) throws SQLException {
+    public void crearLogro(Logro logro) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void actualizarAlbum(Album album) throws SQLException {
+    public void eliminarLogro(int idLogro) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public void actualizarLogro(Logro logro) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

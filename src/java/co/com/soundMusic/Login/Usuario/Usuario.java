@@ -1,9 +1,9 @@
 package co.com.soundMusic.Login.Usuario;
 
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
-import co.com.soundMusic.Seguridad.Perfiles.Perfil;
+import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.Objects;
 
 /**
  *
@@ -18,16 +18,16 @@ public class Usuario {
     private String segundoApellido;
     private Date fechaCreacion;
     private String status;
-    private Perfil perfil;
-    private UsuarioLogin usuarioLogin;
-    private Contacto contacto;
+    private int idPerfil;
+    private int idUsuarioLogin;
+    private int idContacto;
 
     public Usuario() {
     }
 
     public Usuario(int idUsuario, String primerNombre, String segundoNombre,
             String primerApellido, String segundoApellido, Date fechaCreacion,
-            String status, Perfil perfil, UsuarioLogin usuarioLogin, Contacto contacto) {
+            String status, int idPerfil, int idUsuarioLogin, int idContacto) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -35,9 +35,19 @@ public class Usuario {
         this.segundoApellido = segundoApellido;
         this.fechaCreacion = fechaCreacion;
         this.status = status;
-        this.perfil = perfil;
-        this.usuarioLogin = usuarioLogin;
-        this.contacto = contacto;
+        this.idPerfil = idPerfil;
+        this.idUsuarioLogin = idUsuarioLogin;
+        this.idContacto = idContacto;
+    }
+
+    public Usuario(int idUsuario, String[] datosUsuario, Date fechaCreacion) {
+        this.idUsuario = idUsuario;
+        this.primerNombre = datosUsuario[0];
+        this.segundoNombre = datosUsuario[1];
+        this.primerApellido = datosUsuario[2];
+        this.segundoApellido = datosUsuario[3];
+        this.fechaCreacion = fechaCreacion;
+        this.status = datosUsuario[4];
     }
 
     public int getIdUsuario() {
@@ -96,34 +106,36 @@ public class Usuario {
         this.status = status;
     }
 
-    public Contacto getContacto() {
-        return contacto;
+    public int getIdContacto() {
+        return idContacto;
     }
 
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
+    public void setIdContacto(int idContacto) {
+        this.idContacto = idContacto;
     }
 
-    public UsuarioLogin getUsuarioLogin() {
-        return usuarioLogin;
+    public int getIdUsuarioLogin() {
+        return idUsuarioLogin;
     }
 
-    public void setUsuarioLogin(UsuarioLogin usuarioLogin) {
-        this.usuarioLogin = usuarioLogin;
+    public void setIdUsuarioLogin(int idUsuarioLogin) {
+        this.idUsuarioLogin = idUsuarioLogin;
     }
 
-    public Perfil getPerfil() {
-        return perfil;
+    public int getIdPerfil() {
+        return idPerfil;
     }
 
-    public void setPerfil(Perfil perfil) {
-        this.perfil = perfil;
+    public void setidPerfil(int idPerfil) {
+        this.idPerfil = idPerfil;
     }
 
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 11 * hash + this.idUsuario;
+        int hash = 7;
+        hash = 61 * hash + this.idUsuario;
+        hash = 61 * hash + Objects.hashCode(this.primerNombre);
+        hash = 61 * hash + Objects.hashCode(this.primerApellido);
         return hash;
     }
 
@@ -142,6 +154,12 @@ public class Usuario {
         if (this.idUsuario != other.idUsuario) {
             return false;
         }
+        if (!Objects.equals(this.primerNombre, other.primerNombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.primerApellido, other.primerApellido)) {
+            return false;
+        }
         return true;
     }
 
@@ -156,7 +174,8 @@ public class Usuario {
                 + ", status=" + status + '}';
     }
 
-    boolean ingresarUsuario(String nom_usuario, String password_us) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean ingresarUsuario(String nom_usuario, String password_us) throws SQLException {
+        UsuarioLoginDaoImpl usuarioLogin = new UsuarioLoginDaoImpl();
+        return usuarioLogin.sesionPermitida(nom_usuario, password_us);
     }
 }

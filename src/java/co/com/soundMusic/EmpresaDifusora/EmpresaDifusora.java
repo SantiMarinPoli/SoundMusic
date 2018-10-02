@@ -1,17 +1,20 @@
 package co.com.soundMusic.EmpresaDifusora;
 
 import java.sql.Date;
+import java.util.Objects;
 
 /**
  *
  * @author Santiago Medina Pelaez
  */
 public class EmpresaDifusora {
+
     private int idEmpresaDifusora;
     private String nombre;
     private Date fechaCreacion;
     private Date fechaTerminacion;
     private String status;
+    private String rutaImagen;
     private int idTipoActividad;
     private int idContacto;
     private int idCostoOperacion;
@@ -20,12 +23,13 @@ public class EmpresaDifusora {
     }
 
     public EmpresaDifusora(int idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
-            String status, int idTipoActividad, int idContacto, int idCostoOperacion) {
+            String status, String rutaImagen, int idTipoActividad, int idContacto, int idCostoOperacion) {
         this.idEmpresaDifusora = idEmpresaDifusora;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaTerminacion = fechaTerminacion;
         this.status = status;
+        this.rutaImagen = rutaImagen;
         this.idTipoActividad = idTipoActividad;
         this.idContacto = idContacto;
         this.idCostoOperacion = idCostoOperacion;
@@ -71,6 +75,14 @@ public class EmpresaDifusora {
         this.status = status;
     }
 
+    public String getRutaImagen (){
+        return rutaImagen;
+    }
+
+    public void setRutaImagen(String rutaImagen){
+        this.rutaImagen=rutaImagen;
+    }
+
     public int getIdTipoActividad() {
         return idTipoActividad;
     }
@@ -93,6 +105,35 @@ public class EmpresaDifusora {
 
     public void setIdContacto(int idContacto) {
         this.idContacto = idContacto;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 13 * hash + this.idEmpresaDifusora;
+        hash = 13 * hash + Objects.hashCode(this.nombre);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EmpresaDifusora other = (EmpresaDifusora) obj;
+        if (this.idEmpresaDifusora != other.idEmpresaDifusora) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        return true;
     }
 
 }

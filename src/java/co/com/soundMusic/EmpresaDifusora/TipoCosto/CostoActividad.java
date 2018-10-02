@@ -12,17 +12,15 @@ public class CostoActividad {
     private float costoPorOperacion;
     private Date fechaCreacion;
     private Date fechaUsoFinal;
-    private String status;
 
     public CostoActividad() {
     }
 
-    public CostoActividad(int idCostoActividad, float costoPorOperacion, Date fechaCreacion, Date fechaUsoFinal, String status) {
+    public CostoActividad(int idCostoActividad, float costoPorOperacion, Date fechaCreacion, Date fechaUsoFinal) {
         this.idCostoActividad = idCostoActividad;
         this.costoPorOperacion = costoPorOperacion;
         this.fechaCreacion = fechaCreacion;
         this.fechaUsoFinal = fechaUsoFinal;
-        this.status = status;
     }
 
     public int getIdCostoActividad() {
@@ -55,14 +53,6 @@ public class CostoActividad {
 
     public void setFechaUsoFinal(Date fechaUsoFinal) {
         this.fechaUsoFinal = fechaUsoFinal;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
 }
