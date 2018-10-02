@@ -6,30 +6,30 @@
     <div class="collapse navbar-collapse nav" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link " href="home.jsp">Home</a>
+                <a class="nav-link " href="home.jsp" id="home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="usuario.jsp">Usuarios</a>
+                <a class="nav-link" href="usuario.jsp" id="usuarios">Usuarios</a>
                 <!--<a class="nav-link" href="controladorUsuario?opcion=listarUsuarios">Usuarios</a>-->
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="empresa.jsp">Empresas Difusoras</a>
+                <a class="nav-link" href="empresa.jsp" id="empresas">Empresas Difusoras</a>
                <!-- <a class="nav-link" href="controladorEmpresaDifusora?opcion=listarEmpresa">Empresas Difusoras</a>-->
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="artista.jsp">Artistas</a>
+                <a class="nav-link" href="artista.jsp" id="artista">Artistas</a>
                 <!--<a class="nav-link" href="controladorArtista?opcion=listarArtista">Artistas</a>-->
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="regalias.jsp">Regalias</a>
+                <a class="nav-link" href="regalias.jsp" id="regalias">Regalias</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="auditoria.jsp">Log de Auditoria</a>
+                <a class="nav-link" href="auditoria.jsp" id="auditoria">Log de Auditoria</a>
             </li>            
         </ul>
         <div class="row">
             <div class="col display-flex">
-                <a href ="login.jsp" class="btn btn-danger" type="button" click="cerrarSesion()">Salir</a>
+                <a href ="login.jsp" class="btn btn-danger" type="button" click="cerrarSesion()" id="salir">Salir</a>
             </div>
         </div>
     </div>

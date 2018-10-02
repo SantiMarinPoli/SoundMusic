@@ -26,7 +26,7 @@
                     <div class="row">
                         
                         <div class="col">
-                            <a href="registrarUsuario.jsp" class="btn btn-success">Registrar Usuario</a>
+                            <a href="registrarUsuario.jsp" class="btn btn-success" id="registrarUsuario">Registrar Usuario</a>
                         </div>
                     </div>
 
