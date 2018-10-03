@@ -33,7 +33,7 @@
                                   <input type="password" name="password" class="form-control" id="textPassword" placeholder="Ingredar la contraseña">
                                 </div>
                             
-                            <button type="submit" class="btn btn-success btn-block" id="btnIngresar">Ingresar</button>
+                                <a href="home.jsp" class="btn btn-success btn-block" id="btnIngresar">Ingresar</a>
                         </form>
 
                     </div>
