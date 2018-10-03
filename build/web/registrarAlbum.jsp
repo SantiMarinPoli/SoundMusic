@@ -133,7 +133,7 @@
                                         <td>
                                             <span class="badge badge-primary">10</span>
                                         </td>
-                                        <td class="text-success">$500.000 COP</td>
+                                        <td class="text-success">$500.000 USD</td>
                                         <td>Spotify</td>
                                         <td>26/08/2018</td>
                                         <td>
