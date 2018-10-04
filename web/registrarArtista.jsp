@@ -115,7 +115,7 @@
 
                         </div>
 
-                        <input type="submit" value="Registrar Artista" class="btn btn-primary" id="btnGuardar">
+                        <input type="submit" value="Registrar Artista" class="btn btn-primary btn-block" id="btnGuardar">
                     </form>
                 </div>
             </div>

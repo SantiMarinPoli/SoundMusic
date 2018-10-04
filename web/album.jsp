@@ -29,62 +29,36 @@
                             <a href="registrarAlbum.jsp" class="btn btn-success" id="btnRegistrar">Registrar Album</a>
                         </div>
                     </div>
-
+                    
                     <br>
 
                     <table class="table">
                         <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre de Artista</th>
-                                <th scope="col">Foto</th>
-                                <th scope="col">Contrato</th>
-                                <th scope="col">Mes y Año</th>
-                                <th scope="col">Permisos</th>
-                                <th scope="col">Operaciones</th>
-                            </tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre Artista</th>
+                        <th scope="col">Foto Album</th>
+                        <th scope="col">Nombre del albun</th>
+                        <th scope="col">No. Cancion</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Empresa Difunsora</th>
+                        <th scope="col">Fecha Lanzamiento</th>
+                        <th></th>
                         </thead>
-
                         <tbody>
                             <tr>
-                                <td scope="row">1</td>
-                                <td>Avicci</td>
-                                <td><img src="img/art1.jpg"  class="img img-fluid icon-artista"/></td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Spotyfy</span>
+                                <th scope="row">1</th>
+                                <th>Avicci</th>
+                                <td>Wake Up</td>
+                                <td><img src="img/album/default/no-image.png"  class="img img-fluid icon-artista"/></td>
+                                <td>
+                                    <span class="badge badge-primary">10</span>
                                 </td>
-                                <td>Abril 2018</td>
-                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
-                            </tr>
-
-                            <tr>
-                                <td scope="row">2</td>
-                                <td>Bad Bunny</td>
-                                <td><img src="img/art2.png"  class="img img-fluid icon-artista"/></td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Google Music</span>
+                                <td class="text-success">$500.000 USD</td>
+                                <td>Spotify</td>
+                                <td>26/08/2018</td>
+                                <td>
+                                    <button type="button" class="btn btn-warning">Actualizar</button>
                                 </td>
-
-                                <td>Agosto 2018</td>
-                                <td><a href="#" class="badge badge-danger btnActivar" activarUsuario="0">Inactivo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
-                            </tr>
-
-                            <tr>
-                                <td scope="row">3</td>
-                                <td>Guns And Roses</td>
-                                <td><img src="img/art3.png"  class="img img-fluid icon-artista"/></td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Spotyfy</span>
-                                    <span class="badge badge-primary">Itunes Music</span>
-                                </td>
-                                <td>Abril 2018</td>
-                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
                             </tr>
                         </tbody>
                     </table>

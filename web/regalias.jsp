@@ -26,15 +26,13 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <h4>Artista</h4>
-                    <hr>
-                    <br>
-
                     <div class="row">
                         <div class="col">
-                            <a href="caluloRegalias.jsp" class="btn btn-success">CalcularRegalias</a>
+                            <button href="caluloRegalias.jsp" class="btn btn-success" data-toggle="modal" data-target="#modalRegalias">Calcular Regalias</button>
                         </div>
                     </div>
+
+                    <br>
 
                     <table class="table">
                         <thead class="thead-dark">
@@ -43,6 +41,7 @@
                                 <th>Bonificacion</th>
                                 <th>Empresa Difunsora</th>
                                 <th>Fecha de Pago</th>
+                                <th>No# Operaciones</th>
                                 <th>Sueldo</th>
                                 <th></th>
                             </tr>
@@ -68,6 +67,60 @@
                         </tbody>
                     </table>
 
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalRegalias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Cacular la Regalia</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <form>
+
+                                        <input type="hidden" name="idRegalias" value="0">
+
+                                        <div class="form-group">
+                                            <label>Nombre del Artista*</label>
+                                            <select name="nomArtista" class="form-control">
+                                                <option>Seleccionar el nombre del artista</option>
+                                                <option value="Bad Bunny">Bad Bunny</option>
+                                                <option value="Avicci">Avicci</option>
+                                                <option value="Martin Garrix">Martin Garrix</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Nombre de la Empresa*</label>
+                                            <select name="nomEmpresa" class="form-control">
+                                                <option>Seleccionar la empresa</option>
+                                                <option value="Spotify">Spotify</option>
+                                                <option value="Napster">Napster</option>
+                                                <option value="!Music">!Music</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>No# Operaciones*</label>
+                                            <input type="number" name="numOp" id="numOp" class="form-control" placeholder=" numero de operaciones">
+                                            <div class="invalid-feedback">El campo numero de operaciones es obligatorio</div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Total Canciones</label>
+                                            <input type="text" name="totalCanciones" class="form-control" id="totalCanciones" value="$0.0" disabled>
+                                        </div>
+
+                                        <input type="submit" class="btn btn-primary btn-block" value="Guardar "/>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
             </div>

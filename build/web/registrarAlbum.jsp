@@ -57,7 +57,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Nombre del Albun*</label>
-                                <input type="text" class="form-control" id="textNomAlbun" placeholder="Ingresar el nuevo albun">
+                                <input type="text" class="form-control" id="textNomAlbun" placeholder="Ingresar el nuevo album">
                                 <div class="invalid-feedback">El campo nombre de albun es obligatorio</div>
 
                             </div>
@@ -91,13 +91,17 @@
 
                         <div class="form-row">
                             <div class="col">
-                                <label>Ciudad Realizacion*</label>
-                                <input type="text" name="ciudadAlbun" class="form-control" placeholder="Ingresar la ciudad ">
-                                <div class="invalid-feedback">El campo de ciudad es obligatorio</div>
+                                <label>Pais Realizacion*</label>
+                                <select name="ciudadAlbum" class="form-control">
+                                    <option>Seleccionar la ciudad</option>
+                                    <option value="Estados Unidos">Estados Unidos</option>
+                                    <option value="Colombia">Colombia</option>
+                                </select>
                             </div>
                             <div class="col">
-                                <label>Capital Realizacion</label>
-                                <input type="text" name="capital" id="capital" class="form-control" placeholder="Ingresar la capital">
+                                <label>Ciudad Realizacion*</label>
+                                <input type="text" name="ciudadAlbum" class="form-control" placeholder="Ingresar la ciudad ">
+                                <div class="invalid-feedback">El campo de ciudad es obligatorio</div>
                             </div>
                         </div>
 
@@ -109,42 +113,9 @@
                             <div class="invalid-feedback">El campo fecha finalizada es obligatorio</div>
                         </div>
 
-                        <div class="form-group">
-                            <button type="button" class="btn btn-outline-success">Agregar Cancion</button>
-                        </div>
                         <br>
 
-                        <div class="form-group">
-
-                            <table class="table">
-                                <thead class="thead-dark">
-                                <th scope="col">#</th>
-                                <th scope="col">Nombre del albun</th>
-                                <th scope="col">No. Cancion</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Empresa Difunsora</th>
-                                <th scope="col">Fecha Lanzamiento</th>
-                                <th></th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>Wake Up</td>
-                                        <td>
-                                            <span class="badge badge-primary">10</span>
-                                        </td>
-                                        <td class="text-success">$500.000 USD</td>
-                                        <td>Spotify</td>
-                                        <td>26/08/2018</td>
-                                        <td>
-                                            <button type="button" class="btn btn-danger">Borrar</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <input type="submit" value="Registrar Album" class="btn btn-primary" id="btnGuardar">
+                        <input type="submit" value="Registrar Album" class="btn btn-primary btn-block" id="btnGuardar">
                     </form>
                 </div>
             </div>
@@ -155,7 +126,6 @@
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
-        <script src="js/validacionArtista.js" type="text/javascript"></script>
     </body>
 
 </html>

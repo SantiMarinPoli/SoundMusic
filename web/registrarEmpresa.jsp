@@ -46,12 +46,7 @@
                             <div class="invalid-feedback">El campo nombre empresa debe ser obligatorio</div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Seleccionar una imagen de la empresa</label>
-                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
-                        </div>
-
-                        <div class="form-group bg-light radio">
+                        <div class="form-group radio">
                             <h8> Tipo de Empresa*</h8>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa1Txt" value="Audio">
