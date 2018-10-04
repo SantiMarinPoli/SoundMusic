@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,6 +19,29 @@ public class PerfilDaoImpl implements IPerfilDao {
 
     public PerfilDaoImpl() {
         conexion = DBUtil.getConexion();
+    }
+
+    @Override
+    public List<Perfil> obtenerPerfiles() throws SQLException {
+        List<Perfil> listaPerfiles = new ArrayList<>();
+        Statement stmt = conexion.createStatement();
+
+        String sql = "SELECT ID_PERFIL, INOMBRE_PERFIL\n"
+                + "FROM PERFIL ORDER BY ID_PERFIL \n";
+
+        ResultSet rs = stmt.executeQuery(sql);
+
+        while (rs.next()) {
+
+            int idPerfil = Integer.parseInt(rs.getString("ID_PERFIL"));
+            String nombrePerfil = rs.getString("NOMBRE_PERFIL");
+
+            Perfil perfil = new Perfil(idPerfil, nombrePerfil);
+            listaPerfiles.add(perfil);
+        }
+
+        stmt.close();
+        return listaPerfiles;
     }
 
     @Override
@@ -44,5 +70,10 @@ public class PerfilDaoImpl implements IPerfilDao {
 
         ps.setString(1, perfil.getNombrePerfil());
         ps.executeUpdate();
+    }
+
+    @Override
+    public void actualizarArtista(Perfil perfil) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

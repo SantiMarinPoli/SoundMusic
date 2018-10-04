@@ -73,4 +73,16 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
         }
         return false;
     }
+
+    public int getUltimmoIdUsuarioLogin() throws SQLException {
+        String sql = "SELECT USUARIO_LOGIN_SEQ.CURRVAL\n" + "FROM DUAL";
+
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery(sql);
+        while (rs.next()) {
+            int idUsuarioLogin = rs.getInt("CURRVAL");
+            return idUsuarioLogin;
+        }
+        return -1;
+    }
 }

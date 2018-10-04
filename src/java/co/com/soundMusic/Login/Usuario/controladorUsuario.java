@@ -3,14 +3,18 @@ package co.com.soundMusic.Login.Usuario;
 import co.com.soundMusic.Contacto.Ciudad.Ciudad;
 import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
 import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Contacto.ContactoDaoImpl;
 import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
+import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
+import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,26 +88,30 @@ public class controladorUsuario extends HttpServlet {
                 int idUsuario = Integer.parseInt((String) request.getParameter("IdUsuario"));
 
                 UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
-                try{
+                try {
                     daoUsuario.eliminarUsuario("I", idUsuario);
                     List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
-                    request.setAttribute("lstUsuario",lstUsuario);
+                    request.setAttribute("lstUsuario", lstUsuario);
                     RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
                     vista.forward(request, response);
-                }catch (SQLException ex) {
+                } catch (SQLException ex) {
                     System.out.println("Excepción: " + ex.getMessage());
                     Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (opcion.equals("crearUsuario")) {
                 try {
-                    PaisDaoImpl paisDao = new PaisDaoImpl();
+                    PaisDaoImpl daoPais = new PaisDaoImpl();
+                    List<Pais> lstPais = daoPais.obtenerPaises();
+                    request.setAttribute("lstPais", lstPais);
+
                     CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
                     List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                    List<Pais> lstPais = paisDao.obtenerPaises();
-
-                    request.setAttribute("lstPais", lstPais);
                     request.setAttribute("lstCiudad", lstCiudad);
+
+                    PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
+                    List<Perfil> lstPerfil = daoPerfil.obtenerPerfiles();
+                    request.setAttribute("lstPerfil", lstPerfil);
 
                     RequestDispatcher vista = request.getRequestDispatcher("/registrarUsuario.jsp");
                     vista.forward(request, response);
@@ -112,7 +120,29 @@ public class controladorUsuario extends HttpServlet {
                 }
             }
             if (opcion.equals("editar")) {
+                try {
+                    PaisDaoImpl daoPais = new PaisDaoImpl();
+                    List<Pais> lstPais = daoPais.obtenerPaises();
+                    request.setAttribute("lstPais", lstPais);
 
+                    CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
+                    List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
+                    request.setAttribute("lstCiudad", lstCiudad);
+
+                    PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
+                    List<Perfil> lstPerfil = daoPerfil.obtenerPerfiles();
+                    request.setAttribute("lstPerfil", lstPerfil);
+
+                    int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
+                    UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+                    Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
+                    request.setAttribute("usuario", usuario);
+
+                    RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
+                    vista.forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
@@ -170,26 +200,54 @@ public class controladorUsuario extends HttpServlet {
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
-        int idUsuario = Integer.parseInt(request.getParameter("cod"));
+        String nombreUsuario = request.getParameter("");
+        String contrasena = request.getParameter("");
+
+        UsuarioLogin usuarioLogin = new UsuarioLogin(0, nombreUsuario, contrasena);
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
+        daoUsuarioLogin.crearUsuarioLogin(usuarioLogin);
+        usuarioLogin.setIdUsuarioLogin(daoUsuarioLogin.getUltimmoIdUsuarioLogin());
+
+        String celular = request.getParameter("celular");
+        String telefono = request.getParameter("telefono");
+        String direccion = request.getParameter("direccion");
+        String barrio = request.getParameter("barrio");
+        String email = request.getParameter("email");
+        int idCiudad = Integer.parseInt(request.getParameter("IdCiudad"));
+
+        String[] datosContacto = {celular, telefono, direccion, barrio, email};
+
+        Contacto contacto = new Contacto(0, datosContacto, idCiudad);
+        ContactoDaoImpl daoCiudad = new ContactoDaoImpl();
+        daoCiudad.crearContacto(contacto);
+        int idContacto = daoCiudad.getUltimoIdContacto();
+
         String primerNombre = request.getParameter("");
         String segundoNombre = request.getParameter("");
         String primerApellido = request.getParameter("");
         String segundoApellido = request.getParameter("");
-        Date fechaCreacion = Date.valueOf(request.getParameter(""));
-        String satus = request.getParameter("");
+        Date fechaCreacion = Date.valueOf(LocalDate.now());
+        String satus = request.getParameter("A");
         int idPerfil = 0;
         int idUsuarioLogin = 0;
-        int idContacto = 0;
 
-        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion, satus, idPerfil, idUsuarioLogin, idContacto);
+        Usuario usuario = new Usuario(0, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion,
+                satus, idPerfil, idUsuarioLogin, idContacto);
 
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
         daoUsuario.crearUsuario(usuario);
 
     }
 
-    private void actulizarLstUsuario(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private void actulizarLstUsuario(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException, SQLException {
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+
+        List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
+        request.setAttribute("lstUsuario", lstUsuario);
+
+        RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
+        vista.forward(request, response);
     }
 
     private void editarArtista(HttpServletRequest request, HttpServletResponse response, int idUsuario)
