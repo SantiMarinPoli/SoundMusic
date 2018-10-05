@@ -40,16 +40,6 @@ public class Usuario {
         this.idContacto = idContacto;
     }
 
-    public Usuario(int idUsuario, String[] datosUsuario, Date fechaCreacion) {
-        this.idUsuario = idUsuario;
-        this.primerNombre = datosUsuario[0];
-        this.segundoNombre = datosUsuario[1];
-        this.primerApellido = datosUsuario[2];
-        this.segundoApellido = datosUsuario[3];
-        this.fechaCreacion = fechaCreacion;
-        this.status = datosUsuario[4];
-    }
-
     public int getIdUsuario() {
         return idUsuario;
     }
