@@ -18,6 +18,7 @@ public class Usuario {
     private String segundoApellido;
     private Date fechaCreacion;
     private String status;
+    private String genero;
     private int idPerfil;
     private int idUsuarioLogin;
     private int idContacto;
@@ -25,9 +26,7 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String primerNombre, String segundoNombre,
-            String primerApellido, String segundoApellido, Date fechaCreacion,
-            String status, int idPerfil, int idUsuarioLogin, int idContacto) {
+    public Usuario(int idUsuario, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaCreacion, String status, String genero, int idPerfil, int idUsuarioLogin, int idContacto) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -35,6 +34,7 @@ public class Usuario {
         this.segundoApellido = segundoApellido;
         this.fechaCreacion = fechaCreacion;
         this.status = status;
+        this.genero = genero;
         this.idPerfil = idPerfil;
         this.idUsuarioLogin = idUsuarioLogin;
         this.idContacto = idContacto;
@@ -167,5 +167,13 @@ public class Usuario {
     public boolean ingresarUsuario(String nom_usuario, String password_us) throws SQLException {
         UsuarioLoginDaoImpl usuarioLogin = new UsuarioLoginDaoImpl();
         return usuarioLogin.sesionPermitida(nom_usuario, password_us);
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 }
