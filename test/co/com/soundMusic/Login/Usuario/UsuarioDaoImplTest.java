@@ -32,10 +32,10 @@ public class UsuarioDaoImplTest {
         daoUsuario = new UsuarioDaoImpl();
 
         usuarioPrueba = new Usuario(1, "SANTIAGO", null, "MEDINA", "PELAEZ", Date.valueOf("2018-05-05"),
-                "A", 1, 1, 1);
+                "A","M" ,1, 1, 1);
 
         usuarioPruebaAct = new Usuario(1, "MELAY", null, "PALACIO", "FEONNEGRA", Date.valueOf("2018-05-05"),
-                "A", 1, 1, 1);
+                "A","F", 1, 1, 1);
     }
 
     /**

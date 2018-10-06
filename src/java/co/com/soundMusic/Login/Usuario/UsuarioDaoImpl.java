@@ -16,10 +16,10 @@ import java.util.List;
  */
 public class UsuarioDaoImpl implements IUsuarioDao {
 
-    private Connection conexion;    
+    private Connection conexion;
 
     public UsuarioDaoImpl() {
-        conexion = DBUtil.getConexion();        
+        conexion = DBUtil.getConexion();
     }
 
     @Override
@@ -28,7 +28,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
         Statement stmt = conexion.createStatement();
         String sql = "SELECT ID_USUARIO,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "FECHA_CREACION,STATUS,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO\n"
+                + "FECHA_CREACION,STATUS,GENERO,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO\n"
                 + "FROM USUARIO";
 
         ResultSet rs = stmt.executeQuery(sql);
@@ -41,12 +41,13 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
             Date fechaCreacion = rs.getDate("FECHA_CREACION");
             String status = rs.getString("STATUS");
+            String genero = rs.getString("GENERO");
             int idPerfilUsuario = rs.getInt("ID_PERFIL_USUARIO");
             int idLoginUsuario = rs.getInt("ID_LOGIN_USUARIO");
             int idContacto = rs.getInt("ID_CONTACTO_USUARIO");
 
-            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, 
-                    fechaCreacion, status, idPerfilUsuario, idLoginUsuario, idContacto);
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido,
+                    fechaCreacion, status, genero, idPerfilUsuario, idLoginUsuario, idContacto);
             listaUsuarios.add(usuario);
         }
 
@@ -57,7 +58,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     @Override
     public Usuario obtenerUsuario(int idUsuario) throws SQLException {
         String sql = "SELECT ID_USUARIO,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "FECHA_CREACION,STATUS,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO\n"
+                + "FECHA_CREACION,STATUS,GENERO,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO\n"
                 + "FROM USUARIO\n"
                 + "WHERE ID_USUARIO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
@@ -71,12 +72,13 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
             Date fechaCreacion = rs.getDate("FECHA_CREACION");
             String status = rs.getString("STATUS");
+            String genero = rs.getString("GENERO");
             int idPerfilUsuario = rs.getInt("ID_PERFIL_USUARIO");
             int idLoginUsuario = rs.getInt("ID_LOGIN_USUARIO");
             int idContacto = rs.getInt("ID_CONTACTO_USUARIO");
-            
-            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido, 
-            fechaCreacion, status, idPerfilUsuario, idLoginUsuario, idContacto);
+
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre, primerApellido, segundoApellido,
+                    fechaCreacion, status, genero, idPerfilUsuario, idLoginUsuario, idContacto);
 
             return usuario;
         }
@@ -87,8 +89,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     @Override
     public void crearUsuario(Usuario usuario) throws SQLException {
         String sql = "INSERT INTO USUARIO (PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "FECHA_CREACION,STATUS,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO)\n"
-                + "VALUES (?,?,?,?,?,?,?,?,?)";
+                + "FECHA_CREACION,STATUS,GENERO,ID_PERFIL_USUARIO,ID_LOGIN_USUARIO,ID_CONTACTO_USUARIO)\n"
+                + "VALUES (?,?,?,?,?,?,?,?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
         ps.setString(1, usuario.getPrimerNombre());
@@ -97,9 +99,10 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         ps.setString(4, usuario.getSegundoApellido());
         ps.setDate(5, usuario.getFechaCreacion());
         ps.setString(6, usuario.getStatus());
-        ps.setInt(7, usuario.getIdPerfil());
-        ps.setInt(8, usuario.getIdUsuarioLogin());
-        ps.setInt(9, usuario.getIdContacto());
+        ps.setString(7, usuario.getGenero());
+        ps.setInt(8, usuario.getIdPerfil());
+        ps.setInt(9, usuario.getIdUsuarioLogin());
+        ps.setInt(10, usuario.getIdContacto());
         ps.executeUpdate();
     }
 
@@ -118,7 +121,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     public void actualizarUsuario(Usuario usuario) throws SQLException {
         String sql = "UPDATE USUARIO\n"
                 + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
-                + "FECHA_CREACION=?,STATUS=?,ID_PERFIL_USUARIO=?,ID_LOGIN_USUARIO=?,ID_CONTACTO_USUARIO=?\n"
+                + "FECHA_CREACION=?,STATUS=?, GENERO=?,ID_PERFIL_USUARIO=?,ID_LOGIN_USUARIO=?,ID_CONTACTO_USUARIO=?\n"
                 + "WHERE ID_USUARIO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
@@ -128,10 +131,11 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         ps.setString(4, usuario.getSegundoApellido());
         ps.setDate(5, usuario.getFechaCreacion());
         ps.setString(6, usuario.getStatus());
-        ps.setInt(7, usuario.getIdPerfil());
-        ps.setInt(8, usuario.getIdUsuarioLogin());
-        ps.setInt(9, usuario.getIdContacto());
-        ps.setInt(10, usuario.getIdUsuario());
+        ps.setString(7, usuario.getGenero());
+        ps.setInt(8, usuario.getIdPerfil());
+        ps.setInt(9, usuario.getIdUsuarioLogin());
+        ps.setInt(10, usuario.getIdContacto());
+        ps.setInt(11, usuario.getIdUsuario());
         ps.executeUpdate();
     }
 
