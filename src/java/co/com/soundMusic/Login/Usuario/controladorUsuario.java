@@ -265,7 +265,7 @@ public class controladorUsuario extends HttpServlet {
             String email = request.getParameter("email");
             
             int idContacto = Integer.parseInt(request.getParameter("idContacto"));
-            int idCiudad = Integer.parseInt(request.getParameter("IdCiudad"));
+            int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
             
             String[] datosContacto = {celular, telefono, direccion, barrio, email};
             
@@ -274,13 +274,12 @@ public class controladorUsuario extends HttpServlet {
             String primerNombre = request.getParameter("primerNombre");
             String segundoNombre = request.getParameter("segundoNombre");
             String primerApellido = request.getParameter("primerApellido");
-            String segundoApellido = request.getParameter("segundoApellido");
-            Date fechaCreacion = Date.valueOf(LocalDate.now());
+            String segundoApellido = request.getParameter("segundoApellido");            
             
             int idPerfil = Integer.parseInt(request.getParameter("idPerfil"));
             
             Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, fechaCreacion, "A",
+                    primerApellido, segundoApellido, null, "A",
                     idPerfil, idUsuarioLogin, contacto.getIdContacto());
             
             ContactoDaoImpl daoContacto = new ContactoDaoImpl();

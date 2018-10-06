@@ -30,13 +30,12 @@ public class UsuarioDaoImplTest {
     @After
     public void tearDown() {
         daoUsuario = new UsuarioDaoImpl();
-        String[] datosUsuario = {"SANTIAGO", null, "MEDINA", "PELAEZ", "A"};
-        Date fecha = Date.valueOf("2018-05-05");
 
-        usuarioPrueba = new Usuario(1, datosUsuario, fecha);
+        usuarioPrueba = new Usuario(1, "SANTIAGO", null, "MEDINA", "PELAEZ", Date.valueOf("2018-05-05"),
+                "A", 1, 1, 1);
 
-        String[] datosUsuarioAct = {"MELAY", null, "PALACIO", "FEONNEGRA", "A"};
-        usuarioPruebaAct = new Usuario(1, datosUsuarioAct, Date.valueOf("2018-05-05"));
+        usuarioPruebaAct = new Usuario(1, "MELAY", null, "PALACIO", "FEONNEGRA", Date.valueOf("2018-05-05"),
+                "A", 1, 1, 1);
     }
 
     /**
