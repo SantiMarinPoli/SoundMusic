@@ -7,10 +7,9 @@ import java.util.List;
  *
  * @author Santiago Medina Pelaez
  */
-public interface ICostoActividadDao {
-    List<CostoActividad> obtenerCostoActividad() throws SQLException;
+public interface ICostoActividadDao {    
     CostoActividad obtenerCostoActividad (int idCostoActividad) throws SQLException;
-    void crearCostoActividad(CostoActividad costoActividad) throws SQLException;
-    void eliminarCostoActividad (String status) throws SQLException;
+    void crearCostoActividad(CostoActividad costoActividad) throws SQLException;    
     void actualizarCostoActividad (CostoActividad costoActividad) throws SQLException;
+    int getUltimoIdCostoActividad() throws SQLException;
 }

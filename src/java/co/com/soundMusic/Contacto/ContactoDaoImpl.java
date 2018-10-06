@@ -13,12 +13,10 @@ import java.sql.SQLException;
  */
 public class ContactoDaoImpl implements IContactoDao {
 
-    private Connection conexion;
-    private CiudadDaoImpl ciudad;
+    private Connection conexion;    
 
     public ContactoDaoImpl() {
-        conexion = DBUtil.getConexion();
-        ciudad = new CiudadDaoImpl();
+        conexion = DBUtil.getConexion();        
     }
 
     @Override
