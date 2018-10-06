@@ -1,9 +1,16 @@
 package co.com.soundMusic.Login.Usuario;
 
+import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Contacto.ContactoDaoImpl;
+import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
+import co.com.soundMusic.Seguridad.Perfiles.Perfil;
+import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,11 +29,17 @@ public class Usuario {
     private int idPerfil;
     private int idUsuarioLogin;
     private int idContacto;
+    private Perfil perfil;
+    private Contacto contacto;
+    private UsuarioLogin usuarioLogin;
 
     public Usuario() {
     }
 
-    public Usuario(int idUsuario, String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaCreacion, String status, String genero, int idPerfil, int idUsuarioLogin, int idContacto) {
+    public Usuario(int idUsuario, String primerNombre, String segundoNombre,
+            String primerApellido, String segundoApellido, Date fechaCreacion,
+            String status, String genero, int idPerfil, int idUsuarioLogin,
+            int idContacto) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -120,6 +133,38 @@ public class Usuario {
         this.idPerfil = idPerfil;
     }
 
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public Perfil getPerfil() {
+        return perfil;
+    }
+
+    public void setPerfil(Perfil perfil) {
+        this.perfil = perfil;
+    }
+
+    public Contacto getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
+    }
+
+    public UsuarioLogin getUsuarioLogin() {
+        return usuarioLogin;
+    }
+
+    public void setUsuarioLogin(UsuarioLogin usuarioLogin) {
+        this.usuarioLogin = usuarioLogin;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
@@ -165,15 +210,35 @@ public class Usuario {
     }
 
     public boolean ingresarUsuario(String nom_usuario, String password_us) throws SQLException {
-        UsuarioLoginDaoImpl usuarioLogin = new UsuarioLoginDaoImpl();
-        return usuarioLogin.sesionPermitida(nom_usuario, password_us);
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
+        return daoUsuarioLogin.sesionPermitida(nom_usuario, password_us);
     }
 
-    public String getGenero() {
-        return genero;
+    public void obtenerContactoUsuario() {
+        ContactoDaoImpl daoContacto = new ContactoDaoImpl();
+        try {
+            this.setContacto(daoContacto.obtenerContacto(this.idContacto));
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
-    public void setGenero(String genero) {
-        this.genero = genero;
+    public void obtenerPerfilUsuario() {
+        PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
+        try {
+            this.setPerfil(daoPerfil.obtenerPerfil(this.idPerfil));
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
+
+    public void obtenerUsuarioLogin() {
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
+        try {
+            this.setUsuarioLogin(daoUsuarioLogin.obtenerUsuarioLogin(this.idUsuarioLogin));
+        } catch (SQLException ex) {
+            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
 }

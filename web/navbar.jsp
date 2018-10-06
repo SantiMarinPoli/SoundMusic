@@ -9,8 +9,8 @@
                 <a class="nav-link " href="home.jsp" id="home">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="usuario.jsp" id="usuarios">Usuarios</a>
-                <!--<a class="nav-link" href="controladorUsuario?opcion=listarUsuarios">Usuarios</a>-->
+                <!--<a class="nav-link" href="usuario.jsp" id="usuarios">Usuarios</a>-->
+                <a class="nav-link" href="controladorUsuario?opcion=listarUsuarios">Usuarios</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="empresa.jsp" id="empresas">Empresas Difusoras</a>

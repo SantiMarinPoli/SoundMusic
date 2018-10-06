@@ -26,8 +26,8 @@ public class PerfilDaoImpl implements IPerfilDao {
         List<Perfil> listaPerfiles = new ArrayList<>();
         Statement stmt = conexion.createStatement();
 
-        String sql = "SELECT ID_PERFIL, INOMBRE_PERFIL\n"
-                + "FROM PERFIL ORDER BY ID_PERFIL \n";
+        String sql = "SELECT ID_PERFIL, NOMBRE_PERFIL\n"
+                + "FROM PERFIL ORDER BY ID_PERFIL";
 
         ResultSet rs = stmt.executeQuery(sql);
 
@@ -48,7 +48,7 @@ public class PerfilDaoImpl implements IPerfilDao {
     public Perfil obtenerPerfil(int idPerfil) throws SQLException {
         String sql = "SELECT NOMBRE_PERFIL\n"
                 + "FROM PERFIL\n"
-                + "WHERE= ID_PERFIL=?;";
+                + "WHERE ID_PERFIL=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idPerfil);
         ResultSet rs = ps.executeQuery();

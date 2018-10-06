@@ -1,6 +1,8 @@
 package co.com.soundMusic.Login.Usuario;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.List;
 import org.junit.After;
 import org.junit.Before;
@@ -15,7 +17,7 @@ import org.junit.Ignore;
 public class UsuarioDaoImplTest {
 
     UsuarioDaoImpl daoUsuario;
-    Usuario usuarioPrueba, usuarioPruebaAct;
+    Usuario usuarioPruebaAct;
     List<Usuario> pruebaLstUsuario;
 
     public UsuarioDaoImplTest() {
@@ -31,22 +33,19 @@ public class UsuarioDaoImplTest {
     public void tearDown() {
         daoUsuario = new UsuarioDaoImpl();
 
-        usuarioPrueba = new Usuario(1, "SANTIAGO", null, "MEDINA", "PELAEZ", Date.valueOf("2018-05-05"),
-                "A","M" ,1, 1, 1);
-
         usuarioPruebaAct = new Usuario(1, "MELAY", null, "PALACIO", "FEONNEGRA", Date.valueOf("2018-05-05"),
-                "A","F", 1, 1, 1);
+                "A", "F", 1, 1, 1);
     }
 
     /**
      * Test of obtenerUsuarios method, of class UsuarioDaoImpl.
      *
-     * @throws java.lang.Exception
+     * @throws java.lang.reflect.InvocationTargetException
+     * @throws java.sql.SQLException
      */
     @Test
-    public void testObtenerUsuarios() throws Exception {
+    public void testObtenerUsuarios() throws InvocationTargetException,SQLException {
         System.out.println("obtenerUsuarios");
-        List<Usuario> expResult = null;
         List<Usuario> resultadoActual = daoUsuario.obtenerUsuarios();
         assertFalse(resultadoActual.isEmpty());
     }
@@ -57,17 +56,13 @@ public class UsuarioDaoImplTest {
      * @throws java.lang.Exception
      */
     @Test
-    @Ignore
     public void testObtenerUsuario() throws Exception {
         System.out.println("obtenerUsuario");
         int idUsuario = 1;
+        Usuario usuarioPrueba = new Usuario(1, "SANTIAGO", null, "MEDINA", "PELAEZ", Date.valueOf("2018-05-05"),
+                "A", "M", 1, 1, 1);
         Usuario resultadoActual = daoUsuario.obtenerUsuario(idUsuario);
-        assertEquals(usuarioPrueba.getIdUsuario(), resultadoActual.getIdUsuario());
-        assertEquals(usuarioPrueba.getPrimerNombre(), resultadoActual.getPrimerNombre());
-        assertEquals(usuarioPrueba.getSegundoNombre(), resultadoActual.getSegundoNombre());
-        assertEquals(usuarioPrueba.getPrimerApellido(), resultadoActual.getPrimerApellido());
-        assertEquals(usuarioPrueba.getSegundoApellido(), resultadoActual.getSegundoApellido());
-        assertEquals(usuarioPrueba.getStatus(), resultadoActual.getStatus());
+        assertEquals(usuarioPrueba, resultadoActual);
     }
 
     /**
@@ -78,14 +73,14 @@ public class UsuarioDaoImplTest {
     @Test
     @Ignore
     public void testCrearUsuario() throws Exception {
-        System.out.println("crearUsuario");
+        /*System.out.println("crearUsuario");
         daoUsuario.crearUsuario(usuarioPrueba);
         int idUsuarioPrueba = daoUsuario.getUltimoIdUsuario();
         Usuario usuarioEsperado = usuarioPrueba;
         usuarioEsperado.setIdUsuario(idUsuarioPrueba);
         Usuario usuarioActual = daoUsuario.obtenerUsuario(idUsuarioPrueba);
 
-        assertEquals(usuarioEsperado, usuarioActual);
+        assertEquals(usuarioEsperado, usuarioActual);*/
     }
 
     /**
@@ -96,7 +91,7 @@ public class UsuarioDaoImplTest {
     @Test
     @Ignore
     public void testEliminarUsuario() throws Exception {
-        System.out.println("eliminarUsuario");
+        /*System.out.println("eliminarUsuario");
         String status = "I";
         int idUsuario = 1;
         Usuario usuarioPruebaElim = usuarioPrueba;
@@ -104,7 +99,7 @@ public class UsuarioDaoImplTest {
         daoUsuario.eliminarUsuario(status, idUsuario);
         Usuario resultadoActual = daoUsuario.obtenerUsuario(idUsuario);
 
-        assertEquals(usuarioPruebaElim, resultadoActual);
+        assertEquals(usuarioPruebaElim, resultadoActual);*/
     }
 
     /**
@@ -115,12 +110,12 @@ public class UsuarioDaoImplTest {
     @Test
     @Ignore
     public void testActualizarUsuario() throws Exception {
-        System.out.println("actualizarUsuario");
+        /* System.out.println("actualizarUsuario");
 
         daoUsuario.actualizarUsuario(usuarioPruebaAct);
         Usuario resultadoActual = daoUsuario.obtenerUsuario(1);
 
-        assertEquals(usuarioPruebaAct, resultadoActual);
+        assertEquals(usuarioPruebaAct, resultadoActual);*/
     }
 
 }
