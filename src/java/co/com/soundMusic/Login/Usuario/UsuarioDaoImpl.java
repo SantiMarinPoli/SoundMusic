@@ -1,8 +1,5 @@
 package co.com.soundMusic.Login.Usuario;
 
-import co.com.soundMusic.Contacto.ContactoDaoImpl;
-import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
-import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.Date;
@@ -20,15 +17,9 @@ import java.util.List;
 public class UsuarioDaoImpl implements IUsuarioDao {
 
     private Connection conexion;
-    private ContactoDaoImpl daoContacto;
-    private UsuarioLoginDaoImpl daoUsuarioLogin;
-    private PerfilDaoImpl daoPerfil;
 
     public UsuarioDaoImpl() {
         conexion = DBUtil.getConexion();
-        daoContacto = new ContactoDaoImpl();
-        daoUsuarioLogin = new UsuarioLoginDaoImpl();
-        daoPerfil = new PerfilDaoImpl();
     }
 
     @Override
@@ -55,14 +46,14 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
             int idContacto = rs.getInt("ID_CONTACTO");
 
-            Usuario usuario=new Usuario(idUsuario, primerNombre, segundoNombre, 
-                    primerApellido, segundoApellido, fechaCreacion, status, 
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                    primerApellido, segundoApellido, fechaCreacion, status,
                     genero, idPerfilUsuario, idLoginUsuario, idContacto);
-                                 
+
             usuario.obtenerContactoUsuario();
             usuario.obtenerPerfilUsuario();
             usuario.obtenerUsuarioLogin();
-            
+
             listaUsuarios.add(usuario);
         }
 
@@ -92,14 +83,14 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
             int idContacto = rs.getInt("ID_CONTACTO");
 
-            Usuario usuario=new Usuario(idUsuario, primerNombre, segundoNombre, 
-                    primerApellido, segundoApellido, fechaCreacion, status, 
+            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                    primerApellido, segundoApellido, fechaCreacion, status,
                     genero, idPerfilUsuario, idLoginUsuario, idContacto);
 
             usuario.obtenerContactoUsuario();
             usuario.obtenerPerfilUsuario();
             usuario.obtenerUsuarioLogin();
-            
+
             return usuario;
         }
 

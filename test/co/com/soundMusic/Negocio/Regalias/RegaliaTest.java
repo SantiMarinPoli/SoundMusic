@@ -39,7 +39,7 @@ public class RegaliaTest {
         artista = new Artista(1, datosArtista, fechasArtista, 1);
 
         empresaDifusora = new EmpresaDifusora(1, "YOUTUBE", Date.valueOf("2018-06-01"), null, "A",null ,1, 1, 1);
-        artistaEmpresa = new ArtistaEmpresa(1, artista, empresaDifusora);
+        artistaEmpresa = new ArtistaEmpresa(1, 1, 1);
 
         costo = new CostoActividad(1, 10, Date.valueOf("2018-08-08"), null);
 
