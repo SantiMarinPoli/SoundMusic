@@ -8,6 +8,7 @@ import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -192,10 +193,7 @@ public class Usuario {
         if (!Objects.equals(this.primerNombre, other.primerNombre)) {
             return false;
         }
-        if (!Objects.equals(this.primerApellido, other.primerApellido)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.primerApellido, other.primerApellido);
     }
 
     @Override
@@ -209,9 +207,16 @@ public class Usuario {
                 + ", status=" + status + '}';
     }
 
-    public boolean ingresarUsuario(String nom_usuario, String password_us) throws SQLException {
-        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
-        return daoUsuarioLogin.sesionPermitida(nom_usuario, password_us);
+    public Object obtenerUsuarioLogeado(String nom_usuario, String password_us) throws SQLException {
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
+        for (Usuario usuario : lstUsuario) {
+            if (usuario.getUsuarioLogin().getNombreUsuario().equalsIgnoreCase(nom_usuario)
+                    & usuario.getUsuarioLogin().getContrasena().equalsIgnoreCase(password_us)) {
+                return usuario;
+            }
+        }
+        return null;
     }
 
     public void obtenerContactoUsuario() {

@@ -161,6 +161,5 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             return idUsuario;
         }
         return -1;
-    }
-
+    }               
 }
