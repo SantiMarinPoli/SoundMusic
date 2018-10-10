@@ -61,13 +61,6 @@ public class controladorUsuario extends HttpServlet {
             throws ServletException, IOException {
         String opcion = (String) request.getParameter("opcion");
         if (opcion != null) {
-            if (opcion.equalsIgnoreCase("iniciarSesion")) {
-                try {
-                    iniciarSesion(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
             if (opcion.equals("listarUsuarios")) {
                 try {
                     mostrarPaginaUsuario(request, response);
@@ -162,7 +155,7 @@ public class controladorUsuario extends HttpServlet {
             }
             if (operacion.equals("editar")) {
                 int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));
-                editarArtista(request, response, idUsuario);
+                editarUsuario(request, response, idUsuario);
             }
         }
     }
@@ -238,7 +231,7 @@ public class controladorUsuario extends HttpServlet {
         daoUsuario.crearUsuario(usuario);
     }
 
-    private void editarArtista(HttpServletRequest request, HttpServletResponse response, int idUsuario)
+    private void editarUsuario(HttpServletRequest request, HttpServletResponse response, int idUsuario)
             throws IOException, NumberFormatException, ServletException {
         try {
             String nombreUsuario = request.getParameter("nombreUsuario");
@@ -282,31 +275,6 @@ public class controladorUsuario extends HttpServlet {
             mostrarPaginaUsuario(request, response);
         } catch (SQLException ex) {
             throw new ServletException(ex);
-        }
-    }
-
-    private void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        //response.setContentType("text/html;charset=UTF-8");
-
-        String nomUsuario = request.getParameter("loginNombreUsuario");
-        String password = request.getParameter("loginPassword");
-
-        Usuario usuario = new Usuario();
-        usuario = (Usuario) usuario.obtenerUsuarioLogeado(nomUsuario, password);
-
-        if (usuario.getUsuarioLogin().getNombreUsuario().equalsIgnoreCase(nomUsuario)
-                & usuario.getUsuarioLogin().getContrasena().equalsIgnoreCase(password)) {
-
-            HttpSession objSesion = request.getSession(true);
-            objSesion.setAttribute("nomUsuario", nomUsuario);
-            
-            LogAuditoriaDaoImpl daoLogAuditoria= new LogAuditoriaDaoImpl();
-            daoLogAuditoria.crearLog(new LogAuditoria(0, Date.valueOf(LocalDate.now()),
-                    usuario, 1)); //1 representa fila 1 de tabla permiso= Iniciar Sesion.
-
-            response.sendRedirect("home.jsp");
-        } else {
-            response.sendRedirect("login.jsp");
         }
     }
 

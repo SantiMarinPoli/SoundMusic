@@ -22,12 +22,12 @@
                 <div class="col-md-4 col-sm-4 col-xs-12">
 
 
-                    <form action="controladorUsuario" class="form-container" method="get">
+                    <form action="controladorLogin" class="form-container" method="get">
                         <input type ="hidden" name="opcion" value="iniciarSesion" />
                         <h1>Iniciar Sesion</h1>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Nombre del Usuario</label>
-                            <input type="email" name="loginNombreUsuario" class="form-control" id="textUsuario" placeholder="Ingresar el nombre del usuario">
+                            <input type="text" name="loginNombreUsuario" class="form-control" id="textUsuario" placeholder="Ingresar el nombre del usuario">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Contraseña</label>

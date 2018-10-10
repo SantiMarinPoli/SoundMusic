@@ -9,8 +9,8 @@ import java.util.List;
  */
 public interface IArtistaEmpresaDao {
      List<ArtistaEmpresa> obtenerTodoArtistaEmpresa() throws SQLException;
-     List<Artista> obtenerArtistasPorEmpresa(int idEmpresaDifusora) throws SQLException;
-     List<EmpresaDifusora> obtenerEmpresasPorArtista(int idArtista) throws SQLException;
+     List<Artista> obtenerArtistasPorEmpresa(int idArtista) throws SQLException;
+     List<EmpresaDifusora> obtenerEmpresasPorArtista(int idEmpresaDifusora) throws SQLException;
      ArtistaEmpresa obtenerArtistaEmpresa(int idArtistaEmpresa) throws SQLException;
      void crearArtistaEmpresa(ArtistaEmpresa artistaEmpresa) throws SQLException;
      void eliminarArtistaEmpresa(int idArtistaEmpresa) throws SQLException;

@@ -1,7 +1,11 @@
 package co.com.soundMusic.EmpresaDifusora;
 
+import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -75,12 +79,12 @@ public class EmpresaDifusora {
         this.status = status;
     }
 
-    public String getRutaImagen (){
+    public String getRutaImagen() {
         return rutaImagen;
     }
 
-    public void setRutaImagen(String rutaImagen){
-        this.rutaImagen=rutaImagen;
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public int getIdTipoActividad() {
@@ -136,4 +140,13 @@ public class EmpresaDifusora {
         return true;
     }
 
+    public int getNumeroArtistas() {
+        ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl();
+        try {
+            return daoArtistaEmpresa.obtenerEmpresasPorArtista(this.idEmpresaDifusora).size();
+        } catch (SQLException ex) {
+            Logger.getLogger(EmpresaDifusora.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
 }
