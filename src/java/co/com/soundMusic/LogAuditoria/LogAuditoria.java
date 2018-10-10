@@ -2,8 +2,11 @@ package co.com.soundMusic.LogAuditoria;
 
 import co.com.soundMusic.Seguridad.Permisos.Permisos;
 import co.com.soundMusic.Login.Usuario.Usuario;
+import co.com.soundMusic.Seguridad.Permisos.PermisosDaoImpl;
 import java.sql.Date;
-import java.sql.Time;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,19 +16,18 @@ public class LogAuditoria {
 
     private int idLogAuditoria;
     private Date fecha;
-    private Time hora;
     private Usuario usuario;
     private Permisos operaciones;
+    private int idPermiso;
 
     public LogAuditoria() {
     }
 
-    public LogAuditoria(int idLogAuditoria, Date fecha, Time hora, Usuario usuario, Permisos operaciones) {
+    public LogAuditoria(int idLogAuditoria, Date fecha, Usuario usuario, int idPermiso) {
         this.idLogAuditoria = idLogAuditoria;
         this.fecha = fecha;
-        this.hora = hora;
         this.usuario = usuario;
-        this.operaciones = operaciones;
+        this.idPermiso = idPermiso;
     }
 
     public int getIdLogAuditoria() {
@@ -44,14 +46,6 @@ public class LogAuditoria {
         this.fecha = fecha;
     }
 
-    public Time getHora() {
-        return hora;
-    }
-
-    public void setHora(Time hora) {
-        this.hora = hora;
-    }
-
     public Usuario getUsuario() {
         return usuario;
     }
@@ -68,4 +62,20 @@ public class LogAuditoria {
         this.operaciones = operaciones;
     }
 
+    public int getIdPermiso() {
+        return idPermiso;
+    }
+
+    public void setIdPermiso(int idPermiso) {
+        this.idPermiso = idPermiso;
+    }
+
+    public void obtenerPermiso() {
+        PermisosDaoImpl daoPermisos = new PermisosDaoImpl();
+        try {
+            this.setOperaciones(daoPermisos.obtenerPermiso(this.idPermiso));
+        } catch (SQLException ex) {
+            Logger.getLogger(LogAuditoria.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

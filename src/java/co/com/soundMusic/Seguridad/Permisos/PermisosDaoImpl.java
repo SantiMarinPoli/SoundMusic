@@ -67,4 +67,22 @@ public class PermisosDaoImpl implements IPermisosDao {
         ps.executeUpdate();
     }
 
+    @Override
+    public void actualizarPermiso(Permisos permisos) throws SQLException {
+        String sql = "UPDATE PERMISO \n" + "SET NOMBRE_PERMISO=? \n" + "WHERE ID_PERMISO=?";
+        PreparedStatement ps= conexion.prepareStatement(sql);
+        
+        ps.setString(1, permisos.getNombrePermiso());
+        ps.setInt(2, permisos.getIdPermiso());
+        ps.executeUpdate();
+    }
+
+    @Override
+    public void eliminarPermiso(int idPermiso) throws SQLException {
+        String sql = "DELETE \n" + "FROM PERMISO \n" + "WHERE ID_PERMISO=?";
+        PreparedStatement ps = conexion.prepareStatement(sql);
+        ps.setInt(1, idPermiso);
+        ps.executeUpdate();
+    }
+
 }

@@ -6,12 +6,13 @@ import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.Contacto.ContactoDaoImpl;
 import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
+import co.com.soundMusic.LogAuditoria.LogAuditoria;
+import co.com.soundMusic.LogAuditoria.LogAuditoriaDaoImpl;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -298,6 +299,10 @@ public class controladorUsuario extends HttpServlet {
 
             HttpSession objSesion = request.getSession(true);
             objSesion.setAttribute("nomUsuario", nomUsuario);
+            
+            LogAuditoriaDaoImpl daoLogAuditoria= new LogAuditoriaDaoImpl();
+            daoLogAuditoria.crearLog(new LogAuditoria(0, Date.valueOf(LocalDate.now()),
+                    usuario, 1)); //1 representa fila 1 de tabla permiso= Iniciar Sesion.
 
             response.sendRedirect("home.jsp");
         } else {
