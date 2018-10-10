@@ -39,7 +39,7 @@
                                 <th scope="col">Nombre de Empresa</th>
                                 <th scope="col">Total Artista</th>
                                 <th scope="col">Total Albunes</th>
-                                <th scope="col">Fecha Creación</th>
+                                <th scope="col">Mes y Año</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>

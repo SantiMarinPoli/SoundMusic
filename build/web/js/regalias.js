@@ -4,8 +4,8 @@ $(function () {
 
         var idRegalias = $(this).attr("idRegalias");
         var activarRegalias = $(this).attr("activarRegalias");
-        
-       
+
+
         var datos = new FormData();
         datos.append("activarId", idRegalias);
         datos.append("activarRegalias", activarRegalias);
@@ -64,6 +64,119 @@ $(function () {
         }
 
     });
+
+
+    //CALCULAR LA OPERACION LA REGALIA DEL ARTISTA Y APARECE LOS LOGROS
+    $("input#numOp").on("keyup", function () {
+        var valor = $(this).val();
+        var total = 0;
+        var empresa = $("#nomEmpresa").val();
+//        $("input#totalCanciones").val(valor);
+        if (empresa == "Spotify") {
+            total = valor * 5;
+            $("input#totalOp").val("$" + total + " USD");
+            if (total >= 100.00) {
+                console.log("Disco de Oro");
+                setTimeout(function () {
+                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de Oro!", {
+                        ele: 'body', // which element to append to
+                        type: 'info', // (null, 'info', 'danger', 'success')
+                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 500, // (integer, or 'auto')
+                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                        allow_dismiss: true, // If true then will display a cross to close the popup.
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+                    });
+                }, 3000);
+            } else
+            if (total >= 50.00) {
+                console.log("Disco de Platino");
+                setTimeout(function () {
+                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de platino!", {
+                        ele: 'body', // which element to append to
+                        type: 'info', // (null, 'info', 'danger', 'success')
+                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 500, // (integer, or 'auto')
+                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                        allow_dismiss: true, // If true then will display a cross to close the popup.
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+                    });
+                }, 3000);
+            }
+
+        } else
+        if (empresa == "Napster") {
+            total = valor * 8;
+            $("input#totalOp").val("$" + total + " USD");
+            if (total >= 100.00) {
+                console.log("Disco de Oro");
+                setTimeout(function () {
+                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de Oro!", {
+                        ele: 'body', // which element to append to
+                        type: 'info', // (null, 'info', 'danger', 'success')
+                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 500, // (integer, or 'auto')
+                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                        allow_dismiss: true, // If true then will display a cross to close the popup.
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+                    });
+                }, 3000);
+            } else
+            if (total >= 50.00) {
+                console.log("Disco de Platino");
+                setTimeout(function () {
+                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de platino!", {
+                        ele: 'body', // which element to append to
+                        type: 'info', // (null, 'info', 'danger', 'success')
+                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 500, // (integer, or 'auto')
+                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                        allow_dismiss: true, // If true then will display a cross to close the popup.
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+                    });
+                }, 3000);
+            }
+        } else
+        if (empresa == "!Music") {
+            total = valor * 10;
+            $("input#totalOp").val("$" + total + " USD");
+            if (total >= 100.00) {
+                console.log("Disco de Oro");
+                setTimeout(function () {
+                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de Oro!", {
+                        ele: 'body', // which element to append to
+                        type: 'info', // (null, 'info', 'danger', 'success')
+                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 500, // (integer, or 'auto')
+                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                        allow_dismiss: true, // If true then will display a cross to close the popup.
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+                    });
+                }, 3000);
+            } else
+            if (total >= 50.00) {
+                console.log("Disco de Platino");
+                setTimeout(function () {
+                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de platino!", {
+                        ele: 'body', // which element to append to
+                        type: 'info', // (null, 'info', 'danger', 'success')
+                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                        align: 'center', // ('left', 'right', or 'center')
+                        width: 500, // (integer, or 'auto')
+                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                        allow_dismiss: true, // If true then will display a cross to close the popup.
+                        stackup_spacing: 10 // spacing between consecutively stacked growls.
+                    });
+                }, 3000);
+            }
+        }
+    });
+
 }());
 
 

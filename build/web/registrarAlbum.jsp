@@ -126,6 +126,7 @@
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
+        <script src="js/album.js" type="text/javascript"></script>
     </body>
 
 </html>

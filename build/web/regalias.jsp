@@ -79,7 +79,6 @@
                                 </div>
                                 <div class="modal-body">
                                     <form>
-
                                         <input type="hidden" name="idRegalias" value="0">
 
                                         <div class="form-group">
@@ -94,7 +93,7 @@
 
                                         <div class="form-group">
                                             <label>Nombre de la Empresa*</label>
-                                            <select name="nomEmpresa" class="form-control">
+                                            <select name="nomEmpresa"  id="nomEmpresa" class="form-control">
                                                 <option>Seleccionar la empresa</option>
                                                 <option value="Spotify">Spotify</option>
                                                 <option value="Napster">Napster</option>
@@ -109,8 +108,8 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Total Canciones</label>
-                                            <input type="text" name="totalCanciones" class="form-control" id="totalCanciones" value="$0.0" disabled>
+                                            <label>Total Operaciones</label>
+                                            <input type="text" name="totalOp" class="form-control" id="totalOp" value="$0.0" disabled>
                                         </div>
 
                                         <input type="submit" class="btn btn-primary btn-block" value="Guardar "/>
@@ -131,6 +130,7 @@
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
         <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
+        <script src="bootstrap/JS/jquery.bootstrap-growl.min.js" type="text/javascript"></script>
         <script src="js/regalias.js" type="text/javascript"></script>
         <script src="js/navbar.js" type="text/javascript"></script>
     </body>

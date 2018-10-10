@@ -38,9 +38,9 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre de Artista</th>
                                 <th scope="col">Foto</th>
-                                <th scope="col">Empresas</th>
-                                <th scope="col">Fecha Creación</th>
-                                <th scope="col">Estado</th>
+                                <th scope="col">Contrato</th>
+                                <th scope="col">Mes y Año</th>
+                                <th scope="col">Permisos</th>
                                 <th scope="col">Operaciones</th>
                             </tr>
                         </thead>
