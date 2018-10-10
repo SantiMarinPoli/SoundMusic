@@ -33,7 +33,11 @@
         </ul>
         <div class="row">
             <div class="col display-flex">
-                <a href ="login.jsp" class="btn btn-danger" type="button" click="cerrarSesion()" id="salir">Salir</a>
+                <!-- <a href ="login.jsp" class="btn btn-danger" type="button" click="cerrarSesion()" id="salir">Salir</a>>-->
+                <form action="controladorLogin" method="get">
+                    <input type ="hidden" name="opcion" value="cerrarSesion" />
+                    <input type="submit" value="Salir" class="btn btn-danger" click="cerrarSesion()" id="salir"/>
+                </form>
             </div>
         </div>
     </div>

@@ -75,6 +75,9 @@ public class controladorLogin extends HttpServlet {
                     Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            if (opcion.equalsIgnoreCase("cerrarSesion")) {
+                cerrarSesion(request, response);
+            }
         }
     }
 
@@ -102,14 +105,15 @@ public class controladorLogin extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-    private void iniciarSesion(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        //response.setContentType("text/html;charset=UTF-8");
-
+    private void iniciarSesion(HttpServletRequest request, HttpServletResponse response)
+            throws SQLException, IOException, ServletException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.getRequestDispatcher("login.jsp").include(request, response);
         String nomUsuario = request.getParameter("loginNombreUsuario");
         String password = request.getParameter("loginPassword");
+        HttpSession sessionUsuario = request.getSession(true);
         if (nomUsuario.equalsIgnoreCase("admin") & password.equalsIgnoreCase("admin")) {
-            HttpSession objSesion = request.getSession(true);
-            objSesion.setAttribute("nomUsuario", nomUsuario);
+            sessionUsuario.setAttribute("nomUsuario", nomUsuario);
             response.sendRedirect("home.jsp");
         } else {
             Usuario usuario = new Usuario();
@@ -118,8 +122,7 @@ public class controladorLogin extends HttpServlet {
             if (usuario.getUsuarioLogin().getNombreUsuario().equalsIgnoreCase(nomUsuario)
                     & usuario.getUsuarioLogin().getContrasena().equalsIgnoreCase(password)) {
 
-                HttpSession objSesion = request.getSession(true);
-                objSesion.setAttribute("nomUsuario", nomUsuario);
+                sessionUsuario.setAttribute("nomUsuario", nomUsuario);
 
                 LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
                 daoLogAuditoria.crearLog(new LogAuditoria(0, Date.valueOf(LocalDate.now()),
@@ -130,5 +133,14 @@ public class controladorLogin extends HttpServlet {
                 response.sendRedirect("login.jsp");
             }
         }
+    }
+
+    private void cerrarSesion(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        request.getRequestDispatcher("navbar.jsp").include(request, response);
+        HttpSession sessionUsuario = request.getSession();
+        sessionUsuario.invalidate();
+        response.sendRedirect("login.jsp");
     }
 }
