@@ -5,6 +5,7 @@ import co.com.soundMusic.Login.Usuario.Usuario;
 import co.com.soundMusic.Seguridad.Permisos.PermisosDaoImpl;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,6 +17,7 @@ public class LogAuditoria {
 
     private int idLogAuditoria;
     private Date fecha;
+    private Time hora;
     private Usuario usuario;
     private Permisos operaciones;
     private int idPermiso;
@@ -23,9 +25,11 @@ public class LogAuditoria {
     public LogAuditoria() {
     }
 
-    public LogAuditoria(int idLogAuditoria, Date fecha, Usuario usuario, int idPermiso) {
+    public LogAuditoria(int idLogAuditoria, Date fecha, Time hora, Usuario usuario,
+            int idPermiso) {
         this.idLogAuditoria = idLogAuditoria;
         this.fecha = fecha;
+        this.hora = hora;
         this.usuario = usuario;
         this.idPermiso = idPermiso;
     }
@@ -70,6 +74,14 @@ public class LogAuditoria {
         this.idPermiso = idPermiso;
     }
 
+    public Time getHora() {
+        return hora;
+    }
+
+    public void setHora(Time hora) {
+        this.hora = hora;
+    }
+
     public void obtenerPermiso() {
         PermisosDaoImpl daoPermisos = new PermisosDaoImpl();
         try {
@@ -79,4 +91,8 @@ public class LogAuditoria {
         }
     }
 
+    public String fechaYHora() {
+        String fechaYHora = this.fecha + " " + this.hora;
+        return fechaYHora;
+    }
 }

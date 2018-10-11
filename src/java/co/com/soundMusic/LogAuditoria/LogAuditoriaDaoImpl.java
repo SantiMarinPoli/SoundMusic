@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,15 +40,15 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
         while (rs.next()) {
             int idLogAuditoria = rs.getInt("ID_LOG_AUDITORIA");
             Date fecha = rs.getDate("FECHA");
+            Time hora = rs.getTime("FECHA");
             int idUsuario = rs.getInt("ID_USUARIO");
             int idOperaciones = rs.getInt("ID_OPERACION");
 
-            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha,
+            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha, hora,
                     usuario.obtenerUsuario(idUsuario),
                     idOperaciones);
 
             logAuditoria.obtenerPermiso();
-            
 
             listaLogAuditoria.add(logAuditoria);
         }
@@ -62,7 +63,7 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
                 + "VALUES (?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
-        ps.setDate(1, logAuditoria.getFecha());
+        ps.setString(1, "TO_DATE('" + logAuditoria.fechaYHora() + "', 'yyyy/mm/dd hh24:mi:ss')");
         ps.setInt(2, logAuditoria.getUsuario().getIdUsuario());
         ps.setInt(3, logAuditoria.getIdPermiso());
         ps.executeUpdate();
@@ -84,9 +85,10 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
         while (rs.next()) {
             int idLogAuditoria = rs.getInt("ID_LOG_AUDITORIA");
             Date fecha = rs.getDate("FECHA");
+            Time hora = rs.getTime("FECHA");
             int idOperaciones = rs.getInt("ID_OPERACION");
 
-            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha,
+            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha, hora,
                     usuario.obtenerUsuario(idUsuario),
                     idOperaciones);
 

@@ -27,7 +27,7 @@
                 out.print("<td>" + emDif.getNombre() + "</td>");
                 out.print("<td>" + emDif.getNumeroArtistas() + "</td>");
                 out.print("<td>" + emDif.getNumeroArtistas() + "</td>");
-                out.print("<td>0</td>");
+                out.print("<td>" + emDif.getFechaCreacion() + "</td>");
                 out.print("<td><a href='modificarEmpresa.jsp' class='btn btn-warning'>Actualizar</a></td>");
                 out.print("</tr>");
             }
