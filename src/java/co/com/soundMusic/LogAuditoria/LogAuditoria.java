@@ -78,4 +78,5 @@ public class LogAuditoria {
             Logger.getLogger(LogAuditoria.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
 }

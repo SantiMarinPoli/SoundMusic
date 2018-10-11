@@ -6,8 +6,6 @@ import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.Contacto.ContactoDaoImpl;
 import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
-import co.com.soundMusic.LogAuditoria.LogAuditoria;
-import co.com.soundMusic.LogAuditoria.LogAuditoriaDaoImpl;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;

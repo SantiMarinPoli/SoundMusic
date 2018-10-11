@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -69,7 +70,7 @@ public class controladorLogin extends HttpServlet {
         String opcion = (String) request.getParameter("opcion");
         if (opcion != null) {
             if (opcion.equalsIgnoreCase("iniciarSesion")) {
-                try {
+                try {                    
                     iniciarSesion(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);

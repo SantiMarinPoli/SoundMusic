@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -57,6 +56,9 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <%@include file="pruebasTablas/listaLogAuditoria.jsp" %>
+
                 </div>
             </div>
         </div>

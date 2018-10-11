@@ -28,7 +28,8 @@
                 <a class="nav-link" href="regalias.jsp" id="regalias">Regalias</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="auditoria.jsp" id="auditoria">Log de Auditoria</a>
+                <!--<a class="nav-link" href="auditoria.jsp" id="auditoria">Log de Auditoria</a>-->
+                <a class="nav-link" href="controladorLogAuditoria?opcion=listarLogAuditoria">Log de Auditoria</a>
             </li>            
         </ul>
         <div class="row">

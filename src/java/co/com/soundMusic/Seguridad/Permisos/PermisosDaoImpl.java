@@ -43,7 +43,7 @@ public class PermisosDaoImpl implements IPermisosDao {
     @Override
     public Permisos obtenerPermiso(int idPermisos) throws SQLException {
         String sql = "SELECT NOMBRE_PERMISO\n"
-                + "FROM PERMISO"
+                + "FROM PERMISO \n"
                 + "WHERE ID_PERMISO=?";
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idPermisos);

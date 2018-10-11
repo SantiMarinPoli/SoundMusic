@@ -1,6 +1,5 @@
 package co.com.soundMusic.LogAuditoria;
 
-import co.com.soundMusic.Seguridad.Permisos.PermisosDaoImpl;
 import co.com.soundMusic.Login.Usuario.UsuarioDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
@@ -30,7 +29,9 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
     public List<LogAuditoria> obtenerLogAuditoria() throws SQLException {
         List<LogAuditoria> listaLogAuditoria = new ArrayList<>();
 
-        String sql = "SELECT ID_LOG_AUDITORIA,FECHA,ID_USUARIO,ID_OPERACION\n" + "FROM LOG_AUDITORIA;";
+        String sql = "SELECT ID_LOG_AUDITORIA,FECHA,ID_USUARIO,ID_OPERACION\n"
+                + "FROM LOG_AUDITORIA \n"
+                + "ORDER BY ID_LOG_AUDITORIA";
 
         Statement stmt = conexion.createStatement();
         ResultSet rs = stmt.executeQuery(sql);
@@ -46,6 +47,7 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
                     idOperaciones);
 
             logAuditoria.obtenerPermiso();
+            
 
             listaLogAuditoria.add(logAuditoria);
         }
@@ -71,8 +73,9 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
         List<LogAuditoria> listaLogAuditoria = new ArrayList<>();
 
         String sql = "SELECT ID_LOG_AUDITORIA,FECHA,ID_USUARIO,ID_OPERACION\n"
-                + "FROM LOG_AUDITORIA;"
-                + "WHERE ID_USUARIO=?";
+                + "FROM LOG_AUDITORIA \n"
+                + "WHERE ID_USUARIO=? \n"
+                + "ORDER BY ID_LOG_AUDITORIA";
 
         PreparedStatement ps = conexion.prepareStatement(sql);
         ps.setInt(1, idUsuario);
@@ -80,7 +83,7 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
 
         while (rs.next()) {
             int idLogAuditoria = rs.getInt("ID_LOG_AUDITORIA");
-            Date fecha = rs.getDate("FECHA");            
+            Date fecha = rs.getDate("FECHA");
             int idOperaciones = rs.getInt("ID_OPERACION");
 
             LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha,
@@ -91,7 +94,7 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
 
             listaLogAuditoria.add(logAuditoria);
         }
-        
+
         return listaLogAuditoria;
     }
 }
