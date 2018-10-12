@@ -27,7 +27,7 @@
                 out.print("<td>" + logAud.getUsuario().getUsuarioLogin().getNombreUsuario() + "</td>");
                 out.print("<td>" + logAud.getUsuario().getPrimerNombre() + " " + logAud.getUsuario().getPrimerApellido() + "</td>");
                 out.print("<td>" + logAud.getUsuario().getPerfil().getNombrePerfil() + "</td>");
-                out.print("<td>" + logAud.getFecha() + "</td>");
+                out.print("<td>" + logAud.getFecha2()+ "</td>");
                 out.print("<td><span class='badge badge-primary'>" + logAud.getOperaciones().getNombrePermiso() + "</span></td>");
                 out.print("</tr>");
             }

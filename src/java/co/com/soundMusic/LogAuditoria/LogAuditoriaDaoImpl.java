@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,12 +41,11 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
 
         while (rs.next()) {
             int idLogAuditoria = rs.getInt("ID_LOG_AUDITORIA");
-            Date fecha = rs.getDate("FECHA");
-            Time hora = rs.getTime("FECHA");
+            Timestamp fecha = rs.getTimestamp("FECHA");
             int idUsuario = rs.getInt("ID_USUARIO");
             int idOperaciones = rs.getInt("ID_OPERACION");
 
-            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha, hora,
+            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha,
                     usuario.obtenerUsuario(idUsuario),
                     idOperaciones);
 
@@ -63,7 +64,7 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
                 + "VALUES (?,?,?)";
         PreparedStatement ps = conexion.prepareStatement(sql);
 
-        ps.setString(1, "TO_DATE('" + logAuditoria.fechaYHora() + "', 'yyyy/mm/dd hh24:mi:ss')");
+        ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
         ps.setInt(2, logAuditoria.getUsuario().getIdUsuario());
         ps.setInt(3, logAuditoria.getIdPermiso());
         ps.executeUpdate();
@@ -84,11 +85,10 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
 
         while (rs.next()) {
             int idLogAuditoria = rs.getInt("ID_LOG_AUDITORIA");
-            Date fecha = rs.getDate("FECHA");
-            Time hora = rs.getTime("FECHA");
+            Timestamp fecha = rs.getTimestamp("FECHA");
             int idOperaciones = rs.getInt("ID_OPERACION");
 
-            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha, hora,
+            LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha,
                     usuario.obtenerUsuario(idUsuario),
                     idOperaciones);
 

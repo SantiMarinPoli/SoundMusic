@@ -127,8 +127,7 @@ public class controladorLogin extends HttpServlet {
                 sessionUsuario.setAttribute("nomUsuario", nomUsuario);
 
                 LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
-                daoLogAuditoria.crearLog(new LogAuditoria(0, Date.valueOf(LocalDate.now()),
-                        Time.valueOf(LocalTime.now()), usuario, 1)); //1 representa fila 1 de tabla permiso= Iniciar Sesion.
+                daoLogAuditoria.crearLog(new LogAuditoria(0, usuario, 1)); //1 representa fila 1 de tabla permiso= Iniciar Sesion.
 
                 response.sendRedirect("home.jsp");
             } else {
