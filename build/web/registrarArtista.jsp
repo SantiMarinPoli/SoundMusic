@@ -40,13 +40,13 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Nombre*</label>
-                                <input type="text" class="form-control" name="nombre1" id="nom1" placeholder="Ingresar el primer nombre" >
+                                <input type="text" class="form-control" name="nom1" id="nom1" placeholder="Ingresar el primer nombre" >
                                 <div class="invalid-feedback ">El primer nombre es un campo obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Segundo Nombre</label>
-                                <input type="text" class="form-control" name="nombre2" id="nom2" placeholder="Ingresar el segundo nombre">
+                                <input type="text" class="form-control" name="nom2" id="nom2" placeholder="Ingresar el segundo nombre">
                             </div>
                         </div>
 
@@ -76,30 +76,25 @@
                             <input class="form-check-input " type="radio" name="sexo" id="textSex2" value="Femenino">
                             <label class="form-check-label" for="textSex2">Femenino</label>
                             <br>
-                            <div class="invalid-feedback ">Debe seleccionar un campo</div>
+                            <div class="invalid-feedback ">Debe seleccionar un sexo</div>
 
                         </div>
 
-                        <!--<div class="form-group">
-                            <label>Fecha Nacimiento*</label>
-                            <input type="date" name="fechaNac" id="fechaNac" class="form-control">
-                            <div class="invalid-feedback ">La fecha de nacimiento es un campo obligatorio</div>
-                        </div>-->
-
                         <div class="form-group">
                             <label>Lugar de Nacimiento*</label>
-                            <select class="form-control" id="pais" name="ciudad" >
-                                <option>Colombia</option>
-                                <option>Estados Unidos</option>
-                                <option>Puerto Rico</option>
-                                <option>Inglaterra</option>
+                            <select class="form-control" id="pais" name="pais" >
+                                <option value="">Seleccionar un pais</option>
+                                <option value="Colombia">Colombia</option>
+                                <option value="Estados Unidos">Estados Unidos</option>
+                                <option value="Puerto Rico">Puerto Rico</option>
+                                <option value="Inglaterra">Inglaterra</option>
                             </select>
                             <div class="invalid-feedback">Debe seleccionar el pais de nacomiento del artista</div>
                         </div>
 
                         <div class="form-group">
                             <label>Nombre de Artista*</label>
-                            <input type="text" class="form-control" id="textNomArtista" name="nomArtista" placeholder="ingresar el nombre del artista">
+                            <input type="text" class="form-control" id="nomArtista" name="nomArtista" placeholder="ingresar el nombre del artista">
                             <div class="invalid-feedback">El campo nombre artista es obligatorio</div>
                         </div>
 

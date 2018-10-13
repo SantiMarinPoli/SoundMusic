@@ -14,43 +14,75 @@ $(document).ready(function () {
         var check = $("#check:checked");
 
         if (nom1 == "") {
-            alert("Ingresar el primer nombre del usuario");
             $("#nom1").addClass("is-invalid");
+            alerta();
             return false;
-        }else{
-            
+        } else {
+            $("#nom1").removeClass("is-invalid");
+
         }
+
         if (apellido1 == "") {
-            alert("Ingresar el primer apellido del usuario");
-            return false;
             $("#apellido1").addClass("is-invalid");
+            alerta();
+            return false;
+        } else {
+            $("#apellido1").removeClass("is-invalid");
         }
+
         if (apellido2 == "") {
-            alert("Ingresar el segundo apellido del usuario");
             $("#apellido2").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#apellido2").removeClass("is-invalid");
+
         }
+
         if ((textSex1.length == 0) && (textSex2.length == 0)) {
-            alert("Ingresar el sexo del usuario");
-            
+            $("#textSex1").addClass("is-invalid");
+            $("#textSex2").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#textSex1").removeClass("is-invalid");
+            $("#textSex2").removeClass("is-invalid");
         }
+
         if (email == "") {
-            alert("Ingresar el correo del usuario");
+            $("#email").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#email").removeClass("is-invalid");
+
         }
+
         if (nomUsuario == "") {
-            alert("Ingresar el nombre del usuario");
+            $("#nomUsuario").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#nomUsuario").removeClass("is-invalid");
         }
+
         if (pass1 == "") {
-            alert("Ingresar la nueva contraseña");
+            $("#pass1").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#pass1").removeClass("is-invalid");
         }
+
         if (pass2 == "") {
-            alert("Ingresar de nuevamente la contraseña");
+            $("#pass2").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#pass2").removeClass("is-invalid");
+
         }
+
         if (pass1 !== pass2) {
             alert("La contraseña debe ser igual");
             pass1 = "";
@@ -59,18 +91,38 @@ $(document).ready(function () {
         } else {
             alert("La constraseña esta segura");
         }
+
         if (numCel == "") {
-            alert("Ingresar el numero movil del usuario");
+            $("#numCel").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#numCel").removeClass("is-invalid");
         }
-        if (pais.val()=="") {
-            alert("Seleccionar un pais ");
+
+        if (pais.val() == "") {
+            $("#pais").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#pais").removeClass("is-invalid");
         }
+
         if (check.length == 0) {
-            alert("Seleccionar los terminos condiciones");
+            $("#check").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#check").removeClass("is-invalid");
+
         }
 
     });
+    function alerta() {
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Debes completar los campos que esta seleccionado el signo *'
+        });
+    }
 });

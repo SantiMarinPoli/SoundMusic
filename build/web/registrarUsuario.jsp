@@ -80,13 +80,13 @@
                             <br>
                             <h8>Genero*</h8>
                             <br>
-                            <input class="form-check-input " type="radio" name="sexo" id="textSex1" value="Masculino" >
+                            <input class="form-check-input" type="radio" name="sexo" id="textSex1" value="Masculino" >
                             <label class="form-check-label " for="textSex1">Masculino</label>
 
-                            <input class="form-check-input " type="radio" name="sexo" id="textSex2" value="Femenino">
+                            <input class="form-check-input" type="radio" name="sexo" id="textSex2" value="Femenino">
                             <label class="form-check-label" for="textSex2">Femenino</label>
                             <br>
-                            <div class="invalid-feedback ">Debe seleccionar un campo</div>
+                            <div class="invalid-feedback ">Debe seleccionar un sexo</div>
 
                         </div>
 
