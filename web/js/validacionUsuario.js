@@ -1,116 +1,187 @@
-$(function () {
-    var formulario = document.formulario_usuario,
-            elementos = formulario.elements;
-// FUNCIONES
-    var validarInputs = function () {
-        for (var i = 0; i < elementos.length; i++) {
-            if ((elementos[i].type == "number") || (elementos[i].type == "text") || (elementos[i].type == "date") || (elementos[i].type == "password")) {
-                if (elementos[i].value == 0) {
-                    console.log("El campo, " + elementos[i].name + " esta incompleto");
-                    elementos[i].className = elementos[i].className + "  is-invalid";
-                    return false;
-                } else {
-                    elementos[i].className = elementos[i].className.replace("is-invalid", "");
-                }
-            }
-        }
-        if (elementos.pass1.value !== elementos.pass2.value) {
-            elementos.pass1.value = "";
-            elementos.pass2.value = "";
-            elementos.pass1.className = elementos.pass1.className + " is-invalid";
-            elementos.pass2.className = elementos.pass2.className + " is-invalid";
-            return false;
-
-        } else {
-            elementos.pass1.className = elementos.pass1.className.replace("is-invalid", "");
-            elementos.pass2.className = elementos.pass2.className.replace("is-invalid", "");
-        }
-        return true;
-    };
-
-//    var validarRadio = function () {
-//        var op = document.getElementsByName("sexo"),
-//                res = false;
-//
+//$(function () {
+//    var formulario = document.formulario_usuario,
+//            elementos = formulario.elements;
+//// FUNCIONES
+//    var validarInputs = function () {
 //        for (var i = 0; i < elementos.length; i++) {
-//            if (elementos[i].type == "radio" && elementos[i].name == "sexo") {
-//                console.log("Error metodo");
-//                for (var j = 0; j < op.length; j++) {
-//                    if (op[j].checked) {
-//                        console.log("Error checked");
-//                        res = true;
-//                        break;
-//                    }
-//                }
-//
-//                if (res == false) {
-//                    elementos[i].parentNode.className = elementos[i].parentNode.className + " is-invalid";
-//                    console.log("El campo esta incompleto");
+//            if ((elementos[i].type == "number") || (elementos[i].type == "text") || (elementos[i].type == "date") || (elementos[i].type == "password")) {
+//                if (elementos[i].value == 0) {
+//                    console.log("El campo, " + elementos[i].name + " esta incompleto");
+//                    elementos[i].className = elementos[i].className + "  is-invalid";
 //                    return false;
 //                } else {
-//                    console.log("ERROR RADIO");
-//                    elementos[i].parentNode.className = elementos[i].parentNode.className.remplace("is-invalid", "");
-//                    return true;
+//                    elementos[i].className = elementos[i].className.replace("is-invalid", "");
 //                }
 //            }
 //        }
+//        if (elementos.pass1.value !== elementos.pass2.value) {
+//            elementos.pass1.value = "";
+//            elementos.pass2.value = "";
+//            elementos.pass1.className = elementos.pass1.className + " is-invalid";
+//            elementos.pass2.className = elementos.pass2.className + " is-invalid";
+//            return false;
 //
+//        } else {
+//            elementos.pass1.className = elementos.pass1.className.replace("is-invalid", "");
+//            elementos.pass2.className = elementos.pass2.className.replace("is-invalid", "");
+//        }
+//        return true;
 //    };
+//
+////    var validarRadio = function () {
+////        var op = document.getElementsByName("sexo"),
+////                res = false;
+////
+////        for (var i = 0; i < elementos.length; i++) {
+////            if (elementos[i].type == "radio" && elementos[i].name == "sexo") {
+////                console.log("Error metodo");
+////                for (var j = 0; j < op.length; j++) {
+////                    if (op[j].checked) {
+////                        console.log("Error checked");
+////                        res = true;
+////                        break;
+////                    }
+////                }
+////
+////                if (res == false) {
+////                    elementos[i].parentNode.className = elementos[i].parentNode.className + " is-invalid";
+////                    console.log("El campo esta incompleto");
+////                    return false;
+////                } else {
+////                    console.log("ERROR RADIO");
+////                    elementos[i].parentNode.className = elementos[i].parentNode.className.remplace("is-invalid", "");
+////                    return true;
+////                }
+////            }
+////        }
+////
+////    };
+//
+//    var enviar = function (e) {
+//        if (!validarInputs()) {
+//            console.log("Falta validar los inputs");
+//            swal({
+//                position: 'top-end',
+//                type: 'error',
+//                title: 'Faltan completar unos campos oblgatorio',
+//                showConfirmButton: false,
+//                timer: 1500
+//            })
+//            e.preventDefault();
+//        } else {
+//            console.log("Envio exitosamente");
+//            swal({
+//                title: '¿Estas seguro quiere enviar los datos?',
+//                text: "You won't be able to revert this!",
+//                type: 'warning',
+//                showCancelButton: true,
+//                confirmButtonColor: '#3085d6',
+//                cancelButtonColor: '#d33',
+//                confirmButtonText: 'Si, guardar!'
+//            }).then((result) => {
+//                if (result.value) {
+//                    swal(
+//                            'Guardado!',
+//                            'Envio exitosamente.',
+//                            'success'
+//                            );
+//                }
+//            });
+//            e.preventDefault();
+//
+//        }
+//    };
+//
+//    var focusInput = function () {
+//        this.parentElement.children[1].className = "form-control active";
+//        this.parentElement.children[0].className = this.parentElement.children[0].className.replace("is-invalid", "");
+//    };
+//
+//    var blurInput = function () {
+//        if (this.value <= 0) {
+//            this.parentElement.children[1].className = "form-control is-invalid";
+//            this.parentElement.children[0].className = this.parentElement.children[0].className + " is-invalid";
+//        }
+//    };
+//
+////EVENTOS
+//    formulario.addEventListener("submit", enviar);
+//
+//    for (var i = 0; i < elementos.length; i++) {
+//        if ((elementos[i].type == "text") || (elementos[i].type == "number") || (elementos[i].type == "password") || (elementos[i].type == "date")) {
+//            elementos[i].addEventListener("focus", focusInput);
+//            elementos[i].addEventListener("blur", blurInput);
+//        }
+//    }
+//}());
 
-    var enviar = function (e) {
-        if (!validarInputs()) {
-            console.log("Falta validar los inputs");
-            swal({
-                position: 'top-end',
-                type: 'error',
-                title: 'Faltan completar unos campos oblgatorio',
-                showConfirmButton: false,
-                timer: 1500
-            })
-            e.preventDefault();
+$(document).ready(function () {
+    $("#btnGuardar").click(function () {
+        var nom1 = $("#nom1").val();
+        var apellido1 = $("#apellido1").val();
+        var apellido2 = $("#apellido2").val();
+        var textSex1 = $("#textSex1:checked");
+        var textSex2 = $("#textSex2:checked");
+        var email = $("#email").val();
+        var nomUsuario = $("#nomUsuario").val();
+        var pass1 = $("#pass1").val();
+        var pass2 = $("#pass2").val();
+        var numCel = $("#numCel").val();
+        var pais = $("#pais option:selected");
+        var check = $("#check:checked");
+
+        if (nom1 == "") {
+            alert("Ingresar el primer nombre del usuario");
+            return false;
+        }
+        if (apellido1 == "") {
+            alert("Ingresar el primer apellido del usuario");
+            return false;
+        }
+        if (apellido2 == "") {
+            alert("Ingresar el segundo apellido del usuario");
+            return false;
+        }
+        if ((textSex1.length == 0) && (textSex2.length == 0)) {
+            alert("Ingresar el sexo del usuario");
+            return false;
+        }
+        if (email == "") {
+            alert("Ingresar el correo del usuario");
+            return false;
+        }
+        if (nomUsuario == "") {
+            alert("Ingresar el nombre del usuario");
+            return false;
+        }
+        if (pass1 == "") {
+            alert("Ingresar la nueva contraseña");
+            return false;
+        }
+        if (pass2 == "") {
+            alert("Ingresar de nuevamente la contraseña");
+            return false;
+        }
+        if (pass1 !== pass2) {
+            alert("La contraseña debe ser igual");
+            pass1 = "";
+            pass2 = "";
+            return false;
         } else {
-            console.log("Envio exitosamente");
-            swal({
-                title: '¿Estas seguro quiere enviar los datos?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Si, guardar!'
-            }).then((result) => {
-                if (result.value) {
-                    swal(
-                            'Guardado!',
-                            'Envio exitosamente.',
-                            'success'
-                            );
-                }
-            });
-            e.preventDefault();
-
+            alert("La constraseña esta segura");
         }
-    };
-
-    var focusInput = function () {
-        this.parentElement.children[1].className = "form-control active";
-        this.parentElement.children[0].className = this.parentElement.children[0].className.replace("is-invalid", "");
-    };
-
-    var blurInput = function () {
-        if (this.value <= 0) {
-            this.parentElement.children[1].className = "form-control is-invalid";
-            this.parentElement.children[0].className = this.parentElement.children[0].className + " is-invalid";
+        if (numCel == "") {
+            alert("Ingresar el numero movil del usuario");
+            return false;
         }
-    };
-
-//EVENTOS
-    formulario.addEventListener("submit", enviar);
-
-    for (var i = 0; i < elementos.length; i++) {
-        if ((elementos[i].type == "text") || (elementos[i].type == "number") || (elementos[i].type == "password") || (elementos[i].type == "date")) {
-            elementos[i].addEventListener("focus", focusInput);
-            elementos[i].addEventListener("blur", blurInput);
+        if (pais.val()=="") {
+            alert("Seleccionar un pais ");
+            return false;
         }
-    }
-}());
+        if (check.length == 0) {
+            alert("Seleccionar los terminos condiciones");
+            return false;
+        }
+
+    });
+});

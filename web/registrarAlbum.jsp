@@ -39,8 +39,8 @@
                     <form>
                         <div class="form-group">
                             <label>Nombre de Artista*</label>
-                            <select  name="nomArtista" class="form-control">
-                                <option>Seleccionar un artista</option>
+                            <select  name="nomArtista" id="nomArtista" class="form-control">
+                                <option value="">Seleccionar un artista</option>
                                 <option value="Bad Bunny">Bad Bunny</option>
                                 <option value="Avicci">Avicci</option>
                             </select>
@@ -56,15 +56,15 @@
 
                         <div class="form-row">
                             <div class="col">
-                                <label>Nombre del Albun*</label>
-                                <input type="text" class="form-control" id="textNomAlbun" placeholder="Ingresar el nuevo album">
-                                <div class="invalid-feedback">El campo nombre de albun es obligatorio</div>
+                                <label>Nombre del Album*</label>
+                                <input type="text" class="form-control" name="nomAlbum" id="nomAlbum" placeholder="Ingresar el nuevo album">
+                                <div class="invalid-feedback">El campo nombre de album es obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Empresa Difunsora*</label>
-                                <select class="form-control" name="nomEmpresa" id="selectEmpresa">
-                                    <option>Seleccionar la empresa difunsora</option>
+                                <select class="form-control" name="nomEmpresa" id="nomEmpresa">
+                                    <option value="">Seleccionar la empresa difunsora</option>
                                     <option value="Napster">Napster</option>
                                     <option value="Spotify">Spotify</option>
                                     <option value="!Music">!Music</option>
@@ -92,15 +92,15 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Pais Realizacion*</label>
-                                <select name="ciudadAlbum" class="form-control">
-                                    <option>Seleccionar la ciudad</option>
+                                <select name="paisAlbum" id="paisAlbum" class="form-control">
+                                    <option>Seleccionar el pais</option>
                                     <option value="Estados Unidos">Estados Unidos</option>
                                     <option value="Colombia">Colombia</option>
                                 </select>
                             </div>
                             <div class="col">
                                 <label>Ciudad Realizacion*</label>
-                                <input type="text" name="ciudadAlbum" class="form-control" placeholder="Ingresar la ciudad ">
+                                <input type="text" name="ciudadAlbum" id="ciudadAlbum" class="form-control" placeholder="Ingresar la ciudad ">
                                 <div class="invalid-feedback">El campo de ciudad es obligatorio</div>
                             </div>
                         </div>
@@ -109,7 +109,7 @@
 
                         <div class="form-group">
                             <label>Fecha de Lanzamiento*</label>
-                            <input type="date" name="fechaFin" id="fechaFin" class="form-control">
+                            <input type="date" name="fechaLanzamiento" id="fechaLanzamiento" class="form-control">
                             <div class="invalid-feedback">El campo fecha finalizada es obligatorio</div>
                         </div>
 

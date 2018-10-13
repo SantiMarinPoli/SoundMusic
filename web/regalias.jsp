@@ -83,8 +83,8 @@
 
                                         <div class="form-group">
                                             <label>Nombre del Artista*</label>
-                                            <select name="nomArtista" class="form-control">
-                                                <option>Seleccionar el nombre del artista</option>
+                                            <select name="nomArtista" id="nomArtista" class="form-control">
+                                                <option value="">Seleccionar el nombre del artista</option>
                                                 <option value="Bad Bunny">Bad Bunny</option>
                                                 <option value="Avicci">Avicci</option>
                                                 <option value="Martin Garrix">Martin Garrix</option>
@@ -94,7 +94,7 @@
                                         <div class="form-group">
                                             <label>Nombre de la Empresa*</label>
                                             <select name="nomEmpresa"  id="nomEmpresa" class="form-control">
-                                                <option>Seleccionar la empresa</option>
+                                                <option value="">Seleccionar la empresa</option>
                                                 <option value="Spotify">Spotify</option>
                                                 <option value="Napster">Napster</option>
                                                 <option value="!Music">!Music</option>
@@ -110,9 +110,14 @@
                                         <div class="form-group">
                                             <label>Total Operaciones</label>
                                             <input type="text" name="totalOp" class="form-control" id="totalOp" value="$0.0" disabled>
+
                                         </div>
 
-                                        <input type="submit" class="btn btn-primary btn-block" value="Guardar "/>
+                                        <div class="form-group">
+                                            <img src="icon/discoOro.png"  class="img-thumbnail previsualizar" width="100px" />
+                                        </div>
+
+                                        <input type="submit" id="btnGuardar" class="btn btn-primary btn-block" value="Guardar "/>
 
                                     </form>
                                 </div>

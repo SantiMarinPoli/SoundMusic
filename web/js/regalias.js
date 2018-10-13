@@ -1,5 +1,28 @@
 $(function () {
 
+    $(document).ready(function () {
+        $("#btnGuardar").click(function () {
+            var nomArtista = $("#nomArtista option:selected");
+            var nomEmpresa = $("#nomEmpresa option:selected");
+            var numOp = $("#numOp").val();
+
+            if (nomArtista.val() == "") {
+                alert("Seleccionar el nombre de artista");
+                return false;
+            }
+            if (nomEmpresa.val() == "") {
+                alert("Seleccionar el nombre de la empresa");
+                return false;
+            }
+            if (numOp == "") {
+                alert("Ingresar el numero de operaciones");
+                return false;
+            }
+        });
+    });
+
+
+
     $(".btnActivar").click(function () {
 
         var idRegalias = $(this).attr("idRegalias");
@@ -88,7 +111,7 @@ $(function () {
                         allow_dismiss: true, // If true then will display a cross to close the popup.
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                     });
-                }, 3000);
+                }, 2000);
             } else
             if (total >= 50.00) {
                 console.log("Disco de Platino");
@@ -103,7 +126,7 @@ $(function () {
                         allow_dismiss: true, // If true then will display a cross to close the popup.
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                     });
-                }, 3000);
+                }, 2000);
             }
 
         } else
@@ -123,7 +146,7 @@ $(function () {
                         allow_dismiss: true, // If true then will display a cross to close the popup.
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                     });
-                }, 3000);
+                }, 2000);
             } else
             if (total >= 50.00) {
                 console.log("Disco de Platino");
@@ -138,7 +161,7 @@ $(function () {
                         allow_dismiss: true, // If true then will display a cross to close the popup.
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                     });
-                }, 3000);
+                }, 2000);
             }
         } else
         if (empresa == "!Music") {
@@ -157,7 +180,7 @@ $(function () {
                         allow_dismiss: true, // If true then will display a cross to close the popup.
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                     });
-                }, 3000);
+                }, 2000);
             } else
             if (total >= 50.00) {
                 console.log("Disco de Platino");
@@ -172,7 +195,7 @@ $(function () {
                         allow_dismiss: true, // If true then will display a cross to close the popup.
                         stackup_spacing: 10 // spacing between consecutively stacked growls.
                     });
-                }, 3000);
+                }, 2000);
             }
         }
     });

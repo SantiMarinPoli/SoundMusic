@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SoundMusic</title>
+        <title>Sound Music</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="img/png" href="icon/musica.png"/>
@@ -11,6 +11,7 @@
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
+        
     </head>
 
     <header>
@@ -49,7 +50,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Nombre*</label>
-                                <input type="text" class="form-control " name="nombre1" id="nom1 texto" placeholder="Ingresar el primer nombre" >
+                                <input type="text" class="form-control " name="nombre1" id="nom1" placeholder="Ingresar el primer nombre" >
                                 <div class="invalid-feedback ">El primer nombre es un campo obligatorio</div>
 
                             </div>
@@ -64,13 +65,13 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Apellido*</label>
-                                <input type="text" class="form-control " name="apellido1" id="apellido1 texto" placeholder="Ingresar el primer apellido " >
+                                <input type="text" class="form-control " name="apellido1" id="apellido1" placeholder="Ingresar el primer apellido " >
                                 <div class="invalid-feedback ">El primer apellido es un campo obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Segundo Apellido*</label>
-                                <input type="text" class="form-control " name="apellido2" id="apellido2 texto" placeholder="Ingresar el segundo apellido">
+                                <input type="text" class="form-control " name="apellido2" id="apellido2" placeholder="Ingresar el segundo apellido">
                                 <div class="invalid-feedback ">El segundo apellido es un campo obligatorio</div>
                             </div>
                         </div>
@@ -98,7 +99,7 @@
 
                         <div class="form-group">
                             <label>Nombre del Usuario*</label>
-                            <input type="text" class="form-control" name="nomUsuario" id="textNameUser" placeholder="Ingresar el nuevo usuario del operador" >
+                            <input type="text" class="form-control" name="nomUsuario" id="nomUsuario" placeholder="Ingresar el nuevo usuario del operador" >
                             <div class="invalid-feedback ">El nombre de usuario es un campo obligatorio</div>
 
                         </div>
@@ -106,12 +107,12 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Contraseña*</label>
-                                <input type="password" class="form-control" name="pass1" id="textPass" placeholder="Password" >
+                                <input type="password" class="form-control" name="pass1" id="pass1" placeholder="Password" >
                                 <div class="invalid-feedback ">La contraseña debe ser obligatorio</div>
                             </div>
                             <div class="col">
                                 <label>Repita Contraseña*</label>
-                                <input type="password" class="form-control" name="pass2" id="textRepeatPass" placeholder="Password" >
+                                <input type="password" class="form-control" name="pass2" id="pass2" placeholder="Password" >
                                 <div class="invalid-feedback ">La contraseña debe ser igual dato</div>
                             </div>
                         </div>
@@ -135,18 +136,18 @@
 
                         <div class="form-row">
                             <div class="col">
-                                <label >Ciudad*</label>
-                                <select class="form-control" name="ciudad" id="ciudad">
-                                    <option>Seleccionar la ciudad</option>
+                                <label >Pais*</label>
+                                <select class="form-control" name="pais" id="pais">
+                                    <option value="">Seleccionar el pais</option>
                                     <option value="Colombia">Colombia</option>
                                     <option value="Mexico">Mexico</option>
                                     <option value="Estados Unidos">Estados Unidos</option>
                                 </select>
-                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
+                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
                             </div>
                             <div class="col">
-                                <label >Pais</label>
-                                <input type="text" class="form-control" name="pais" id="pais "placeholder="Ingrese el pais" >
+                                <label >Ciudad</label>
+                                <input type="text" class="form-control" name="ciudad" id="ciudad "placeholder="Ingrese la ciudad" >
                                 <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
                             </div>
                         </div>
@@ -172,7 +173,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar">
+                        <input type="submit" value="Registrar Usuario" class="btn btn-primary btn-block" id="btnGuardar">
                     </form>
                 </div>
             </div>
