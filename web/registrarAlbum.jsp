@@ -44,6 +44,7 @@
                                 <option value="Bad Bunny">Bad Bunny</option>
                                 <option value="Avicci">Avicci</option>
                             </select>
+                            <div class="invalid-feedback">Debes seleccionar un artista</div>
 
                         </div>
 
@@ -97,6 +98,8 @@
                                     <option value="Estados Unidos">Estados Unidos</option>
                                     <option value="Colombia">Colombia</option>
                                 </select>
+                                <div class="invalid-feedback">Debes seleccionar un pais</div>
+
                             </div>
                             <div class="col">
                                 <label>Ciudad Realizacion*</label>

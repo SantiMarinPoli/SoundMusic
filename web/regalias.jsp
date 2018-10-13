@@ -89,6 +89,7 @@
                                                 <option value="Avicci">Avicci</option>
                                                 <option value="Martin Garrix">Martin Garrix</option>
                                             </select>
+                                            <div class="invalid-feedback">Debes seleccionar un nombre de artista</div>
                                         </div>
 
                                         <div class="form-group">
@@ -99,6 +100,7 @@
                                                 <option value="Napster">Napster</option>
                                                 <option value="!Music">!Music</option>
                                             </select>
+                                            <div class="invalid-feedback">Debes seleccionar una empresa difusora</div>
                                         </div>
 
                                         <div class="form-group">
@@ -110,7 +112,6 @@
                                         <div class="form-group">
                                             <label>Total Operaciones</label>
                                             <input type="text" name="totalOp" class="form-control" id="totalOp" value="$0.0" disabled>
-
                                         </div>
 
                                         <div class="form-group">

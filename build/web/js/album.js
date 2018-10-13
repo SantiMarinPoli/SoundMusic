@@ -11,36 +11,71 @@ $(document).ready(function () {
         var fechaLanzamiento = $("#fechaLanzamiento").val();
 
         if (nomArtista.val() == "") {
-            alert("Seleccione el nombre de artista");
+            $("#nomArtista").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#nomArtista").removeClass("is-invalid");
+
         }
         if (nomAlbum == "") {
-            alert("Ingrese un nombre del album");
+            $("#nomAlbum").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#nomAlbum").removeClass("is-invalid");
+
         }
 
         if (nomEmpresa.val() == "") {
-            alert("Seleccionar el nombre de la empresa");
+            $("#nomEmpresa").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#nomEmpresa").removeClass("is-invalid");
+
         }
 
         if (numCanciones == "") {
-            alert("Ingrese el numero de canciones");
+            $("#numCanciones").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#nomEmpresa").removeClass("is-invalid");
+
         }
         if (paisAlbum.val() == "") {
-            alert("Seleccionar un pais ");
+            $("#paisAlbum").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#paisAlbum").removeClass("is-invalid");
         }
         if (ciudadAlbum == "") {
-            alert("Ingresar una ciudad");
+            $("#ciudadAlbum").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#ciudadAlbum").removeClass("is-invalid");
+
         }
         if (fechaLanzamiento == "") {
-            alert("seleccionar la fecha de lanzamiento");
+            $("#fechaLanzamiento").addClass("is-invalid");
+            alerta();
             return false;
+        } else {
+            $("#fechaLanzamiento").removeClass("is-invalid")
+
         }
     });
+
+    function alerta() {
+        swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Debes completar los campos que esta seleccionado el signo *'
+        });
+    }
 
 });
 
@@ -56,81 +91,57 @@ $("input#numCanciones").on("keyup", function () {
         total = valor * 5;
         $("input#totalCanciones").val("$" + total + " USD");
         if (total >= 100.00) {
-            swal({
-                title: 'Felicitaciones!',
-                text: 'Obtenistes el disco de oro.',
-                imageUrl: 'icon/discoOro.png',
-                imageWidth: 64,
-                imageHeight: 64,
-                imageAlt: 'Custom image',
-                animation: false
-            });
+            alertaDiscoOro()
         } else
         if (total >= 50.00) {
-            swal({
-                title: 'Felicitaciones!',
-                text: 'Obtenistes el disco de Plata.',
-                imageUrl: 'icon/discoPlat.png',
-                imageWidth: 64,
-                imageHeight: 64,
-                imageAlt: 'Custom image',
-                animation: false
-            });
+            alertaDiscoPlata();
         }
     } else
     if (empresa == "Napster") {
         total = valor * 8;
         $("input#totalCanciones").val("$" + total + " USD");
         if (total >= 100.00) {
-            swal({
-                title: 'Felicitaciones!',
-                text: 'Obtenistes el disco de oro.',
-                imageUrl: 'icon/discoOro.png',
-                imageWidth: 64,
-                imageHeight: 64,
-                imageAlt: 'Custom image',
-                animation: false
-            });
+            alertaDiscoOro();
         } else
         if (total >= 50.00) {
-            swal({
-                title: 'Felicitaciones!',
-                text: 'Obtenistes el disco de Plata.',
-                imageUrl: 'icon/discoPlat.png',
-                imageWidth: 64,
-                imageHeight: 64,
-                imageAlt: 'Custom image',
-                animation: false
-            });
+            alertaDiscoPlata();
         }
     } else
     if (empresa == "!Music") {
         total = valor * 10;
         $("input#totalCanciones").val("$" + total + " USD");
         if (total >= 100.00) {
-            swal({
-                title: 'Felicitaciones!',
-                text: 'Obtenistes el disco de oro.',
-                imageUrl: 'icon/discoOro.png',
-                imageWidth: 64,
-                imageHeight: 64,
-                imageAlt: 'Custom image',
-                animation: false
-            });
+            alertaDiscoOro();
         } else
         if (total >= 50.00) {
-            swal({
-                title: 'Felicitaciones!',
-                text: 'Obtenistes el disco de Plata.',
-                imageUrl: 'icon/discoPlat.png',
-                imageWidth: 64,
-                imageHeight: 64,
-                imageAlt: 'Custom image',
-                animation: false
-            });
+            alertaDiscoPlata()
         }
     }
 });
+
+function  alertaDiscoOro() {
+    swal({
+        title: 'Felicitaciones!',
+        text: 'Obtenistes el disco de oro.',
+        imageUrl: 'icon/discoOro.png',
+        imageWidth: 64,
+        imageHeight: 64,
+        imageAlt: 'Custom image',
+        animation: false
+    });
+}
+
+function  alertaDiscoPlata() {
+    swal({
+        title: 'Felicitaciones!',
+        text: 'Obtenistes el disco de Plata.',
+        imageUrl: 'icon/discoPlat.png',
+        imageWidth: 64,
+        imageHeight: 64,
+        imageAlt: 'Custom image',
+        animation: false
+    });
+}
 
 //SUBIENDO FOTOS DEL ARTISTA Y EL ALBUN
 

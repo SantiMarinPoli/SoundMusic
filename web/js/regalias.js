@@ -7,18 +7,34 @@ $(function () {
             var numOp = $("#numOp").val();
 
             if (nomArtista.val() == "") {
-                alert("Seleccionar el nombre de artista");
+                $("#nomArtista").addClass("is-invalid");
+                alerta();
                 return false;
+            } else {
+                $("#nomArtista").removeClass("is-invalid");
             }
             if (nomEmpresa.val() == "") {
-                alert("Seleccionar el nombre de la empresa");
+                $("#nomEmpresa").addClass("is-invalid");
+                alerta();
                 return false;
+            } else {
+                $("#nomEmpresa").removeClass("is-invalid");
             }
             if (numOp == "") {
-                alert("Ingresar el numero de operaciones");
+                $("#numOp").addClass("is-invalid");
+                alerta();
                 return false;
+            } else {
+                $("#numOp").removeClass("is-invalid");
             }
         });
+        function alerta() {
+            swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Debes completar los campos que esta seleccionado el signo *'
+            });
+        }
     });
 
 
@@ -100,33 +116,11 @@ $(function () {
             $("input#totalOp").val("$" + total + " USD");
             if (total >= 100.00) {
                 console.log("Disco de Oro");
-                setTimeout(function () {
-                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de Oro!", {
-                        ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'danger', 'success')
-                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
-                        align: 'center', // ('left', 'right', or 'center')
-                        width: 500, // (integer, or 'auto')
-                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                        allow_dismiss: true, // If true then will display a cross to close the popup.
-                        stackup_spacing: 10 // spacing between consecutively stacked growls.
-                    });
-                }, 2000);
+                notificacionDiscoOro();
             } else
             if (total >= 50.00) {
                 console.log("Disco de Platino");
-                setTimeout(function () {
-                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de platino!", {
-                        ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'danger', 'success')
-                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
-                        align: 'center', // ('left', 'right', or 'center')
-                        width: 500, // (integer, or 'auto')
-                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                        allow_dismiss: true, // If true then will display a cross to close the popup.
-                        stackup_spacing: 10 // spacing between consecutively stacked growls.
-                    });
-                }, 2000);
+                notificacionDiscoPlata();
             }
 
         } else
@@ -135,33 +129,11 @@ $(function () {
             $("input#totalOp").val("$" + total + " USD");
             if (total >= 100.00) {
                 console.log("Disco de Oro");
-                setTimeout(function () {
-                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de Oro!", {
-                        ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'danger', 'success')
-                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
-                        align: 'center', // ('left', 'right', or 'center')
-                        width: 500, // (integer, or 'auto')
-                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                        allow_dismiss: true, // If true then will display a cross to close the popup.
-                        stackup_spacing: 10 // spacing between consecutively stacked growls.
-                    });
-                }, 2000);
+                notificacionDiscoOro();
             } else
             if (total >= 50.00) {
                 console.log("Disco de Platino");
-                setTimeout(function () {
-                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de platino!", {
-                        ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'danger', 'success')
-                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
-                        align: 'center', // ('left', 'right', or 'center')
-                        width: 500, // (integer, or 'auto')
-                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                        allow_dismiss: true, // If true then will display a cross to close the popup.
-                        stackup_spacing: 10 // spacing between consecutively stacked growls.
-                    });
-                }, 2000);
+                notificacionDiscoPlata();
             }
         } else
         if (empresa == "!Music") {
@@ -169,36 +141,44 @@ $(function () {
             $("input#totalOp").val("$" + total + " USD");
             if (total >= 100.00) {
                 console.log("Disco de Oro");
-                setTimeout(function () {
-                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de Oro!", {
-                        ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'danger', 'success')
-                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
-                        align: 'center', // ('left', 'right', or 'center')
-                        width: 500, // (integer, or 'auto')
-                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                        allow_dismiss: true, // If true then will display a cross to close the popup.
-                        stackup_spacing: 10 // spacing between consecutively stacked growls.
-                    });
-                }, 2000);
+                notificacionDiscoOro();
             } else
             if (total >= 50.00) {
                 console.log("Disco de Platino");
-                setTimeout(function () {
-                    $.bootstrapGrowl("Felicidades el artista obtubo un disco de platino!", {
-                        ele: 'body', // which element to append to
-                        type: 'info', // (null, 'info', 'danger', 'success')
-                        offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
-                        align: 'center', // ('left', 'right', or 'center')
-                        width: 500, // (integer, or 'auto')
-                        delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
-                        allow_dismiss: true, // If true then will display a cross to close the popup.
-                        stackup_spacing: 10 // spacing between consecutively stacked growls.
-                    });
-                }, 2000);
+                notificacionDiscoPlata();
             }
         }
     });
+
+    function notificacionDiscoOro() {
+        setTimeout(function () {
+            $.bootstrapGrowl("Felicidades el artista obtubo un disco de Oro!", {
+                ele: 'body', // which element to append to
+                type: 'info', // (null, 'info', 'danger', 'success')
+                offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                align: 'center', // ('left', 'right', or 'center')
+                width: 500, // (integer, or 'auto')
+                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                allow_dismiss: true, // If true then will display a cross to close the popup.
+                stackup_spacing: 10 // spacing between consecutively stacked growls.
+            });
+        }, 2000);
+    }
+
+    function notificacionDiscoPlata() {
+        setTimeout(function () {
+            $.bootstrapGrowl("Felicidades el artista obtubo un disco de platino!", {
+                ele: 'body', // which element to append to
+                type: 'info', // (null, 'info', 'danger', 'success')
+                offset: {from: 'bottom', amount: 20}, // 'top', or 'bottom'
+                align: 'center', // ('left', 'right', or 'center')
+                width: 500, // (integer, or 'auto')
+                delay: 4000, // Time while the message will be displayed. It's not equivalent to the *demo* timeOut!
+                allow_dismiss: true, // If true then will display a cross to close the popup.
+                stackup_spacing: 10 // spacing between consecutively stacked growls.
+            });
+        }, 2000);
+    }
 
 }());
 
