@@ -71,7 +71,7 @@ public class controladorEmpresaDifusora extends HttpServlet {
         String opcion = (String) request.getParameter("opcion");
 
         if (opcion != null) {
-            if (opcion.equals("listarEmpresas")) {
+            if (opcion.equals("listarEmpresa")) {
                 try {
                     mostrarPaginaEmpresas(request, response);
                 } catch (SQLException ex) {

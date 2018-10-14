@@ -175,8 +175,8 @@ public class Artista {
     public List<String> getNumeroEmpresas() {
         List<String> numeroEmpresas = new ArrayList<>();
         ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl();
-        try {
-            for (EmpresaDifusora empDif : daoArtistaEmpresa.obtenerEmpresasPorArtista(idArtista)) {
+        try {            
+            for (EmpresaDifusora empDif : daoArtistaEmpresa.obtenerEmpresas(idArtista)) {
                 numeroEmpresas.add(empDif.getNombre());
             }
 
