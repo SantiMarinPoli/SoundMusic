@@ -12,5 +12,5 @@ public interface IPerfilDao {
     List<Perfil> obtenerPerfiles() throws SQLException;
     Perfil obtenerPerfil(int idPerfil) throws SQLException;
     void crearPerfil(Perfil perfil) throws SQLException;
-    void actualizarArtista (Perfil perfil) throws SQLException;
+    void actualizarPerfil (Perfil perfil) throws SQLException;
 }

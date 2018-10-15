@@ -11,8 +11,16 @@ import java.sql.SQLException;
  * @author Santiago Medina Pelaez
  */
 public class CostoActividadDaoImpl implements ICostoActividadDao {
-    
-    private Connection conexion;
+
+    //Conexion a la base de datos
+    private final Connection conexion;
+
+    //Constantes con las querys a la base de datos
+    private static final String SELECT_COSTO_ACTIVIDAD;
+    private static final String INSERT_COSTO_ACTIVIDAD;
+    private static final String UPDATE_COSTO_ACTIVIDAD;
+    private static final String UPDATE_FECHA_FINAL;
+    private static final String SELECT_ULTIMO_ID;
     
     public CostoActividadDaoImpl() {
         conexion = DBUtil.getConexion();
@@ -20,10 +28,7 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
     
     @Override
     public CostoActividad obtenerCostoActividad(int idCostoActividad) throws SQLException {
-        String sql = "SELECT COSTO_POR_OPERACION, FECHA_CREACION, FECHA_USO_FINAL"
-                + "FROM COSTO_ACTIVIDAD"
-                + "WHERE ID_COSTO_ACTIVIDAD=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_COSTO_ACTIVIDAD);
         ps.setInt(1, idCostoActividad);
         ResultSet rs = ps.executeQuery();
         
@@ -40,43 +45,57 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
     
     @Override
     public void crearCostoActividad(CostoActividad costoActividad) throws SQLException {
-        String sql = "INSERT INTO COSTO_ACTIVITIDAD (COSTO_POR_OPERACION,FECHA_CREACION,FECHA_USO_FINAL)\n"
-                + "VALES (?,?,?)";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(INSERT_COSTO_ACTIVIDAD);
         
         ps.setFloat(1, costoActividad.getCostoPorOperacion());
         ps.setDate(2, costoActividad.getFechaCreacion());
-        ps.setDate(3, costoActividad.getFechaUsoFinal());
         ps.executeUpdate();
     }
     
     @Override
     public void actualizarCostoActividad(CostoActividad costoActividad) throws SQLException {
-        //ACTUALIZAR TODO MENOS LAS FECHAS.
-        //FECHA CREACION SE IGNORA YA QUE CUANDO SE CREO SE GUARDO Y ESA QUEDA
-        //FECHA FINALIZACION ES EN PARAMETRIZACION Y ES APARTE, NECESITA METODO PARA EL SOLO.
-        String sql = "UPDATE COSTO_ACTIVITIDAD \n"
-                + "SET COSTO_POR_OPERACION=?,FECHA_CREACION=?,FECHA_USO_FINAL=? \n"
-                + "WHERE ID_COSTO_ACTIVIDAD=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        
+        PreparedStatement ps = conexion.prepareStatement(UPDATE_COSTO_ACTIVIDAD);
         ps.setFloat(1, costoActividad.getCostoPorOperacion());
-        ps.setDate(2, costoActividad.getFechaCreacion());
-        ps.setDate(3, costoActividad.getFechaUsoFinal());
-        ps.setInt(4, costoActividad.getIdCostoActividad());
+        ps.setInt(2, costoActividad.getIdCostoActividad());
+        ps.executeUpdate();
+    }
+    
+    @Override
+    public void eliminarCostoActividad(CostoActividad costoActividad) throws SQLException {
+        PreparedStatement ps = conexion.prepareStatement(UPDATE_FECHA_FINAL);
+        ps.setDate(1, costoActividad.getFechaUsoFinal());
+        ps.setInt(2, costoActividad.getIdCostoActividad());
         ps.executeUpdate();
     }
     
     @Override
     public int getUltimoIdCostoActividad() throws SQLException {
-        String sql = "SELECT COSTO_ACTIVITIDAD_SEQ.CURRVAL\n" + "FROM DUAL";
-        
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
+        ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int idCostoActividad = rs.getInt("CURRVAL");
             return idCostoActividad;
         }
         return -1;
+    }
+    
+    static {
+        SELECT_COSTO_ACTIVIDAD = "SELECT COSTO_POR_OPERACION, FECHA_CREACION, FECHA_USO_FINAL"
+                + "FROM COSTO_ACTIVIDAD"
+                + "WHERE ID_COSTO_ACTIVIDAD=?";
+        
+        INSERT_COSTO_ACTIVIDAD = "INSERT INTO COSTO_ACTIVITIDAD (COSTO_POR_OPERACION,FECHA_CREACION)\n"
+                + "VALES (?,?)";
+        
+        UPDATE_COSTO_ACTIVIDAD = "UPDATE COSTO_ACTIVITIDAD \n"
+                + "SET COSTO_POR_OPERACION=? \n"
+                + "WHERE ID_COSTO_ACTIVIDAD=?";
+        
+        UPDATE_FECHA_FINAL = "UPDATE COSTO_ACTIVIDAD \n"
+                + "SET FECHA_USO_FINAL=? \n"
+                + "WHERE ID_COSTO_ACTIVIDAD=?";
+        
+        SELECT_ULTIMO_ID = "SELECT COSTO_ACTIVITIDAD_SEQ.CURRVAL\n"
+                + "FROM DUAL";
     }
 }

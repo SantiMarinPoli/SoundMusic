@@ -15,7 +15,7 @@ public interface ILogroDao {
 
     void crearLogro(Logro logro) throws SQLException;
 
-    void eliminarLogro(int idLogro) throws SQLException;
+    void eliminarLogro(Logro logro) throws SQLException;
 
     void actualizarLogro(Logro logro) throws SQLException;
 

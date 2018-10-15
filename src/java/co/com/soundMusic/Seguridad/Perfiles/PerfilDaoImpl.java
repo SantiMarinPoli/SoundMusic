@@ -15,7 +15,14 @@ import java.util.List;
  */
 public class PerfilDaoImpl implements IPerfilDao {
 
+    //Conexion a la base de datos
     private Connection conexion;
+
+    //Constantes con las querys a la base de datos
+    private static final String SELECT_PERFILES;
+    private static final String SELECT_PERFIL_POR_ID;
+    private static final String INSERT_PERFIL;
+    private static final String UPDATE_PERFIL;
 
     public PerfilDaoImpl() {
         conexion = DBUtil.getConexion();
@@ -24,12 +31,9 @@ public class PerfilDaoImpl implements IPerfilDao {
     @Override
     public List<Perfil> obtenerPerfiles() throws SQLException {
         List<Perfil> listaPerfiles = new ArrayList<>();
+        
         Statement stmt = conexion.createStatement();
-
-        String sql = "SELECT ID_PERFIL, NOMBRE_PERFIL\n"
-                + "FROM PERFIL ORDER BY ID_PERFIL";
-
-        ResultSet rs = stmt.executeQuery(sql);
+        ResultSet rs = stmt.executeQuery(SELECT_PERFILES);
 
         while (rs.next()) {
 
@@ -46,10 +50,7 @@ public class PerfilDaoImpl implements IPerfilDao {
 
     @Override
     public Perfil obtenerPerfil(int idPerfil) throws SQLException {
-        String sql = "SELECT NOMBRE_PERFIL\n"
-                + "FROM PERFIL\n"
-                + "WHERE ID_PERFIL=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_PERFIL_POR_ID);
         ps.setInt(1, idPerfil);
         ResultSet rs = ps.executeQuery();
 
@@ -63,17 +64,35 @@ public class PerfilDaoImpl implements IPerfilDao {
     }
 
     @Override
-    public void crearPerfil(Perfil perfil) throws SQLException {
-        String sql = "INSERT INTO PERFIL (NOMBRE_PERFIL)\n"
-                + "VALUES (?)";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+    public void crearPerfil(Perfil perfil) throws SQLException {        
+        PreparedStatement ps = conexion.prepareStatement(INSERT_PERFIL);
 
         ps.setString(1, perfil.getNombrePerfil());
         ps.executeUpdate();
     }
 
     @Override
-    public void actualizarArtista(Perfil perfil) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void actualizarPerfil(Perfil perfil) throws SQLException {
+        PreparedStatement ps = conexion.prepareStatement(UPDATE_PERFIL);
+        
+        ps.setString(1, perfil.getNombrePerfil());
+        ps.setInt(2, perfil.getIdPerfil());
+        ps.executeUpdate();
+    }
+
+    static {
+        SELECT_PERFILES= "SELECT ID_PERFIL, NOMBRE_PERFIL\n"
+                + "FROM PERFIL ORDER BY ID_PERFIL";
+        
+        SELECT_PERFIL_POR_ID= "SELECT NOMBRE_PERFIL\n"
+                + "FROM PERFIL\n"
+                + "WHERE ID_PERFIL=?";
+        
+        INSERT_PERFIL= "INSERT INTO PERFIL (NOMBRE_PERFIL)\n"
+                + "VALUES (?)";
+        
+        UPDATE_PERFIL="UPDATE PERFIL \n"
+                +"SET NOMBRE_PERFIL=? \n"
+                +"WHERE ID_PERFIL=?";
     }
 }

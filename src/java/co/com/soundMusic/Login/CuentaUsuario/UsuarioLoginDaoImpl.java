@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
@@ -12,7 +13,14 @@ import java.sql.SQLException;
  */
 public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
+    //Conexion a la base de datos
     private Connection conexion;
+
+    //Constantes con las querys a la base de datos
+    private static final String SELECT_USUARIOLOGIN_POR_ID;
+    private static final String INSERT_USUARIOLOGIN;
+    private static final String UPDATE_USUARIOLOGIN;
+    private static final String SELECT_ULTIMO_ID;
 
     public UsuarioLoginDaoImpl() {
         conexion = DBUtil.getConexion();
@@ -20,10 +28,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     @Override
     public UsuarioLogin obtenerUsuarioLogin(int idUsuarioLogin) throws SQLException {
-        String sql = "SELECT NOMBRE_USUARIO,CONTRASENA\n"
-                + "FROM USUARIO_LOGIN\n"
-                + "WHERE ID_USUARIO_LOGIN=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIOLOGIN_POR_ID);
         ps.setInt(1, idUsuarioLogin);
         ResultSet rs = ps.executeQuery();
 
@@ -40,9 +45,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     @Override
     public void crearUsuarioLogin(UsuarioLogin usuarioLogin) throws SQLException {
-        String sql = "INSERT INTO USUARIO_LOGIN (NOMBRE_USUARIO,CONTRASENA)\n"
-                + "VALUES (?,?)";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIOLOGIN);
 
         ps.setString(1, usuarioLogin.getNombreUsuario());
         ps.setString(2, usuarioLogin.getContrasena());
@@ -51,38 +54,36 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     @Override
     public void actualizarUsuarioLogin(UsuarioLogin usuarioLogin) throws SQLException {
-        String sql = "UPDATE USUARIO_LOGIN\n"
-                + "SET NOMBRE_USUARIO=?,CONTRASENA=?\n"
-                + "WHERE ID_USUARIO_LOGIN=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(UPDATE_USUARIOLOGIN);
         ps.setString(1, usuarioLogin.getNombreUsuario());
         ps.setString(2, usuarioLogin.getContrasena());
         ps.setInt(3, usuarioLogin.getIdUsuarioLogin());
         ps.executeUpdate();
     }
 
-    public boolean sesionPermitida(String nombreUsuario, String password) throws SQLException {
-        String sql = "SELECT * FROM USUARIO_LOGIN WHERE \n"
-                + "NOMBRE_USUARIO=? AND CONTRASENA=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ps.setString(1, nombreUsuario);
-        ps.setString(2, password);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            return true;
-        }
-        return false;
-    }
-
     public int getUltimmoIdUsuarioLogin() throws SQLException {
-        String sql = "SELECT USUARIO_LOGIN_SEQ.CURRVAL\n" + "FROM DUAL";
-
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
+        Statement stmt = conexion.createStatement();
+        ResultSet rs = stmt.executeQuery(SELECT_ULTIMO_ID);
         while (rs.next()) {
             int idUsuarioLogin = rs.getInt("CURRVAL");
             return idUsuarioLogin;
         }
         return -1;
+    }
+
+    static {
+        SELECT_USUARIOLOGIN_POR_ID = "SELECT NOMBRE_USUARIO,CONTRASENA\n"
+                + "FROM USUARIO_LOGIN\n"
+                + "WHERE ID_USUARIO_LOGIN=?";
+
+        INSERT_USUARIOLOGIN = "INSERT INTO USUARIO_LOGIN (NOMBRE_USUARIO,CONTRASENA)\n"
+                + "VALUES (?,?)";
+
+        UPDATE_USUARIOLOGIN = "UPDATE USUARIO_LOGIN\n"
+                + "SET NOMBRE_USUARIO=?,CONTRASENA=?\n"
+                + "WHERE ID_USUARIO_LOGIN=?";
+
+        SELECT_ULTIMO_ID = "SELECT USUARIO_LOGIN_SEQ.CURRVAL\n"
+                + "FROM DUAL";
     }
 }

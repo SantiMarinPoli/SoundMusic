@@ -9,13 +9,10 @@ import co.com.soundMusic.LogAuditoria.LogAuditoria;
 import co.com.soundMusic.LogAuditoria.LogAuditoriaDaoImpl;
 import co.com.soundMusic.Login.Usuario.Usuario;
 import co.com.soundMusic.Login.Usuario.controladorUsuario;
+import co.com.soundMusic.Seguridad.Permisos.Permisos;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -127,7 +124,7 @@ public class controladorLogin extends HttpServlet {
                 sessionUsuario.setAttribute("nomUsuario", nomUsuario);
 
                 LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
-                daoLogAuditoria.crearLog(new LogAuditoria(0, usuario, 1)); //1 representa fila 1 de tabla permiso= Iniciar Sesion.
+                daoLogAuditoria.crearLog(new LogAuditoria(0, usuario, new Permisos(1))); //1 representa fila 1 de tabla permiso= Iniciar Sesion.
 
                 response.sendRedirect("home.jsp");
             } else {

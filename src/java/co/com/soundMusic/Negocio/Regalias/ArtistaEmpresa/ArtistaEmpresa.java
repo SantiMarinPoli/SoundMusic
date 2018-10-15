@@ -23,6 +23,10 @@ public class ArtistaEmpresa {
     public ArtistaEmpresa() {
     }
 
+    public ArtistaEmpresa(int idArtistaEmpresa) {
+        this.idArtistaEmpresa = idArtistaEmpresa;
+    }
+
     public ArtistaEmpresa(int idArtistaEmpresa, int idArtista, int idEmpresaDifusora) {
         this.idArtistaEmpresa = idArtistaEmpresa;
         this.idArtista = idArtista;

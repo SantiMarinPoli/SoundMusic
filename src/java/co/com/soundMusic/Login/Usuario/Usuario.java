@@ -37,6 +37,11 @@ public class Usuario {
     public Usuario() {
     }
 
+    public Usuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+        
+
     public Usuario(int idUsuario, String primerNombre, String segundoNombre,
             String primerApellido, String segundoApellido, Date fechaCreacion,
             String status, String genero, int idPerfil, int idUsuarioLogin,

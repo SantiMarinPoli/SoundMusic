@@ -9,6 +9,5 @@ public interface IRegaliaDao {
      List<Regalia> obtenerRegalias() throws SQLException;
      Regalia obtenerRegalia(int idRegalia) throws SQLException;
      void crearERegalia(Regalia regalia) throws SQLException;
-     void eliminarRegalia(int idRegalia) throws SQLException;
      void actualizarRegalia(Regalia regalia) throws SQLException;
 }

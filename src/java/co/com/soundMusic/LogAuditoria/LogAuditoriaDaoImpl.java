@@ -1,14 +1,13 @@
 package co.com.soundMusic.LogAuditoria;
 
-import co.com.soundMusic.Login.Usuario.UsuarioDaoImpl;
+import co.com.soundMusic.Login.Usuario.Usuario;
+import co.com.soundMusic.Seguridad.Permisos.Permisos;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -20,24 +19,24 @@ import java.util.List;
  */
 public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
 
+    //Conexion a la base de datos
     private final Connection conexion;
-    private final UsuarioDaoImpl usuario;
+
+    //Constantes con las querys a la base de datos
+    private static final String SELECT_LOG_AUDITORIA;
+    private static final String INSERT_LOG_AUDITORIA;
+    private static final String SELECT_LOG_AUDITORIA_POR_USUARIO;
 
     public LogAuditoriaDaoImpl() {
         conexion = DBUtil.getConexion();
-        usuario = new UsuarioDaoImpl();
     }
 
     @Override
     public List<LogAuditoria> obtenerLogAuditoria() throws SQLException {
         List<LogAuditoria> listaLogAuditoria = new ArrayList<>();
 
-        String sql = "SELECT ID_LOG_AUDITORIA,FECHA,ID_USUARIO,ID_OPERACION\n"
-                + "FROM LOG_AUDITORIA \n"
-                + "ORDER BY ID_LOG_AUDITORIA";
-
         Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(sql);
+        ResultSet rs = stmt.executeQuery(SELECT_LOG_AUDITORIA);
 
         while (rs.next()) {
             int idLogAuditoria = rs.getInt("ID_LOG_AUDITORIA");
@@ -46,8 +45,10 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
             int idOperaciones = rs.getInt("ID_OPERACION");
 
             LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha,
-                    usuario.obtenerUsuario(idUsuario),
-                    idOperaciones);
+                    new Usuario(idUsuario), new Permisos(idOperaciones));
+
+            logAuditoria.obtenerPermiso();
+            logAuditoria.obtenerUsuario();
 
             logAuditoria.obtenerPermiso();
 
@@ -60,13 +61,11 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
 
     @Override
     public void crearLog(LogAuditoria logAuditoria) throws SQLException {
-        String sql = "INSERT INTO LOG_AUDITORIA (FECHA,ID_USUARIO,ID_OPERACION)\n"
-                + "VALUES (?,?,?)";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(INSERT_LOG_AUDITORIA);
 
         ps.setTimestamp(1, Timestamp.valueOf(LocalDateTime.now()));
         ps.setInt(2, logAuditoria.getUsuario().getIdUsuario());
-        ps.setInt(3, logAuditoria.getIdPermiso());
+        ps.setInt(3, logAuditoria.getOperaciones().getIdPermiso());
         ps.executeUpdate();
     }
 
@@ -74,14 +73,9 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
     public List<LogAuditoria> obtenerLogAuditoriaPorUsuario(int idUsuario) throws SQLException {
         List<LogAuditoria> listaLogAuditoria = new ArrayList<>();
 
-        String sql = "SELECT ID_LOG_AUDITORIA,FECHA,ID_USUARIO,ID_OPERACION\n"
-                + "FROM LOG_AUDITORIA \n"
-                + "WHERE ID_USUARIO=? \n"
-                + "ORDER BY ID_LOG_AUDITORIA";
-
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_LOG_AUDITORIA_POR_USUARIO);
         ps.setInt(1, idUsuario);
-        ResultSet rs = ps.executeQuery(sql);
+        ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
             int idLogAuditoria = rs.getInt("ID_LOG_AUDITORIA");
@@ -89,14 +83,29 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
             int idOperaciones = rs.getInt("ID_OPERACION");
 
             LogAuditoria logAuditoria = new LogAuditoria(idLogAuditoria, fecha,
-                    usuario.obtenerUsuario(idUsuario),
-                    idOperaciones);
+                    new Usuario(idUsuario), new Permisos(idOperaciones));
 
             logAuditoria.obtenerPermiso();
+            logAuditoria.obtenerUsuario();
 
             listaLogAuditoria.add(logAuditoria);
         }
 
         return listaLogAuditoria;
     }
+
+    static {
+        SELECT_LOG_AUDITORIA = "SELECT ID_LOG_AUDITORIA,FECHA,ID_USUARIO,ID_OPERACION\n"
+                + "FROM LOG_AUDITORIA \n"
+                + "ORDER BY ID_LOG_AUDITORIA";
+
+        INSERT_LOG_AUDITORIA = "INSERT INTO LOG_AUDITORIA (FECHA,ID_USUARIO,ID_OPERACION)\n"
+                + "VALUES (?,?,?)";
+
+        SELECT_LOG_AUDITORIA_POR_USUARIO = "SELECT ID_LOG_AUDITORIA,FECHA,ID_USUARIO,ID_OPERACION\n"
+                + "FROM LOG_AUDITORIA \n"
+                + "WHERE ID_USUARIO=? \n"
+                + "ORDER BY ID_LOG_AUDITORIA";
+    }
+
 }

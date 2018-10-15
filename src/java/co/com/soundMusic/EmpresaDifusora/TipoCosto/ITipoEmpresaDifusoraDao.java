@@ -11,6 +11,5 @@ public interface ITipoEmpresaDifusoraDao {
     List<TipoEmpresaDifusora> obtenerTipoEmpresaDifusora() throws SQLException;
     TipoEmpresaDifusora obtenerTipoEmpresaDifusora(int idTipoEmpresaDifusora) throws SQLException;
     void crearArtista (TipoEmpresaDifusora tipoEmpresaDifusora) throws SQLException;
-    void eliminarTipoEmpresaDifusora (String status) throws SQLException;
     void actualizarTipoEmpresaDifusora (TipoEmpresaDifusora tipoEmpresaDifusora) throws SQLException;
 }
