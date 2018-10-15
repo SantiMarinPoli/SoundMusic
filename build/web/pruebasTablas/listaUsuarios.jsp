@@ -7,7 +7,6 @@
 <%@page import="co.com.soundMusic.Login.Usuario.Usuario"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <table class="table">
     <thead class="thead-dark">
         <tr>
@@ -31,7 +30,7 @@
                 out.print("<td>" + usu.getPrimerNombre() + " " + usu.getPrimerApellido() + "</td>");
                 out.print("<td>" + usu.getGenero() + "</td>");
                 out.print("<td>" + usu.getContacto().getEmail() + "</td>");
-                out.print("<td>" + usu.getPerfil().getIdPerfil() + "</td>");
+                out.print("<td>" + usu.getPerfil().getNombrePerfil()+ "</td>");
                 out.print("<td>" + usu.getUsuarioLogin().getNombreUsuario() + "</td>");
                 out.print("<td>" + usu.getFechaCreacion() + "</td>");
                 if (usu.getStatus().equalsIgnoreCase("A")) {

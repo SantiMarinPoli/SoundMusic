@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -88,6 +87,8 @@
                             </tr>
                         </tbody>
                     </table>
+                    
+                    <%@include file="pruebasTablas/listaArtistas.jsp" %>
                 </div>
             </div>
             <br>

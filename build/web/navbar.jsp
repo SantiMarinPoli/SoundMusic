@@ -17,8 +17,8 @@
                 <a class="nav-link" href="controladorEmpresaDifusora?opcion=listarEmpresa">Empresas Difusoras</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="artista.jsp" id="artista">Artistas</a>
-                <!--<a class="nav-link" href="controladorArtista?opcion=listarArtista">Artistas</a>-->
+                <!--<a class="nav-link" href="artista.jsp" id="artista">Artistas</a>-->
+                <a class="nav-link" href="controladorArtista?opcion=listarArtistas">Artistas</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="album.jsp" id="album">Album</a>

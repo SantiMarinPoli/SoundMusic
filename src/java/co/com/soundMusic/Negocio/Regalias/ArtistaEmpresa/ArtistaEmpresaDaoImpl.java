@@ -18,7 +18,17 @@ import java.util.List;
  */
 public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
-    private Connection conexion;
+    //Conexion a la base de datos
+    private final Connection conexion;
+
+    //Constantes con las querys a la base de datos
+    private static final String SELECT_ARTISTAS_EMPRESAS;
+    private static final String SELECT_ARTISTA_EMPRESA_POR_ID;
+    private static final String SELECT_ARTISTAS_POR_ID;
+    private static final String INSERT_ARTISTA_EMPRESA;
+    private static final String UPDATE_ARTISTA_EMPRESA;
+    private static final String SELECT_ARTISTAS_POR_ID_EMPRESA;
+    private static final String SELECT_EMPRESAS_POR_ID_ARTISTA;
 
     public ArtistaEmpresaDaoImpl() {
         conexion = DBUtil.getConexion();
@@ -27,11 +37,8 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     @Override
     public List<ArtistaEmpresa> obtenerTodoArtistaEmpresa() throws SQLException {
         List<ArtistaEmpresa> lstArtistaEmpresa = new ArrayList<>();
-
         Statement stmt = conexion.createStatement();
-        String sql = "SELECT ID_ARTISTA_EMPRESA, ID_ARTISTA, ID_EMPRESA_DIFUSORA \n" + "FROM ARTISTA_EMPRESA";
-
-        ResultSet rs = stmt.executeQuery(sql);
+        ResultSet rs = stmt.executeQuery(SELECT_ARTISTAS_EMPRESAS);
 
         while (rs.next()) {
             int idArtistaEmpresa = rs.getInt("ID_ARTISTA_EMPRESA");
@@ -51,9 +58,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
     @Override
     public ArtistaEmpresa obtenerArtistaEmpresa(int idArtistaEmpresa) throws SQLException {
-        String sql = "SELECT ID_ARTISTA, ID_EMPRESA_DIFUSORA \n" + "FROM ARTISTA_EMPRESA \n"
-                + "WHERE ID_ARTISTA_EMPRESA=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTA_EMPRESA_POR_ID);
         ps.setInt(1, idArtistaEmpresa);
         ResultSet rs = ps.executeQuery();
 
@@ -73,17 +78,10 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     }
 
     public List<Artista> obtenerArtistas(int idArtista) throws SQLException {
-
         List<Artista> lstArtistasPorEmpresa = new ArrayList<>();
-        String sql = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, "
-                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
-                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
-                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO \n" + "FROM ARTISTA_EMPRESA AE INNER JOIN ARTISTA AR \n"
-                + "ON AE.ID_ARTISTA = AR.ID_ARTISTA \n" + "WHERE AE.ID_ARTISTA=? ORDER BY AR.ID_ARTISTA";
-
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTAS_POR_ID);
         ps.setInt(1, idArtista);
-        ResultSet rs = ps.executeQuery(sql);
+        ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
             String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
@@ -105,12 +103,6 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     }
 
     @Override
-    public void eliminarArtistaEmpresa(int idArtistaEmpresa) throws SQLException {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-        // Tools | Templates.
-    }
-
-    @Override
     public void actualizarArtistaEmpresa(ArtistaEmpresa artistaEmpresa) throws SQLException {
         throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
         // Tools | Templates.
@@ -119,11 +111,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     @Override
     public List<ArtistaEmpresa> obtenerNumeroDeArtistas(int idEmpresaDifusora) throws SQLException {
         List<ArtistaEmpresa> lstArtistasPorEmpresa = new ArrayList<>();
-        String sql = "SELECT ID_ARTISTA_EMPRESA, ID_ARTISTA, ID_EMPRESA_DIFUSORA \n"
-                + "FROM ARTISTA_EMPRESA \n"
-                + "WHERE ID_EMPRESA_DIFUSORA = ? ORDER BY ID_ARTISTA";
-
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTAS_POR_ID_EMPRESA);
         ps.setInt(1, idEmpresaDifusora);
         ResultSet rs = ps.executeQuery();
 
@@ -142,15 +130,9 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     @Override
     public List<EmpresaDifusora> obtenerEmpresas(int idArtista) throws SQLException {
         List<EmpresaDifusora> lstEmpresasPorArtista = new ArrayList<>();
-        String sql = "SELECT AE.ID_EMPRESA_DIFUSORA, ED.NOMBRE,ED.FECHA_CREACION,ED.FECHA_TERMINACION,ED.STATUS,\n"
-                + "ED.RUTA_IMAGEN, ED.ID_TIPO_ACTIVIDAD, ED.ID_CONTACTO,ED.ID_COSTO_ACTIVIDAD\n"
-                + "FROM ARTISTA_EMPRESA AE INNER JOIN EMPRESA_DIFUSORA ED \n"
-                + "ON AE.ID_EMPRESA_DIFUSORA = ED.ID_EMPRESA_DIFUSORA \n"
-                + "WHERE AE.ID_ARTISTA=? ORDER BY ED.ID_EMPRESA_DIFUSORA";
-
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_EMPRESAS_POR_ID_ARTISTA);
         ps.setInt(1, idArtista);
-        ResultSet rs = ps.executeQuery(sql);
+        ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
             int idEmpresaDifusora = rs.getInt("ID_EMPRESA_DIFUSORA");
@@ -170,4 +152,33 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
         return lstEmpresasPorArtista;
     }
 
+    static {
+        SELECT_ARTISTAS_EMPRESAS= "SELECT ID_ARTISTA_EMPRESA, ID_ARTISTA, ID_EMPRESA_DIFUSORA \n" 
+                + "FROM ARTISTA_EMPRESA \n"
+                + "ORDER BY ID_ARTISTA_EMPRESA";
+        
+        SELECT_ARTISTA_EMPRESA_POR_ID= "SELECT ID_ARTISTA, ID_EMPRESA_DIFUSORA \n" 
+                + "FROM ARTISTA_EMPRESA \n"
+                + "WHERE ID_ARTISTA_EMPRESA=?";
+
+        SELECT_ARTISTAS_POR_ID = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, "
+                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
+                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO \n" + "FROM ARTISTA_EMPRESA AE INNER JOIN ARTISTA AR \n"
+                + "ON AE.ID_ARTISTA = AR.ID_ARTISTA \n" + "WHERE AE.ID_ARTISTA=? ORDER BY AR.ID_ARTISTA";
+
+        INSERT_ARTISTA_EMPRESA = " ";
+
+        UPDATE_ARTISTA_EMPRESA = " ";
+
+        SELECT_ARTISTAS_POR_ID_EMPRESA = "SELECT ID_ARTISTA_EMPRESA, ID_ARTISTA, ID_EMPRESA_DIFUSORA \n"
+                + "FROM ARTISTA_EMPRESA \n"
+                + "WHERE ID_EMPRESA_DIFUSORA = ? ORDER BY ID_ARTISTA";
+
+        SELECT_EMPRESAS_POR_ID_ARTISTA = "SELECT AE.ID_EMPRESA_DIFUSORA, ED.NOMBRE,ED.FECHA_CREACION,ED.FECHA_TERMINACION,ED.STATUS,\n"
+                + "ED.RUTA_IMAGEN, ED.ID_TIPO_ACTIVIDAD, ED.ID_CONTACTO,ED.ID_COSTO_ACTIVIDAD \n"
+                + "FROM ARTISTA_EMPRESA AE INNER JOIN EMPRESA_DIFUSORA ED \n"
+                + "ON AE.ID_EMPRESA_DIFUSORA = ED.ID_EMPRESA_DIFUSORA \n"
+                + "WHERE AE.ID_ARTISTA=? ORDER BY ED.ID_EMPRESA_DIFUSORA";
+    }
 }
