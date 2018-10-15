@@ -37,7 +37,7 @@ public class CiudadDaoImpl implements ICiudadDao {
 
         while (rs.next()) {
             Ciudad ciudad = new Ciudad(rs.getInt("ID_CIUDAD"), rs.getString("NOMBRE_CIUDAD"), rs.getInt("ID_PAIS"));
-
+            ciudad.obtenerPais();
             listaCiudades.add(ciudad);
         }
 

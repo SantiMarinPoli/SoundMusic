@@ -190,20 +190,20 @@ public class controladorUsuario extends HttpServlet {
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
 
-        String nombreUsuario = request.getParameter("nombreUsuario");
-        String contrasena = request.getParameter("contrasena");
+        String nombreUsuario = request.getParameter("nomUsuario");
+        String contrasena = request.getParameter("pass1");
 
         UsuarioLogin usuarioLogin = new UsuarioLogin(0, nombreUsuario, contrasena);
         UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
         daoUsuarioLogin.crearUsuarioLogin(usuarioLogin);
         usuarioLogin.setIdUsuarioLogin(daoUsuarioLogin.getUltimmoIdUsuarioLogin());
 
-        String celular = request.getParameter("celular");
-        String telefono = request.getParameter("telefono");
+        String celular = request.getParameter("numCel");
+        String telefono = request.getParameter("numTel");
         String direccion = request.getParameter("direccion");
         String barrio = request.getParameter("barrio");
         String email = request.getParameter("email");
-        int idCiudad = Integer.parseInt(request.getParameter("IdCiudad"));
+        int idCiudad = Integer.parseInt(request.getParameter("ciudad"));
 
         String[] datosContacto = {celular, telefono, direccion, barrio, email};
 
@@ -212,14 +212,14 @@ public class controladorUsuario extends HttpServlet {
         daoCiudad.crearContacto(contacto);
         contacto.setIdContacto(daoCiudad.getUltimoIdContacto());
 
-        String primerNombre = request.getParameter("primerNombre");
-        String segundoNombre = request.getParameter("segundoNombre");
-        String primerApellido = request.getParameter("primerApellido");
-        String segundoApellido = request.getParameter("segundoApellido");
-        String genero = request.getParameter("generoUsuario");
+        String primerNombre = request.getParameter("nombre1");
+        String segundoNombre = request.getParameter("nombre2");
+        String primerApellido = request.getParameter("apellido1");
+        String segundoApellido = request.getParameter("apellido2");
+        String genero = request.getParameter("sexo");
         Date fechaCreacion = Date.valueOf(LocalDate.now());
-        String satus = request.getParameter("A");
-        int idPerfil = Integer.parseInt((String) request.getParameter("idPerfil"));
+        String satus = "A";
+        int idPerfil = Integer.parseInt((String) request.getParameter("perfil"));
 
         Usuario usuario = new Usuario(0, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion,
                 satus, genero, idPerfil, usuarioLogin.getIdUsuarioLogin(), contacto.getIdContacto());

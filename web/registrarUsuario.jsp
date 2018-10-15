@@ -1,4 +1,8 @@
 
+<%@page import="co.com.soundMusic.Seguridad.Perfiles.Perfil"%>
+<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
+<%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +15,7 @@
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
-        
+
     </head>
 
     <header>
@@ -42,9 +46,9 @@
 
                     <br>
 
-                    <form name="formulario_usuario" action="" method="post">
+                    <form name="formulario_usuario" action="controladorUsuario" method="post">
                         <input type="hidden" name="cod" value="0">
-
+                        <input type ="hidden" name="operacion" value="crear" />
 
 
                         <div class="form-row">
@@ -80,10 +84,10 @@
                             <br>
                             <h8>Genero*</h8>
                             <br>
-                            <input class="form-check-input" type="radio" name="sexo" id="textSex1" value="Masculino" >
+                            <input class="form-check-input" type="radio" name="sexo" id="textSex1" value="M" >
                             <label class="form-check-label " for="textSex1">Masculino</label>
 
-                            <input class="form-check-input" type="radio" name="sexo" id="textSex2" value="Femenino">
+                            <input class="form-check-input" type="radio" name="sexo" id="textSex2" value="F">
                             <label class="form-check-label" for="textSex2">Femenino</label>
                             <br>
                             <div class="invalid-feedback ">Debe seleccionar un sexo</div>
@@ -118,7 +122,22 @@
                         </div>
 
                         <br>
-
+                        <div class="form-row">
+                            <label >Perfil*</label>
+                                <select class="form-control" name="perfil" id="perfil">
+                                    <option value="">Seleccionar perfil</option>
+                                    <%//Listar los paises en la base de datos
+                                        List<Perfil> listaPerfil
+                                                = (List<Perfil>) request.getAttribute("lstPerfil");
+                                        for (Perfil perfil : listaPerfil) {
+                                            out.print("<option value='" + perfil.getIdPerfil()
+                                                    + "'>" + perfil.getNombrePerfil()+ "</option>");
+                                        }
+                                    %>
+                                </select>
+                                <div class="invalid-feedback ">El campo perfil debe ser obligatorio</div>
+                        </div>
+                        <br>
                         <div class="form-row">
                             <div class="col">
                                 <label >Numero del Celular*</label>
@@ -139,16 +158,32 @@
                                 <label >Pais*</label>
                                 <select class="form-control" name="pais" id="pais">
                                     <option value="">Seleccionar el pais</option>
-                                    <option value="Colombia">Colombia</option>
-                                    <option value="Mexico">Mexico</option>
-                                    <option value="Estados Unidos">Estados Unidos</option>
+                                    <%//Listar los paises en la base de datos
+                                        List<Pais> listaPais
+                                                = (List<Pais>) request.getAttribute("lstPais");
+                                        for (Pais pais : listaPais) {
+                                            out.print("<option value='" + pais.getIdPais()
+                                                    + "'>" + pais.getNombre() + "</option>");
+                                        }
+                                    %>
                                 </select>
                                 <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
                             </div>
                             <div class="col">
                                 <label >Ciudad</label>
-                                <input type="text" class="form-control" name="ciudad" id="ciudad "placeholder="Ingrese la ciudad" >
-                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
+                                <!-- <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ingrese la ciudad" > -->
+                                <select class="form-control" name="ciudad" id="ciudad">
+                                    <option value="">Seleccionar la ciudad</option>
+                                    <%//Listar las ciudades en la base de datos
+                                        List<Ciudad> listaCiudad
+                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
+                                        for (Ciudad ciudad : listaCiudad) {
+                                            out.print("<option value='" + ciudad.getIdCiudad()
+                                                    + "'>" + ciudad.getNombre() + "</option>");
+                                        }
+                                    %>
+                                </select>
+                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
                             </div>
                         </div>
 
