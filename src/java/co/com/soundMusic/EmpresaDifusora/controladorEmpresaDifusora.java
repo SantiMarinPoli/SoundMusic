@@ -205,15 +205,15 @@ public class controladorEmpresaDifusora extends HttpServlet {
 
     private void crearEmpresaDifusora(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        float costo = Float.parseFloat((String) request.getParameter("costoOperacion"));
+        float costo = Float.parseFloat((String) request.getParameter("valorOp"));
 
         CostoActividad costoOperacion = new CostoActividad(0, costo, Date.valueOf(LocalDate.now()), null);
         CostoActividadDaoImpl daoCostoActividad = new CostoActividadDaoImpl();
         daoCostoActividad.crearCostoActividad(costoOperacion);
         costoOperacion.setIdCostoActividad(daoCostoActividad.getUltimoIdCostoActividad());
 
-        String telefono = request.getParameter("telefonoEmpresa");
-        String email = request.getParameter("emailEmpresa");
+        String telefono = request.getParameter("numFijo");
+        String email = request.getParameter("correo");
         int idCiudad = Integer.parseInt(request.getParameter("IdCiudad"));
 
         String[] datosContacto = {null, telefono, null, null, email};
@@ -223,7 +223,7 @@ public class controladorEmpresaDifusora extends HttpServlet {
         daoCiudad.crearContacto(contacto);
         contacto.setIdContacto(daoCiudad.getUltimoIdContacto());
 
-        String nombre = request.getParameter("nombreEmpresa");
+        String nombre = request.getParameter("nomEmpresa");
         Date fechaCreacion = Date.valueOf(LocalDate.now());
         String rutaImagen = request.getParameter("rutaImagenemprea");
         int idTipoActividad = Integer.parseInt((String) request.getParameter("idTipoActividad"));
