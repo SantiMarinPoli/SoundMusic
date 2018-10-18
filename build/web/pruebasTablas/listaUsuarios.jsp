@@ -30,7 +30,7 @@
                 out.print("<td>" + usu.getPrimerNombre() + " " + usu.getPrimerApellido() + "</td>");
                 out.print("<td>" + usu.getGenero() + "</td>");
                 out.print("<td>" + usu.getContacto().getEmail() + "</td>");
-                out.print("<td>" + usu.getPerfil().getNombrePerfil()+ "</td>");
+                out.print("<td>" + usu.getPerfil().getNombrePerfil() + "</td>");
                 out.print("<td>" + usu.getUsuarioLogin().getNombreUsuario() + "</td>");
                 out.print("<td>" + usu.getFechaCreacion() + "</td>");
                 if (usu.getStatus().equalsIgnoreCase("A")) {
@@ -38,7 +38,7 @@
                 } else {
                     out.print("<td><a href='#' class='badge badge-success btnActivar' idUsuario=" + usu.getIdUsuario() + " activarUsuario='0'>Desactivo</a></td>");
                 }
-                out.print("<td><a href='modificarUsuario.jsp' class='btn btn-warning'>Actualizar</a></td>");
+                out.print("<td><a href='controladorUsuario?opcion=editar&IdUsuario=" + usu.getIdUsuario() + "' class='btn btn-warning'>Actualizar</a></td>");
                 out.print("</tr>");
             }
         %>

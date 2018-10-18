@@ -92,19 +92,21 @@ public class controladorUsuario extends HttpServlet {
                 vista.forward(request, response);
             }
             if (opcion.equals("editar")) {
+
+                actualizarDatosFormulario(request);
+
+                int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
+                UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
                 try {
-
-                    actualizarDatosFormulario(request);
-                    int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
-                    UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
                     Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
-                    request.setAttribute("usuario", usuario);
-
-                    RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
-                    vista.forward(request, response);
+                    request.setAttribute("usuarioEditar", usuario);
                 } catch (SQLException ex) {
                     Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
+
+                RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
+                vista.forward(request, response);
+
             }
         }
     }
@@ -133,7 +135,7 @@ public class controladorUsuario extends HttpServlet {
                 }
             }
             if (operacion.equals("editar")) {
-                int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));                
+                int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));
                 editarUsuario(request, response, idUsuario);
                 ingresarLogAuditoria(UsuarioId(request, response), 3);
             }
@@ -233,10 +235,10 @@ public class controladorUsuario extends HttpServlet {
 
             Contacto contacto = new Contacto(idContacto, datosContacto, idCiudad);
 
-            String primerNombre = request.getParameter("primerNombre");
-            String segundoNombre = request.getParameter("segundoNombre");
-            String primerApellido = request.getParameter("primerApellido");
-            String segundoApellido = request.getParameter("segundoApellido");
+            String primerNombre = request.getParameter("nombre1");
+            String segundoNombre = request.getParameter("nombre2");
+            String primerApellido = request.getParameter("apellido1");
+            String segundoApellido = request.getParameter("apellido2");
             String genero = request.getParameter("generoUsuario");
 
             int idPerfil = Integer.parseInt(request.getParameter("idPerfil"));
@@ -277,7 +279,7 @@ public class controladorUsuario extends HttpServlet {
     }
 
     private void ingresarLogAuditoria(int idUsuario, int idPermisos) {
- LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
+        LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
         try {
             daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
         } catch (SQLException ex) {
@@ -292,7 +294,8 @@ public class controladorUsuario extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session != null) {
-            return idUsuario = (int) session.getAttribute("usuarioId");
+             idUsuario = (int) session.getAttribute("usuarioId");
+             return idUsuario;
         }
         return idUsuario;
     }
