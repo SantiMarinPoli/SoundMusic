@@ -6,10 +6,14 @@ import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.Contacto.ContactoDaoImpl;
 import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
+import co.com.soundMusic.LogAuditoria.LogAuditoria;
+import co.com.soundMusic.LogAuditoria.LogAuditoriaDaoImpl;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
+import co.com.soundMusic.Login.controladorLogin;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
+import co.com.soundMusic.Seguridad.Permisos.Permisos;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -22,6 +26,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -81,39 +86,15 @@ public class controladorUsuario extends HttpServlet {
                 }
             }
             if (opcion.equals("crearUsuario")) {
-                try {
-                    PaisDaoImpl daoPais = new PaisDaoImpl();
-                    List<Pais> lstPais = daoPais.obtenerPaises();
-                    request.setAttribute("lstPais", lstPais);
 
-                    CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
-                    List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                    request.setAttribute("lstCiudad", lstCiudad);
-
-                    PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
-                    List<Perfil> lstPerfil = daoPerfil.obtenerPerfiles();
-                    request.setAttribute("lstPerfil", lstPerfil);
-
-                    RequestDispatcher vista = request.getRequestDispatcher("/registrarUsuario.jsp");
-                    vista.forward(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                actualizarDatosFormulario(request);
+                RequestDispatcher vista = request.getRequestDispatcher("/registrarUsuario.jsp");
+                vista.forward(request, response);
             }
             if (opcion.equals("editar")) {
                 try {
-                    PaisDaoImpl daoPais = new PaisDaoImpl();
-                    List<Pais> lstPais = daoPais.obtenerPaises();
-                    request.setAttribute("lstPais", lstPais);
 
-                    CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
-                    List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                    request.setAttribute("lstCiudad", lstCiudad);
-
-                    PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
-                    List<Perfil> lstPerfil = daoPerfil.obtenerPerfiles();
-                    request.setAttribute("lstPerfil", lstPerfil);
-
+                    actualizarDatosFormulario(request);
                     int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
                     UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
                     Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
@@ -145,14 +126,16 @@ public class controladorUsuario extends HttpServlet {
             if (operacion.equalsIgnoreCase("crear")) {
                 try {
                     crearUsuario(request, response);
+                    ingresarLogAuditoria(UsuarioId(request, response), 2);
                     actulizarLstUsuario(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             if (operacion.equals("editar")) {
-                int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));
+                int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));                
                 editarUsuario(request, response, idUsuario);
+                ingresarLogAuditoria(UsuarioId(request, response), 3);
             }
         }
     }
@@ -275,4 +258,42 @@ public class controladorUsuario extends HttpServlet {
         }
     }
 
+    private void actualizarDatosFormulario(HttpServletRequest request) {
+        try {
+            PaisDaoImpl daoPais = new PaisDaoImpl();
+            List<Pais> lstPais = daoPais.obtenerPaises();
+            request.setAttribute("lstPais", lstPais);
+
+            CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
+            List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
+            request.setAttribute("lstCiudad", lstCiudad);
+
+            PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
+            List<Perfil> lstPerfil = daoPerfil.obtenerPerfiles();
+            request.setAttribute("lstPerfil", lstPerfil);
+        } catch (SQLException ex) {
+            Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void ingresarLogAuditoria(int idUsuario, int idPermisos) {
+ LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
+        try {
+            daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
+        } catch (SQLException ex) {
+            Logger.getLogger(controladorLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private int UsuarioId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int idUsuario = 0;
+        response.setContentType("text/html");
+        request.getRequestDispatcher("navbar.jsp").include(request, response);
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            return idUsuario = (int) session.getAttribute("usuarioId");
+        }
+        return idUsuario;
+    }
 }
