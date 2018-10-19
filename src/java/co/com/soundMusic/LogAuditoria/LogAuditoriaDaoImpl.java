@@ -50,8 +50,6 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
             logAuditoria.obtenerPermiso();
             logAuditoria.obtenerUsuario();
 
-            logAuditoria.obtenerPermiso();
-
             listaLogAuditoria.add(logAuditoria);
         }
 
