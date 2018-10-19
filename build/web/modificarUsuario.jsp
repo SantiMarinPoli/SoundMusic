@@ -57,7 +57,7 @@
                             </div>
                             <div class="col">
                                 <label>Segundo Nombre</label>
-                                <% out.println("<input type='text' class='form-control' name='nombre2' id='nombre2 texto' value='" + usuario.getSegundoApellido() + "'/>");%> 
+                                <% out.println("<input type='text' class='form-control' name='nombre2' id='nombre2 texto' value='" + usuario.getSegundoNombre()+ "'/>");%> 
                             </div>
                         </div>
 
