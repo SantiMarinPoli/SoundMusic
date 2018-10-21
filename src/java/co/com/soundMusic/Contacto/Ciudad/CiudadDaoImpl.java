@@ -55,6 +55,8 @@ public class CiudadDaoImpl implements ICiudadDao {
             Ciudad ciudad = new Ciudad(idCiudad, rs.getString("NOMBRE_CIUDAD"),
                     rs.getInt("ID_PAIS"));
 
+            ciudad.obtenerPais();
+            
             return ciudad;
         }
 

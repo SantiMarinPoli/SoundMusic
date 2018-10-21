@@ -1,4 +1,7 @@
 
+<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
+<%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
+<%@page import="java.util.List"%>
 <%@page import="co.com.soundMusic.Login.Usuario.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -38,7 +41,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <a href="usuario.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <a href="controladorUsuario?opcion=listarUsuarios" class="btn btn-danger" id="btn-regresar">Regresar</a>
                         </div>
                     </div>
 
@@ -57,7 +60,7 @@
                             </div>
                             <div class="col">
                                 <label>Segundo Nombre</label>
-                                <% out.println("<input type='text' class='form-control' name='nombre2' id='nombre2 texto' value='" + usuario.getSegundoNombre()+ "'/>");%> 
+                                <% out.println("<input type='text' class='form-control' name='nombre2' id='nombre2 texto' value='" + usuario.getSegundoNombre() + "'/>");%> 
                             </div>
                         </div>
 
@@ -80,12 +83,18 @@
                         <div class="form-group radio">
                             <br>
                             <h8>Genero*</h8>
-                            <br>
-                            <input class="form-check-input " type="radio" name="sexo" id="textSex1" value="M" >                            
+                            <br>                            
+                            <%if (usuario.getGenero().equalsIgnoreCase("M")) {
+                                    out.println("<input class='form-check-input ' type='radio' name='sexo' id='textSex1' value='M' checked>");%>
                             <label class="form-check-label " for="textSex1">Masculino</label>
-
-                            <input class="form-check-input " type="radio" name="sexo" id="textSex2" value="F">
+                            <%out.println("<input class='form-check-input ' type='radio' name='sexo' id='textSex2' value='F'>");%>
                             <label class="form-check-label" for="textSex2">Femenino</label>
+                            <%} else {
+                                out.println("<input class='form-check-input ' type='radio' name='sexo' id='textSex1' value='M'>");%>
+                            <label class="form-check-label " for="textSex1">Masculino</label>
+                            <%out.println("<input class='form-check-input ' type='radio' name='sexo' id='textSex2' value='F' checked>");%>
+                            <label class="form-check-label" for="textSex2">Femenino</label>
+                            <%}%>
                             <br>
                             <div class="invalid-feedback ">Debe seleccionar un campo</div>
 
@@ -108,12 +117,12 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Contraseña*</label>
-                                <input type="password" class="form-control" name="pass1" id="textPass" placeholder="Password" >
+                                <% out.println("<input type='password' class='form-control' name='pass1' id='textPass' value='" + usuario.getUsuarioLogin().getContrasena() + "' >");%>
                                 <div class="invalid-feedback ">La contraseña debe ser obligatorio</div>
                             </div>
                             <div class="col">
                                 <label>Repita Contraseña*</label>
-                                <input type="password" class="form-control" name="pass2" id="textRepeatPass" placeholder="Password" >
+                                <% out.println("<input type='password' class='form-control' name='pass2' id='textRepeatPass' value='" + usuario.getUsuarioLogin().getContrasena() + "' >");%>
                                 <div class="invalid-feedback ">La contraseña debe ser igual dato</div>
                             </div>
                         </div>
@@ -123,7 +132,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <label >Numero del Celular*</label>
-                                <% out.println("<input type='number' class='form-control' name='numCel' id='numCel'value='" + usuario.getContacto().getCelular()+ "' >");%>
+                                <% out.println("<input type='number' class='form-control' name='numCel' id='numCel'value='" + usuario.getContacto().getCelular() + "' >");%>
                                 <div class="invalid-feedback ">El numero celular debe ser obligatorio</div>
                             </div>
                             <div class="col">
@@ -137,19 +146,47 @@
 
                         <div class="form-row">
                             <div class="col">
-                                <label >Ciudad*</label>
-                                <select class="form-control" name="ciudad" id="ciudad">
-                                    <option>Seleccionar la ciudad</option>
-                                    <option value="Colombia">Colombia</option>
-                                    <option value="Mexico">Mexico</option>
-                                    <option value="Estados Unidos">Estados Unidos</option>
+                                <label >Pais*</label>
+                                <select class="form-control" name="pais" id="pais">
+                                    <%//Listar los paises en la base de datos      
+                                        out.print("<option value='" + usuario.getContacto().getCiudad().getPais().getIdPais()
+                                                + "'>" + usuario.getContacto().getCiudad().getPais().getNombre() + "</option>");
+
+                                        List<Pais> listaPais
+                                                = (List<Pais>) request.getAttribute("lstPais");
+                                        for (Pais pais : listaPais) {
+                                            if (usuario.getContacto().getCiudad().getPais().getNombre().equalsIgnoreCase(pais.getNombre())) {
+                                                continue;
+                                            } else {
+                                                out.print("<option value='" + pais.getIdPais()
+                                                        + "'>" + pais.getNombre() + "</option>");
+                                            }
+                                        }
+                                    %>
                                 </select>
-                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
+                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
                             </div>
                             <div class="col">
-                                <label >Pais</label>
-                                <input type="text" class="form-control" name="pais" id="pais "placeholder="Ingrese el pais" >
-                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
+                                <label >Ciudad</label>
+                                <!-- <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ingrese la ciudad" > -->
+                                <select class="form-control" name="ciudad" id="ciudad">
+                                    <%//Listar las ciudades en la base de datos
+                                        out.print("<option value='" + usuario.getContacto().getCiudad().getIdCiudad()
+                                                + "'>" + usuario.getContacto().getCiudad().getNombre() + "</option>");
+
+                                        List<Ciudad> listaCiudad
+                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
+                                        for (Ciudad ciudad : listaCiudad) {
+                                            if (usuario.getContacto().getCiudad().getNombre().equalsIgnoreCase(ciudad.getNombre())) {
+                                                continue;
+                                            } else {
+                                                out.print("<option value='" + ciudad.getIdCiudad()
+                                                        + "'>" + ciudad.getNombre() + "</option>");
+                                            }
+                                        }
+                                    %>
+                                </select>
+                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
                             </div>
                         </div>
 
@@ -157,12 +194,12 @@
 
                         <div class="form-group">
                             <label>Direccion Actual</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingresar la direccion actual">
+                            <% out.println("<input type='text' name='direccion' id='direccion' class='form-control' value='" + usuario.getContacto().getDireccion() + "'>");%>
                         </div>
 
                         <div class="form-group">
                             <label>Barrio</label>
-                            <input type="text" name="barrio" id="barrio" class="form-control" placeholder="Ingresar el barrio">
+                            <% out.println("<input type='text' name='barrio' id='barrio' class='form-control' value='" + usuario.getContacto().getBarrio() + "'>");%>
                         </div>
 
                         <div class="form-check checkbox">

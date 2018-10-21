@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.dbcp2.BasicDataSource;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -13,6 +15,9 @@ import java.util.logging.Logger;
 public class DBUtil {
 
     private static Connection conexion = null;
+    private static BasicDataSource conexionPool;
+
+    ;
 
     public static Connection getConexion() {
         try {
@@ -28,6 +33,7 @@ public class DBUtil {
 
             //Nos conectamos a la base de datos con los datos anteriores
             conexion = DriverManager.getConnection(url, nombreUsuario, password);
+
         } catch (ClassNotFoundException | SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
@@ -56,4 +62,26 @@ public class DBUtil {
 
         return conexion;
     }
+
+    public static Connection getConexionPool() {
+        conexionPool = new BasicDataSource();
+        String nombreUsuario = "SOUNDMUSIC";
+        String password = "SOUNDMUSIC2018";
+        String url = "jdbc:oracle:thin:@localhost:1521:XE";
+
+        conexionPool.setUsername(nombreUsuario);
+        conexionPool.setPassword(password);
+        conexionPool.setDriverClassName("oracle.jdbc.OracleDriver");
+        conexionPool.setUrl(url);
+        conexionPool.setInitialSize(5);
+        try {
+            conexion = conexionPool.getConnection();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return conexion;
+    }
+
 }

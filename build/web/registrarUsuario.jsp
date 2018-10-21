@@ -146,7 +146,7 @@
                             </div>
                             <div class="col">
                                 <label >Numero del Telefono</label>
-                                <input type="number" class="form-control" name="numTel" id="numTel"placeholder="Ingrese el numero de telefonico" >
+                                <input type="number" class="form-control" name="numTel" id="numTel" placeholder="Ingrese el numero de telefonico" >
                                 <div class="invalid-feedback ">El numero telefonico debe ser obligatorio</div>
                             </div>
                         </div>

@@ -1,5 +1,10 @@
 package co.com.soundMusic.Contacto;
 
+import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,6 +19,7 @@ public class Contacto {
     private String barrio;
     private String email;
     private int idCiudad;
+    private Ciudad ciudad;
 
     public Contacto() {
     }
@@ -84,4 +90,20 @@ public class Contacto {
         this.idCiudad = idCiudad;
     }
 
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public void obtenerCiudad() {
+        CiudadDaoImpl daoCiudad = new CiudadDaoImpl();
+        try {
+            this.setCiudad(daoCiudad.obtenerCiudad(this.idCiudad));
+        } catch (SQLException ex) {
+            Logger.getLogger(Contacto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -27,132 +30,176 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     private static final String UPDATE_STATUS;
     private static final String UPDTAE_USUARIO;
     private static final String SELECT_ULTIMO_ID;
+    private Statement stmt;
+    private ResultSet rs;
 
     public UsuarioDaoImpl(Boolean production) {
         if (production) {
-            conexion = DBUtil.getConexion();
+            //conexion = DBUtil.getConexion();
+            conexion = DBUtil.getConexionPool();
         } else {
             conexion = DBUtil.getTestConexion();
         }
+        stmt = null;
+        rs = null;
     }
 
     @Override
-    public List<Usuario> obtenerUsuarios() throws SQLException {
+    public List<Usuario> obtenerUsuarios() {
         List<Usuario> listaUsuarios = new ArrayList<>();
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_USUARIOS);
 
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_USUARIOS);
+            while (rs.next()) {
+                int idUsuario = rs.getInt("ID_USUARIO");
+                String primerNombre = rs.getString("PRIMER_NOMBRE");
+                String segundoNombre = validacion(rs.getString("SEGUNDO_NOMBRE"));
+                String primerApellido = rs.getString("PRIMER_APELLIDO");
+                String segundoApellido = validacion(rs.getString("SEGUNDO_APELLIDO"));
+                Date fechaCreacion = rs.getDate("FECHA_CREACION");
+                String status = rs.getString("STATUS");
+                String genero = validacion(rs.getString("GENERO"));
+                int idPerfilUsuario = rs.getInt("ID_PERFIL");
+                int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
+                int idContacto = rs.getInt("ID_CONTACTO");
 
-        while (rs.next()) {
-            int idUsuario = rs.getInt("ID_USUARIO");
-            String primerNombre = rs.getString("PRIMER_NOMBRE");
-            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
-            String primerApellido = rs.getString("PRIMER_APELLIDO");
-            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
-            Date fechaCreacion = rs.getDate("FECHA_CREACION");
-            String status = rs.getString("STATUS");
-            String genero = rs.getString("GENERO");
-            int idPerfilUsuario = rs.getInt("ID_PERFIL");
-            int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
-            int idContacto = rs.getInt("ID_CONTACTO");
+                Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                        primerApellido, segundoApellido, fechaCreacion, status,
+                        genero, idPerfilUsuario, idLoginUsuario, idContacto);
 
-            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, fechaCreacion, status,
-                    genero, idPerfilUsuario, idLoginUsuario, idContacto);
+                usuario.obtenerContactoUsuario();
+                usuario.obtenerPerfilUsuario();
+                usuario.obtenerUsuarioLogin();
 
-            usuario.obtenerContactoUsuario();
-            usuario.obtenerPerfilUsuario();
-            usuario.obtenerUsuarioLogin();
+                listaUsuarios.add(usuario);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
 
-            listaUsuarios.add(usuario);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
-        stmt.close();
         return listaUsuarios;
     }
 
     @Override
-    public Usuario obtenerUsuario(int idUsuario) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIO_POR_ID);
-        ps.setInt(1, idUsuario);
-        ResultSet rs = ps.executeQuery();
+    public Usuario obtenerUsuario(int idUsuario) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIO_POR_ID);
+            ps.setInt(1, idUsuario);
+            rs = ps.executeQuery();
 
-        while (rs.next()) {
-            String primerNombre = rs.getString("PRIMER_NOMBRE");
-            String segundoNombre = rs.getString("SEGUNDO_NOMBRE");
-            String primerApellido = rs.getString("PRIMER_APELLIDO");
-            String segundoApellido = rs.getString("SEGUNDO_APELLIDO");
-            Date fechaCreacion = rs.getDate("FECHA_CREACION");
-            String status = rs.getString("STATUS");
-            String genero = rs.getString("GENERO");
-            int idPerfilUsuario = rs.getInt("ID_PERFIL");
-            int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
-            int idContacto = rs.getInt("ID_CONTACTO");
+            while (rs.next()) {
+                String primerNombre = rs.getString("PRIMER_NOMBRE");
+                String segundoNombre = validacion(rs.getString("SEGUNDO_NOMBRE"));
+                String primerApellido = rs.getString("PRIMER_APELLIDO");
+                String segundoApellido = validacion(rs.getString("SEGUNDO_APELLIDO"));
+                Date fechaCreacion = rs.getDate("FECHA_CREACION");
+                String status = rs.getString("STATUS");
+                String genero = validacion(rs.getString("GENERO"));
+                int idPerfilUsuario = rs.getInt("ID_PERFIL");
+                int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
+                int idContacto = rs.getInt("ID_CONTACTO");
 
-            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, fechaCreacion, status,
-                    genero, idPerfilUsuario, idLoginUsuario, idContacto);
+                Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                        primerApellido, segundoApellido, fechaCreacion, status,
+                        genero, idPerfilUsuario, idLoginUsuario, idContacto);
 
-            usuario.obtenerContactoUsuario();
-            usuario.obtenerPerfilUsuario();
-            usuario.obtenerUsuarioLogin();
+                usuario.obtenerContactoUsuario();
+                usuario.obtenerPerfilUsuario();
+                usuario.obtenerUsuarioLogin();
 
-            return usuario;
+                return usuario;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
         return null;
     }
 
     @Override
-    public void crearUsuario(Usuario usuario) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIO);
+    public void crearUsuario(Usuario usuario) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIO);
 
-        ps.setString(1, usuario.getPrimerNombre());
-        ps.setString(2, usuario.getSegundoNombre());
-        ps.setString(3, usuario.getPrimerApellido());
-        ps.setString(4, usuario.getSegundoApellido());
-        ps.setDate(5, usuario.getFechaCreacion());
-        ps.setString(6, usuario.getStatus());
-        ps.setString(7, usuario.getGenero());
-        ps.setInt(8, usuario.getIdPerfil());
-        ps.setInt(9, usuario.getIdUsuarioLogin());
-        ps.setInt(10, usuario.getIdContacto());
-        ps.executeUpdate();
+            ps.setString(1, usuario.getPrimerNombre());
+            ps.setString(2, usuario.getSegundoNombre());
+            ps.setString(3, usuario.getPrimerApellido());
+            ps.setString(4, usuario.getSegundoApellido());
+            ps.setDate(5, usuario.getFechaCreacion());
+            ps.setString(6, usuario.getStatus());
+            ps.setString(7, usuario.getGenero());
+            ps.setInt(8, usuario.getIdPerfil());
+            ps.setInt(9, usuario.getIdUsuarioLogin());
+            ps.setInt(10, usuario.getIdContacto());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion);
+        }
     }
 
     @Override
-    public void eliminarUsuario(String status, int idUsuario) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDATE_STATUS);
-        ps.setString(1, status);
-        ps.setInt(2, idUsuario);
-        ps.executeUpdate();
+    public void eliminarUsuario(String status, int idUsuario) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDATE_STATUS);
+            ps.setString(1, status);
+            ps.setInt(2, idUsuario);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion);
+        }
     }
 
     @Override
-    public void actualizarUsuario(Usuario usuario) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDTAE_USUARIO);
+    public void actualizarUsuario(Usuario usuario) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDTAE_USUARIO);
 
-        ps.setString(1, usuario.getPrimerNombre());
-        ps.setString(2, usuario.getSegundoNombre());
-        ps.setString(3, usuario.getPrimerApellido());
-        ps.setString(4, usuario.getSegundoApellido());
-        ps.setDate(5, usuario.getFechaCreacion());
-        ps.setString(6, usuario.getStatus());
-        ps.setString(7, usuario.getGenero());
-        ps.setInt(8, usuario.getIdPerfil());
-        ps.setInt(9, usuario.getIdUsuarioLogin());
-        ps.setInt(10, usuario.getIdContacto());
-        ps.setInt(11, usuario.getIdUsuario());
-        ps.executeUpdate();
+            ps.setString(1, usuario.getPrimerNombre());
+            ps.setString(2, usuario.getSegundoNombre());
+            ps.setString(3, usuario.getPrimerApellido());
+            ps.setString(4, usuario.getSegundoApellido());
+            ps.setDate(5, usuario.getFechaCreacion());
+            ps.setString(6, usuario.getStatus());
+            ps.setString(7, usuario.getGenero());
+            ps.setInt(8, usuario.getIdPerfil());
+            ps.setInt(9, usuario.getIdUsuarioLogin());
+            ps.setInt(10, usuario.getIdContacto());
+            ps.setInt(11, usuario.getIdUsuario());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion);
+        }
     }
 
-    public int getUltimoIdUsuario() throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
-        ResultSet rs = ps.executeQuery();
+    public int getUltimoIdUsuario() {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
+            ResultSet rs = ps.executeQuery();
 
-        while (rs.next()) {
-            int idUsuario = rs.getInt("CURRVAL");
-            return idUsuario;
+            while (rs.next()) {
+                int idUsuario = rs.getInt("CURRVAL");
+                return idUsuario;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion);
         }
         return -1;
     }
@@ -182,5 +229,13 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
         SELECT_ULTIMO_ID = "SELECT USUARIO_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+    }
+
+    private String validacion(String aValidar) {
+        if (aValidar != null) {
+            return aValidar.trim();
+        } else {
+            return "";
+        }
     }
 }

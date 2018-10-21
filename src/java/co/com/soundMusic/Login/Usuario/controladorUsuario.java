@@ -74,16 +74,12 @@ public class controladorUsuario extends HttpServlet {
                 int idUsuario = Integer.parseInt((String) request.getParameter("IdUsuario"));
 
                 UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-                try {
-                    daoUsuario.eliminarUsuario("I", idUsuario);
-                    List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
-                    request.setAttribute("lstUsuario", lstUsuario);
-                    RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
-                    vista.forward(request, response);
-                } catch (SQLException ex) {
-                    System.out.println("Excepción: " + ex.getMessage());
-                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                daoUsuario.eliminarUsuario("I", idUsuario);
+                List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
+                request.setAttribute("lstUsuario", lstUsuario);
+                RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
+                vista.forward(request, response);
+
             }
             if (opcion.equals("crearUsuario")) {
 
@@ -97,12 +93,9 @@ public class controladorUsuario extends HttpServlet {
 
                 int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
                 UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-                try {
-                    Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
-                    request.setAttribute("usuarioEditar", usuario);
-                } catch (SQLException ex) {
-                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+
+                Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
+                request.setAttribute("usuarioEditar", usuario);
 
                 RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
                 vista.forward(request, response);
@@ -294,8 +287,8 @@ public class controladorUsuario extends HttpServlet {
 
         HttpSession session = request.getSession(false);
         if (session != null) {
-             idUsuario = (int) session.getAttribute("usuarioId");
-             return idUsuario;
+            idUsuario = (int) session.getAttribute("usuarioId");
+            return idUsuario;
         }
         return idUsuario;
     }

@@ -35,6 +35,7 @@ public class LogAuditoria {
         this.usuario = usuario;
         this.operaciones = operaciones;
     }
+
     public int getIdLogAuditoria() {
         return idLogAuditoria;
     }
@@ -78,10 +79,6 @@ public class LogAuditoria {
 
     public void obtenerUsuario() {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-        try {
-            this.setUsuario(daoUsuario.obtenerUsuario(this.usuario.getIdUsuario()));
-        } catch (SQLException ex) {
-            Logger.getLogger(LogAuditoria.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.setUsuario(daoUsuario.obtenerUsuario(this.usuario.getIdUsuario()));
     }
 }

@@ -32,10 +32,15 @@ public class ContactoDaoImpl implements IContactoDao {
 
         while (rs.next()) {
 
-            String[] datosContacto = {rs.getString("CELULAR"), rs.getString("TELEFONO"), rs.getString("DIRECCION"),
-                rs.getString("BARRIO"), rs.getString("EMAIL")};
+            String[] datosContacto = {rs.getString("CELULAR"),
+                validacion(rs.getString("TELEFONO")),
+                validacion(rs.getString("DIRECCION")),
+                validacion(rs.getString("BARRIO")),
+                validacion(rs.getString("EMAIL"))};
 
             Contacto contacto = new Contacto(idContacto, datosContacto, rs.getInt("ID_CIUDAD"));
+            contacto.obtenerCiudad();
+
             return contacto;
         }
         return null;
@@ -92,5 +97,13 @@ public class ContactoDaoImpl implements IContactoDao {
 
         SELECT_ULTIMO_ID = "SELECT CONTACTO_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+    }
+
+    private String validacion(String aValidar) {
+        if (aValidar != null) {
+            return aValidar.trim();
+        } else {
+            return "";
+        }
     }
 }
