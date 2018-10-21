@@ -73,7 +73,7 @@ public class controladorUsuario extends HttpServlet {
             if (opcion.equals("borrar")) {
                 int idUsuario = Integer.parseInt((String) request.getParameter("IdUsuario"));
 
-                UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+                UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
                 try {
                     daoUsuario.eliminarUsuario("I", idUsuario);
                     List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
@@ -96,7 +96,7 @@ public class controladorUsuario extends HttpServlet {
                 actualizarDatosFormulario(request);
 
                 int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
-                UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+                UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
                 try {
                     Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
                     request.setAttribute("usuarioEditar", usuario);
@@ -154,7 +154,7 @@ public class controladorUsuario extends HttpServlet {
 
     private void mostrarPaginaUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
 
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
         request.setAttribute("lstUsuario", lstUsuario);
@@ -163,7 +163,7 @@ public class controladorUsuario extends HttpServlet {
 
     private void actulizarLstUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
 
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
         request.setAttribute("lstUsuario", lstUsuario);
@@ -209,7 +209,7 @@ public class controladorUsuario extends HttpServlet {
         Usuario usuario = new Usuario(0, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion,
                 satus, genero, idPerfil, usuarioLogin.getIdUsuarioLogin(), contacto.getIdContacto());
 
-        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
         daoUsuario.crearUsuario(usuario);
     }
 
@@ -249,7 +249,7 @@ public class controladorUsuario extends HttpServlet {
 
             ContactoDaoImpl daoContacto = new ContactoDaoImpl();
             UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
-            UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+            UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
 
             daoContacto.actualizarContacto(contacto);
             daoUsuarioLogin.actualizarUsuarioLogin(usuarioLogin);

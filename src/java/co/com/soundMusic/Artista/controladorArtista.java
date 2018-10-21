@@ -78,7 +78,7 @@ public class controladorArtista extends HttpServlet {
                 String statusArtista = (String) request.getParameter("statusArtista");
                 int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
 
-                ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+                ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
                 try {
                     daoArtista.eliminarArtista(statusArtista, idArtista);
                     List<Artista> lstArtista = daoArtista.obtenerArtistas();
@@ -92,13 +92,13 @@ public class controladorArtista extends HttpServlet {
             }
             if (opcion.equals("crearArtista")) {
                 try {
-                    PaisDaoImpl paisDao= new PaisDaoImpl();
+                    PaisDaoImpl paisDao = new PaisDaoImpl();
                     CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
                     List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
                     List<Pais> lstPais = paisDao.obtenerPaises();
 
                     request.setAttribute("lstPais", lstPais);
-                    request.setAttribute("lstCiudad", lstCiudad); 
+                    request.setAttribute("lstCiudad", lstCiudad);
 
                     RequestDispatcher vista
                             = request.getRequestDispatcher("/registrarArtista.jsp");
@@ -109,16 +109,16 @@ public class controladorArtista extends HttpServlet {
             }
             if (opcion.equals("editar")) {
                 try {
-                    PaisDaoImpl paisDao= new PaisDaoImpl();
+                    PaisDaoImpl paisDao = new PaisDaoImpl();
                     CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
                     List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
                     List<Pais> lstPais = paisDao.obtenerPaises();
 
                     request.setAttribute("lstPais", lstPais);
-                    request.setAttribute("lstCiudad", lstCiudad);                    
+                    request.setAttribute("lstCiudad", lstCiudad);
 
                     int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
-                    ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+                    ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
                     Artista artista = daoArtista.obtenerArtista(idArtista);
                     request.setAttribute("artista", artista);
 
@@ -173,18 +173,18 @@ public class controladorArtista extends HttpServlet {
 
     private void mostrarPaginaArtista(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
 
         List<Artista> lstArtista = daoArtista.obtenerArtistas();
         request.setAttribute("lstArtista", lstArtista);
         RequestDispatcher vista = request.getRequestDispatcher("/artista.jsp");
-        
+
         vista.forward(request, response);
     }
 
     private void actulizarLstArtista(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
 
         List<Artista> lstArtista = daoArtista.obtenerArtistas();
         request.setAttribute("lstArtista", lstArtista);
@@ -192,7 +192,7 @@ public class controladorArtista extends HttpServlet {
 
     private void crearArtista(HttpServletRequest request, HttpServletResponse response) {
         try {
-            Pais pais = obtenerPais(Integer.parseInt(request.getParameter("pais"))," ");
+            Pais pais = obtenerPais(Integer.parseInt(request.getParameter("pais")), " ");
             Ciudad ciudad = obtenerCiudad(Integer.parseInt(request.getParameter("ciudad")),
                     " ", pais);
 
@@ -203,8 +203,8 @@ public class controladorArtista extends HttpServlet {
             String email = request.getParameter("email");
 
             String[] datosContacto = {celular, telefono, direccion, barrio, email};
-            
-            int idCiudad= Integer.parseInt(request.getParameter("idCiudad"));
+
+            int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
 
             Contacto contacto = new Contacto(0, datosContacto, idCiudad);
             ContactoDaoImpl daoContacto = new ContactoDaoImpl();
@@ -215,17 +215,17 @@ public class controladorArtista extends HttpServlet {
             String primerApellido = request.getParameter("apellido1");
             String segundoApellido = request.getParameter("apellido2");
             String nombreArtistico = request.getParameter("nomArtista");
-            String genero = request.getParameter("sexo");            
+            String genero = request.getParameter("sexo");
             Date fechaNacimiento = Date.valueOf(request.getParameter("fechaNac"));
             Date fechaCreacion = Date.valueOf(LocalDate.now());
             String status = "A";
 
             String[] datosArtista = {primerNombre, segundoNombre,
-                primerApellido, segundoApellido, nombreArtistico, genero, status};
+                primerApellido, segundoApellido, nombreArtistico, genero, status, null};
             Date[] fechasArtista = {fechaNacimiento, fechaCreacion};
 
             Artista artista = new Artista(0, datosArtista, fechasArtista, daoContacto.getUltimoIdContacto());
-            ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+            ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
             daoArtista.crearArtista(artista);
         } catch (SQLException ex) {
             Logger.getLogger(controladorArtista.class.getName()).log(Level.SEVERE, null, ex);
@@ -249,8 +249,8 @@ public class controladorArtista extends HttpServlet {
 
             String[] datosContacto = {celular, telefono, direccion, barrio, email};
 
-            int idCiudad= Integer.parseInt(request.getParameter("idCiudad"));
-            Contacto contacto = new Contacto(idContacto, datosContacto,idCiudad);
+            int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
+            Contacto contacto = new Contacto(idContacto, datosContacto, idCiudad);
             ContactoDaoImpl daoContacto = new ContactoDaoImpl();
             daoContacto.actualizarContacto(contacto);
 
@@ -266,13 +266,13 @@ public class controladorArtista extends HttpServlet {
             String status = "A";
 
             String[] datosArtista = {primerNombre, segundoNombre,
-                primerApellido, segundoApellido, nombreArtistico, genero, status};
+                primerApellido, segundoApellido, nombreArtistico, genero, status, null};
             Date[] fechasArtista = {fechaNacimiento, fechaCreacion};
 
             Artista artista = new Artista(idArtista, datosArtista, fechasArtista,
                     idContacto);
 
-            ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+            ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
             daoArtista.actualizarArtista(artista);
 
             mostrarPaginaArtista(request, response);
@@ -281,7 +281,7 @@ public class controladorArtista extends HttpServlet {
         }
     }
 
-       private Pais obtenerPais(int idPais,String nombrePais) {
+    private Pais obtenerPais(int idPais, String nombrePais) {
         PaisDaoImpl paisDao = new PaisDaoImpl();
         try {
             if (idPais == 0) {
@@ -294,7 +294,7 @@ public class controladorArtista extends HttpServlet {
         }
         return null;
     }
-    
+
     private Ciudad obtenerCiudad(int idCiudad, String nombreCiudad, Pais pais) {
         CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
         try {

@@ -18,7 +18,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     //Conexion a la base de datos
     private final Connection conexion;
-    
+    //private final Connection testConexion;
+
     //Constantes con las querys a la base de datos
     private static final String SELECT_USUARIOS;
     private static final String SELECT_USUARIO_POR_ID;
@@ -27,8 +28,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     private static final String UPDTAE_USUARIO;
     private static final String SELECT_ULTIMO_ID;
 
-    public UsuarioDaoImpl() {
-        conexion = DBUtil.getConexion();
+    public UsuarioDaoImpl(Boolean production) {
+        if (production) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
     }
 
     @Override
@@ -68,8 +73,8 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     @Override
     public Usuario obtenerUsuario(int idUsuario) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIO_POR_ID);       
-        ps.setInt(1, idUsuario);       
+        PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIO_POR_ID);
+        ps.setInt(1, idUsuario);
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
@@ -144,7 +149,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     public int getUltimoIdUsuario() throws SQLException {
         PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
         ResultSet rs = ps.executeQuery();
-        
+
         while (rs.next()) {
             int idUsuario = rs.getInt("CURRVAL");
             return idUsuario;

@@ -74,7 +74,7 @@ public class ArtistaEmpresa {
     }
 
     public void obtenerArtista() {
-        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl();
+        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
         try {
             this.setArtista(daoArtista.obtenerArtista(this.idArtista));
         } catch (SQLException ex) {

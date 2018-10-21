@@ -27,8 +27,13 @@ public class ArtistaDaoImpl implements IArtistaDao {
     private static final String UPDATE_STATUS;
     private static final String SELECT_ULTIMO_ID;
 
-    public ArtistaDaoImpl() {
-        conexion = DBUtil.getConexion();
+    public ArtistaDaoImpl(Boolean production) {
+        if (production) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+
     }
 
     @Override

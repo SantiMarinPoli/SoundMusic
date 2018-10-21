@@ -77,7 +77,7 @@ public class LogAuditoria {
     }
 
     public void obtenerUsuario() {
-        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
         try {
             this.setUsuario(daoUsuario.obtenerUsuario(this.usuario.getIdUsuario()));
         } catch (SQLException ex) {

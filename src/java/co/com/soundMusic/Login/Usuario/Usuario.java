@@ -213,7 +213,7 @@ public class Usuario {
     }
 
     public Object obtenerUsuarioLogeado(String nom_usuario, String password_us) throws SQLException {
-        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl();
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
         for (Usuario usuario : lstUsuario) {
             if (usuario.getUsuarioLogin().getNombreUsuario().equalsIgnoreCase(nom_usuario)
