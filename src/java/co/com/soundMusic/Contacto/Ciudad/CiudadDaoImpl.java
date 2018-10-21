@@ -15,7 +15,14 @@ import java.util.List;
  */
 public class CiudadDaoImpl implements ICiudadDao {
 
-    private Connection conexion;
+    //Conexion a la base de datos
+    private final Connection conexion;
+
+    //Constantes con las querys a la base de datos
+    private static final String SELECT_CIUDADES;
+    private static final String SELECT_CIUDAD_POR_ID;
+    private static final String INSERT_CIUDAD;
+    private static final String UPDATE_CIUDAD;
 
     public CiudadDaoImpl() {
         conexion = DBUtil.getConexion();
@@ -26,15 +33,11 @@ public class CiudadDaoImpl implements ICiudadDao {
         List<Ciudad> listaCiudades = new ArrayList<>();
 
         Statement stmt = conexion.createStatement();
-        String sql = "SELECT ID_CIUDAD, NOMBRE AS NOMBRE_CIUDAD, ID_PAIS\n"
-                + "FROM CIUDAD CIU \n"
-                + "ORDER BY CIU.ID_CIUDAD";
-
-        ResultSet rs = stmt.executeQuery(sql);
+        ResultSet rs = stmt.executeQuery(SELECT_CIUDADES);
 
         while (rs.next()) {
             Ciudad ciudad = new Ciudad(rs.getInt("ID_CIUDAD"), rs.getString("NOMBRE_CIUDAD"), rs.getInt("ID_PAIS"));
-
+            ciudad.obtenerPais();
             listaCiudades.add(ciudad);
         }
 
@@ -44,10 +47,7 @@ public class CiudadDaoImpl implements ICiudadDao {
 
     @Override
     public Ciudad obtenerCiudad(int idCiudad) throws SQLException {
-        String sql = "SELECT ID_CIUDAD, NOMBRE AS NOMBRE_CIUDAD, ID_PAIS \n"
-                + "FROM CIUDAD\n"
-                + "WHERE ID_CIUDAD=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_CIUDAD_POR_ID);
         ps.setInt(1, idCiudad);
         ResultSet rs = ps.executeQuery();
 
@@ -63,10 +63,7 @@ public class CiudadDaoImpl implements ICiudadDao {
 
     @Override
     public void crearCiudad(Ciudad ciudad) throws SQLException {
-        String sql = "INSERT INTO CIUDAD (NOMBRE, ID_PAIS)\n"
-                + "VALUES (?,?)\n";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-
+        PreparedStatement ps = conexion.prepareStatement(INSERT_CIUDAD);
         ps.setString(1, ciudad.getNombre());
         ps.setInt(2, ciudad.getIdPais());
         ps.executeUpdate();
@@ -74,14 +71,26 @@ public class CiudadDaoImpl implements ICiudadDao {
 
     @Override
     public void actualizarCiudad(Ciudad ciudad) throws SQLException {
-        String sql = "UPDATE CIUDAD \n"
-                + "SET NOMBRE=?\n"
-                + "WHERE ID_CIUDAD=?\n";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-
+        PreparedStatement ps = conexion.prepareStatement(UPDATE_CIUDAD);
         ps.setString(1, ciudad.getNombre());
         ps.setInt(2, ciudad.getIdCiudad());
         ps.executeUpdate();
     }
 
+    static {
+        SELECT_CIUDADES = "SELECT ID_CIUDAD, NOMBRE AS NOMBRE_CIUDAD, ID_PAIS\n"
+                + "FROM CIUDAD CIU \n"
+                + "ORDER BY CIU.ID_CIUDAD";
+
+        SELECT_CIUDAD_POR_ID = "SELECT ID_CIUDAD, NOMBRE AS NOMBRE_CIUDAD, ID_PAIS \n"
+                + "FROM CIUDAD\n"
+                + "WHERE ID_CIUDAD=?";
+
+        INSERT_CIUDAD = "INSERT INTO CIUDAD (NOMBRE, ID_PAIS)\n"
+                + "VALUES (?,?)\n";
+
+        UPDATE_CIUDAD = "UPDATE CIUDAD \n"
+                + "SET NOMBRE=?\n"
+                + "WHERE ID_CIUDAD=?";
+    }
 }

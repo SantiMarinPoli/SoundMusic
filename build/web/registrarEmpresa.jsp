@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -37,8 +39,9 @@
 
                     <br>
 
-                    <form name="formulario_empresa">
+                    <form name="formulario_empresa" action="controladorEmpresaDifusora" method="post">
                         <input type="hidden" name="cod" value="0">
+                        <input type ="hidden" name="operacion" value="crear" />
 
                         <div class="form-group">
                             <label>Nombre de la Compañia*</label>
@@ -46,13 +49,20 @@
                             <div class="invalid-feedback">El campo nombre empresa debe ser obligatorio</div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Seleccionar una imagen de la empresa</label>
-                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
-                        </div>
-
-                        <div class="form-group bg-light radio">
+                        <div class="form-group radio">
                             <h8> Tipo de Empresa*</h8>
+                                <%//Listar los tipos de empresas de la base de datos
+                                    /*List<TipoEmpresaDifusora> listaTipoEmpresa
+                                            = (List<TipoEmpresaDifusora>) request.getAttribute("lstTipoEmpresa");
+                                    for (TipoEmpresaDifusora tipoEmpresa : listaTipoEmpresa) {
+                                        out.println("<div class='form-check'>");
+                                        out.println("<input type='radio' class='form-check-input' name='tipoEmpresa' id='tipoEmpresa1Txt' value=''"
+                                                + tipoEmpresa.getIdTipoActividad() + "''>");
+                                        out.println("<label for='tipoEmpresa1Txt' class='form-check-label error'>"
+                                                + tipoEmpresa.getTipoActividad() + "</label>");
+                                        out.println("</div>");
+                                    }*/
+                                %>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa1Txt" value="Audio">
                                 <label for="tipoEmpresa1Txt" class="form-check-label error">Audio</label>
@@ -106,7 +116,7 @@
                             <label>Numero Telefonico</label>
                             <input type="number" class="form-control" name="numFijo"  id="numFijo" placeholder="Ingresar el numero telefonico principal">
                         </div>
-                        
+
                         <div class="form-group">
                             <label>Valor de la Operacion*</label>
                             <input type="number" class="form-control" name="valorOp"  id="valorOp" placeholder="Ingresar el valor de la operacion">

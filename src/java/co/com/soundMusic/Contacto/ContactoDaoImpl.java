@@ -1,6 +1,5 @@
 package co.com.soundMusic.Contacto;
 
-import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,20 +12,21 @@ import java.sql.SQLException;
  */
 public class ContactoDaoImpl implements IContactoDao {
 
-    private Connection conexion;
-    private CiudadDaoImpl ciudad;
+    //Conexion a la base de datos
+    private final Connection conexion;
+    //Constantes con las querys a la base de datos
+    private static final String SELECT_CONTACTO_POR_ID;
+    private static final String INSERT_CONTACTO;
+    private static final String UPDATE_CONTACTO;
+    private static final String SELECT_ULTIMO_ID;
 
     public ContactoDaoImpl() {
         conexion = DBUtil.getConexion();
-        ciudad = new CiudadDaoImpl();
     }
 
     @Override
     public Contacto obtenerContacto(int idContacto) throws SQLException {
-        String sql = "SELECT CELULAR, TELEFONO, DIRECCION, BARRIO, EMAIL, ID_CIUDAD\n"
-                + "FROM CONTACTO\n"
-                + "WHERE ID_CONTACTO=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_CONTACTO_POR_ID);
         ps.setInt(1, idContacto);
         ResultSet rs = ps.executeQuery();
 
@@ -43,9 +43,7 @@ public class ContactoDaoImpl implements IContactoDao {
 
     @Override
     public void crearContacto(Contacto contacto) throws SQLException {
-        String sql = "INSERT INTO CONTACTO (CELULAR, TELEFONO, DIRECCION,BARRIO,EMAIL, ID_CIUDAD) \n"
-                + "VALUES (?,?,?,?,?,?)";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(INSERT_CONTACTO);
 
         ps.setString(1, contacto.getCelular());
         ps.setString(2, contacto.getTelefono());
@@ -58,10 +56,7 @@ public class ContactoDaoImpl implements IContactoDao {
 
     @Override
     public void actualizarContacto(Contacto contacto) throws SQLException {
-        String sql = "UPDATE CONTACTO\n"
-                + "SET  CELULAR=?, TELEFONO=?, DIRECCION=?, BARRIO=?,  EMAIL=?, ID_CIUDAD=?\n"
-                + "WHERE ID_CONTACTO=?";
-        PreparedStatement ps = conexion.prepareStatement(sql);
+        PreparedStatement ps = conexion.prepareStatement(UPDATE_CONTACTO);
 
         ps.setString(1, contacto.getCelular());
         ps.setString(2, contacto.getTelefono());
@@ -74,15 +69,28 @@ public class ContactoDaoImpl implements IContactoDao {
     }
 
     public int getUltimoIdContacto() throws SQLException {
-        String sql = "SELECT CONTACTO_SEQ.CURRVAL\n"
-                + "FROM DUAL";
-        PreparedStatement ps = conexion.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery(sql);
+        PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
+        ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int idContacto = rs.getInt("CURRVAL");
             return idContacto;
         }
         return -1;
     }
-    
+
+    static {
+        SELECT_CONTACTO_POR_ID = "SELECT CELULAR, TELEFONO, DIRECCION, BARRIO, EMAIL, ID_CIUDAD\n"
+                + "FROM CONTACTO\n"
+                + "WHERE ID_CONTACTO=?";
+
+        INSERT_CONTACTO = "INSERT INTO CONTACTO (CELULAR, TELEFONO, DIRECCION,BARRIO,EMAIL, ID_CIUDAD) \n"
+                + "VALUES (?,?,?,?,?,?)";
+
+        UPDATE_CONTACTO = "UPDATE CONTACTO\n"
+                + "SET  CELULAR=?, TELEFONO=?, DIRECCION=?, BARRIO=?,  EMAIL=?, ID_CIUDAD=?\n"
+                + "WHERE ID_CONTACTO=?";
+
+        SELECT_ULTIMO_ID = "SELECT CONTACTO_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+    }
 }

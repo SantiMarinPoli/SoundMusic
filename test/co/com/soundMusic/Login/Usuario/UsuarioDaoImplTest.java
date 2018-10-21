@@ -1,11 +1,19 @@
 package co.com.soundMusic.Login.Usuario;
 
-import java.sql.Date;
+import java.io.FileInputStream;
+import java.sql.SQLException;
 import java.util.List;
-import org.junit.After;
+import org.dbunit.IDatabaseTester;
+import org.dbunit.JdbcDatabaseTester;
+import org.dbunit.database.DatabaseConfig;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.ext.oracle.OracleDataTypeFactory;
+import org.dbunit.operation.DatabaseOperation;
+import static org.junit.Assert.assertFalse;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 
 /**
@@ -14,114 +22,36 @@ import org.junit.Ignore;
  */
 public class UsuarioDaoImplTest {
 
-    UsuarioDaoImpl daoUsuario;
-    Usuario usuarioPrueba, usuarioPruebaAct;
-    List<Usuario> pruebaLstUsuario;
-
-    public UsuarioDaoImplTest() {
-
-    }
+    private UsuarioDaoImpl daoUsuario;
+    private IDatabaseTester databaseTester;
+    public final static String FILENAME = "test/dataBase/SoundMusicDataSet.xml";
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
+        daoUsuario = new UsuarioDaoImpl(false);
+        databaseTester = new JdbcDatabaseTester(
+                "oracle.jdbc.OracleDriver",
+                "jdbc:oracle:thin:@localhost:1521:XE",
+                "DBTest",
+                "DBTest");
 
+        DatabaseConfig dbConfig = databaseTester.getConnection().getConfig();
+        dbConfig.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, new OracleDataTypeFactory());
+
+        IDataSet dataSet = new FlatXmlDataSetBuilder().build(new FileInputStream(FILENAME));
+
+        databaseTester.setDataSet(dataSet);
+        databaseTester.onSetup();
+        try {
+            DatabaseOperation.CLEAN_INSERT.execute(databaseTester.getConnection(), dataSet);
+        } finally {
+            databaseTester.getConnection().close();
+        }
     }
 
-    @After
-    public void tearDown() {
-        daoUsuario = new UsuarioDaoImpl();
-        String[] datosUsuario = {"SANTIAGO", null, "MEDINA", "PELAEZ", "A"};
-        Date fecha = Date.valueOf("2018-05-05");
-
-        usuarioPrueba = new Usuario(1, datosUsuario, fecha);
-
-        String[] datosUsuarioAct = {"MELAY", null, "PALACIO", "FEONNEGRA", "A"};
-        usuarioPruebaAct = new Usuario(1, datosUsuarioAct, Date.valueOf("2018-05-05"));
-    }
-
-    /**
-     * Test of obtenerUsuarios method, of class UsuarioDaoImpl.
-     *
-     * @throws java.lang.Exception
-     */
     @Test
-    public void testObtenerUsuarios() throws Exception {
-        System.out.println("obtenerUsuarios");
-        List<Usuario> expResult = null;
+    public void testObtenerUsuarios() throws SQLException {
         List<Usuario> resultadoActual = daoUsuario.obtenerUsuarios();
         assertFalse(resultadoActual.isEmpty());
     }
-
-    /**
-     * Test of obtenerUsuario method, of class UsuarioDaoImpl.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    @Ignore
-    public void testObtenerUsuario() throws Exception {
-        System.out.println("obtenerUsuario");
-        int idUsuario = 1;
-        Usuario resultadoActual = daoUsuario.obtenerUsuario(idUsuario);
-        assertEquals(usuarioPrueba.getIdUsuario(), resultadoActual.getIdUsuario());
-        assertEquals(usuarioPrueba.getPrimerNombre(), resultadoActual.getPrimerNombre());
-        assertEquals(usuarioPrueba.getSegundoNombre(), resultadoActual.getSegundoNombre());
-        assertEquals(usuarioPrueba.getPrimerApellido(), resultadoActual.getPrimerApellido());
-        assertEquals(usuarioPrueba.getSegundoApellido(), resultadoActual.getSegundoApellido());
-        assertEquals(usuarioPrueba.getStatus(), resultadoActual.getStatus());
-    }
-
-    /**
-     * Test of crearUsuario method, of class UsuarioDaoImpl.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    @Ignore
-    public void testCrearUsuario() throws Exception {
-        System.out.println("crearUsuario");
-        daoUsuario.crearUsuario(usuarioPrueba);
-        int idUsuarioPrueba = daoUsuario.getUltimoIdUsuario();
-        Usuario usuarioEsperado = usuarioPrueba;
-        usuarioEsperado.setIdUsuario(idUsuarioPrueba);
-        Usuario usuarioActual = daoUsuario.obtenerUsuario(idUsuarioPrueba);
-
-        assertEquals(usuarioEsperado, usuarioActual);
-    }
-
-    /**
-     * Test of eliminarUsuario method, of class UsuarioDaoImpl.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    @Ignore
-    public void testEliminarUsuario() throws Exception {
-        System.out.println("eliminarUsuario");
-        String status = "I";
-        int idUsuario = 1;
-        Usuario usuarioPruebaElim = usuarioPrueba;
-        usuarioPruebaElim.setStatus("I");
-        daoUsuario.eliminarUsuario(status, idUsuario);
-        Usuario resultadoActual = daoUsuario.obtenerUsuario(idUsuario);
-
-        assertEquals(usuarioPruebaElim, resultadoActual);
-    }
-
-    /**
-     * Test of actualizarUsuario method, of class UsuarioDaoImpl.
-     *
-     * @throws java.lang.Exception
-     */
-    @Test
-    @Ignore
-    public void testActualizarUsuario() throws Exception {
-        System.out.println("actualizarUsuario");
-
-        daoUsuario.actualizarUsuario(usuarioPruebaAct);
-        Usuario resultadoActual = daoUsuario.obtenerUsuario(1);
-
-        assertEquals(usuarioPruebaAct, resultadoActual);
-    }
-
 }

@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -24,9 +23,9 @@
                     <hr>
                     <br>
                     <div class="row">
-                        
+
                         <div class="col">
-                            <a href="registrarUsuario.jsp" class="btn btn-success" id="registrarUsuario">Registrar Usuario</a>
+                            <a href="controladorUsuario?opcion=crearUsuario" class="btn btn-success" id="registrarUsuario">Registrar Usuario</a>
                         </div>
                     </div>
 
@@ -97,7 +96,8 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    
+                    <%@include file="pruebasTablas/listaUsuarios.jsp" %>
                 </div>
             </div>
         </div>

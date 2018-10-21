@@ -45,12 +45,7 @@
                             <div class="invalid-feedback">El campo nombre empresa debe ser obligatorio</div>
                         </div>
 
-                        <div class="form-group">
-                            <label>Seleccionar una imagen de la empresa</label>
-                            <input type="file" class="form-control-file" name="fotoArtista" id="imageArtista">
-                        </div>
-
-                        <div class="form-group bg-light radio">
+                        <div class="form-group radio">
                             <h8> Tipo de Empresa*</h8>
                             <div class="form-check">
                                 <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa1Txt" value="Audio">
@@ -105,7 +100,7 @@
                             <label>Numero Telefonico</label>
                             <input type="number" class="form-control" name="numFijo"  id="numFijo" placeholder="Ingresar el numero telefonico principal">
                         </div>
-
+                        
                         <div class="form-group">
                             <label>Valor de la Operacion*</label>
                             <input type="number" class="form-control" name="valorOp"  id="valorOp" placeholder="Ingresar el valor de la operacion">
@@ -122,7 +117,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Registrar Empresa" class="btn btn-primary btn-block" id="btnGuardar" >
+                        <input type="submit" value="Modificar Empresa" class="btn btn-primary btn-block" id="btnGuardar" >
 
                     </form>
                 </div>

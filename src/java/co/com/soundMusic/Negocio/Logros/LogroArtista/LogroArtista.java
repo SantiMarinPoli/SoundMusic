@@ -1,8 +1,13 @@
 package co.com.soundMusic.Negocio.Logros.LogroArtista;
 
 import co.com.soundMusic.Artista.Artista;
+import co.com.soundMusic.Artista.ArtistaDaoImpl;
 import co.com.soundMusic.Negocio.Logros.Logro;
+import co.com.soundMusic.Negocio.Logros.LogroDaoImpl;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -10,35 +15,53 @@ import java.sql.Date;
  */
 public class LogroArtista {
 
-    private int logroArtista;
-    private Logro logro;
+    private int idLogroArtista;
+    private int idLogro;
+    private int idArtista;
+    private Date fechaPremiacion;
     private Artista artista;
-    private Date fechaTerminacion;
+    private Logro logro;
 
     public LogroArtista() {
     }
 
-    public LogroArtista(int logroArtista, Logro logro, Artista artista, Date fechaTerminacion) {
-        this.logroArtista = logroArtista;
-        this.logro = logro;
-        this.artista = artista;
-        this.fechaTerminacion = fechaTerminacion;
+    public LogroArtista(int idLogroArtista, int idLogro, int idArtista, Date fechaPremiacion) {
+        this.idLogroArtista = idLogroArtista;
+        this.idLogro = idLogro;
+        this.idArtista = idArtista;
+        this.fechaPremiacion = fechaPremiacion;
     }
 
-    public int getLogroArtista() {
-        return logroArtista;
+    public int getIdLogroArtista() {
+        return idLogroArtista;
     }
 
-    public void setLogroArtista(int logroArtista) {
-        this.logroArtista = logroArtista;
+    public void setIdLogroArtista(int idLogroArtista) {
+        this.idLogroArtista = idLogroArtista;
     }
 
-    public Logro getLogro() {
-        return logro;
+    public int getIdLogro() {
+        return idLogro;
     }
 
-    public void setLogro(Logro logro) {
-        this.logro = logro;
+    public void setIdLogro(int idLogro) {
+        this.idLogro = idLogro;
+    }
+
+    public int getIdArtista() {
+        return idArtista;
+    }
+
+    public void setIdArtista(int idArtista) {
+        this.idArtista = idArtista;
+    }
+
+    public Date getFechaPremiacion() {
+        return fechaPremiacion;
+    }
+
+    public void setFechaPremiacion(Date fechaPremiacion) {
+        this.fechaPremiacion = fechaPremiacion;
     }
 
     public Artista getArtista() {
@@ -49,12 +72,29 @@ public class LogroArtista {
         this.artista = artista;
     }
 
-    public Date getFechaTerminacion() {
-        return fechaTerminacion;
+    public Logro getLogro() {
+        return logro;
     }
 
-    public void setFechaTerminacion(Date fechaTerminacion) {
-        this.fechaTerminacion = fechaTerminacion;
+    public void setLogro(Logro logro) {
+        this.logro = logro;
     }
 
+    public void obtenerArtista() {
+        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
+        try {
+            this.setArtista(daoArtista.obtenerArtista(this.idArtista));
+        } catch (SQLException ex) {
+            Logger.getLogger(LogroArtista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void obtenerLogro() {
+        LogroDaoImpl daoLogro = new LogroDaoImpl();
+        try {
+            this.setLogro(daoLogro.obtenerLogro(this.idLogro));
+        } catch (SQLException ex) {
+            Logger.getLogger(LogroArtista.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }

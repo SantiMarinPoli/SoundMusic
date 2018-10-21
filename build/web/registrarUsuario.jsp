@@ -1,15 +1,20 @@
 
+<%@page import="co.com.soundMusic.Seguridad.Perfiles.Perfil"%>
+<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
+<%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <title>SoundMusic</title>
+        <title>Sound Music</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
+
 
     </head>
 
@@ -41,15 +46,15 @@
 
                     <br>
 
-                    <form name="formulario_usuario" action="" method="post">
+                    <form name="formulario_usuario" action="controladorUsuario" method="post">
                         <input type="hidden" name="cod" value="0">
-
+                        <input type ="hidden" name="operacion" value="crear" />
 
 
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Nombre*</label>
-                                <input type="text" class="form-control " name="nombre1" id="nom1 texto" placeholder="Ingresar el primer nombre" >
+                                <input type="text" class="form-control " name="nombre1" id="nom1" placeholder="Ingresar el primer nombre" >
                                 <div class="invalid-feedback ">El primer nombre es un campo obligatorio</div>
 
                             </div>
@@ -64,13 +69,13 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Apellido*</label>
-                                <input type="text" class="form-control " name="apellido1" id="apellido1 texto" placeholder="Ingresar el primer apellido " >
+                                <input type="text" class="form-control " name="apellido1" id="apellido1" placeholder="Ingresar el primer apellido " >
                                 <div class="invalid-feedback ">El primer apellido es un campo obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Segundo Apellido*</label>
-                                <input type="text" class="form-control " name="apellido2" id="apellido2 texto" placeholder="Ingresar el segundo apellido">
+                                <input type="text" class="form-control " name="apellido2" id="apellido2" placeholder="Ingresar el segundo apellido">
                                 <div class="invalid-feedback ">El segundo apellido es un campo obligatorio</div>
                             </div>
                         </div>
@@ -79,13 +84,13 @@
                             <br>
                             <h8>Genero*</h8>
                             <br>
-                            <input class="form-check-input " type="radio" name="sexo" id="textSex1" value="Masculino" >
+                            <input class="form-check-input" type="radio" name="sexo" id="textSex1" value="M" >
                             <label class="form-check-label " for="textSex1">Masculino</label>
 
-                            <input class="form-check-input " type="radio" name="sexo" id="textSex2" value="Femenino">
+                            <input class="form-check-input" type="radio" name="sexo" id="textSex2" value="F">
                             <label class="form-check-label" for="textSex2">Femenino</label>
                             <br>
-                            <div class="invalid-feedback ">Debe seleccionar un campo</div>
+                            <div class="invalid-feedback ">Debe seleccionar un sexo</div>
 
                         </div>
 
@@ -98,7 +103,7 @@
 
                         <div class="form-group">
                             <label>Nombre del Usuario*</label>
-                            <input type="text" class="form-control" name="nomUsuario" id="textNameUser" placeholder="Ingresar el nuevo usuario del operador" >
+                            <input type="text" class="form-control" name="nomUsuario" id="nomUsuario" placeholder="Ingresar el nuevo usuario del operador" >
                             <div class="invalid-feedback ">El nombre de usuario es un campo obligatorio</div>
 
                         </div>
@@ -106,18 +111,33 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Contraseña*</label>
-                                <input type="password" class="form-control" name="pass1" id="textPass" placeholder="Password" >
+                                <input type="password" class="form-control" name="pass1" id="pass1" placeholder="Password" >
                                 <div class="invalid-feedback ">La contraseña debe ser obligatorio</div>
                             </div>
                             <div class="col">
                                 <label>Repita Contraseña*</label>
-                                <input type="password" class="form-control" name="pass2" id="textRepeatPass" placeholder="Password" >
+                                <input type="password" class="form-control" name="pass2" id="pass2" placeholder="Password" >
                                 <div class="invalid-feedback ">La contraseña debe ser igual dato</div>
                             </div>
                         </div>
 
                         <br>
-
+                        <div class="form-row">
+                            <label >Perfil*</label>
+                                <select class="form-control" name="perfil" id="perfil">
+                                    <option value="">Seleccionar perfil</option>
+                                    <%//Listar los paises en la base de datos
+                                        List<Perfil> listaPerfil
+                                                = (List<Perfil>) request.getAttribute("lstPerfil");
+                                        for (Perfil perfil : listaPerfil) {
+                                            out.print("<option value='" + perfil.getIdPerfil()
+                                                    + "'>" + perfil.getNombrePerfil()+ "</option>");
+                                        }
+                                    %>
+                                </select>
+                                <div class="invalid-feedback ">El campo perfil debe ser obligatorio</div>
+                        </div>
+                        <br>
                         <div class="form-row">
                             <div class="col">
                                 <label >Numero del Celular*</label>
@@ -135,19 +155,35 @@
 
                         <div class="form-row">
                             <div class="col">
-                                <label >Ciudad*</label>
-                                <select class="form-control" name="ciudad" id="ciudad">
-                                    <option>Seleccionar la ciudad</option>
-                                    <option value="Colombia">Colombia</option>
-                                    <option value="Mexico">Mexico</option>
-                                    <option value="Estados Unidos">Estados Unidos</option>
+                                <label >Pais*</label>
+                                <select class="form-control" name="pais" id="pais">
+                                    <option value="">Seleccionar el pais</option>
+                                    <%//Listar los paises en la base de datos
+                                        List<Pais> listaPais
+                                                = (List<Pais>) request.getAttribute("lstPais");
+                                        for (Pais pais : listaPais) {
+                                            out.print("<option value='" + pais.getIdPais()
+                                                    + "'>" + pais.getNombre() + "</option>");
+                                        }
+                                    %>
                                 </select>
-                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
+                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
                             </div>
                             <div class="col">
-                                <label >Pais</label>
-                                <input type="text" class="form-control" name="pais" id="pais "placeholder="Ingrese el pais" >
-                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
+                                <label >Ciudad</label>
+                                <!-- <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ingrese la ciudad" > -->
+                                <select class="form-control" name="ciudad" id="ciudad">
+                                    <option value="">Seleccionar la ciudad</option>
+                                    <%//Listar las ciudades en la base de datos
+                                        List<Ciudad> listaCiudad
+                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
+                                        for (Ciudad ciudad : listaCiudad) {
+                                            out.print("<option value='" + ciudad.getIdCiudad()
+                                                    + "'>" + ciudad.getNombre() + "</option>");
+                                        }
+                                    %>
+                                </select>
+                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
                             </div>
                         </div>
 
@@ -172,7 +208,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar">
+                        <input type="submit" value="Registrar Usuario" class="btn btn-primary btn-block" id="btnGuardar">
                     </form>
                 </div>
             </div>

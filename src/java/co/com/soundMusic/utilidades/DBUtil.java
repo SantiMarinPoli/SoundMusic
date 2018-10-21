@@ -34,4 +34,26 @@ public class DBUtil {
         }
         return conexion;
     }
+
+    public static Connection getTestConexion() {
+        try {
+            //Cargar driver de la base de datos oracle
+            Class.forName("oracle.jdbc.OracleDriver");
+
+            //Guardar en un string el nombre de usuario
+            //y contraseña de la conexion de la base de datos
+            String nombreUsuario = "DBTest";
+            String password = "DBTest";
+            //Guardamos en un String la url de nuestra base de datos
+            String url = "jdbc:oracle:thin:@localhost:1521:XE";
+
+            //Nos conectamos a la base de datos con los datos anteriores
+            conexion = DriverManager.getConnection(url, nombreUsuario, password);
+        } catch (ClassNotFoundException | SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return conexion;
+    }
 }
