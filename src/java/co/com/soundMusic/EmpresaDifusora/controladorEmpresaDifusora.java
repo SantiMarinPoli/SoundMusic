@@ -72,72 +72,54 @@ public class controladorEmpresaDifusora extends HttpServlet {
 
         if (opcion != null) {
             if (opcion.equals("listarEmpresa")) {
-                try {
-                    mostrarPaginaEmpresas(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(controladorEmpresaDifusora.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                mostrarPaginaEmpresas(request, response);
             }
             if (opcion.equals("borrar")) {
                 int idEmpresa = Integer.parseInt((String) request.getParameter("idEmpresa"));
-                EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl();
-                try {
-                    daoEmpresa.eliminarEmpresaDifusora("I", idEmpresa);
-                    List<EmpresaDifusora> lstEmpresas = daoEmpresa.obtenerEmpresasDifusoras();
-                    request.setAttribute("lstEmpresas", lstEmpresas);
-                    RequestDispatcher vista = request.getRequestDispatcher("/empresa.jsp");
-                    vista.forward(request, response);
-                } catch (SQLException ex) {
-                    System.out.println("Excepción: " + ex.getMessage());
-                    Logger.getLogger(controladorEmpresaDifusora.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
+
+                daoEmpresa.eliminarEmpresaDifusora("I", idEmpresa);
+                List<EmpresaDifusora> lstEmpresas = daoEmpresa.obtenerEmpresasDifusoras();
+                request.setAttribute("lstEmpresas", lstEmpresas);
+                RequestDispatcher vista = request.getRequestDispatcher("/empresa.jsp");
+                vista.forward(request, response);
             }
             if (opcion.equals("crearEmpresa")) {
-                try {
-                    PaisDaoImpl daoPais = new PaisDaoImpl();
-                    List<Pais> lstPais = daoPais.obtenerPaises();
-                    request.setAttribute("lstPais", lstPais);
+                PaisDaoImpl daoPais = new PaisDaoImpl(true);
+                List<Pais> lstPais = daoPais.obtenerPaises();
+                request.setAttribute("lstPais", lstPais);
 
-                    CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
-                    List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                    request.setAttribute("lstCiudad", lstCiudad);
+                CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
+                List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
+                request.setAttribute("lstCiudad", lstCiudad);
 
-                    TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl();
-                    List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
-                    request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
+                TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
+                List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
+                request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
 
-                    RequestDispatcher vista = request.getRequestDispatcher("/registrarEmpresa.jsp");
-                    vista.forward(request, response);
-                } catch (SQLException ex) {
-                    System.out.println("Excepción: " + ex.getMessage());
-                    Logger.getLogger(controladorEmpresaDifusora.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                RequestDispatcher vista = request.getRequestDispatcher("/registrarEmpresa.jsp");
+                vista.forward(request, response);
             }
             if (opcion.equals("editar")) {
-                try {
-                    PaisDaoImpl daoPais = new PaisDaoImpl();
-                    List<Pais> lstPais = daoPais.obtenerPaises();
-                    request.setAttribute("lstPais", lstPais);
+                PaisDaoImpl daoPais = new PaisDaoImpl(true);
+                List<Pais> lstPais = daoPais.obtenerPaises();
+                request.setAttribute("lstPais", lstPais);
 
-                    CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
-                    List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                    request.setAttribute("lstCiudad", lstCiudad);
+                CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
+                List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
+                request.setAttribute("lstCiudad", lstCiudad);
 
-                    TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl();
-                    List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
-                    request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
+                TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
+                List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
+                request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
 
-                    int idEmpresaDifusora = Integer.parseInt((String) request.getParameter("idEmpresa"));
-                    EmpresaDifusoraDaoImpl daoEmpresaDifusora = new EmpresaDifusoraDaoImpl();
-                    EmpresaDifusora empresaDfifusora = daoEmpresaDifusora.obtenerEmpresaDifusora(idEmpresaDifusora);
-                    request.setAttribute("empresaDfifusora", empresaDfifusora);
+                int idEmpresaDifusora = Integer.parseInt((String) request.getParameter("idEmpresa"));
+                EmpresaDifusoraDaoImpl daoEmpresaDifusora = new EmpresaDifusoraDaoImpl(true);
+                EmpresaDifusora empresaDfifusora = daoEmpresaDifusora.obtenerEmpresaDifusora(idEmpresaDifusora);
+                request.setAttribute("empresaDfifusora", empresaDfifusora);
 
-                    RequestDispatcher vista = request.getRequestDispatcher("modificarEmpresa.jsp");
-                    vista.forward(request, response);
-                } catch (SQLException ex) {
-                    System.out.println("Excepción: " + ex.getMessage());
-                    Logger.getLogger(controladorEmpresaDifusora.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                RequestDispatcher vista = request.getRequestDispatcher("modificarEmpresa.jsp");
+                vista.forward(request, response);
             }
         }
     }
@@ -157,12 +139,8 @@ public class controladorEmpresaDifusora extends HttpServlet {
 
         if (operacion != null) {
             if (operacion.equalsIgnoreCase("crear")) {
-                try {
-                    crearEmpresaDifusora(request, response);
-                    actualizarLstEmpresa(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(controladorEmpresaDifusora.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                crearEmpresaDifusora(request, response);
+                actualizarLstEmpresa(request, response);
             }
             if (operacion.equalsIgnoreCase("editar")) {
                 int idEmpresaDifusora = Integer.parseInt((String) request.getParameter("idEmpresa"));
@@ -182,8 +160,8 @@ public class controladorEmpresaDifusora extends HttpServlet {
     }// </editor-fold>
 
     private void mostrarPaginaEmpresas(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl();
+            throws ServletException, IOException {
+        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
 
         List<EmpresaDifusora> lstEmpresas = daoEmpresa.obtenerEmpresasDifusoras();
         request.setAttribute("lstEmpresas", lstEmpresas);
@@ -193,8 +171,8 @@ public class controladorEmpresaDifusora extends HttpServlet {
     }
 
     private void actualizarLstEmpresa(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
-        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl();
+            throws ServletException, IOException {
+        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
 
         List<EmpresaDifusora> lstEmpresas = daoEmpresa.obtenerEmpresasDifusoras();
         request.setAttribute("lstEmpresas", lstEmpresas);
@@ -204,11 +182,11 @@ public class controladorEmpresaDifusora extends HttpServlet {
     }
 
     private void crearEmpresaDifusora(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         float costo = Float.parseFloat((String) request.getParameter("valorOp"));
 
         CostoActividad costoOperacion = new CostoActividad(0, costo, Date.valueOf(LocalDate.now()), null);
-        CostoActividadDaoImpl daoCostoActividad = new CostoActividadDaoImpl();
+        CostoActividadDaoImpl daoCostoActividad = new CostoActividadDaoImpl(true);
         daoCostoActividad.crearCostoActividad(costoOperacion);
         costoOperacion.setIdCostoActividad(daoCostoActividad.getUltimoIdCostoActividad());
 
@@ -219,7 +197,7 @@ public class controladorEmpresaDifusora extends HttpServlet {
         String[] datosContacto = {null, telefono, null, null, email};
 
         Contacto contacto = new Contacto(0, datosContacto, idCiudad);
-        ContactoDaoImpl daoCiudad = new ContactoDaoImpl();
+        ContactoDaoImpl daoCiudad = new ContactoDaoImpl(true);
         daoCiudad.crearContacto(contacto);
         contacto.setIdContacto(daoCiudad.getUltimoIdContacto());
 
@@ -232,47 +210,43 @@ public class controladorEmpresaDifusora extends HttpServlet {
                 fechaCreacion, null, "A", rutaImagen, idTipoActividad, contacto.getIdContacto(),
                 costoOperacion.getIdCostoActividad());
 
-        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl();
+        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
         daoEmpresa.crearEmpresaDifusora(empresaDifusora);
     }
 
     private void editarEmpresaDifusora(HttpServletRequest request, HttpServletResponse response, int idEmpresaDifusora)
             throws IOException, NumberFormatException, ServletException {
-        try {
-            float costo = Float.parseFloat((String) request.getParameter("costoPorActividad"));
-            int idCostoOperacion = Integer.parseInt((String) request.getParameter("idCostoOperacion"));
+        float costo = Float.parseFloat((String) request.getParameter("costoPorActividad"));
+        int idCostoOperacion = Integer.parseInt((String) request.getParameter("idCostoOperacion"));
 
-            CostoActividad costoOperacion = new CostoActividad(idCostoOperacion, costo, null, null);
+        CostoActividad costoOperacion = new CostoActividad(idCostoOperacion, costo, null, null);
 
-            String telefono = request.getParameter("telefonoEmpresa");
-            String email = request.getParameter("emailEmpresa");
+        String telefono = request.getParameter("telefonoEmpresa");
+        String email = request.getParameter("emailEmpresa");
 
-            int idContacto = Integer.parseInt(request.getParameter("idContacto"));
-            int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
+        int idContacto = Integer.parseInt(request.getParameter("idContacto"));
+        int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
 
-            String[] datosContacto = {null, telefono, null, null, email};
+        String[] datosContacto = {null, telefono, null, null, email};
 
-            Contacto contacto = new Contacto(idContacto, datosContacto, idCiudad);
+        Contacto contacto = new Contacto(idContacto, datosContacto, idCiudad);
 
-            String nombre = request.getParameter("nombreEmpresa");
-            String rutaImagen = request.getParameter("rutaImagenemprea");
-            int idTipoActividad = Integer.parseInt((String) request.getParameter("idTipoActividad"));
+        String nombre = request.getParameter("nombreEmpresa");
+        String rutaImagen = request.getParameter("rutaImagenemprea");
+        int idTipoActividad = Integer.parseInt((String) request.getParameter("idTipoActividad"));
 
-            EmpresaDifusora empresaDifusora = new EmpresaDifusora(idEmpresaDifusora,
-                    nombre, null, null, "A", rutaImagen, idTipoActividad, contacto.getIdContacto(),
-                    idCostoOperacion);
+        EmpresaDifusora empresaDifusora = new EmpresaDifusora(idEmpresaDifusora,
+                nombre, null, null, "A", rutaImagen, idTipoActividad, contacto.getIdContacto(),
+                idCostoOperacion);
 
-            ContactoDaoImpl daoContacto = new ContactoDaoImpl();
-            CostoActividadDaoImpl daoCostoOperacion = new CostoActividadDaoImpl();
-            EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl();
+        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
+        CostoActividadDaoImpl daoCostoOperacion = new CostoActividadDaoImpl(true);
+        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
 
-            daoContacto.actualizarContacto(contacto);
-            daoCostoOperacion.actualizarCostoActividad(costoOperacion);
-            daoEmpresa.actualizarEmpresaDifusora(empresaDifusora);
-            mostrarPaginaEmpresas(request, response);
-        } catch (SQLException ex) {
-            throw new ServletException(ex);
-        }
+        daoContacto.actualizarContacto(contacto);
+        daoCostoOperacion.actualizarCostoActividad(costoOperacion);
+        daoEmpresa.actualizarEmpresaDifusora(empresaDifusora);
+        mostrarPaginaEmpresas(request, response);
     }
 
 }

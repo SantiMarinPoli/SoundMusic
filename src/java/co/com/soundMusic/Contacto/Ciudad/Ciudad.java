@@ -61,11 +61,7 @@ public class Ciudad {
     }
 
     public void obtenerPais() {
-        PaisDaoImpl daoPais = new PaisDaoImpl();
-        try {
-            this.setPais(daoPais.obtenerPais(this.idPais));
-        } catch (SQLException ex) {
-            Logger.getLogger(Ciudad.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PaisDaoImpl daoPais = new PaisDaoImpl(true);
+        this.setPais(daoPais.obtenerPais(this.idPais));
     }
 }

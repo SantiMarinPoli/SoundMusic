@@ -40,7 +40,6 @@ public class Usuario {
     public Usuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
-        
 
     public Usuario(int idUsuario, String primerNombre, String segundoNombre,
             String primerApellido, String segundoApellido, Date fechaCreacion,
@@ -225,30 +224,18 @@ public class Usuario {
     }
 
     public void obtenerContactoUsuario() {
-        ContactoDaoImpl daoContacto = new ContactoDaoImpl();
-        try {
-            this.setContacto(daoContacto.obtenerContacto(this.idContacto));
-        } catch (SQLException ex) {
-            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
+        this.setContacto(daoContacto.obtenerContacto(this.idContacto));
     }
 
     public void obtenerPerfilUsuario() {
-        PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
-        try {
-            this.setPerfil(daoPerfil.obtenerPerfil(this.idPerfil));
-        } catch (SQLException ex) {
-            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PerfilDaoImpl daoPerfil = new PerfilDaoImpl(true);
+        this.setPerfil(daoPerfil.obtenerPerfil(this.idPerfil));
     }
 
     public void obtenerUsuarioLogin() {
-        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
-        try {
-            this.setUsuarioLogin(daoUsuarioLogin.obtenerUsuarioLogin(this.idUsuarioLogin));
-        } catch (SQLException ex) {
-            Logger.getLogger(Usuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
+        this.setUsuarioLogin(daoUsuarioLogin.obtenerUsuarioLogin(this.idUsuarioLogin));
     }
 
 }

@@ -126,7 +126,6 @@ public class controladorLogin extends HttpServlet {
                 sessionUsuario.setAttribute("usuarioId", usuario.getIdUsuario());
 
                 //ingresarLogAuditoria(usuario.getIdUsuario(), 1); //1 representa fila 1 de tabla permiso= Iniciar Sesion.
-
                 response.sendRedirect("home.jsp");
             } else {
                 response.sendRedirect("login.jsp");
@@ -145,11 +144,7 @@ public class controladorLogin extends HttpServlet {
     }
 
     private void ingresarLogAuditoria(int idUsuario, int idPermisos) {
-        LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
-        try {
-            daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
-        } catch (SQLException ex) {
-            Logger.getLogger(controladorLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl(true);
+        daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
     }
 }

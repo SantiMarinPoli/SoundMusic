@@ -21,8 +21,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     //Conexion a la base de datos
     private final Connection conexion;
-    //private final Connection testConexion;
 
+    private Statement stmt;
+    private ResultSet rs;
     //Constantes con las querys a la base de datos
     private static final String SELECT_USUARIOS;
     private static final String SELECT_USUARIO_POR_ID;
@@ -30,13 +31,10 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     private static final String UPDATE_STATUS;
     private static final String UPDTAE_USUARIO;
     private static final String SELECT_ULTIMO_ID;
-    private Statement stmt;
-    private ResultSet rs;
 
     public UsuarioDaoImpl(Boolean production) {
         if (production) {
-            //conexion = DBUtil.getConexion();
-            conexion = DBUtil.getConexionPool();
+            conexion = DBUtil.getConexion();
         } else {
             conexion = DBUtil.getTestConexion();
         }

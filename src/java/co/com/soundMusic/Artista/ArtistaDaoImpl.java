@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -18,6 +21,9 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     //Conexion a la base de datos
     private final Connection conexion;
+
+    private Statement stmt;
+    private ResultSet rs;
 
     //Constantes con las querys a la base de datos
     private static final String SELECT_ARTISTAS;
@@ -33,105 +39,145 @@ public class ArtistaDaoImpl implements IArtistaDao {
         } else {
             conexion = DBUtil.getTestConexion();
         }
-
+        stmt = null;
+        rs = null;
     }
 
     @Override
-    public List<Artista> obtenerArtistas() throws SQLException {
+    public List<Artista> obtenerArtistas() {
         List<Artista> listaArtistas = new ArrayList<>();
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ARTISTAS);
 
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_ARTISTAS);
+            while (rs.next()) {
 
-        while (rs.next()) {
+                String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
+                    rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"), rs.getString("NOMBRE_ARTISTICO"),
+                    rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
 
-            String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
-                rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"), rs.getString("NOMBRE_ARTISTICO"),
-                rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
+                Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
 
-            Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
+                Artista artista = new Artista(rs.getInt("ID_ARTISTA"), datosArtista, fechasArtista, rs.getInt("CONTACTO"));
 
-            Artista artista = new Artista(rs.getInt("ID_ARTISTA"), datosArtista, fechasArtista, rs.getInt("CONTACTO"));
+                listaArtistas.add(artista);
+            }
 
-            listaArtistas.add(artista);
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
-        stmt.close();
         return listaArtistas;
     }
 
     @Override
-    public Artista obtenerArtista(int idArtista) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTA_POR_ID);
-        ps.setInt(1, idArtista);
-        ResultSet rs = ps.executeQuery();
+    public Artista obtenerArtista(int idArtista) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTA_POR_ID);
+            ps.setInt(1, idArtista);
+            rs = ps.executeQuery();
 
-        while (rs.next()) {
-            String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
-                rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"), rs.getString("NOMBRE_ARTISTICO"),
-                rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
-            Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
+            while (rs.next()) {
+                String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
+                    rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"), rs.getString("NOMBRE_ARTISTICO"),
+                    rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
+                Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
 
-            Artista artista = new Artista(idArtista, datosArtista, fechasArtista, rs.getInt("ID_CONTACTO"));
+                Artista artista = new Artista(idArtista, datosArtista, fechasArtista, rs.getInt("ID_CONTACTO"));
 
-            return artista;
+                return artista;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
         return null;
     }
 
     @Override
-    public void crearArtista(Artista artista) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(INSERT_ARTISTA);
+    public void crearArtista(Artista artista) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_ARTISTA);
 
-        ps.setString(1, artista.getPrimerNombre());
-        ps.setString(2, artista.getSegundoNombre());
-        ps.setString(3, artista.getPrimerApellido());
-        ps.setString(4, artista.getSegundoApellido());
-        ps.setString(5, artista.getNombreArtistico());
-        ps.setString(6, artista.getGenero());
-        ps.setDate(7, artista.getFechaNacimiento());
-        ps.setDate(8, artista.getFechaCreacion());
-        ps.setString(9, artista.getStatus());
-        ps.setString(10, artista.getRutaImagen());
-        ps.setInt(11, artista.getIdContacto());
-        ps.executeUpdate();
+            ps.setString(1, artista.getPrimerNombre());
+            ps.setString(2, artista.getSegundoNombre());
+            ps.setString(3, artista.getPrimerApellido());
+            ps.setString(4, artista.getSegundoApellido());
+            ps.setString(5, artista.getNombreArtistico());
+            ps.setString(6, artista.getGenero());
+            ps.setDate(7, artista.getFechaNacimiento());
+            ps.setDate(8, artista.getFechaCreacion());
+            ps.setString(9, artista.getStatus());
+            ps.setString(10, artista.getRutaImagen());
+            ps.setInt(11, artista.getIdContacto());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     @Override
-    public void eliminarArtista(String status, int idArtista) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDATE_STATUS);
-        ps.setString(1, status);
-        ps.setInt(2, idArtista);
-        ps.executeUpdate();
+    public void eliminarArtista(String status, int idArtista) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDATE_STATUS);
+            ps.setString(1, status);
+            ps.setInt(2, idArtista);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     @Override
-    public void actualizarArtista(Artista artista) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDATE_ARTISTA);
+    public void actualizarArtista(Artista artista) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDATE_ARTISTA);
 
-        ps.setString(1, artista.getPrimerNombre());
-        ps.setString(2, artista.getSegundoNombre());
-        ps.setString(3, artista.getPrimerApellido());
-        ps.setString(4, artista.getSegundoApellido());
-        ps.setString(5, artista.getNombreArtistico());
-        ps.setString(6, artista.getGenero());
-        ps.setDate(7, artista.getFechaNacimiento());
-        ps.setDate(8, artista.getFechaCreacion());
-        ps.setString(9, artista.getStatus());
-        ps.setString(10, artista.getRutaImagen());
-        ps.setInt(11, artista.getIdContacto());
-        ps.setInt(12, artista.getIdArtista());
-        ps.executeUpdate();
+            ps.setString(1, artista.getPrimerNombre());
+            ps.setString(2, artista.getSegundoNombre());
+            ps.setString(3, artista.getPrimerApellido());
+            ps.setString(4, artista.getSegundoApellido());
+            ps.setString(5, artista.getNombreArtistico());
+            ps.setString(6, artista.getGenero());
+            ps.setDate(7, artista.getFechaNacimiento());
+            ps.setDate(8, artista.getFechaCreacion());
+            ps.setString(9, artista.getStatus());
+            ps.setString(10, artista.getRutaImagen());
+            ps.setInt(11, artista.getIdContacto());
+            ps.setInt(12, artista.getIdArtista());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
-    public int getUltimmoIdArtista() throws SQLException {
+    public int getUltimmoIdArtista() {
         int idArtista = -1;
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_ULTIMO_ID);
-        while (rs.next()) {
-            idArtista = rs.getInt("CURRVAL");
-            return idArtista;
+        try {
+            Statement stmt = conexion.createStatement();
+            ResultSet rs = stmt.executeQuery(SELECT_ULTIMO_ID);
+            while (rs.next()) {
+                idArtista = rs.getInt("CURRVAL");
+                return idArtista;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
         return idArtista;
     }

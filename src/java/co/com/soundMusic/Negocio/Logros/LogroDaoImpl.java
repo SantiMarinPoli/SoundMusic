@@ -9,6 +9,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -17,8 +20,10 @@ import java.util.List;
 public class LogroDaoImpl implements ILogroDao {
 
     //Conexion a la base de datos
-    private Connection conexion;
+    private final Connection conexion;
 
+    private Statement stmt;
+    private ResultSet rs;
     //Constantes con las querys a la base de datos
     private static final String SELECT_LOGROS;
     private static final String SELECT_LOGRO_POR_ID;
@@ -26,87 +31,125 @@ public class LogroDaoImpl implements ILogroDao {
     private static final String UPDATE_FECHA_FINAL;
     private static final String UPDATE_LOGRO;
 
-    public LogroDaoImpl() {
-        conexion = DBUtil.getConexion();
+    public LogroDaoImpl(Boolean production) {
+        if (production) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 
     @Override
-    public List<Logro> obtenerLogros() throws SQLException {
+    public List<Logro> obtenerLogros() {
         List<Logro> lstLogros = new ArrayList<>();
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_LOGROS);
 
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_LOGROS);
+            while (rs.next()) {
+                int idLogro = rs.getInt("ID_LOGRO");
+                String nombre = rs.getString("NOMBRE");
+                String criterio = rs.getString("CRITERIO");
+                Float cantidadCriterio = rs.getFloat("CANTIDAD_CRITERIO");
+                Date fechaCreacion = rs.getDate("FECHA_CREACION");
+                Date fechafinal = rs.getDate("FECHA_FINAL");
+                float premio = rs.getFloat("PREMIO");
 
-        while (rs.next()) {
-            int idLogro = rs.getInt("ID_LOGRO");
-            String nombre = rs.getString("NOMBRE");
-            String criterio = rs.getString("CRITERIO");
-            Float cantidadCriterio = rs.getFloat("CANTIDAD_CRITERIO");
-            Date fechaCreacion = rs.getDate("FECHA_CREACION");
-            Date fechafinal = rs.getDate("FECHA_FINAL");
-            float premio = rs.getFloat("PREMIO");
+                Logro logro = new Logro(idLogro, nombre, criterio, cantidadCriterio, fechaCreacion, fechafinal, premio);
 
-            Logro logro = new Logro(idLogro, nombre, criterio, cantidadCriterio, fechaCreacion, fechafinal, premio);
+                lstLogros.add(logro);
+            }
 
-            lstLogros.add(logro);
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(LogroDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
-        stmt.close();
         return lstLogros;
     }
 
     @Override
-    public Logro obtenerLogro(int idLogro) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_LOGRO_POR_ID);
-        ps.setInt(1, idLogro);
-        ResultSet rs = ps.executeQuery();
+    public Logro obtenerLogro(int idLogro) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_LOGRO_POR_ID);
+            ps.setInt(1, idLogro);
+            rs = ps.executeQuery();
 
-        while (rs.next()) {
-            String nombre = rs.getString("NOMBRE");
-            String criterio = rs.getString("CRITERIO");
-            Float cantidadCriterio = rs.getFloat("CANTIDAD_CRITERIO");
-            Date fechaCreacion = rs.getDate("FECHA_CREACION");
-            Date fechafinal = rs.getDate("FECHA_FINAL");
-            float premio = rs.getFloat("PREMIO");
+            while (rs.next()) {
+                String nombre = rs.getString("NOMBRE");
+                String criterio = rs.getString("CRITERIO");
+                Float cantidadCriterio = rs.getFloat("CANTIDAD_CRITERIO");
+                Date fechaCreacion = rs.getDate("FECHA_CREACION");
+                Date fechafinal = rs.getDate("FECHA_FINAL");
+                float premio = rs.getFloat("PREMIO");
 
-            Logro logro = new Logro(idLogro, nombre, criterio, cantidadCriterio, fechaCreacion, fechafinal, premio);
+                Logro logro = new Logro(idLogro, nombre, criterio, cantidadCriterio, fechaCreacion, fechafinal, premio);
 
-            return logro;
+                return logro;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(LogroDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
         return null;
     }
 
     @Override
-    public void crearLogro(Logro logro) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(INSERT_LOGRO);
-        ps.setString(1, logro.getNombreLogro());
-        ps.setString(2, logro.getCriterio());
-        ps.setFloat(3, logro.getCantidadCriterio());
-        ps.setDate(4, logro.getFechaCreacion());
-        ps.setDate(5, logro.getFechaFinal());
-        ps.setFloat(6, logro.getPremio());
-        ps.executeUpdate();
+    public void crearLogro(Logro logro) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_LOGRO);
+            ps.setString(1, logro.getNombreLogro());
+            ps.setString(2, logro.getCriterio());
+            ps.setFloat(3, logro.getCantidadCriterio());
+            ps.setDate(4, logro.getFechaCreacion());
+            ps.setDate(5, logro.getFechaFinal());
+            ps.setFloat(6, logro.getPremio());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(LogroDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     @Override
-    public void eliminarLogro(Logro logro) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDATE_FECHA_FINAL);
-        ps.setDate(1, logro.getFechaFinal());
-        ps.setInt(2, logro.getIdLogro());
-        ps.executeUpdate();
+    public void eliminarLogro(Logro logro) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDATE_FECHA_FINAL);
+            ps.setDate(1, logro.getFechaFinal());
+            ps.setInt(2, logro.getIdLogro());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(LogroDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     @Override
-    public void actualizarLogro(Logro logro) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDATE_LOGRO);
+    public void actualizarLogro(Logro logro) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDATE_LOGRO);
 
-        ps.setString(1, logro.getNombreLogro());
-        ps.setString(2, logro.getCriterio());
-        ps.setFloat(3, logro.getCantidadCriterio());
-        ps.setFloat(4, logro.getPremio());
-        ps.setInt(5, logro.getIdLogro());
-        ps.executeUpdate();
+            ps.setString(1, logro.getNombreLogro());
+            ps.setString(2, logro.getCriterio());
+            ps.setFloat(3, logro.getCantidadCriterio());
+            ps.setFloat(4, logro.getPremio());
+            ps.setInt(5, logro.getIdLogro());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(LogroDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     static {

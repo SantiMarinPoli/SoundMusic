@@ -99,11 +99,7 @@ public class Contacto {
     }
 
     public void obtenerCiudad() {
-        CiudadDaoImpl daoCiudad = new CiudadDaoImpl();
-        try {
-            this.setCiudad(daoCiudad.obtenerCiudad(this.idCiudad));
-        } catch (SQLException ex) {
-            Logger.getLogger(Contacto.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        CiudadDaoImpl daoCiudad = new CiudadDaoImpl(true);
+        this.setCiudad(daoCiudad.obtenerCiudad(this.idCiudad));
     }
 }

@@ -64,11 +64,7 @@ public class controladorUsuario extends HttpServlet {
         String opcion = (String) request.getParameter("opcion");
         if (opcion != null) {
             if (opcion.equals("listarUsuarios")) {
-                try {
-                    mostrarPaginaUsuario(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                mostrarPaginaUsuario(request, response);
             }
             if (opcion.equals("borrar")) {
                 int idUsuario = Integer.parseInt((String) request.getParameter("IdUsuario"));
@@ -119,13 +115,9 @@ public class controladorUsuario extends HttpServlet {
 
         if (operacion != null) {
             if (operacion.equalsIgnoreCase("crear")) {
-                try {
-                    crearUsuario(request, response);
-                    ingresarLogAuditoria(UsuarioId(request, response), 2);
-                    actulizarLstUsuario(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                crearUsuario(request, response);
+                ingresarLogAuditoria(UsuarioId(request, response), 2);
+                actulizarLstUsuario(request, response);
             }
             if (operacion.equals("editar")) {
                 int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));
@@ -146,7 +138,7 @@ public class controladorUsuario extends HttpServlet {
     }// </editor-fold>
 
     private void mostrarPaginaUsuario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
 
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
@@ -155,7 +147,7 @@ public class controladorUsuario extends HttpServlet {
     }
 
     private void actulizarLstUsuario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
 
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
@@ -166,13 +158,13 @@ public class controladorUsuario extends HttpServlet {
     }
 
     private void crearUsuario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException {
 
         String nombreUsuario = request.getParameter("nomUsuario");
         String contrasena = request.getParameter("pass1");
 
         UsuarioLogin usuarioLogin = new UsuarioLogin(0, nombreUsuario, contrasena);
-        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
         daoUsuarioLogin.crearUsuarioLogin(usuarioLogin);
         usuarioLogin.setIdUsuarioLogin(daoUsuarioLogin.getUltimmoIdUsuarioLogin());
 
@@ -186,7 +178,7 @@ public class controladorUsuario extends HttpServlet {
         String[] datosContacto = {celular, telefono, direccion, barrio, email};
 
         Contacto contacto = new Contacto(0, datosContacto, idCiudad);
-        ContactoDaoImpl daoCiudad = new ContactoDaoImpl();
+        ContactoDaoImpl daoCiudad = new ContactoDaoImpl(true);
         daoCiudad.crearContacto(contacto);
         contacto.setIdContacto(daoCiudad.getUltimoIdContacto());
 
@@ -208,76 +200,64 @@ public class controladorUsuario extends HttpServlet {
 
     private void editarUsuario(HttpServletRequest request, HttpServletResponse response, int idUsuario)
             throws IOException, NumberFormatException, ServletException {
-        try {
-            String nombreUsuario = request.getParameter("nombreUsuario");
-            String contrasena = request.getParameter("contrasena");
-            int idUsuarioLogin = Integer.parseInt(request.getParameter("idUsuarioLogin"));
+        String nombreUsuario = request.getParameter("nombreUsuario");
+        String contrasena = request.getParameter("contrasena");
+        int idUsuarioLogin = Integer.parseInt(request.getParameter("idUsuarioLogin"));
 
-            UsuarioLogin usuarioLogin = new UsuarioLogin(idUsuarioLogin, nombreUsuario, contrasena);
+        UsuarioLogin usuarioLogin = new UsuarioLogin(idUsuarioLogin, nombreUsuario, contrasena);
 
-            String celular = request.getParameter("celular");
-            String telefono = request.getParameter("telefono");
-            String direccion = request.getParameter("direccion");
-            String barrio = request.getParameter("barrio");
-            String email = request.getParameter("email");
+        String celular = request.getParameter("celular");
+        String telefono = request.getParameter("telefono");
+        String direccion = request.getParameter("direccion");
+        String barrio = request.getParameter("barrio");
+        String email = request.getParameter("email");
 
-            int idContacto = Integer.parseInt(request.getParameter("idContacto"));
-            int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
+        int idContacto = Integer.parseInt(request.getParameter("idContacto"));
+        int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
 
-            String[] datosContacto = {celular, telefono, direccion, barrio, email};
+        String[] datosContacto = {celular, telefono, direccion, barrio, email};
 
-            Contacto contacto = new Contacto(idContacto, datosContacto, idCiudad);
+        Contacto contacto = new Contacto(idContacto, datosContacto, idCiudad);
 
-            String primerNombre = request.getParameter("nombre1");
-            String segundoNombre = request.getParameter("nombre2");
-            String primerApellido = request.getParameter("apellido1");
-            String segundoApellido = request.getParameter("apellido2");
-            String genero = request.getParameter("generoUsuario");
+        String primerNombre = request.getParameter("nombre1");
+        String segundoNombre = request.getParameter("nombre2");
+        String primerApellido = request.getParameter("apellido1");
+        String segundoApellido = request.getParameter("apellido2");
+        String genero = request.getParameter("generoUsuario");
 
-            int idPerfil = Integer.parseInt(request.getParameter("idPerfil"));
+        int idPerfil = Integer.parseInt(request.getParameter("idPerfil"));
 
-            Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                    primerApellido, segundoApellido, null, "A", genero,
-                    idPerfil, idUsuarioLogin, contacto.getIdContacto());
+        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                primerApellido, segundoApellido, null, "A", genero,
+                idPerfil, idUsuarioLogin, contacto.getIdContacto());
 
-            ContactoDaoImpl daoContacto = new ContactoDaoImpl();
-            UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl();
-            UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
+        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
+        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
 
-            daoContacto.actualizarContacto(contacto);
-            daoUsuarioLogin.actualizarUsuarioLogin(usuarioLogin);
-            daoUsuario.actualizarUsuario(usuario);
-            mostrarPaginaUsuario(request, response);
-        } catch (SQLException ex) {
-            throw new ServletException(ex);
-        }
+        daoContacto.actualizarContacto(contacto);
+        daoUsuarioLogin.actualizarUsuarioLogin(usuarioLogin);
+        daoUsuario.actualizarUsuario(usuario);
+        mostrarPaginaUsuario(request, response);
     }
 
     private void actualizarDatosFormulario(HttpServletRequest request) {
-        try {
-            PaisDaoImpl daoPais = new PaisDaoImpl();
-            List<Pais> lstPais = daoPais.obtenerPaises();
-            request.setAttribute("lstPais", lstPais);
+        PaisDaoImpl daoPais = new PaisDaoImpl(true);
+        List<Pais> lstPais = daoPais.obtenerPaises();
+        request.setAttribute("lstPais", lstPais);
 
-            CiudadDaoImpl ciudadDao = new CiudadDaoImpl();
-            List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-            request.setAttribute("lstCiudad", lstCiudad);
+        CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
+        List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
+        request.setAttribute("lstCiudad", lstCiudad);
 
-            PerfilDaoImpl daoPerfil = new PerfilDaoImpl();
-            List<Perfil> lstPerfil = daoPerfil.obtenerPerfiles();
-            request.setAttribute("lstPerfil", lstPerfil);
-        } catch (SQLException ex) {
-            Logger.getLogger(controladorUsuario.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        PerfilDaoImpl daoPerfil = new PerfilDaoImpl(true);
+        List<Perfil> lstPerfil = daoPerfil.obtenerPerfiles();
+        request.setAttribute("lstPerfil", lstPerfil);
     }
 
     private void ingresarLogAuditoria(int idUsuario, int idPermisos) {
-        LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl();
-        try {
-            daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
-        } catch (SQLException ex) {
-            Logger.getLogger(controladorLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl(true);
+        daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
     }
 
     private int UsuarioId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

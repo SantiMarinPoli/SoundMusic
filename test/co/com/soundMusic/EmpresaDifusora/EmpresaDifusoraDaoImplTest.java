@@ -34,7 +34,7 @@ public class EmpresaDifusoraDaoImplTest {
 
     @Before
     public void setUp() throws SQLException {
-        daoEmpresaDifusora = new EmpresaDifusoraDaoImpl();
+        daoEmpresaDifusora = new EmpresaDifusoraDaoImpl(false);
         empresaPrueba = new EmpresaDifusora(1, "YOUTUBE", Date.valueOf("2018-06-01"), null, "A", null,
                 1, 1, 1);
         empresaPruebaAct = new EmpresaDifusora(1, "YOUTUBE", Date.valueOf("2018-06-01"), null, "A", null,
@@ -127,7 +127,7 @@ public class EmpresaDifusoraDaoImplTest {
     @Test
     public void testGetUltimoIdEmpresaDifusora() throws Exception {
         System.out.println("getUltimoIdEmpresaDifusora");
-        EmpresaDifusoraDaoImpl instance = new EmpresaDifusoraDaoImpl();
+        EmpresaDifusoraDaoImpl instance = new EmpresaDifusoraDaoImpl(false);
         int expResult = 0;
         int result = instance.getUltimoIdEmpresaDifusora();
         assertEquals(expResult, result);

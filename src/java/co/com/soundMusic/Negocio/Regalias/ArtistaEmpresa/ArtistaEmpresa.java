@@ -75,19 +75,11 @@ public class ArtistaEmpresa {
 
     public void obtenerArtista() {
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
-        try {
-            this.setArtista(daoArtista.obtenerArtista(this.idArtista));
-        } catch (SQLException ex) {
-            Logger.getLogger(ArtistaEmpresa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.setArtista(daoArtista.obtenerArtista(this.idArtista));
     }
 
     public void obtenerEmpresa() {
-        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl();
-        try {
-            this.setEmpresaDifusora(daoEmpresa.obtenerEmpresaDifusora(this.idEmpresaDifusora));
-        } catch (SQLException ex) {
-            Logger.getLogger(ArtistaEmpresa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
+        this.setEmpresaDifusora(daoEmpresa.obtenerEmpresaDifusora(this.idEmpresaDifusora));
     }
 }

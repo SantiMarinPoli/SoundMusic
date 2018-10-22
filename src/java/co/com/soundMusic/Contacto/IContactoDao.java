@@ -1,6 +1,5 @@
 package co.com.soundMusic.Contacto;
 
-import java.sql.SQLException;
 
 /**
  *
@@ -8,7 +7,9 @@ import java.sql.SQLException;
  */
 public interface IContactoDao {
 
-    Contacto obtenerContacto(int idContacto) throws SQLException;
-    void crearContacto(Contacto contacto) throws SQLException;    
-    void actualizarContacto (Contacto contacto) throws SQLException;
+    Contacto obtenerContacto(int idContacto);
+
+    void crearContacto(Contacto contacto);
+
+    void actualizarContacto(Contacto contacto);
 }

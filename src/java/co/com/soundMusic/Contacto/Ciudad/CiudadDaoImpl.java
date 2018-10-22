@@ -8,6 +8,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -18,65 +21,98 @@ public class CiudadDaoImpl implements ICiudadDao {
     //Conexion a la base de datos
     private final Connection conexion;
 
+    private Statement stmt;
+    private ResultSet rs;
     //Constantes con las querys a la base de datos
     private static final String SELECT_CIUDADES;
     private static final String SELECT_CIUDAD_POR_ID;
     private static final String INSERT_CIUDAD;
     private static final String UPDATE_CIUDAD;
 
-    public CiudadDaoImpl() {
-        conexion = DBUtil.getConexion();
+    public CiudadDaoImpl(Boolean production) {
+        if (production) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 
     @Override
-    public List<Ciudad> obtenerCiudades() throws SQLException {
+    public List<Ciudad> obtenerCiudades() {
         List<Ciudad> listaCiudades = new ArrayList<>();
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_CIUDADES);
 
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_CIUDADES);
+            while (rs.next()) {
+                Ciudad ciudad = new Ciudad(rs.getInt("ID_CIUDAD"), rs.getString("NOMBRE_CIUDAD"), rs.getInt("ID_PAIS"));
+                ciudad.obtenerPais();
+                listaCiudades.add(ciudad);
+            }
 
-        while (rs.next()) {
-            Ciudad ciudad = new Ciudad(rs.getInt("ID_CIUDAD"), rs.getString("NOMBRE_CIUDAD"), rs.getInt("ID_PAIS"));
-            ciudad.obtenerPais();
-            listaCiudades.add(ciudad);
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
-        stmt.close();
         return listaCiudades;
     }
 
     @Override
-    public Ciudad obtenerCiudad(int idCiudad) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_CIUDAD_POR_ID);
-        ps.setInt(1, idCiudad);
-        ResultSet rs = ps.executeQuery();
+    public Ciudad obtenerCiudad(int idCiudad) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_CIUDAD_POR_ID);
+            ps.setInt(1, idCiudad);
+            rs = ps.executeQuery();
 
-        while (rs.next()) {
-            Ciudad ciudad = new Ciudad(idCiudad, rs.getString("NOMBRE_CIUDAD"),
-                    rs.getInt("ID_PAIS"));
+            while (rs.next()) {
+                Ciudad ciudad = new Ciudad(idCiudad, rs.getString("NOMBRE_CIUDAD"),
+                        rs.getInt("ID_PAIS"));
 
-            ciudad.obtenerPais();
-            
-            return ciudad;
+                ciudad.obtenerPais();
+
+                return ciudad;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
-
         return null;
     }
 
     @Override
-    public void crearCiudad(Ciudad ciudad) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(INSERT_CIUDAD);
-        ps.setString(1, ciudad.getNombre());
-        ps.setInt(2, ciudad.getIdPais());
-        ps.executeUpdate();
+    public void crearCiudad(Ciudad ciudad) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_CIUDAD);
+            ps.setString(1, ciudad.getNombre());
+            ps.setInt(2, ciudad.getIdPais());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     @Override
-    public void actualizarCiudad(Ciudad ciudad) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDATE_CIUDAD);
-        ps.setString(1, ciudad.getNombre());
-        ps.setInt(2, ciudad.getIdCiudad());
-        ps.executeUpdate();
+    public void actualizarCiudad(Ciudad ciudad) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDATE_CIUDAD);
+            ps.setString(1, ciudad.getNombre());
+            ps.setInt(2, ciudad.getIdCiudad());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     static {

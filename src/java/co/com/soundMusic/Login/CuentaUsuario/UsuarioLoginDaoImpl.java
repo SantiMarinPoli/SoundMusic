@@ -6,6 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -14,59 +17,95 @@ import java.sql.Statement;
 public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     //Conexion a la base de datos
-    private Connection conexion;
+    private final Connection conexion;
 
+    private Statement stmt;
+    private ResultSet rs;
     //Constantes con las querys a la base de datos
     private static final String SELECT_USUARIOLOGIN_POR_ID;
     private static final String INSERT_USUARIOLOGIN;
     private static final String UPDATE_USUARIOLOGIN;
     private static final String SELECT_ULTIMO_ID;
 
-    public UsuarioLoginDaoImpl() {
-        conexion = DBUtil.getConexion();
+    public UsuarioLoginDaoImpl(Boolean production) {
+        if (production) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 
     @Override
-    public UsuarioLogin obtenerUsuarioLogin(int idUsuarioLogin) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIOLOGIN_POR_ID);
-        ps.setInt(1, idUsuarioLogin);
-        ResultSet rs = ps.executeQuery();
+    public UsuarioLogin obtenerUsuarioLogin(int idUsuarioLogin) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIOLOGIN_POR_ID);
+            ps.setInt(1, idUsuarioLogin);
+            rs = ps.executeQuery();
 
-        while (rs.next()) {
-            String nombreUsuario = rs.getString("NOMBRE_USUARIO");
-            String contrasenaUsuario = rs.getString("CONTRASENA");
+            while (rs.next()) {
+                String nombreUsuario = rs.getString("NOMBRE_USUARIO");
+                String contrasenaUsuario = rs.getString("CONTRASENA");
 
-            UsuarioLogin usuarioLogin = new UsuarioLogin(idUsuarioLogin,
-                    nombreUsuario, contrasenaUsuario);
-            return usuarioLogin;
+                UsuarioLogin usuarioLogin = new UsuarioLogin(idUsuarioLogin,
+                        nombreUsuario, contrasenaUsuario);
+                return usuarioLogin;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
         return null;
     }
 
     @Override
-    public void crearUsuarioLogin(UsuarioLogin usuarioLogin) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIOLOGIN);
+    public void crearUsuarioLogin(UsuarioLogin usuarioLogin) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIOLOGIN);
 
-        ps.setString(1, usuarioLogin.getNombreUsuario());
-        ps.setString(2, usuarioLogin.getContrasena());
-        ps.executeUpdate();
+            ps.setString(1, usuarioLogin.getNombreUsuario());
+            ps.setString(2, usuarioLogin.getContrasena());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
     @Override
-    public void actualizarUsuarioLogin(UsuarioLogin usuarioLogin) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(UPDATE_USUARIOLOGIN);
-        ps.setString(1, usuarioLogin.getNombreUsuario());
-        ps.setString(2, usuarioLogin.getContrasena());
-        ps.setInt(3, usuarioLogin.getIdUsuarioLogin());
-        ps.executeUpdate();
+    public void actualizarUsuarioLogin(UsuarioLogin usuarioLogin) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(UPDATE_USUARIOLOGIN);
+            ps.setString(1, usuarioLogin.getNombreUsuario());
+            ps.setString(2, usuarioLogin.getContrasena());
+            ps.setInt(3, usuarioLogin.getIdUsuarioLogin());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
+        }
     }
 
-    public int getUltimmoIdUsuarioLogin() throws SQLException {
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_ULTIMO_ID);
-        while (rs.next()) {
-            int idUsuarioLogin = rs.getInt("CURRVAL");
-            return idUsuarioLogin;
+    public int getUltimmoIdUsuarioLogin() {
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ULTIMO_ID);
+            while (rs.next()) {
+                int idUsuarioLogin = rs.getInt("CURRVAL");
+                return idUsuarioLogin;
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DbUtils.closeQuietly(conexion, stmt, rs);
         }
         return -1;
     }
