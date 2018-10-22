@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
-import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -38,7 +37,6 @@ public class DBUtil {
         }
 
         return conexion;
-
     }
 
     public static Connection getTestConexion() {
