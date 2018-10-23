@@ -72,18 +72,21 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
                 listaUsuarios.add(usuario);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
         return listaUsuarios;
     }
 
     @Override
     public Usuario obtenerUsuario(int idUsuario) {
+        Usuario usuario = new Usuario();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIO_POR_ID);
             ps.setInt(1, idUsuario);
@@ -101,7 +104,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
                 int idContacto = rs.getInt("ID_CONTACTO");
 
-                Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
+                usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
                         primerApellido, segundoApellido, fechaCreacion, status,
                         genero, idPerfilUsuario, idLoginUsuario, idContacto);
 
@@ -111,13 +114,15 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
                 return usuario;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
-        return null;
+        return usuario;
     }
 
     @Override
@@ -140,7 +145,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
@@ -155,7 +162,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
@@ -180,26 +189,31 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
     public int getUltimoIdUsuario() {
+        int idUsuario = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
 
             while (rs.next()) {
-                int idUsuario = rs.getInt("CURRVAL");
+                idUsuario = rs.getInt("CURRVAL");
                 return idUsuario;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
-        return -1;
+        return idUsuario;
     }
 
     static {

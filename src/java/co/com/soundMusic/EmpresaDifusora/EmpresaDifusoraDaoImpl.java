@@ -66,17 +66,20 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 listaEmpresasDifusora.add(empresaDifusora);
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
         return listaEmpresasDifusora;
     }
 
     @Override
     public EmpresaDifusora obtenerEmpresaDifusora(int idEmpresaDifusora) {
+        EmpresaDifusora empresaDifusora = new EmpresaDifusora();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_EMPRESA_POOR_ID);
             ps.setInt(1, idEmpresaDifusora);
@@ -92,17 +95,19 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 int idContacto = rs.getInt("ID_CONTACTO");
                 int idCostoOperacion = rs.getInt("ID_COSTO_ACTIVIDAD");
 
-                EmpresaDifusora empresaDifusora = new EmpresaDifusora(idEmpresaDifusora, nombreEmpresa, fechaCreacion,
+                empresaDifusora = new EmpresaDifusora(idEmpresaDifusora, nombreEmpresa, fechaCreacion,
                         fechaTerminacion, status, rutaImagen, idTipoActividad, idContacto, idCostoOperacion);
                 return empresaDifusora;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
-        return null;
+        return empresaDifusora;
     }
 
     @Override
@@ -123,7 +128,9 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
@@ -138,7 +145,9 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
@@ -160,25 +169,30 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
     public int getUltimoIdEmpresaDifusora() {
+        int idEmpresaDifusora = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
-                int idEmpresaDifusora = rs.getInt("CURRVAL");
+                idEmpresaDifusora = rs.getInt("CURRVAL");
                 return idEmpresaDifusora;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
-        return -1;
+        return idEmpresaDifusora;
     }
 
     static {

@@ -29,7 +29,7 @@
                             <a href="registrarAlbum.jsp" class="btn btn-success" id="btnRegistrar">Registrar Album</a>
                         </div>
                     </div>
-                    
+
                     <br>
 
                     <table class="table">
@@ -62,6 +62,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <%@include file="pruebasTablas/listaAlbum.jsp" %>
                 </div>
             </div>
             <br>
@@ -117,7 +118,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <br>
+                            <br>                            
                         </div>
                     </div>
                     <!--LISTA DE ALBUN FIN-->

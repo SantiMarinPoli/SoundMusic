@@ -1,5 +1,9 @@
 package co.com.soundMusic.Artista.Album;
 
+import co.com.soundMusic.Artista.Artista;
+import co.com.soundMusic.Artista.ArtistaDaoImpl;
+import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
 import java.sql.Date;
 
 /**
@@ -15,17 +19,19 @@ public class Album {
     private String rutaImagen;
     private int idCiudad;
     private int idArtista;
+    private Artista artista;
+    private Ciudad ciudad;
 
     public Album() {
     }
 
-    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion, 
-                String rutaImagen, int idCiudad, int idArtista) {
+    public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion,
+            String rutaImagen, int idCiudad, int idArtista) {
         this.idAlbum = idAlbum;
         this.nombre = nombre;
         this.numeroCanciones = numeroCanciones;
         this.fechaFinalizacion = fechaFinalizacion;
-        this.rutaImagen=rutaImagen;
+        this.rutaImagen = rutaImagen;
         this.idCiudad = idCiudad;
         this.idArtista = idArtista;
     }
@@ -62,12 +68,12 @@ public class Album {
         this.fechaFinalizacion = fechaFinalizacion;
     }
 
-    public String getRutaImagen (){
+    public String getRutaImagen() {
         return this.rutaImagen;
     }
 
-    public void setRutaImagen(String rutaImagen){
-        this.rutaImagen=rutaImagen;
+    public void setRutaImagen(String rutaImagen) {
+        this.rutaImagen = rutaImagen;
     }
 
     public int getIdCiudad() {
@@ -86,4 +92,29 @@ public class Album {
         this.idArtista = idArtista;
     }
 
+    public Artista getArtista() {
+        return artista;
+    }
+
+    public void setArtista(Artista artista) {
+        this.artista = artista;
+    }
+
+    public Ciudad getCiudad() {
+        return ciudad;
+    }
+
+    public void setCiudad(Ciudad ciudad) {
+        this.ciudad = ciudad;
+    }
+
+    public void obtenerArtista() {
+        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
+        this.setArtista(daoArtista.obtenerArtista(this.idArtista));
+    }
+
+    public void obtenerCiudad() {
+        CiudadDaoImpl daoCiudad = new CiudadDaoImpl(true);
+        this.setCiudad(daoCiudad.obtenerCiudad(this.idCiudad));
+    }
 }

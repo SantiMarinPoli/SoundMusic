@@ -3,11 +3,8 @@ package co.com.soundMusic.EmpresaDifusora;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresa;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -143,19 +140,11 @@ public class EmpresaDifusora {
     }
 
     public int getNumeroArtistas() {
-        int numeroArtistas = 0;
-        ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl();
-        try {
-            List<ArtistaEmpresa> lstArtistaEmpresa = daoArtistaEmpresa.obtenerNumeroDeArtistas(this.idEmpresaDifusora);
-
-            if (!lstArtistaEmpresa.isEmpty()) {
-
-                return lstArtistaEmpresa.size();
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(EmpresaDifusora.class.getName()).log(Level.SEVERE, null, ex);
+        ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
+        List<ArtistaEmpresa> lstArtistaEmpresa = daoArtistaEmpresa.obtenerNumeroDeArtistas(this.idEmpresaDifusora);
+        if (!lstArtistaEmpresa.isEmpty()) {
+            return lstArtistaEmpresa.size();
         }
-
-        return numeroArtistas;
+        return 0;
     }
 }

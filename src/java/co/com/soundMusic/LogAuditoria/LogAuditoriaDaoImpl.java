@@ -84,11 +84,13 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
             ps.setInt(2, logAuditoria.getUsuario().getIdUsuario());
             ps.setInt(3, logAuditoria.getOperaciones().getIdPermiso());
             ps.executeUpdate();
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(LogAuditoriaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
@@ -113,11 +115,13 @@ public class LogAuditoriaDaoImpl implements ILogAuditoriaDao {
 
                 listaLogAuditoria.add(logAuditoria);
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(LogAuditoriaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
         return listaLogAuditoria;
     }

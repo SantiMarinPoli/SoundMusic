@@ -63,17 +63,20 @@ public class ArtistaDaoImpl implements IArtistaDao {
                 listaArtistas.add(artista);
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
         return listaArtistas;
     }
 
     @Override
     public Artista obtenerArtista(int idArtista) {
+        Artista artista = new Artista();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTA_POR_ID);
             ps.setInt(1, idArtista);
@@ -85,17 +88,19 @@ public class ArtistaDaoImpl implements IArtistaDao {
                     rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
                 Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
 
-                Artista artista = new Artista(idArtista, datosArtista, fechasArtista, rs.getInt("ID_CONTACTO"));
+                artista = new Artista(idArtista, datosArtista, fechasArtista, rs.getInt("ID_CONTACTO"));
 
                 return artista;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
-        return null;
+        return artista;
     }
 
     @Override
@@ -119,7 +124,9 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
@@ -134,7 +141,9 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
@@ -160,24 +169,28 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
     }
 
     public int getUltimmoIdArtista() {
         int idArtista = -1;
         try {
-            Statement stmt = conexion.createStatement();
-            ResultSet rs = stmt.executeQuery(SELECT_ULTIMO_ID);
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ULTIMO_ID);
             while (rs.next()) {
                 idArtista = rs.getInt("CURRVAL");
                 return idArtista;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            if (conexion != null) {
+                DbUtils.closeQuietly(conexion, stmt, rs);
+            }
         }
         return idArtista;
     }

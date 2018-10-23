@@ -4,10 +4,7 @@ import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividadDaoImpl;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresa;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -121,12 +118,8 @@ public class Regalia {
     }
 
     public void obtenerArtistaEmpresa() {
-        ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl();
-        try {
-            this.setArtistaEmpresa(daoArtistaEmpresa.obtenerArtistaEmpresa(this.artistaEmpresa.getIdArtistaEmpresa()));
-        } catch (SQLException ex) {
-            Logger.getLogger(Regalia.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
+        this.setArtistaEmpresa(daoArtistaEmpresa.obtenerArtistaEmpresa(this.artistaEmpresa.getIdArtistaEmpresa()));
     }
 
     public void obtenerCosto() {

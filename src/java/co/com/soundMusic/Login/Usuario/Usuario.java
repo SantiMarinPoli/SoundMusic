@@ -7,11 +7,8 @@ import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -211,7 +208,7 @@ public class Usuario {
                 + ", status=" + status + '}';
     }
 
-    public Object obtenerUsuarioLogeado(String nom_usuario, String password_us) throws SQLException {
+    public Object obtenerUsuarioLogeado(String nom_usuario, String password_us) {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
         for (Usuario usuario : lstUsuario) {

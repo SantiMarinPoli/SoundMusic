@@ -174,14 +174,8 @@ public class Artista {
 
     public List<String> getNumeroEmpresas() {
         List<String> nombreEmpresas = new ArrayList<>();
-        ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl();
-        List<EmpresaDifusora> lstEmpresas = new ArrayList<>();
-        try {
-            lstEmpresas = daoArtistaEmpresa.obtenerEmpresas(idArtista);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Artista.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
+        List<EmpresaDifusora> lstEmpresas = daoArtistaEmpresa.obtenerEmpresas(idArtista);
 
         for (EmpresaDifusora empDif : lstEmpresas) {
             nombreEmpresas.add(empDif.getNombre());

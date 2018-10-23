@@ -28,21 +28,21 @@
                 out.print("<td>" + art.getPrimerNombre() + " " + art.getPrimerApellido() + "</td>");
                 out.print("<td><img src=''" + art.getRutaImagen() + "'  class='img img-fluid icon-artista'/></td>");
                 out.print("<td class='text-success'>");
-                
+
                 List<String> lstNombreEmpresas = art.getNumeroEmpresas();
                 for (String nombreempresa : lstNombreEmpresas) {
                     out.print("<span class='badge badge-primary'>" + nombreempresa + "</span>");
                 }
                 out.print("</td>");
-                
+
                 out.print("<td>" + art.getFechaCreacion() + "</td>");
-                
+
                 if (art.getStatus().equalsIgnoreCase("a")) {
                     out.print("<td><a href='#'' class='badge badge-success btnActivar' activarUsuario='0'>Activo</a></td>");
                 } else {
                     out.print("<td><a href='#'' class='badge badge-danger btnActivar' activarUsuario='0'>Inactivo</a></td>");
                 }
-                
+
                 out.print("<td><a href='modificarArtista.jsp' class='btn btn-warning'>Actualizar</a></td>");
                 out.print("</tr>");
             }

@@ -2,9 +2,6 @@ package co.com.soundMusic.Contacto;
 
 import co.com.soundMusic.Contacto.Ciudad.Ciudad;
 import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
