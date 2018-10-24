@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -26,7 +25,7 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <a href="registrarAlbum.jsp" class="btn btn-success" id="btnRegistrar">Registrar Album</a>
+                            <a href="controladorAlbum?opcion=crearAlbum" class="btn btn-success" id="btnRegistrar">Registrar Album</a>
                         </div>
                     </div>
 

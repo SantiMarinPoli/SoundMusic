@@ -51,7 +51,7 @@ public class PaisDaoImpl implements IPaisDao {
                 listaPaises.add(pais);
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PaisDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -72,7 +72,7 @@ public class PaisDaoImpl implements IPaisDao {
                 Pais pais = new Pais(idPais, nombre);
                 return pais;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PaisDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

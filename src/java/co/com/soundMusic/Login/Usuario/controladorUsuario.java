@@ -10,17 +10,13 @@ import co.com.soundMusic.LogAuditoria.LogAuditoria;
 import co.com.soundMusic.LogAuditoria.LogAuditoriaDaoImpl;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
-import co.com.soundMusic.Login.controladorLogin;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.Seguridad.Perfiles.PerfilDaoImpl;
 import co.com.soundMusic.Seguridad.Permisos.Permisos;
 import java.io.IOException;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -84,18 +80,16 @@ public class controladorUsuario extends HttpServlet {
                 vista.forward(request, response);
             }
             if (opcion.equals("editar")) {
-
                 actualizarDatosFormulario(request);
 
                 int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
                 UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-
                 Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
+                
                 request.setAttribute("usuarioEditar", usuario);
 
                 RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
                 vista.forward(request, response);
-
             }
         }
     }
@@ -116,13 +110,13 @@ public class controladorUsuario extends HttpServlet {
         if (operacion != null) {
             if (operacion.equalsIgnoreCase("crear")) {
                 crearUsuario(request, response);
-                ingresarLogAuditoria(UsuarioId(request, response), 2);
+                //ingresarLogAuditoria(UsuarioId(request, response), 3);
                 actulizarLstUsuario(request, response);
             }
             if (operacion.equals("editar")) {
                 int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));
                 editarUsuario(request, response, idUsuario);
-                ingresarLogAuditoria(UsuarioId(request, response), 3);
+                // ingresarLogAuditoria(UsuarioId(request, response), 4);
             }
         }
     }
@@ -271,5 +265,17 @@ public class controladorUsuario extends HttpServlet {
             return idUsuario;
         }
         return idUsuario;
+    }
+
+    private Usuario obtenerUsuarioAEditar(List<Usuario> lstUsuario, int idUsuario) {
+        Usuario usuario = new Usuario();
+
+        for (int i = 1; i < lstUsuario.size(); i++) {
+            if (lstUsuario.get(i).getIdUsuario() == idUsuario) {
+                usuario = lstUsuario.get(i);
+                break;
+            }
+        }
+        return usuario;
     }
 }

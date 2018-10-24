@@ -52,7 +52,7 @@ public class CiudadDaoImpl implements ICiudadDao {
                 listaCiudades.add(ciudad);
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -76,7 +76,7 @@ public class CiudadDaoImpl implements ICiudadDao {
 
                 return ciudad;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

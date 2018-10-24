@@ -54,7 +54,7 @@ public class PerfilDaoImpl implements IPerfilDao {
                 listaPerfiles.add(perfil);
             }
 
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PerfilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -76,7 +76,7 @@ public class PerfilDaoImpl implements IPerfilDao {
                 Perfil perfil = new Perfil(idPerfil, nombrePerfil);
                 return perfil;
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PerfilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

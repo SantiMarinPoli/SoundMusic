@@ -21,6 +21,13 @@ public class Contacto {
     public Contacto() {
     }
 
+    public Contacto(int idContacto, String celular, String email, int idCiudad) {
+        this.idContacto = idContacto;
+        this.celular = celular;
+        this.email = email;
+        this.idCiudad = idCiudad;
+    }
+
     public Contacto(int idContacto, String[] datosContacto, int idCiudad) {
         this.idContacto = idContacto;
         this.celular = datosContacto[0];

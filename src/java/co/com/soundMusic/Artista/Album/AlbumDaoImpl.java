@@ -58,6 +58,8 @@ public class AlbumDaoImpl implements IAlbumDao {
 
                 Album album = new Album(idAlbum, nombre, numeroCanciones,
                         fechaFinalizacion, rutaImagen, idCiudad, idArtista);
+                album.obtenerArtista();
+                album.obtenerCiudad();
 
                 listaAlbumes.add(album);
             }
@@ -90,7 +92,9 @@ public class AlbumDaoImpl implements IAlbumDao {
 
                 album = new Album(idAlbum, nombre, numeroCanciones,
                         fechaFinalizacion, rutaImagen, idCiudad, idArtista);
-
+                album.obtenerArtista();
+                album.obtenerCiudad();
+                
                 return album;
             }
         } catch (SQLException | NullPointerException ex) {

@@ -1,3 +1,6 @@
+<%@page import="co.com.soundMusic.Artista.Artista"%>
+<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -36,16 +39,22 @@
 
                     <br>
 
-                    <form>
+                    <form name="formulario_album" action="controladorAlbum" method="post">
+                        <input type ="hidden" name="operacion" value="crear" />
                         <div class="form-group">
                             <label>Nombre de Artista*</label>
-                            <select  name="nomArtista" id="nomArtista" class="form-control">
-                                <option value="">Seleccionar un artista</option>
-                                <option value="Bad Bunny">Bad Bunny</option>
-                                <option value="Avicci">Avicci</option>
+                            <select class="form-control" name="nomArtista" id="nomArtista" class="form-control">
+                                <option value="0">Seleccionar el Artista</option>
+                                <%//Listar los artistas en la base de datos
+                                    List<Artista> listaArtistas
+                                            = (List<Artista>) request.getAttribute("lstArtistas");
+                                    for (Artista artista : listaArtistas) {
+                                        out.print("<option value='" + artista.getIdArtista()
+                                                + "'>" + artista.getNombreArtistico()+ "</option>");
+                                    }
+                                %>
                             </select>
                             <div class="invalid-feedback">Debes seleccionar un artista</div>
-
                         </div>
 
                         <div class="form-group">
@@ -54,70 +63,44 @@
                             <p class="help-block">Peso maximo de la foto 2MB</p>
                             <img src="img/album/default/no-image.png" class="img-thumbnail previsualizar" width="100px"/>
                         </div>
-
                         <div class="form-row">
                             <div class="col">
                                 <label>Nombre del Album*</label>
                                 <input type="text" class="form-control" name="nomAlbum" id="nomAlbum" placeholder="Ingresar el nuevo album">
                                 <div class="invalid-feedback">El campo nombre de album es obligatorio</div>
-
                             </div>
-                            <div class="col">
-                                <label>Empresa Difunsora*</label>
-                                <select class="form-control" name="nomEmpresa" id="nomEmpresa">
-                                    <option value="">Seleccionar la empresa difunsora</option>
-                                    <option value="Napster">Napster</option>
-                                    <option value="Spotify">Spotify</option>
-                                    <option value="!Music">!Music</option>
-                                </select>
-                                <div class="invalid-feedback">Debes seleccionar una empresa difunsora</div>
-                            </div>
-                        </div>
-
-                        <br>
-
-                        <div class="form-row">
                             <div class="col">
                                 <label>No# Canciones*</label>
                                 <input type="number" name="numCanciones" id="numCanciones" class="form-control" placeholder="Ingresar numero de canciones">
                                 <div class="invalid-feedback">El campo numero de canciones es obligatorio</div>
                             </div>
-                            <div class="col">
-                                <label>Total Canciones</label>
-                                <input type="text" name="totalCanciones" class="form-control" id="totalCanciones" value="$0.0" disabled>
-                            </div>
                         </div>
 
                         <br>
 
-                        <div class="form-row">
+                        <div class="form-row">                            
                             <div class="col">
-                                <label>Pais Realizacion*</label>
-                                <select name="paisAlbum" id="paisAlbum" class="form-control">
-                                    <option>Seleccionar el pais</option>
-                                    <option value="Estados Unidos">Estados Unidos</option>
-                                    <option value="Colombia">Colombia</option>
+                                <label>Ciudad Realizacion*</label>                                
+                                <select class="form-control" name="ciudadAlbum" id="ciudadAlbum">
+                                    <option value="0">Seleccionar la ciudad</option>
+                                    <%//Listar las ciudades en la base de datos
+                                        List<Ciudad> listaCiudad
+                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
+                                        for (Ciudad ciudad : listaCiudad) {
+                                            out.print("<option value='" + ciudad.getIdCiudad()
+                                                    + "'>" + ciudad.getNombre() + "</option>");
+                                        }
+                                    %>
                                 </select>
-                                <div class="invalid-feedback">Debes seleccionar un pais</div>
-
-                            </div>
-                            <div class="col">
-                                <label>Ciudad Realizacion*</label>
-                                <input type="text" name="ciudadAlbum" id="ciudadAlbum" class="form-control" placeholder="Ingresar la ciudad ">
                                 <div class="invalid-feedback">El campo de ciudad es obligatorio</div>
                             </div>
+                            <div class="col">
+                                <label>Fecha de Lanzamiento*</label>
+                                <input type="date" name="fechaLanzamiento" id="fechaLanzamiento" class="form-control">
+                                <div class="invalid-feedback">El campo fecha finalizada es obligatorio</div>
+                            </div>
                         </div>
-
                         <br>
-
-                        <div class="form-group">
-                            <label>Fecha de Lanzamiento*</label>
-                            <input type="date" name="fechaLanzamiento" id="fechaLanzamiento" class="form-control">
-                            <div class="invalid-feedback">El campo fecha finalizada es obligatorio</div>
-                        </div>
-
-                        <br>
-
                         <input type="submit" value="Registrar Album" class="btn btn-primary btn-block" id="btnGuardar">
                     </form>
                 </div>

@@ -1,5 +1,8 @@
 package co.com.soundMusic.Login.Usuario;
 
+import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
+import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.Date;
