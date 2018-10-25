@@ -10,6 +10,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import org.apache.commons.dbutils.DbUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,9 +45,6 @@ public class RegaliaTest {
 
     }
 
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of calcularRegalias method, of class Regalia.

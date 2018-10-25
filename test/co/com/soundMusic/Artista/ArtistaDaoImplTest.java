@@ -1,12 +1,7 @@
 package co.com.soundMusic.Artista;
 
-import co.com.soundMusic.Contacto.Ciudad.Ciudad;
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Contacto.Pais.Pais;
-import static co.com.soundMusic.Login.Usuario.UsuarioDaoImplTest.FILENAME;
 import java.io.FileInputStream;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import org.dbunit.IDatabaseTester;
@@ -15,7 +10,6 @@ import org.dbunit.database.DatabaseConfig;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.ext.oracle.OracleDataTypeFactory;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

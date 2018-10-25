@@ -48,6 +48,7 @@ public class UsuarioDaoImplTest {
             databaseTester.getConnection().close();
         }
     }
+   
 
     @Test
     public void testObtenerUsuarios() throws SQLException {

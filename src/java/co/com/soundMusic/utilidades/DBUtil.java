@@ -2,7 +2,9 @@ package co.com.soundMusic.utilidades;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -13,12 +15,16 @@ import org.apache.commons.dbcp2.BasicDataSource;
  */
 public class DBUtil {
 
-    private static Connection conexion = null;
-    private static BasicDataSource conexionPool;
+    public static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
+    public static final String USER = "SOUNDMUSIC";
+    public static final String PASS = "SOUNDMUSIC2018";
+    public static final String USER_TEST = "DBTest";
+    public static final String PASS_TEST = "DBTest";
+//    private static Connection conexion = null;
+    //   private static BasicDataSource conexionPool;
 
-    ;
-
-    public static Connection getConexion() {
+    /*
+   public static Connection getConexion2() {
         conexionPool = new BasicDataSource();
         String nombreUsuario = "SOUNDMUSIC";
         String password = "SOUNDMUSIC2018";
@@ -39,7 +45,7 @@ public class DBUtil {
         return conexion;
     }
 
-    public static Connection getTestConexion() {
+    public static Connection getTestConexion2() {
         conexionPool = new BasicDataSource();
         String nombreUsuario = "DBTest";
         String password = "DBTest";
@@ -59,49 +65,47 @@ public class DBUtil {
         }
 
         return conexion;
-    }
-
-    public static Connection getConexion2() {
+    }*/
+    /**
+     * Obtener conección a base de datos.
+     *
+     * @return Connection
+     */
+    public static Connection getConexion() {
         try {
-            //Cargar driver de la base de datos oracle
-            Class.forName("oracle.jdbc.OracleDriver");
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            return DriverManager.getConnection(URL, USER, PASS);
 
-            //Guardar en un string el nombre de usuario
-            //y contraseña de la conexion de la base de datos
-            String nombreUsuario = "SOUNDMUSIC";
-            String password = "SOUNDMUSIC2018";
-            //Guardamos en un String la url de nuestra base de datos
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
-
-            //Nos conectamos a la base de datos con los datos anteriores
-            conexion = DriverManager.getConnection(url, nombreUsuario, password);
-
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return conexion;
+        return null;
     }
 
-    public static Connection getTestConexion2() {
+    public static Connection getTestConexion() {
         try {
-            //Cargar driver de la base de datos oracle
-            Class.forName("oracle.jdbc.OracleDriver");
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            return DriverManager.getConnection(URL, USER_TEST, PASS_TEST);
 
-            //Guardar en un string el nombre de usuario
-            //y contraseña de la conexion de la base de datos
-            String nombreUsuario = "DBTest";
-            String password = "DBTest";
-            //Guardamos en un String la url de nuestra base de datos
-            String url = "jdbc:oracle:thin:@localhost:1521:XE";
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
-            //Nos conectamos a la base de datos con los datos anteriores
-            conexion = DriverManager.getConnection(url, nombreUsuario, password);
-        } catch (ClassNotFoundException | SQLException ex) {
+    public ResultSet select(String sql) throws Exception {
+        ResultSet rs = null;
+        Statement stmt;
+        try {
+            stmt = DBUtil.getConexion().createStatement();
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return conexion;
+        return rs;
     }
 }

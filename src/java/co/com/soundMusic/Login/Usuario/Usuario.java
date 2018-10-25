@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class Usuario {
 
-    private int idUsuario;
+    private Integer idUsuario;
     private String primerNombre;
     private String segundoNombre;
     private String primerApellido;
@@ -24,9 +24,9 @@ public class Usuario {
     private Date fechaCreacion;
     private String status;
     private String genero;
-    private int idPerfil;
-    private int idUsuarioLogin;
-    private int idContacto;
+    private Integer idPerfil;
+    private Integer idUsuarioLogin;
+    private Integer idContacto;
     private Perfil perfil;
     private Contacto contacto;
     private UsuarioLogin usuarioLogin;
@@ -34,13 +34,26 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(int idUsuario) {
+    public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public Usuario(int idUsuario, String primerNombre, String segundoNombre,
+    public Usuario(String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaCreacion, String status, String genero, Integer idPerfil, Integer idUsuarioLogin, Integer idContacto) {
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.fechaCreacion = fechaCreacion;
+        this.status = status;
+        this.genero = genero;
+        this.idPerfil = idPerfil;
+        this.idUsuarioLogin = idUsuarioLogin;
+        this.idContacto = idContacto;
+    }
+
+    public Usuario(Integer idUsuario, String primerNombre, String segundoNombre,
             String primerApellido, String segundoApellido, Date fechaCreacion,
-            String status, String genero, int idPerfil, int idUsuarioLogin,
+            String status, String genero, Integer idPerfil, Integer idUsuarioLogin,
             int idContacto) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
@@ -55,11 +68,11 @@ public class Usuario {
         this.idContacto = idContacto;
     }
 
-    public int getIdUsuario() {
+    public Integer getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(int idUsuario) {
+    public void setIdUsuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -111,27 +124,27 @@ public class Usuario {
         this.status = status;
     }
 
-    public int getIdContacto() {
+    public Integer getIdContacto() {
         return idContacto;
     }
 
-    public void setIdContacto(int idContacto) {
+    public void setIdContacto(Integer idContacto) {
         this.idContacto = idContacto;
     }
 
-    public int getIdUsuarioLogin() {
+    public Integer getIdUsuarioLogin() {
         return idUsuarioLogin;
     }
 
-    public void setIdUsuarioLogin(int idUsuarioLogin) {
+    public void setIdUsuarioLogin(Integer idUsuarioLogin) {
         this.idUsuarioLogin = idUsuarioLogin;
     }
 
-    public int getIdPerfil() {
+    public Integer getIdPerfil() {
         return idPerfil;
     }
 
-    public void setidPerfil(int idPerfil) {
+    public void setidPerfil(Integer idPerfil) {
         this.idPerfil = idPerfil;
     }
 

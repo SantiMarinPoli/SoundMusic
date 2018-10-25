@@ -1,8 +1,5 @@
 package co.com.soundMusic.Login.Usuario;
 
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
-import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.Date;
@@ -53,7 +50,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             rs = stmt.executeQuery(SELECT_USUARIOS);
 
             while (rs.next()) {
-                int idUsuario = rs.getInt("ID_USUARIO");
+                Integer idUsuario = rs.getInt("ID_USUARIO");
                 String primerNombre = rs.getString("PRIMER_NOMBRE");
                 String segundoNombre = validacion(rs.getString("SEGUNDO_NOMBRE"));
                 String primerApellido = rs.getString("PRIMER_APELLIDO");
@@ -61,9 +58,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 Date fechaCreacion = rs.getDate("FECHA_CREACION");
                 String status = rs.getString("STATUS");
                 String genero = validacion(rs.getString("GENERO"));
-                int idPerfilUsuario = rs.getInt("ID_PERFIL");
-                int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
-                int idContacto = rs.getInt("ID_CONTACTO");
+                Integer idPerfilUsuario = rs.getInt("ID_PERFIL");
+                Integer idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
+                Integer idContacto = rs.getInt("ID_CONTACTO");
 
                 Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
                         primerApellido, segundoApellido, fechaCreacion, status,
@@ -82,12 +79,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         } finally {
             try {
                 if (conexion != null) {
-                    DbUtils.closeQuietly(conexion);
-                    DbUtils.closeQuietly(stmt);
-                    DbUtils.closeQuietly(rs);
+                    DbUtils.close(rs);
+                    DbUtils.close(stmt);
+                    DbUtils.close(conexion);                                        
                     Thread.sleep(1000);
                 }
-            } catch (InterruptedException ex) {
+            } catch (InterruptedException | SQLException ex) {
                 Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
