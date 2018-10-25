@@ -80,8 +80,15 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
 
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(rs);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return listaUsuarios;

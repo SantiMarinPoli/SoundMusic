@@ -3,12 +3,9 @@ package co.com.soundMusic.Artista;
 import co.com.soundMusic.EmpresaDifusora.EmpresaDifusora;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
