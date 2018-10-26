@@ -1,5 +1,10 @@
 package co.com.soundMusic.Login.Usuario;
 
+import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Contacto.Pais.Pais;
+import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
+import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.Date;
@@ -20,7 +25,7 @@ import org.apache.commons.dbutils.DbUtils;
 public class UsuarioDaoImpl implements IUsuarioDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
+    private Connection conexion;
 
     private Statement stmt;
     private ResultSet rs;
@@ -46,10 +51,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     public List<Usuario> obtenerUsuarios() {
         List<Usuario> listaUsuarios = new ArrayList<>();
         try {
+            //conexion = DBUtil.getConexion();
             stmt = conexion.createStatement();
             rs = stmt.executeQuery(SELECT_USUARIOS);
 
             while (rs.next()) {
+                //Datos Usuario
                 Integer idUsuario = rs.getInt("ID_USUARIO");
                 String primerNombre = rs.getString("PRIMER_NOMBRE");
                 String segundoNombre = validacion(rs.getString("SEGUNDO_NOMBRE"));
@@ -58,17 +65,49 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 Date fechaCreacion = rs.getDate("FECHA_CREACION");
                 String status = rs.getString("STATUS");
                 String genero = validacion(rs.getString("GENERO"));
+
+                //Datos Perfil
                 Integer idPerfilUsuario = rs.getInt("ID_PERFIL");
+                String nombrePerfil = rs.getString("NOMBRE_PERFIL");
+
+                //Datos Usuario_Login
                 Integer idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
+                String nombreUsLog = rs.getString("NOMBRE_USUARIO");
+                String passUsLog = rs.getString("CONTRASENA");
+
+                //Datos Contacto
                 Integer idContacto = rs.getInt("ID_CONTACTO");
+                String celular = rs.getString("CELULAR");
+                String telefono = rs.getString("TELEFONO");
+                String direccion = rs.getString("DIRECCION");
+                String barrio = rs.getString("BARRIO");
+                String email = rs.getString("EMAIL");
+
+                Integer idPais = rs.getInt("PAIS");
+                String nombrePais = rs.getString("NOMBRE_PAIS");
+
+                Integer idCiudad = rs.getInt("CIUDAD");
+                String nombreCiudad = rs.getString("NOMBRE_CIUDAD");
+
+                Perfil perfil = new Perfil(idPerfilUsuario, nombrePerfil);
+                UsuarioLogin usuarioLogin = new UsuarioLogin(idLoginUsuario,
+                        nombreUsLog, passUsLog);
+
+                Pais pais = new Pais(idPais, nombrePais);
+                Ciudad ciudad = new Ciudad(idCiudad, nombreCiudad);
+                ciudad.setPais(pais);
+
+                Contacto contacto = new Contacto(idContacto, celular, telefono,
+                        direccion, barrio, email);
+                contacto.setCiudad(ciudad);
 
                 Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
                         primerApellido, segundoApellido, fechaCreacion, status,
-                        genero, idPerfilUsuario, idLoginUsuario, idContacto);
+                        genero);
 
-                usuario.obtenerContactoUsuario();
-                usuario.obtenerPerfilUsuario();
-                usuario.obtenerUsuarioLogin();
+                usuario.setPerfil(perfil);
+                usuario.setUsuarioLogin(usuarioLogin);
+                usuario.setContacto(contacto);
 
                 listaUsuarios.add(usuario);
             }
@@ -79,12 +118,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         } finally {
             try {
                 if (conexion != null) {
-                    DbUtils.close(rs);
-                    DbUtils.close(stmt);
-                    DbUtils.close(conexion);                                        
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
                     Thread.sleep(1000);
                 }
-            } catch (InterruptedException | SQLException ex) {
+            } catch (InterruptedException ex) {
                 Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -107,17 +146,49 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 Date fechaCreacion = rs.getDate("FECHA_CREACION");
                 String status = rs.getString("STATUS");
                 String genero = validacion(rs.getString("GENERO"));
-                int idPerfilUsuario = rs.getInt("ID_PERFIL");
-                int idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
-                int idContacto = rs.getInt("ID_CONTACTO");
+
+                //Datos Perfil
+                Integer idPerfilUsuario = rs.getInt("ID_PERFIL");
+                String nombrePerfil = rs.getString("NOMBRE_PERFIL");
+
+                //Datos Usuario_Login
+                Integer idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
+                String nombreUsLog = rs.getString("NOMBRE_USUARIO");
+                String passUsLog = rs.getString("CONTRASENA");
+
+                //Datos Contacto
+                Integer idContacto = rs.getInt("ID_CONTACTO");
+                String celular = rs.getString("CELULAR");
+                String telefono = rs.getString("TELEFONO");
+                String direccion = rs.getString("DIRECCION");
+                String barrio = rs.getString("BARRIO");
+                String email = rs.getString("EMAIL");
+
+                Integer idPais = rs.getInt("PAIS");
+                String nombrePais = rs.getString("NOMBRE_PAIS");
+
+                Integer idCiudad = rs.getInt("CIUDAD");
+                String nombreCiudad = rs.getString("NOMBRE_CIUDAD");
+
+                Perfil perfil = new Perfil(idPerfilUsuario, nombrePerfil);
+                UsuarioLogin usuarioLogin = new UsuarioLogin(idLoginUsuario,
+                        nombreUsLog, passUsLog);
+
+                Pais pais = new Pais(idPais, nombrePais);
+                Ciudad ciudad = new Ciudad(idCiudad, nombreCiudad);
+                ciudad.setPais(pais);
+
+                Contacto contacto = new Contacto(idContacto, celular, telefono,
+                        direccion, barrio, email);
+                contacto.setCiudad(ciudad);
 
                 usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
                         primerApellido, segundoApellido, fechaCreacion, status,
-                        genero, idPerfilUsuario, idLoginUsuario, idContacto);
+                        genero);
 
-                usuario.obtenerContactoUsuario();
-                usuario.obtenerPerfilUsuario();
-                usuario.obtenerUsuarioLogin();
+                usuario.setPerfil(perfil);
+                usuario.setUsuarioLogin(usuarioLogin);
+                usuario.setContacto(contacto);
 
                 return usuario;
             }
@@ -125,8 +196,14 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.close(rs);
+                    DbUtils.close(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException | SQLException ex) {
+                Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return usuario;
@@ -224,13 +301,40 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     }
 
     static {
-        SELECT_USUARIOS = "SELECT ID_USUARIO,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "FECHA_CREACION,STATUS,GENERO,ID_PERFIL,ID_USUARIO_LOGIN,ID_CONTACTO\n"
-                + "FROM USUARIO ORDER BY ID_USUARIO";
+        SELECT_USUARIOS = "SELECT US.ID_USUARIO,US.PRIMER_NOMBRE,US.SEGUNDO_NOMBRE,US.PRIMER_APELLIDO,US.SEGUNDO_APELLIDO,\n"
+                + "US.FECHA_CREACION,US.STATUS,US.GENERO,US.ID_PERFIL,US.ID_USUARIO_LOGIN,US.ID_CONTACTO,\n"
+                + "CONT.CELULAR AS CELULAR, CONT.TELEFONO AS TELEFONO,\n"
+                + "CONT.DIRECCION AS DIRECCION, CONT.BARRIO AS BARRIO, CONT.EMAIL AS EMAIL, CIU.ID_CIUDAD AS CIUDAD, \n"
+                + "CIU.NOMBRE AS NOMBRE_CIUDAD,\n"
+                + "PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS, PER.NOMBRE_PERFIL, US_LO.NOMBRE_USUARIO, US_LO.CONTRASENA\n"
+                + "FROM USUARIO US INNER JOIN CONTACTO CONT\n"
+                + "ON US.ID_CONTACTO = CONT.ID_CONTACTO\n"
+                + "INNER JOIN CIUDAD CIU\n"
+                + "ON CONT.ID_CIUDAD = CIU.ID_CIUDAD\n"
+                + "INNER JOIN PAIS PA\n"
+                + "ON CIU.ID_PAIS = PA.ID_PAIS\n"
+                + "INNER JOIN PERFIL PER\n"
+                + "ON US.ID_PERFIL = PER.ID_PERFIL\n"
+                + "INNER JOIN USUARIO_LOGIN US_LO\n"
+                + "ON US.ID_USUARIO_LOGIN = US_LO.ID_USUARIO_LOGIN\n"
+                + "ORDER BY ID_USUARIO";
 
-        SELECT_USUARIO_POR_ID = "SELECT ID_USUARIO,PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "FECHA_CREACION,STATUS,GENERO,ID_PERFIL,ID_USUARIO_LOGIN,ID_CONTACTO\n"
-                + "FROM USUARIO\n"
+        SELECT_USUARIO_POR_ID = "SELECT US.PRIMER_NOMBRE,US.SEGUNDO_NOMBRE,US.PRIMER_APELLIDO,US.SEGUNDO_APELLIDO,\n"
+                + "US.FECHA_CREACION,US.STATUS,US.GENERO,US.ID_PERFIL,US.ID_USUARIO_LOGIN,US.ID_CONTACTO,\n"
+                + "CONT.CELULAR AS CELULAR, CONT.TELEFONO AS TELEFONO,\n"
+                + "CONT.DIRECCION AS DIRECCION, CONT.BARRIO AS BARRIO, CONT.EMAIL AS EMAIL, CIU.ID_CIUDAD AS CIUDAD, \n"
+                + "CIU.NOMBRE AS NOMBRE_CIUDAD,\n"
+                + "PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS, PER.NOMBRE_PERFIL, US_LO.NOMBRE_USUARIO, US_LO.CONTRASENA\n"
+                + "FROM USUARIO US INNER JOIN CONTACTO CONT\n"
+                + "ON US.ID_CONTACTO = CONT.ID_CONTACTO\n"
+                + "INNER JOIN CIUDAD CIU\n"
+                + "ON CONT.ID_CIUDAD = CIU.ID_CIUDAD\n"
+                + "INNER JOIN PAIS PA\n"
+                + "ON CIU.ID_PAIS = PA.ID_PAIS\n"
+                + "INNER JOIN PERFIL PER\n"
+                + "ON US.ID_PERFIL = PER.ID_PERFIL\n"
+                + "INNER JOIN USUARIO_LOGIN US_LO\n"
+                + "ON US.ID_USUARIO_LOGIN = US_LO.ID_USUARIO_LOGIN \n"
                 + "WHERE ID_USUARIO=?";
 
         INSERT_USUARIO = "INSERT INTO USUARIO (PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"

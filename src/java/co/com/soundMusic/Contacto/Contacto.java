@@ -38,6 +38,16 @@ public class Contacto {
         this.idCiudad = idCiudad;
     }
 
+    public Contacto(int idContacto, String celular, String telefono,
+            String direccion, String barrio, String email) {
+        this.idContacto = idContacto;
+        this.celular = celular;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.barrio = barrio;
+        this.email = email;
+    }
+
     public int getIdContacto() {
         return idContacto;
     }

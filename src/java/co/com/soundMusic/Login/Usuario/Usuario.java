@@ -38,7 +38,9 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public Usuario(String primerNombre, String segundoNombre, String primerApellido, String segundoApellido, Date fechaCreacion, String status, String genero, Integer idPerfil, Integer idUsuarioLogin, Integer idContacto) {
+    public Usuario(String primerNombre, String segundoNombre, String primerApellido,
+            String segundoApellido, Date fechaCreacion, String status, String genero,
+            Integer idPerfil, Integer idUsuarioLogin, Integer idContacto) {
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.primerApellido = primerApellido;
@@ -66,6 +68,19 @@ public class Usuario {
         this.idPerfil = idPerfil;
         this.idUsuarioLogin = idUsuarioLogin;
         this.idContacto = idContacto;
+    }
+
+    public Usuario(Integer idUsuario, String primerNombre, String segundoNombre,
+            String primerApellido, String segundoApellido, Date fechaCreacion,
+            String status, String genero) {
+        this.idUsuario = idUsuario;
+        this.primerNombre = primerNombre;
+        this.segundoNombre = segundoNombre;
+        this.primerApellido = primerApellido;
+        this.segundoApellido = segundoApellido;
+        this.fechaCreacion = fechaCreacion;
+        this.status = status;
+        this.genero = genero;
     }
 
     public Integer getIdUsuario() {

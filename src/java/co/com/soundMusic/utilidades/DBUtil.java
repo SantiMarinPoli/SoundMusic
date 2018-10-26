@@ -2,12 +2,9 @@ package co.com.soundMusic.utilidades;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.apache.commons.dbcp2.BasicDataSource;
 
 /**
  *
@@ -22,6 +19,35 @@ public class DBUtil {
     public static final String PASS_TEST = "DBTest";
 //    private static Connection conexion = null;
     //   private static BasicDataSource conexionPool;
+
+    /**
+     * Obtener conección a base de datos.
+     *
+     * @return Connection
+     */
+    public static Connection getConexion() {
+        try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            return DriverManager.getConnection(URL, USER, PASS);
+
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    public static Connection getTestConexion() {
+        try {
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            return DriverManager.getConnection(URL, USER_TEST, PASS_TEST);
+
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     /*
    public static Connection getConexion2() {
@@ -66,46 +92,4 @@ public class DBUtil {
 
         return conexion;
     }*/
-    /**
-     * Obtener conección a base de datos.
-     *
-     * @return Connection
-     */
-    public static Connection getConexion() {
-        try {
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            return DriverManager.getConnection(URL, USER, PASS);
-
-        } catch (SQLException ex) {
-            System.out.println("Excepción " + ex.getMessage());
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public static Connection getTestConexion() {
-        try {
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            return DriverManager.getConnection(URL, USER_TEST, PASS_TEST);
-
-        } catch (SQLException ex) {
-            System.out.println("Excepción " + ex.getMessage());
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public ResultSet select(String sql) throws Exception {
-        ResultSet rs = null;
-        Statement stmt;
-        try {
-            stmt = DBUtil.getConexion().createStatement();
-            rs = stmt.executeQuery(sql);
-        } catch (SQLException ex) {
-            System.out.println("Excepción " + ex.getMessage());
-            Logger.getLogger(DBUtil.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return rs;
-    }
 }

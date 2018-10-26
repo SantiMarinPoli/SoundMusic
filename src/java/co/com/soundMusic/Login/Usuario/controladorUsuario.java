@@ -30,6 +30,8 @@ import javax.servlet.http.HttpSession;
  */
 public class controladorUsuario extends HttpServlet {
 
+    List<Usuario> lstUsuariop;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -83,10 +85,15 @@ public class controladorUsuario extends HttpServlet {
                 actualizarDatosFormulario(request);
 
                 int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
-                UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-                Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
-                
-                request.setAttribute("usuarioEditar", usuario);
+                //UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
+                //Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
+                for (Usuario usuario : lstUsuariop) {
+                    if (usuario.getIdUsuario() == identificacion) {
+                        request.setAttribute("usuarioEditar", usuario);
+                        break;
+                    }
+                }
+                //request.setAttribute("usuarioEditar", usuario);
 
                 RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
                 vista.forward(request, response);
@@ -135,8 +142,10 @@ public class controladorUsuario extends HttpServlet {
             throws ServletException, IOException {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
 
-        List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
-        request.setAttribute("lstUsuario", lstUsuario);
+//        List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
+        lstUsuariop = daoUsuario.obtenerUsuarios();
+        //request.setAttribute("lstUsuario", lstUsuario);
+        request.setAttribute("lstUsuario", lstUsuariop);
         request.getRequestDispatcher("/usuario.jsp").forward(request, response);
     }
 
