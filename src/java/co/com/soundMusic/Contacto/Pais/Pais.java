@@ -5,8 +5,12 @@ package co.com.soundMusic.Contacto.Pais;
  * @author Santiago Medina Pelaez
  */
 public class Pais {
+
     private int idPais;
     private String nombre;
+
+    public Pais() {
+    }
 
     public Pais(int idPais, String nombre) {
         this.idPais = idPais;

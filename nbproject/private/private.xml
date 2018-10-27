@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Santiago/Google%20Drive/2018/Garantizar/Prototipo/SoundMusic/src/java/co/com/soundMusic/Login/Usuario/UsuarioDaoImpl.java</file>
-            <file>file:/E:/Santiago/Google%20Drive/2018/Garantizar/Prototipo/SoundMusic/src/java/co/com/soundMusic/Contacto/ContactoDaoImpl.java</file>
-            <file>file:/E:/Santiago/Google%20Drive/2018/Garantizar/Prototipo/SoundMusic/src/java/co/com/soundMusic/Login/Usuario/Usuario.java</file>
-            <file>file:/E:/Santiago/Google%20Drive/2018/Garantizar/Prototipo/SoundMusic/src/java/co/com/soundMusic/utilidades/DBUtil.java</file>
+            <file>file:/E:/Santiago/Google%20Drive/2018/Garantizar/Prototipo/SoundMusic/src/java/co/com/soundMusic/EmpresaDifusora/EmpresaDifusoraDaoImpl.java</file>
+            <file>file:/E:/Santiago/Google%20Drive/2018/Garantizar/Prototipo/SoundMusic/src/java/co/com/soundMusic/Artista/ArtistaDaoImpl.java</file>
             <file>file:/E:/Santiago/Google%20Drive/2018/Garantizar/Prototipo/SoundMusic/src/java/co/com/soundMusic/Login/Usuario/controladorUsuario.java</file>
         </group>
     </open-files>

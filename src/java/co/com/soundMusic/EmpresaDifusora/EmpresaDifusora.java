@@ -1,5 +1,8 @@
 package co.com.soundMusic.EmpresaDifusora;
 
+import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
+import co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresa;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.sql.Date;
@@ -12,21 +15,24 @@ import java.util.Objects;
  */
 public class EmpresaDifusora {
 
-    private int idEmpresaDifusora;
+    private Integer idEmpresaDifusora;
     private String nombre;
     private Date fechaCreacion;
     private Date fechaTerminacion;
     private String status;
     private String rutaImagen;
-    private int idTipoActividad;
-    private int idContacto;
-    private int idCostoOperacion;
+    private Integer idTipoActividad;
+    private Integer idContacto;
+    private Integer idCostoOperacion;
+    private Contacto contacto;
+    private TipoEmpresaDifusora tipoActividad;
+    private CostoActividad costoOperacion;
 
     public EmpresaDifusora() {
     }
 
-    public EmpresaDifusora(int idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
-            String status, String rutaImagen, int idTipoActividad, int idContacto, int idCostoOperacion) {
+    public EmpresaDifusora(Integer idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
+            String status, String rutaImagen, Integer idTipoActividad, Integer idContacto, Integer idCostoOperacion) {
         this.idEmpresaDifusora = idEmpresaDifusora;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
@@ -38,11 +44,11 @@ public class EmpresaDifusora {
         this.idCostoOperacion = idCostoOperacion;
     }
 
-    public int getIdEmpresaDifusora() {
+    public Integer getIdEmpresaDifusora() {
         return idEmpresaDifusora;
     }
 
-    public void setIdEmpresaDifusora(int idEmpresaDifusora) {
+    public void setIdEmpresaDifusora(Integer idEmpresaDifusora) {
         this.idEmpresaDifusora = idEmpresaDifusora;
     }
 
@@ -86,28 +92,52 @@ public class EmpresaDifusora {
         this.rutaImagen = rutaImagen;
     }
 
-    public int getIdTipoActividad() {
+    public Integer getIdTipoActividad() {
         return idTipoActividad;
     }
 
-    public void setTipoActividad(int idTipoActividad) {
+    public void setTipoActividad(Integer idTipoActividad) {
         this.idTipoActividad = idTipoActividad;
     }
 
-    public int getIdCostoOperacion() {
+    public Integer getIdCostoOperacion() {
         return idCostoOperacion;
     }
 
-    public void setIdCostoOperacion(int idCostoOperacion) {
+    public void setIdCostoOperacion(Integer idCostoOperacion) {
         this.idCostoOperacion = idCostoOperacion;
     }
 
-    public int getIdContacto() {
+    public Integer getIdContacto() {
         return idContacto;
     }
 
-    public void setIdContacto(int idContacto) {
+    public void setIdContacto(Integer idContacto) {
         this.idContacto = idContacto;
+    }
+
+    public Contacto getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
+    }
+
+    public TipoEmpresaDifusora getTipoActividad() {
+        return tipoActividad;
+    }
+
+    public void setTipoActividad(TipoEmpresaDifusora tipoActividad) {
+        this.tipoActividad = tipoActividad;
+    }
+
+    public CostoActividad getCostoOperacion() {
+        return costoOperacion;
+    }
+
+    public void setCostoOperacion(CostoActividad costoOperacion) {
+        this.costoOperacion = costoOperacion;
     }
 
     @Override
@@ -139,7 +169,7 @@ public class EmpresaDifusora {
         return true;
     }
 
-    public int getNumeroArtistas() {
+    public Integer getNumeroArtistas() {
         ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
         List<ArtistaEmpresa> lstArtistaEmpresa = daoArtistaEmpresa.obtenerNumeroDeArtistas(this.idEmpresaDifusora);
         if (!lstArtistaEmpresa.isEmpty()) {
@@ -147,4 +177,5 @@ public class EmpresaDifusora {
         }
         return 0;
     }
+
 }

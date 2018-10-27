@@ -4,9 +4,6 @@ import co.com.soundMusic.Artista.Artista;
 import co.com.soundMusic.Artista.ArtistaDaoImpl;
 import co.com.soundMusic.EmpresaDifusora.EmpresaDifusora;
 import co.com.soundMusic.EmpresaDifusora.EmpresaDifusoraDaoImpl;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

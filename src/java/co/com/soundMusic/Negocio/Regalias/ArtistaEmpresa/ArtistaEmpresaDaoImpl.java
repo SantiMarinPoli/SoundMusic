@@ -166,10 +166,16 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);                    
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }  
         return lstArtistasPorEmpresa;
     }
 
@@ -200,10 +206,16 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);                    
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }        
         return lstEmpresasPorArtista;
     }
 

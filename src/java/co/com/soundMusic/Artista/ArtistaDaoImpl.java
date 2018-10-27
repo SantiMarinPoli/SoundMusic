@@ -1,8 +1,10 @@
 package co.com.soundMusic.Artista;
 
+import co.com.soundMusic.Contacto.Ciudad.Ciudad;
+import co.com.soundMusic.Contacto.Contacto;
+import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,14 +53,39 @@ public class ArtistaDaoImpl implements IArtistaDao {
             rs = stmt.executeQuery(SELECT_ARTISTAS);
 
             while (rs.next()) {
+                Artista artista = new Artista();
+                Contacto contacto = new Contacto();
+                Pais pais = new Pais();
+                Ciudad ciudad = new Ciudad();
 
-                String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
-                    rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"), rs.getString("NOMBRE_ARTISTICO"),
-                    rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
-
-                Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
-
-                Artista artista = new Artista(rs.getInt("ID_ARTISTA"), datosArtista, fechasArtista, rs.getInt("CONTACTO"));
+                //Crear Pais
+                pais.setIdPais(rs.getInt("PAIS"));
+                pais.setNombre(rs.getString("NOMBRE_PAIS"));
+                //Crear Ciudad
+                ciudad.setIdCiudad(rs.getInt("CIUDAD"));
+                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
+                ciudad.setPais(pais);
+                //Crear Contacto
+                contacto.setIdContacto(rs.getInt("CONTACTO"));
+                contacto.setCelular(rs.getString("CELULAR"));
+                contacto.setTelefono(rs.getString("TELEFONO"));
+                contacto.setDireccion(rs.getString("DIRECCION"));
+                contacto.setBarrio(rs.getString("BARRIO"));
+                contacto.setEmail(rs.getString("EMAIL"));
+                contacto.setCiudad(ciudad);
+                //Crear Artista
+                artista.setIdArtista(rs.getInt("ID_ARTISTA"));
+                artista.setPrimerNombre(rs.getString("PRIMER_NOMBRE"));
+                artista.setSegundoNombre(validacion(rs.getString("SEGUNDO_NOMBRE")));
+                artista.setPrimerApellido(rs.getString("PRIMER_APELLIDO"));
+                artista.setSegundoApellido(validacion(rs.getString("SEGUNDO_APELLIDO")));
+                artista.setNombreArtistico(rs.getString("NOMBRE_ARTISTICO"));
+                artista.setGenero(validacion(rs.getString("GENERO")));
+                artista.setFechaNacimiento(rs.getDate("FECHA_NACIMIENTO"));
+                artista.setFechaCreacion(rs.getDate("FECHA_CREACION"));
+                artista.setStatus(rs.getString("STATUS"));
+                artista.setRutaImagen(validacion(rs.getString("RUTA_IMAGEN")));
+                artista.setContacto(contacto);
 
                 listaArtistas.add(artista);
             }
@@ -67,8 +94,15 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return listaArtistas;
@@ -83,12 +117,38 @@ public class ArtistaDaoImpl implements IArtistaDao {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                String[] datosArtista = {rs.getString("PRIMER_NOMBRE"), rs.getString("SEGUNDO_NOMBRE"),
-                    rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"), rs.getString("NOMBRE_ARTISTICO"),
-                    rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
-                Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
+                Contacto contacto = new Contacto();
+                Pais pais = new Pais();
+                Ciudad ciudad = new Ciudad();
 
-                artista = new Artista(idArtista, datosArtista, fechasArtista, rs.getInt("ID_CONTACTO"));
+                //Crear Pais
+                pais.setIdPais(rs.getInt("PAIS"));
+                pais.setNombre(rs.getString("NOMBRE_PAIS"));
+                //Crear Ciudad
+                ciudad.setIdCiudad(rs.getInt("CIUDAD"));
+                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
+                ciudad.setPais(pais);
+                //Crear Contacto
+                contacto.setIdContacto(rs.getInt("CONTACTO"));
+                contacto.setCelular(rs.getString("CELULAR"));
+                contacto.setTelefono(rs.getString("TELEFONO"));
+                contacto.setDireccion(rs.getString("DIRECCION"));
+                contacto.setBarrio(rs.getString("BARRIO"));
+                contacto.setEmail(rs.getString("EMAIL"));
+                contacto.setCiudad(ciudad);
+                //Crear Artista
+                artista.setIdArtista(idArtista);
+                artista.setPrimerNombre(rs.getString("PRIMER_NOMBRE"));
+                artista.setSegundoNombre(validacion(rs.getString("SEGUNDO_NOMBRE")));
+                artista.setPrimerApellido(rs.getString("PRIMER_APELLIDO"));
+                artista.setSegundoApellido(validacion(rs.getString("SEGUNDO_APELLIDO")));
+                artista.setNombreArtistico(rs.getString("NOMBRE_ARTISTICO"));
+                artista.setGenero(validacion(rs.getString("GENERO")));
+                artista.setFechaNacimiento(rs.getDate("FECHA_NACIMIENTO"));
+                artista.setFechaCreacion(rs.getDate("FECHA_CREACION"));
+                artista.setStatus(rs.getString("STATUS"));
+                artista.setRutaImagen(validacion(rs.getString("RUTA_IMAGEN")));
+                artista.setContacto(contacto);
 
                 return artista;
             }
@@ -96,8 +156,14 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return artista;
@@ -124,8 +190,13 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -141,8 +212,13 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -169,8 +245,13 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -188,24 +269,48 @@ public class ArtistaDaoImpl implements IArtistaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return idArtista;
     }
 
     static {
-        SELECT_ARTISTAS = "SELECT ID_ARTISTA, PRIMER_NOMBRE, SEGUNDO_NOMBRE, "
-                + "PRIMER_APELLIDO, SEGUNDO_APELLIDO, NOMBRE_ARTISTICO, GENERO, \n"
-                + "FECHA_NACIMIENTO, FECHA_CREACION, STATUS, \n"
-                + "RUTA_IMAGEN, ID_CONTACTO AS CONTACTO \n"
-                + "FROM ARTISTA \n"
+        SELECT_ARTISTAS = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, \n"
+                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
+                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO , \n"
+                + "CONT.CELULAR AS CELULAR, CONT.TELEFONO AS TELEFONO, CONT.DIRECCION AS DIRECCION, \n"
+                + "CONT.BARRIO AS BARRIO, CONT.EMAIL AS EMAIL, CIU.ID_CIUDAD AS CIUDAD, \n"
+                + "CIU.NOMBRE AS NOMBRE_CIUDAD,PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS \n"
+                + "FROM ARTISTA AR INNER JOIN CONTACTO CONT \n"
+                + "ON AR.ID_CONTACTO = CONT.ID_CONTACTO         \n"
+                + "INNER JOIN CIUDAD CIU \n"
+                + "ON CONT.ID_CIUDAD = CIU.ID_CIUDAD \n"
+                + "INNER JOIN PAIS PA \n"
+                + "ON CIU.ID_PAIS = PA.ID_PAIS \n"
                 + "ORDER BY ID_ARTISTA";
 
-        SELECT_ARTISTA_POR_ID = "SELECT PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
-                + "NOMBRE_ARTISTICO,GENERO,FECHA_NACIMIENTO,FECHA_CREACION,STATUS,RUTA_IMAGEN, ID_CONTACTO\n"
-                + "FROM ARTISTA\n"
+        SELECT_ARTISTA_POR_ID = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, \n"
+                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
+                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO , \n"
+                + "CONT.CELULAR AS CELULAR, CONT.TELEFONO AS TELEFONO, CONT.DIRECCION AS DIRECCION, \n"
+                + "CONT.BARRIO AS BARRIO, CONT.EMAIL AS EMAIL, CIU.ID_CIUDAD AS CIUDAD, \n"
+                + "CIU.NOMBRE AS NOMBRE_CIUDAD,PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS \n"
+                + "FROM ARTISTA AR INNER JOIN CONTACTO CONT \n"
+                + "ON AR.ID_CONTACTO = CONT.ID_CONTACTO         \n"
+                + "INNER JOIN CIUDAD CIU \n"
+                + "ON CONT.ID_CIUDAD = CIU.ID_CIUDAD \n"
+                + "INNER JOIN PAIS PA \n"
+                + "ON CIU.ID_PAIS = PA.ID_PAIS \n"
                 + "WHERE ID_ARTISTA=?";
 
         INSERT_ARTISTA = "INSERT INTO ARTISTA (PRIMER_NOMBRE,SEGUNDO_NOMBRE,PRIMER_APELLIDO,SEGUNDO_APELLIDO,\n"
@@ -223,5 +328,13 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
         SELECT_ULTIMO_ID = "SELECT ARTISTA_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+    }
+
+    private String validacion(String aValidar) {
+        if (aValidar != null) {
+            return aValidar.trim();
+        } else {
+            return "";
+        }
     }
 }

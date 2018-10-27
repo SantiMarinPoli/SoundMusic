@@ -1,5 +1,6 @@
 package co.com.soundMusic.Artista;
 
+import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.EmpresaDifusora.EmpresaDifusora;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.sql.Date;
@@ -13,7 +14,7 @@ import java.util.Objects;
  */
 public class Artista {
 
-    private int idArtista;
+    private Integer idArtista;
     private String primerNombre;
     private String segundoNombre;
     private String primerApellido;
@@ -24,9 +25,10 @@ public class Artista {
     private Date fechaCreacion;
     private String status;
     private String rutaImagen;
-    private int idContacto;
+    private Integer idContacto;
+    private Contacto contacto;
 
-    public Artista(int idArtista, String[] datosArtista, Date[] fechasArtista, int idContacto) {
+    public Artista(Integer idArtista, String[] datosArtista, Date[] fechasArtista, Integer idContacto) {
         this.idArtista = idArtista;
         this.primerNombre = datosArtista[0];
         this.segundoNombre = datosArtista[1];
@@ -44,11 +46,11 @@ public class Artista {
     public Artista() {
     }
 
-    public int getIdArtista() {
+    public Integer getIdArtista() {
         return idArtista;
     }
 
-    public void setIdArtista(int idArtista) {
+    public void setIdArtista(Integer idArtista) {
         this.idArtista = idArtista;
     }
 
@@ -132,12 +134,20 @@ public class Artista {
         this.rutaImagen = rutaImagen;
     }
 
-    public int getIdContacto() {
+    public Integer getIdContacto() {
         return idContacto;
     }
 
-    public void setIdContacto(int idContacto) {
+    public void setIdContacto(Integer idContacto) {
         this.idContacto = idContacto;
+    }
+
+    public Contacto getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(Contacto contacto) {
+        this.contacto = contacto;
     }
 
     @Override
