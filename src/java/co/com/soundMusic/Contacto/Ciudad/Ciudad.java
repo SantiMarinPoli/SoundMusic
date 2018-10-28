@@ -2,9 +2,6 @@ package co.com.soundMusic.Contacto.Ciudad;
 
 import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -18,6 +15,7 @@ public class Ciudad {
     private Pais pais;
 
     public Ciudad() {
+        this.pais = new Pais();
     }
 
     public Ciudad(int idCiudad, String nombre, int idPais) {

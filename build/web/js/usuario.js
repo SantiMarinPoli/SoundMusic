@@ -13,7 +13,7 @@ $(function () {
         if (activarUsuario == 0) {
             $(this).removeClass("badge-success");
             $(this).addClass("badge-danger");
-            $(this).html("Desactivado");
+            $(this).html("Inactivo");
             $(this).attr("activarUsuario", 1);
         } else {
             $(this).removeClass("badge-danger");

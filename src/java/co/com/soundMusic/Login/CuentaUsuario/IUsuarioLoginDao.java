@@ -9,7 +9,7 @@ public interface IUsuarioLoginDao {
 
     UsuarioLogin obtenerUsuarioLogin(int idUsuarioLogin);
 
-    void crearUsuarioLogin(UsuarioLogin usuarioLogin);
+    int crearUsuarioLogin(UsuarioLogin usuarioLogin);
 
     void actualizarUsuarioLogin(UsuarioLogin usuarioLogin);
 }

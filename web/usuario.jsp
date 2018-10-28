@@ -41,7 +41,7 @@
                                 <th scope="col">Tipo de Usuario</th>
                                 <th scope="col">Nombre Usuario</th>
                                 <th scope="col">Fecha Entrada</th>
-                                <th scope="col">Activo</th>
+                                <th scope="col"> Activo </th>
                                 <th scope="col">Operaciones</th>
                             </tr>
                         </thead>

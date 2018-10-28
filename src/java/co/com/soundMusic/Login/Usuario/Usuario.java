@@ -32,6 +32,9 @@ public class Usuario {
     private UsuarioLogin usuarioLogin;
 
     public Usuario() {
+        this.perfil = new Perfil();
+        this.contacto=new Contacto();
+        this.usuarioLogin=new UsuarioLogin();
     }
 
     public Usuario(Integer idUsuario) {

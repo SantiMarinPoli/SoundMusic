@@ -26,7 +26,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     //Conexion a la base de datos
     private Connection conexion;
-
+    private Boolean isProduction = true;
     private Statement stmt;
     private ResultSet rs;
     //Constantes con las querys a la base de datos
@@ -38,17 +38,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     private static final String SELECT_ULTIMO_ID;
 
     public UsuarioDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
     public List<Usuario> obtenerUsuarios() {
+        getConexion();
         List<Usuario> listaUsuarios = new ArrayList<>();
         try {
             //conexion = DBUtil.getConexion();
@@ -78,10 +73,10 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 //Datos Contacto
                 Integer idContacto = rs.getInt("ID_CONTACTO");
                 String celular = rs.getString("CELULAR");
-                String telefono = rs.getString("TELEFONO");
-                String direccion = rs.getString("DIRECCION");
-                String barrio = rs.getString("BARRIO");
-                String email = rs.getString("EMAIL");
+                String telefono = validacion(rs.getString("TELEFONO"));
+                String direccion = validacion(rs.getString("DIRECCION"));
+                String barrio = validacion(rs.getString("BARRIO"));
+                String email = validacion(rs.getString("EMAIL"));
 
                 Integer idPais = rs.getInt("PAIS");
                 String nombrePais = rs.getString("NOMBRE_PAIS");
@@ -132,6 +127,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     @Override
     public Usuario obtenerUsuario(int idUsuario) {
+        getConexion();
         Usuario usuario = new Usuario();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIO_POR_ID);
@@ -211,6 +207,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     @Override
     public void crearUsuario(Usuario usuario) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIO);
 
@@ -229,14 +226,20 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.close(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException | SQLException ex) {
+                Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
     @Override
     public void eliminarUsuario(String status, int idUsuario) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_STATUS);
             ps.setString(1, status);
@@ -246,14 +249,20 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.close(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException | SQLException ex) {
+                Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
     @Override
     public void actualizarUsuario(Usuario usuario) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDTAE_USUARIO);
 
@@ -261,13 +270,12 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             ps.setString(2, usuario.getSegundoNombre());
             ps.setString(3, usuario.getPrimerApellido());
             ps.setString(4, usuario.getSegundoApellido());
-            ps.setDate(5, usuario.getFechaCreacion());
-            ps.setString(6, usuario.getStatus());
-            ps.setString(7, usuario.getGenero());
-            ps.setInt(8, usuario.getPerfil().getIdPerfil());
-            ps.setInt(9, usuario.getUsuarioLogin().getIdUsuarioLogin());
-            ps.setInt(10, usuario.getContacto().getIdContacto());
-            ps.setInt(11, usuario.getIdUsuario());
+            ps.setString(5, usuario.getStatus());
+            ps.setString(6, usuario.getGenero());
+            ps.setInt(7, usuario.getPerfil().getIdPerfil());
+            ps.setInt(8, usuario.getUsuarioLogin().getIdUsuarioLogin());
+            ps.setInt(9, usuario.getContacto().getIdContacto());
+            ps.setInt(10, usuario.getIdUsuario());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -285,6 +293,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     }
 
     public int getUltimoIdUsuario() {
+        getConexion();
         int idUsuario = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
@@ -352,7 +361,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
         UPDTAE_USUARIO = "UPDATE USUARIO\n"
                 + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
-                + "FECHA_CREACION=?,STATUS=?, GENERO=?,ID_PERFIL_USUARIO=?,ID_LOGIN_USUARIO=?,ID_CONTACTO_USUARIO=?\n"
+                + "STATUS=?, GENERO=?,ID_PERFIL=?,ID_USUARIO_LOGIN=?,ID_CONTACTO=?\n"
                 + "WHERE ID_USUARIO=?";
 
         SELECT_ULTIMO_ID = "SELECT USUARIO_SEQ.CURRVAL\n"
@@ -365,5 +374,15 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         } else {
             return "";
         }
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }

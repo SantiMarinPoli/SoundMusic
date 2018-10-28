@@ -18,7 +18,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     //Conexion a la base de datos
     private Connection conexion;
-
+    private Boolean isProduction = true;
     private Statement stmt;
     private ResultSet rs;
     //Constantes con las querys a la base de datos
@@ -28,17 +28,12 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
     private static final String SELECT_ULTIMO_ID;
 
     public UsuarioLoginDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
     public UsuarioLogin obtenerUsuarioLogin(int idUsuarioLogin) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_USUARIOLOGIN_POR_ID);
             ps.setInt(1, idUsuarioLogin);
@@ -62,12 +57,15 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
     }
 
     @Override
-    public void crearUsuarioLogin(UsuarioLogin usuarioLogin) {
+    public int crearUsuarioLogin(UsuarioLogin usuarioLogin) {
+        getConexion();
+        int id=-1;
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIOLOGIN);
             ps.setString(1, usuarioLogin.getNombreUsuario());
             ps.setString(2, usuarioLogin.getContrasena());
             ps.executeUpdate();
+            id=getUltimmoIdUsuarioLogin();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -81,10 +79,12 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
                 Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return id;
     }
 
     @Override
     public void actualizarUsuarioLogin(UsuarioLogin usuarioLogin) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_USUARIOLOGIN);
             ps.setString(1, usuarioLogin.getNombreUsuario());
@@ -106,7 +106,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
         }
     }
 
-    public int getUltimmoIdUsuarioLogin() {
+    public int getUltimmoIdUsuarioLogin() {        
         try {
             stmt = conexion.createStatement();
             rs = stmt.executeQuery(SELECT_ULTIMO_ID);
@@ -121,8 +121,7 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
             try {
                 if (conexion != null) {
                     DbUtils.closeQuietly(rs);
-                    DbUtils.closeQuietly(stmt);
-                    DbUtils.closeQuietly(conexion);
+                    DbUtils.closeQuietly(stmt);                    
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException ex) {
@@ -146,5 +145,15 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
         SELECT_ULTIMO_ID = "SELECT USUARIO_LOGIN_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }

@@ -19,12 +19,14 @@ public class Contacto {
     private Ciudad ciudad;
 
     public Contacto() {
+        this.ciudad = new Ciudad();
     }
 
     public Contacto(int idContacto, String celular, String email, int idCiudad) {
         this.idContacto = idContacto;
         this.celular = celular;
         this.email = email;
+        this.ciudad = new Ciudad();
         this.ciudad.setIdCiudad(idCiudad);
     }
 
@@ -35,6 +37,7 @@ public class Contacto {
         this.direccion = datosContacto[2];
         this.barrio = datosContacto[3];
         this.email = datosContacto[4];
+        this.ciudad = new Ciudad();
         this.ciudad.setIdCiudad(idCiudad);
     }
 

@@ -43,11 +43,9 @@ public class PaisDaoImpl implements IPaisDao {
             rs = stmt.executeQuery(SELECT_PAISES);
 
             while (rs.next()) {
-                int idPais = rs.getInt("ID_PAIS");
-                String nombre = rs.getString("NOMBRE");
-
-                Pais pais = new Pais(idPais, nombre);
-
+                Pais pais = new Pais();
+                pais.setIdPais(rs.getInt("ID_PAIS"));
+                pais.setNombre(rs.getString("NOMBRE"));
                 listaPaises.add(pais);
             }
 
@@ -55,30 +53,48 @@ public class PaisDaoImpl implements IPaisDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PaisDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PaisDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return listaPaises;
     }
 
     @Override
     public Pais obtenerPais(int idPais) {
+        Pais pais = new Pais();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_PAIS_POR_ID);
             ps.setInt(1, idPais);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                String nombre = rs.getString("NOMBRE");
-                Pais pais = new Pais(idPais, nombre);
+                pais.setIdPais(idPais);
+                pais.setNombre(rs.getString("NOMBRE"));
                 return pais;
             }
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PaisDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PaisDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        return null;
+        return pais;
     }
 
     @Override

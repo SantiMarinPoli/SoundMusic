@@ -9,7 +9,7 @@ public interface IContactoDao {
 
     Contacto obtenerContacto(int idContacto);
 
-    void crearContacto(Contacto contacto);
+    int crearContacto(Contacto contacto);
 
     void actualizarContacto(Contacto contacto);
 }

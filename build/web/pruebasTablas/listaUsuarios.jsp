@@ -34,11 +34,19 @@
                 out.print("<td>" + usu.getUsuarioLogin().getNombreUsuario() + "</td>");
                 out.print("<td>" + usu.getFechaCreacion() + "</td>");
                 if (usu.getStatus().equalsIgnoreCase("A")) {
-                    out.print("<td><a href='#' class='badge badge-success btnActivar' idUsuario=" + usu.getIdUsuario() + " activarUsuario='0'>Activado</a></td>");
+                    out.print(
+                            "<td><a href='controladorUsuario?opcion=borrar&IdUsuario="
+                            + usu.getIdUsuario() + "&estado=I' class='badge badge-success btnActivar' idUsuario="
+                            + usu.getIdUsuario() + " activarUsuario='0'> Activado </a></td>");
                 } else {
-                    out.print("<td><a href='#' class='badge badge-success btnActivar' idUsuario=" + usu.getIdUsuario() + " activarUsuario='0'>Desactivo</a></td>");
+                    out.print(
+                            "<td><a href='controladorUsuario?opcion=borrar&IdUsuario="
+                            + usu.getIdUsuario() + "&estado=A' class='badge btnActivar badge-danger' idUsuario="
+                            + usu.getIdUsuario() + " activarUsuario='1'>Inactivo</a></td>");
                 }
-                out.print("<td><a href='controladorUsuario?opcion=editar&IdUsuario=" + usu.getIdUsuario() + "' class='btn btn-warning'>Actualizar</a></td>");
+                out.print(
+                        "<td><a href='controladorUsuario?opcion=editar&IdUsuario="
+                        + usu.getIdUsuario() + "' class='btn btn-warning'>Actualizar</a></td>");
                 out.print("</tr>");
             }
         %>

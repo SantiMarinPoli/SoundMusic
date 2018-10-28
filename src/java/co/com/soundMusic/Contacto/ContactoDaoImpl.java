@@ -17,8 +17,8 @@ import org.apache.commons.dbutils.DbUtils;
 public class ContactoDaoImpl implements IContactoDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
-
+    private Connection conexion;
+    private Boolean isProduction = true;
     private Statement stmt;
     private ResultSet rs;
     //Constantes con las querys a la base de datos
@@ -28,17 +28,12 @@ public class ContactoDaoImpl implements IContactoDao {
     private static final String SELECT_ULTIMO_ID;
 
     public ContactoDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
     public Contacto obtenerContacto(int idContacto) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_CONTACTO_POR_ID);
             ps.setInt(1, idContacto);
@@ -67,7 +62,9 @@ public class ContactoDaoImpl implements IContactoDao {
     }
 
     @Override
-    public void crearContacto(Contacto contacto) {
+    public int crearContacto(Contacto contacto) {
+        getConexion();
+        int id = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_CONTACTO);
 
@@ -78,6 +75,7 @@ public class ContactoDaoImpl implements IContactoDao {
             ps.setString(5, contacto.getEmail());
             ps.setInt(6, contacto.getCiudad().getIdCiudad());
             ps.executeUpdate();
+            id = getUltimoIdContacto();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -91,10 +89,12 @@ public class ContactoDaoImpl implements IContactoDao {
                 Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return id;
     }
 
     @Override
     public void actualizarContacto(Contacto contacto) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_CONTACTO);
 
@@ -126,8 +126,7 @@ public class ContactoDaoImpl implements IContactoDao {
             stmt = conexion.createStatement();
             rs = stmt.executeQuery(SELECT_ULTIMO_ID);
             while (rs.next()) {
-                int idContacto = rs.getInt("CURRVAL");
-                return idContacto;
+                return rs.getInt("CURRVAL");
             }
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -137,7 +136,6 @@ public class ContactoDaoImpl implements IContactoDao {
                 if (conexion != null) {
                     DbUtils.closeQuietly(rs);
                     DbUtils.closeQuietly(stmt);
-                    DbUtils.closeQuietly(conexion);
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException ex) {
@@ -169,5 +167,15 @@ public class ContactoDaoImpl implements IContactoDao {
         } else {
             return "";
         }
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }

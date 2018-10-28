@@ -31,6 +31,7 @@ import javax.servlet.http.HttpSession;
 public class controladorUsuario extends HttpServlet {
 
     List<Usuario> lstUsuariop;
+    int identificacion;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -60,34 +61,35 @@ public class controladorUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String opcion = (String) request.getParameter("opcion");
-        if (opcion != null) {
-            if (opcion.equals("listarUsuarios")) {
+        RequestDispatcher vista;
+        switch (opcion) {
+            case "listarUsuarios":
                 mostrarPaginaUsuario(request, response);
-            }
-            if (opcion.equals("borrar")) {
+                break;
+            case "borrar":
                 int idUsuario = Integer.parseInt((String) request.getParameter("IdUsuario"));
+                String status = request.getParameter("estado");
                 UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-                daoUsuario.eliminarUsuario("I", idUsuario);
+                daoUsuario.eliminarUsuario(status, idUsuario);
                 mostrarPaginaUsuario(request, response);
-
-            }
-            if (opcion.equals("crearUsuario")) {
+                break;
+            case "crearUsuario":
                 actualizarDatosFormulario(request);
-                RequestDispatcher vista = request.getRequestDispatcher("/registrarUsuario.jsp");
+                vista = request.getRequestDispatcher("/registrarUsuario.jsp");
                 vista.forward(request, response);
-            }
-            if (opcion.equals("editar")) {
+                break;
+            case "editar":
                 actualizarDatosFormulario(request);
-                int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
+                identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
                 for (Usuario usuario : lstUsuariop) {
                     if (usuario.getIdUsuario() == identificacion) {
                         request.setAttribute("usuarioEditar", usuario);
                         break;
                     }
                 }
-                RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
+                vista = request.getRequestDispatcher("modificarUsuario.jsp");
                 vista.forward(request, response);
-            }
+                break;
         }
     }
 
@@ -104,18 +106,17 @@ public class controladorUsuario extends HttpServlet {
             throws ServletException, IOException {
         String operacion = request.getParameter("operacion");
 
-        if (operacion != null) {
-            if (operacion.equalsIgnoreCase("crear")) {
+        switch (operacion) {
+            case "crear":
                 crearUsuario(request);
                 //ingresarLogAuditoria(UsuarioId(request, response), 3);
                 mostrarPaginaUsuario(request, response);
-            }
-            if (operacion.equals("editar")) {
-                int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));
-                editarUsuario(request, response, idUsuario);
+                break;
+            case "editar":
+                editarUsuario(request, response, identificacion);
                 // ingresarLogAuditoria(UsuarioId(request, response), 4);
                 mostrarPaginaUsuario(request, response);
-            }
+                break;
         }
     }
 
@@ -166,11 +167,11 @@ public class controladorUsuario extends HttpServlet {
         Perfil perfil = obtenerPerfil(request);
         Usuario usuario = new Usuario();
 
+        usuario.setIdUsuario(idUsuario);
         usuario.setPrimerNombre(request.getParameter("nombre1"));
         usuario.setSegundoNombre(request.getParameter("nombre2"));
         usuario.setPrimerApellido(request.getParameter("apellido1"));
         usuario.setSegundoApellido(request.getParameter("apellido2"));
-        usuario.setFechaCreacion(Date.valueOf(LocalDate.now()));
         usuario.setStatus("A");
         usuario.setGenero(request.getParameter("sexo"));
         usuario.setUsuarioLogin(usuarioLogin);
@@ -178,7 +179,7 @@ public class controladorUsuario extends HttpServlet {
         usuario.setPerfil(perfil);
 
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-        
+
         daoUsuario.actualizarUsuario(usuario);
 
     }
@@ -233,9 +234,9 @@ public class controladorUsuario extends HttpServlet {
         usuarioLogin.setContrasena(request.getParameter("pass1"));
 
         UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
-        daoUsuarioLogin.crearUsuarioLogin(usuarioLogin);
+        int idUsLog = daoUsuarioLogin.crearUsuarioLogin(usuarioLogin);
 
-        usuarioLogin.setIdUsuarioLogin(daoUsuarioLogin.getUltimmoIdUsuarioLogin());
+        usuarioLogin.setIdUsuarioLogin(idUsLog);
 
         return usuarioLogin;
     }
@@ -250,8 +251,8 @@ public class controladorUsuario extends HttpServlet {
         contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
 
         ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
-        daoContacto.crearContacto(contacto);
-        contacto.setIdContacto(daoContacto.getUltimoIdContacto());
+        int idContacto = daoContacto.crearContacto(contacto);
+        contacto.setIdContacto(idContacto);
 
         return contacto;
     }

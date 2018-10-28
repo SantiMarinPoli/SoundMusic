@@ -1,4 +1,5 @@
 
+<%@page import="co.com.soundMusic.Seguridad.Perfiles.Perfil"%>
 <%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
 <%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
 <%@page import="java.util.List"%>
@@ -50,7 +51,10 @@
                     <form name="formulario_usuario" action="controladorUsuario" method="post">
                         <input type="hidden" name="cod" value="0">
                         <input type="hidden" name="operacion" id="operacion" value="editar" >  
-                        <% out.println("<input type='hidden' name='IdUsuario' id='IdUsuario' readonly value='" + usuario.getIdUsuario() + "'/>");%>  
+                        <% out.println("<input type='hidden' name='IdUsuario' id='IdUsuario' readonly value='" + usuario.getIdUsuario() + "'/>");
+                            out.println("<input type='hidden' name='idUsuarioLogin' id='idUsuarioLogin' readonly value='" + usuario.getUsuarioLogin().getIdUsuarioLogin() + "'/>");
+                            out.println("<input type='hidden' name='idContacto' id='idContacto' readonly value='" + usuario.getContacto().getIdContacto() + "'/>");
+                        %>  
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Nombre*</label>                                
@@ -128,6 +132,28 @@
                         </div>
 
                         <br>
+                        <div class="form-row">
+                            <label >Perfil*</label>
+                            <select class="form-control" name="perfil" id="perfil">                                
+                                <%//Listar los perfiles en la base de datos
+                                    out.print("<option value='" + usuario.getPerfil().getIdPerfil()
+                                            + "'>" + usuario.getPerfil().getNombrePerfil() + "</option>");
+
+                                    List<Perfil> listaPerfil
+                                            = (List<Perfil>) request.getAttribute("lstPerfil");
+                                    for (Perfil perfil : listaPerfil) {
+                                        if (usuario.getPerfil().getIdPerfil() == perfil.getIdPerfil()) {
+                                            continue;
+                                        } else {
+                                            out.print("<option value='" + perfil.getIdPerfil()
+                                                    + "'>" + perfil.getNombrePerfil() + "</option>");
+                                        }
+                                    }
+                                %>
+                            </select>
+                            <div class="invalid-feedback ">El campo perfil debe ser obligatorio</div>
+                        </div>
+                        <br>
 
                         <div class="form-row">
                             <div class="col">
@@ -155,7 +181,7 @@
                                         List<Pais> listaPais
                                                 = (List<Pais>) request.getAttribute("lstPais");
                                         for (Pais pais : listaPais) {
-                                            if (usuario.getContacto().getCiudad().getPais().getNombre().equalsIgnoreCase(pais.getNombre())) {
+                                            if (usuario.getContacto().getCiudad().getPais().getIdPais() == pais.getIdPais()) {
                                                 continue;
                                             } else {
                                                 out.print("<option value='" + pais.getIdPais()
@@ -177,7 +203,7 @@
                                         List<Ciudad> listaCiudad
                                                 = (List<Ciudad>) request.getAttribute("lstCiudad");
                                         for (Ciudad ciudad : listaCiudad) {
-                                            if (usuario.getContacto().getCiudad().getNombre().equalsIgnoreCase(ciudad.getNombre())) {
+                                            if (usuario.getContacto().getCiudad().getIdCiudad() == ciudad.getIdCiudad()) {
                                                 continue;
                                             } else {
                                                 out.print("<option value='" + ciudad.getIdCiudad()

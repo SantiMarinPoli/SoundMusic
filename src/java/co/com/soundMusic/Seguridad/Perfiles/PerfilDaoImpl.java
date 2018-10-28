@@ -46,11 +46,9 @@ public class PerfilDaoImpl implements IPerfilDao {
             rs = stmt.executeQuery(SELECT_PERFILES);
 
             while (rs.next()) {
-
-                int idPerfil = Integer.parseInt(rs.getString("ID_PERFIL"));
-                String nombrePerfil = rs.getString("NOMBRE_PERFIL");
-
-                Perfil perfil = new Perfil(idPerfil, nombrePerfil);
+                Perfil perfil = new Perfil();
+                perfil.setIdPerfil(rs.getInt("ID_PERFIL"));
+                perfil.setNombrePerfil(rs.getString("NOMBRE_PERFIL"));
                 listaPerfiles.add(perfil);
             }
 
@@ -58,7 +56,16 @@ public class PerfilDaoImpl implements IPerfilDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PerfilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PerfilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return listaPerfiles;
     }
@@ -66,13 +73,13 @@ public class PerfilDaoImpl implements IPerfilDao {
     @Override
     public Perfil obtenerPerfil(int idPerfil) {
         Perfil perfil = new Perfil();
-        perfil.setIdPerfil(idPerfil);
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_PERFIL_POR_ID);
             ps.setInt(1, idPerfil);
             rs = ps.executeQuery();
 
             while (rs.next()) {
+                perfil.setIdPerfil(idPerfil);
                 perfil.setNombrePerfil(rs.getString("NOMBRE_PERFIL"));
                 return perfil;
             }

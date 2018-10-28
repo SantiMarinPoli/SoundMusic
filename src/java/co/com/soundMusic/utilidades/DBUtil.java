@@ -21,14 +21,13 @@ public class DBUtil {
     //   private static BasicDataSource conexionPool;
 
     /**
-     * Obtener conección a base de datos.
-     *
+     * Obtener conección a base de datos.     
      * @return Connection
      */
     public static Connection getConexion() {
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            return DriverManager.getConnection(URL, USER, PASS);
+            return DriverManager.getConnection(URL, USER_TEST, PASS_TEST);
 
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -37,6 +36,10 @@ public class DBUtil {
         return null;
     }
 
+    /**
+     * Obtener conexion a la base de datos de prueba
+     * @return Connection
+     */
     public static Connection getTestConexion() {
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());

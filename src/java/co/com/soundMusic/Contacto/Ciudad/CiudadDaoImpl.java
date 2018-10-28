@@ -1,5 +1,6 @@
 package co.com.soundMusic.Contacto.Ciudad;
 
+import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -47,8 +48,16 @@ public class CiudadDaoImpl implements ICiudadDao {
             rs = stmt.executeQuery(SELECT_CIUDADES);
 
             while (rs.next()) {
-                Ciudad ciudad = new Ciudad(rs.getInt("ID_CIUDAD"), rs.getString("NOMBRE_CIUDAD"), rs.getInt("ID_PAIS"));
-                ciudad.obtenerPais();
+                Pais pais = new Pais();
+                Ciudad ciudad = new Ciudad();
+
+                pais.setIdPais(rs.getInt("ID_PAIS"));
+                pais.setNombre(rs.getString("NOMBRE_PAIS"));
+
+                ciudad.setIdCiudad(rs.getInt("ID_CIUDAD"));
+                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
+                ciudad.setPais(pais);
+
                 listaCiudades.add(ciudad);
             }
 
@@ -56,23 +65,37 @@ public class CiudadDaoImpl implements ICiudadDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return listaCiudades;
     }
 
     @Override
     public Ciudad obtenerCiudad(int idCiudad) {
+        Ciudad ciudad = new Ciudad();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_CIUDAD_POR_ID);
             ps.setInt(1, idCiudad);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                Ciudad ciudad = new Ciudad(idCiudad, rs.getString("NOMBRE_CIUDAD"),
-                        rs.getInt("ID_PAIS"));
+                Pais pais = new Pais();
 
-                ciudad.obtenerPais();
+                pais.setIdPais(rs.getInt("ID_PAIS"));
+                pais.setNombre(rs.getString("NOMBRE_PAIS"));
+
+                ciudad.setIdCiudad(idCiudad);
+                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
+                ciudad.setPais(pais);
 
                 return ciudad;
             }
@@ -80,7 +103,15 @@ public class CiudadDaoImpl implements ICiudadDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CiudadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return null;
     }
@@ -116,12 +147,16 @@ public class CiudadDaoImpl implements ICiudadDao {
     }
 
     static {
-        SELECT_CIUDADES = "SELECT ID_CIUDAD, NOMBRE AS NOMBRE_CIUDAD, ID_PAIS\n"
-                + "FROM CIUDAD CIU \n"
+        SELECT_CIUDADES = "SELECT CIU.ID_CIUDAD, CIU.NOMBRE AS NOMBRE_CIUDAD, "
+                + "PA.ID_PAIS, PA.NOMBRE AS NOMBRE_PAIS\n"
+                + "FROM CIUDAD CIU INNER JOIN PAIS PA\n"
+                + "ON CIU.ID_PAIS = PA.ID_PAIS\n"
                 + "ORDER BY CIU.ID_CIUDAD";
 
-        SELECT_CIUDAD_POR_ID = "SELECT ID_CIUDAD, NOMBRE AS NOMBRE_CIUDAD, ID_PAIS \n"
-                + "FROM CIUDAD\n"
+        SELECT_CIUDAD_POR_ID = "SELECT CIU.ID_CIUDAD, CIU.NOMBRE AS NOMBRE_CIUDAD, "
+                + "PA.ID_PAIS, PA.NOMBRE AS NOMBRE_PAIS\n"
+                + "FROM CIUDAD CIU INNER JOIN PAIS PA\n"
+                + "ON CIU.ID_PAIS = PA.ID_PAIS\n"
                 + "WHERE ID_CIUDAD=?";
 
         INSERT_CIUDAD = "INSERT INTO CIUDAD (NOMBRE, ID_PAIS)\n"
