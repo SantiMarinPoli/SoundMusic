@@ -29,7 +29,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <a href="artista.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <a href="controladorArtista?opcion=listarArtistas" class="btn btn-danger" id="btn-regresar">Regresar</a>
                             <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Cancion</button>
                         </div>
                     </div>

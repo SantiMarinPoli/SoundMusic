@@ -65,24 +65,32 @@ public class PerfilDaoImpl implements IPerfilDao {
 
     @Override
     public Perfil obtenerPerfil(int idPerfil) {
+        Perfil perfil = new Perfil();
+        perfil.setIdPerfil(idPerfil);
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_PERFIL_POR_ID);
             ps.setInt(1, idPerfil);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                String nombrePerfil = rs.getString("NOMBRE_PERFIL");
-
-                Perfil perfil = new Perfil(idPerfil, nombrePerfil);
+                perfil.setNombrePerfil(rs.getString("NOMBRE_PERFIL"));
                 return perfil;
             }
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(PerfilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(PerfilDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        return null;
+        return perfil;
     }
 
     @Override

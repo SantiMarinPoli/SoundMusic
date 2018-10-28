@@ -13,11 +13,8 @@ import co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusoraDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -29,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Santiago Medina Pelaez
  */
 public class controladorEmpresaDifusora extends HttpServlet {
+
+    List<EmpresaDifusora> lstEmpresasDifusorasp;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -77,47 +76,22 @@ public class controladorEmpresaDifusora extends HttpServlet {
             if (opcion.equals("borrar")) {
                 int idEmpresa = Integer.parseInt((String) request.getParameter("idEmpresa"));
                 EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
-
                 daoEmpresa.eliminarEmpresaDifusora("I", idEmpresa);
-                List<EmpresaDifusora> lstEmpresas = daoEmpresa.obtenerEmpresasDifusoras();
-                request.setAttribute("lstEmpresas", lstEmpresas);
-                RequestDispatcher vista = request.getRequestDispatcher("/empresa.jsp");
-                vista.forward(request, response);
+                mostrarPaginaEmpresas(request, response);
             }
             if (opcion.equals("crearEmpresa")) {
-                PaisDaoImpl daoPais = new PaisDaoImpl(true);
-                List<Pais> lstPais = daoPais.obtenerPaises();
-                request.setAttribute("lstPais", lstPais);
-
-                CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-                List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                request.setAttribute("lstCiudad", lstCiudad);
-
-                TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
-                List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
-                request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
-
+                actualizarDatosFormulario(request);
                 RequestDispatcher vista = request.getRequestDispatcher("/registrarEmpresa.jsp");
                 vista.forward(request, response);
             }
             if (opcion.equals("editar")) {
-                PaisDaoImpl daoPais = new PaisDaoImpl(true);
-                List<Pais> lstPais = daoPais.obtenerPaises();
-                request.setAttribute("lstPais", lstPais);
-
-                CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-                List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                request.setAttribute("lstCiudad", lstCiudad);
-
-                TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
-                List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
-                request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
-
+                actualizarDatosFormulario(request);
                 int idEmpresaDifusora = Integer.parseInt((String) request.getParameter("idEmpresa"));
-                EmpresaDifusoraDaoImpl daoEmpresaDifusora = new EmpresaDifusoraDaoImpl(true);
-                EmpresaDifusora empresaDfifusora = daoEmpresaDifusora.obtenerEmpresaDifusora(idEmpresaDifusora);
-                request.setAttribute("empresaDfifusora", empresaDfifusora);
-
+                for (EmpresaDifusora empresaDifusora : lstEmpresasDifusorasp) {
+                    if (empresaDifusora.getIdEmpresaDifusora() == idEmpresaDifusora) {
+                        request.setAttribute("empresaDfifusora", empresaDifusora);
+                    }
+                }
                 RequestDispatcher vista = request.getRequestDispatcher("modificarEmpresa.jsp");
                 vista.forward(request, response);
             }
@@ -162,9 +136,8 @@ public class controladorEmpresaDifusora extends HttpServlet {
     private void mostrarPaginaEmpresas(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
-
-        List<EmpresaDifusora> lstEmpresas = daoEmpresa.obtenerEmpresasDifusoras();
-        request.setAttribute("lstEmpresas", lstEmpresas);
+        lstEmpresasDifusorasp = daoEmpresa.obtenerEmpresasDifusoras();
+        request.setAttribute("lstEmpresas", lstEmpresasDifusorasp);
         RequestDispatcher vista = request.getRequestDispatcher("/empresa.jsp");
 
         vista.forward(request, response);
@@ -247,6 +220,20 @@ public class controladorEmpresaDifusora extends HttpServlet {
         daoCostoOperacion.actualizarCostoActividad(costoOperacion);
         daoEmpresa.actualizarEmpresaDifusora(empresaDifusora);
         mostrarPaginaEmpresas(request, response);
+    }
+
+    private void actualizarDatosFormulario(HttpServletRequest request) {
+        PaisDaoImpl daoPais = new PaisDaoImpl(true);
+        List<Pais> lstPais = daoPais.obtenerPaises();
+        request.setAttribute("lstPais", lstPais);
+
+        CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
+        List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
+        request.setAttribute("lstCiudad", lstCiudad);
+
+        TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
+        List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
+        request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
     }
 
 }

@@ -15,7 +15,7 @@ public class Contacto {
     private String direccion;
     private String barrio;
     private String email;
-    private int idCiudad;
+    //private int idCiudad;
     private Ciudad ciudad;
 
     public Contacto() {
@@ -25,7 +25,7 @@ public class Contacto {
         this.idContacto = idContacto;
         this.celular = celular;
         this.email = email;
-        this.idCiudad = idCiudad;
+        this.ciudad.setIdCiudad(idCiudad);
     }
 
     public Contacto(int idContacto, String[] datosContacto, int idCiudad) {
@@ -35,7 +35,7 @@ public class Contacto {
         this.direccion = datosContacto[2];
         this.barrio = datosContacto[3];
         this.email = datosContacto[4];
-        this.idCiudad = idCiudad;
+        this.ciudad.setIdCiudad(idCiudad);
     }
 
     public Contacto(int idContacto, String celular, String telefono,
@@ -96,14 +96,6 @@ public class Contacto {
         this.email = email;
     }
 
-    public int getIdCiudad() {
-        return idCiudad;
-    }
-
-    public void setIdCiudad(int idCiudad) {
-        this.idCiudad = idCiudad;
-    }
-
     public Ciudad getCiudad() {
         return ciudad;
     }
@@ -114,6 +106,6 @@ public class Contacto {
 
     public void obtenerCiudad() {
         CiudadDaoImpl daoCiudad = new CiudadDaoImpl(true);
-        this.setCiudad(daoCiudad.obtenerCiudad(this.idCiudad));
+        this.setCiudad(daoCiudad.obtenerCiudad(this.ciudad.getIdCiudad()));
     }
 }

@@ -76,13 +76,20 @@ public class ContactoDaoImpl implements IContactoDao {
             ps.setString(3, contacto.getDireccion());
             ps.setString(4, contacto.getBarrio());
             ps.setString(5, contacto.getEmail());
-            ps.setInt(6, contacto.getIdCiudad());
+            ps.setInt(6, contacto.getCiudad().getIdCiudad());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -96,21 +103,28 @@ public class ContactoDaoImpl implements IContactoDao {
             ps.setString(3, contacto.getDireccion());
             ps.setString(4, contacto.getBarrio());
             ps.setString(5, contacto.getEmail());
-            ps.setInt(6, contacto.getIdCiudad());
+            ps.setInt(6, contacto.getCiudad().getIdCiudad());
             ps.setInt(7, contacto.getIdContacto());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     public int getUltimoIdContacto() {
         try {
-            PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
-            rs = ps.executeQuery();
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ULTIMO_ID);
             while (rs.next()) {
                 int idContacto = rs.getInt("CURRVAL");
                 return idContacto;
@@ -119,7 +133,16 @@ public class ContactoDaoImpl implements IContactoDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return -1;
     }

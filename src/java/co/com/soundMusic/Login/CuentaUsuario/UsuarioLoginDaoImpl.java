@@ -17,7 +17,7 @@ import org.apache.commons.dbutils.DbUtils;
 public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
+    private Connection conexion;
 
     private Statement stmt;
     private ResultSet rs;
@@ -65,7 +65,6 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
     public void crearUsuarioLogin(UsuarioLogin usuarioLogin) {
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIOLOGIN);
-
             ps.setString(1, usuarioLogin.getNombreUsuario());
             ps.setString(2, usuarioLogin.getContrasena());
             ps.executeUpdate();
@@ -73,7 +72,14 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -89,7 +95,14 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -105,7 +118,16 @@ public class UsuarioLoginDaoImpl implements IUsuarioLoginDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UsuarioLoginDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return -1;
     }

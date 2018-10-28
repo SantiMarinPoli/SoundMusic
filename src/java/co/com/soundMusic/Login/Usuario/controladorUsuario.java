@@ -66,35 +66,25 @@ public class controladorUsuario extends HttpServlet {
             }
             if (opcion.equals("borrar")) {
                 int idUsuario = Integer.parseInt((String) request.getParameter("IdUsuario"));
-
                 UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
                 daoUsuario.eliminarUsuario("I", idUsuario);
-                List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
-                request.setAttribute("lstUsuario", lstUsuario);
-                RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
-                vista.forward(request, response);
+                mostrarPaginaUsuario(request, response);
 
             }
             if (opcion.equals("crearUsuario")) {
-
                 actualizarDatosFormulario(request);
                 RequestDispatcher vista = request.getRequestDispatcher("/registrarUsuario.jsp");
                 vista.forward(request, response);
             }
             if (opcion.equals("editar")) {
                 actualizarDatosFormulario(request);
-
                 int identificacion = Integer.parseInt((String) request.getParameter("IdUsuario"));
-                //UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-                //Usuario usuario = daoUsuario.obtenerUsuario(identificacion);
                 for (Usuario usuario : lstUsuariop) {
                     if (usuario.getIdUsuario() == identificacion) {
                         request.setAttribute("usuarioEditar", usuario);
                         break;
                     }
                 }
-                //request.setAttribute("usuarioEditar", usuario);
-
                 RequestDispatcher vista = request.getRequestDispatcher("modificarUsuario.jsp");
                 vista.forward(request, response);
             }
@@ -116,14 +106,15 @@ public class controladorUsuario extends HttpServlet {
 
         if (operacion != null) {
             if (operacion.equalsIgnoreCase("crear")) {
-                crearUsuario(request, response);
+                crearUsuario(request);
                 //ingresarLogAuditoria(UsuarioId(request, response), 3);
-                actulizarLstUsuario(request, response);
+                mostrarPaginaUsuario(request, response);
             }
             if (operacion.equals("editar")) {
                 int idUsuario = Integer.parseInt((String) request.getParameter("idUsuario"));
                 editarUsuario(request, response, idUsuario);
                 // ingresarLogAuditoria(UsuarioId(request, response), 4);
+                mostrarPaginaUsuario(request, response);
             }
         }
     }
@@ -141,61 +132,28 @@ public class controladorUsuario extends HttpServlet {
     private void mostrarPaginaUsuario(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-
-//        List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
         lstUsuariop = daoUsuario.obtenerUsuarios();
-        //request.setAttribute("lstUsuario", lstUsuario);
         request.setAttribute("lstUsuario", lstUsuariop);
         request.getRequestDispatcher("/usuario.jsp").forward(request, response);
     }
 
-    private void actulizarLstUsuario(HttpServletRequest request, HttpServletResponse response)
+    private void crearUsuario(HttpServletRequest request)
             throws ServletException, IOException {
-        UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
+        UsuarioLogin usuarioLogin = crearUsuarioLogin(request);
+        Contacto contacto = crearContacto(request);
+        Perfil perfil = obtenerPerfil(request);
+        Usuario usuario = new Usuario();
 
-        List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
-        request.setAttribute("lstUsuario", lstUsuario);
-
-        RequestDispatcher vista = request.getRequestDispatcher("/usuario.jsp");
-        vista.forward(request, response);
-    }
-
-    private void crearUsuario(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
-        String nombreUsuario = request.getParameter("nomUsuario");
-        String contrasena = request.getParameter("pass1");
-
-        UsuarioLogin usuarioLogin = new UsuarioLogin(0, nombreUsuario, contrasena);
-        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
-        daoUsuarioLogin.crearUsuarioLogin(usuarioLogin);
-        usuarioLogin.setIdUsuarioLogin(daoUsuarioLogin.getUltimmoIdUsuarioLogin());
-
-        String celular = request.getParameter("numCel");
-        String telefono = request.getParameter("numTel");
-        String direccion = request.getParameter("direccion");
-        String barrio = request.getParameter("barrio");
-        String email = request.getParameter("email");
-        int idCiudad = Integer.parseInt(request.getParameter("ciudad"));
-
-        String[] datosContacto = {celular, telefono, direccion, barrio, email};
-
-        Contacto contacto = new Contacto(0, datosContacto, idCiudad);
-        ContactoDaoImpl daoCiudad = new ContactoDaoImpl(true);
-        daoCiudad.crearContacto(contacto);
-        contacto.setIdContacto(daoCiudad.getUltimoIdContacto());
-
-        String primerNombre = request.getParameter("nombre1");
-        String segundoNombre = request.getParameter("nombre2");
-        String primerApellido = request.getParameter("apellido1");
-        String segundoApellido = request.getParameter("apellido2");
-        String genero = request.getParameter("sexo");
-        Date fechaCreacion = Date.valueOf(LocalDate.now());
-        String satus = "A";
-        int idPerfil = Integer.parseInt((String) request.getParameter("perfil"));
-
-        Usuario usuario = new Usuario(0, primerNombre, segundoNombre, primerApellido, segundoApellido, fechaCreacion,
-                satus, genero, idPerfil, usuarioLogin.getIdUsuarioLogin(), contacto.getIdContacto());
+        usuario.setPrimerNombre(request.getParameter("nombre1"));
+        usuario.setSegundoNombre(request.getParameter("nombre2"));
+        usuario.setPrimerApellido(request.getParameter("apellido1"));
+        usuario.setSegundoApellido(request.getParameter("apellido2"));
+        usuario.setFechaCreacion(Date.valueOf(LocalDate.now()));
+        usuario.setStatus("A");
+        usuario.setGenero(request.getParameter("sexo"));
+        usuario.setUsuarioLogin(usuarioLogin);
+        usuario.setContacto(contacto);
+        usuario.setPerfil(perfil);
 
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
         daoUsuario.crearUsuario(usuario);
@@ -203,45 +161,26 @@ public class controladorUsuario extends HttpServlet {
 
     private void editarUsuario(HttpServletRequest request, HttpServletResponse response, int idUsuario)
             throws IOException, NumberFormatException, ServletException {
-        String nombreUsuario = request.getParameter("nombreUsuario");
-        String contrasena = request.getParameter("contrasena");
-        int idUsuarioLogin = Integer.parseInt(request.getParameter("idUsuarioLogin"));
+        UsuarioLogin usuarioLogin = editarUsuarioLogin(request);
+        Contacto contacto = editarContacto(request);
+        Perfil perfil = obtenerPerfil(request);
+        Usuario usuario = new Usuario();
 
-        UsuarioLogin usuarioLogin = new UsuarioLogin(idUsuarioLogin, nombreUsuario, contrasena);
+        usuario.setPrimerNombre(request.getParameter("nombre1"));
+        usuario.setSegundoNombre(request.getParameter("nombre2"));
+        usuario.setPrimerApellido(request.getParameter("apellido1"));
+        usuario.setSegundoApellido(request.getParameter("apellido2"));
+        usuario.setFechaCreacion(Date.valueOf(LocalDate.now()));
+        usuario.setStatus("A");
+        usuario.setGenero(request.getParameter("sexo"));
+        usuario.setUsuarioLogin(usuarioLogin);
+        usuario.setContacto(contacto);
+        usuario.setPerfil(perfil);
 
-        String celular = request.getParameter("celular");
-        String telefono = request.getParameter("telefono");
-        String direccion = request.getParameter("direccion");
-        String barrio = request.getParameter("barrio");
-        String email = request.getParameter("email");
-
-        int idContacto = Integer.parseInt(request.getParameter("idContacto"));
-        int idCiudad = Integer.parseInt(request.getParameter("idCiudad"));
-
-        String[] datosContacto = {celular, telefono, direccion, barrio, email};
-
-        Contacto contacto = new Contacto(idContacto, datosContacto, idCiudad);
-
-        String primerNombre = request.getParameter("nombre1");
-        String segundoNombre = request.getParameter("nombre2");
-        String primerApellido = request.getParameter("apellido1");
-        String segundoApellido = request.getParameter("apellido2");
-        String genero = request.getParameter("generoUsuario");
-
-        int idPerfil = Integer.parseInt(request.getParameter("idPerfil"));
-
-        Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                primerApellido, segundoApellido, null, "A", genero,
-                idPerfil, idUsuarioLogin, contacto.getIdContacto());
-
-        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
-        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-
-        daoContacto.actualizarContacto(contacto);
-        daoUsuarioLogin.actualizarUsuarioLogin(usuarioLogin);
+        
         daoUsuario.actualizarUsuario(usuario);
-        mostrarPaginaUsuario(request, response);
+
     }
 
     private void actualizarDatosFormulario(HttpServletRequest request) {
@@ -286,5 +225,68 @@ public class controladorUsuario extends HttpServlet {
             }
         }
         return usuario;
+    }
+
+    private UsuarioLogin crearUsuarioLogin(HttpServletRequest request) {
+        UsuarioLogin usuarioLogin = new UsuarioLogin();
+        usuarioLogin.setNombreUsuario(request.getParameter("nomUsuario"));
+        usuarioLogin.setContrasena(request.getParameter("pass1"));
+
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
+        daoUsuarioLogin.crearUsuarioLogin(usuarioLogin);
+
+        usuarioLogin.setIdUsuarioLogin(daoUsuarioLogin.getUltimmoIdUsuarioLogin());
+
+        return usuarioLogin;
+    }
+
+    private Contacto crearContacto(HttpServletRequest request) {
+        Contacto contacto = new Contacto();
+        contacto.setCelular(request.getParameter("numCel"));
+        contacto.setTelefono(request.getParameter("numTel"));
+        contacto.setDireccion(request.getParameter("direccion"));
+        contacto.setBarrio(request.getParameter("barrio"));
+        contacto.setEmail(request.getParameter("email"));
+        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
+
+        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
+        daoContacto.crearContacto(contacto);
+        contacto.setIdContacto(daoContacto.getUltimoIdContacto());
+
+        return contacto;
+    }
+
+    private Perfil obtenerPerfil(HttpServletRequest request) {
+        PerfilDaoImpl daoPerfil = new PerfilDaoImpl(true);
+        Perfil perfil = daoPerfil.obtenerPerfil(Integer.parseInt((String) request.getParameter("perfil")));
+        return perfil;
+    }
+
+    private UsuarioLogin editarUsuarioLogin(HttpServletRequest request) {
+        UsuarioLogin usuarioLogin = new UsuarioLogin();
+        usuarioLogin.setIdUsuarioLogin(Integer.parseInt(request.getParameter("idUsuarioLogin")));
+        usuarioLogin.setNombreUsuario(request.getParameter("nomUsuario"));
+        usuarioLogin.setContrasena(request.getParameter("pass1"));
+
+        UsuarioLoginDaoImpl daoUsuarioLogin = new UsuarioLoginDaoImpl(true);
+        daoUsuarioLogin.actualizarUsuarioLogin(usuarioLogin);
+
+        return usuarioLogin;
+    }
+
+    private Contacto editarContacto(HttpServletRequest request) {
+        Contacto contacto = new Contacto();
+        contacto.setIdContacto(Integer.parseInt(request.getParameter("idContacto")));
+        contacto.setCelular(request.getParameter("numCel"));
+        contacto.setTelefono(request.getParameter("numTel"));
+        contacto.setDireccion(request.getParameter("direccion"));
+        contacto.setBarrio(request.getParameter("barrio"));
+        contacto.setEmail(request.getParameter("email"));
+        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
+
+        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
+        daoContacto.actualizarContacto(contacto);
+
+        return contacto;
     }
 }

@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class controladorArtista extends HttpServlet {
 
+    List<Artista> lstArtistasp;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -68,42 +70,25 @@ public class controladorArtista extends HttpServlet {
                 mostrarPaginaArtista(request, response);
             }
             if (opcion.equals("borrar")) {
-                String statusArtista = (String) request.getParameter("statusArtista");
                 int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
-
                 ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
-                daoArtista.eliminarArtista(statusArtista, idArtista);
-                List<Artista> lstArtista = daoArtista.obtenerArtistas();
-                request.setAttribute("lstArtista", lstArtista);
-                RequestDispatcher vista = request.getRequestDispatcher("/artista.jsp");
-                vista.forward(request, response);
+                daoArtista.eliminarArtista("I", idArtista);
+                mostrarPaginaArtista(request, response);
             }
             if (opcion.equals("crearArtista")) {
-                PaisDaoImpl paisDao = new PaisDaoImpl(true);
-                CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-                List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                List<Pais> lstPais = paisDao.obtenerPaises();
-
-                request.setAttribute("lstPais", lstPais);
-                request.setAttribute("lstCiudad", lstCiudad);
-
+                actualizarDatosFormulario(request);
                 RequestDispatcher vista
                         = request.getRequestDispatcher("/registrarArtista.jsp");
                 vista.forward(request, response);
             }
             if (opcion.equals("editar")) {
-                PaisDaoImpl paisDao = new PaisDaoImpl(true);
-                CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-                List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-                List<Pais> lstPais = paisDao.obtenerPaises();
-
-                request.setAttribute("lstPais", lstPais);
-                request.setAttribute("lstCiudad", lstCiudad);
-
+                actualizarDatosFormulario(request);
                 int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
-                ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
-                Artista artista = daoArtista.obtenerArtista(idArtista);
-                request.setAttribute("artista", artista);
+                for (Artista artista : lstArtistasp) {
+                    if (artista.getIdArtista() == idArtista) {
+                        request.setAttribute("artista", artista);
+                    }
+                }
 
                 RequestDispatcher vista = request.getRequestDispatcher("modificarArtista.jsp");
                 vista.forward(request, response);
@@ -149,9 +134,8 @@ public class controladorArtista extends HttpServlet {
     private void mostrarPaginaArtista(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
-
-        List<Artista> lstArtista = daoArtista.obtenerArtistas();
-        request.setAttribute("lstArtista", lstArtista);
+        lstArtistasp = daoArtista.obtenerArtistas();
+        request.setAttribute("lstArtista", lstArtistasp);
         RequestDispatcher vista = request.getRequestDispatcher("/artista.jsp");
 
         vista.forward(request, response);
@@ -264,5 +248,15 @@ public class controladorArtista extends HttpServlet {
             ciudadDao.crearCiudad(new Ciudad(idCiudad, nombreCiudad, pais.getIdPais()));
         }
         return ciudadDao.obtenerCiudad(idCiudad);
+    }
+
+    private void actualizarDatosFormulario(HttpServletRequest request) {
+        PaisDaoImpl daoPais = new PaisDaoImpl(true);
+        List<Pais> lstPais = daoPais.obtenerPaises();
+        request.setAttribute("lstPais", lstPais);
+
+        CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
+        List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
+        request.setAttribute("lstCiudad", lstCiudad);
     }
 }

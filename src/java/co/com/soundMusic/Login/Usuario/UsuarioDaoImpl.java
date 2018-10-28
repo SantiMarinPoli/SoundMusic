@@ -221,9 +221,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             ps.setDate(5, usuario.getFechaCreacion());
             ps.setString(6, usuario.getStatus());
             ps.setString(7, usuario.getGenero());
-            ps.setInt(8, usuario.getIdPerfil());
-            ps.setInt(9, usuario.getIdUsuarioLogin());
-            ps.setInt(10, usuario.getIdContacto());
+            ps.setInt(8, usuario.getPerfil().getIdPerfil());
+            ps.setInt(9, usuario.getUsuarioLogin().getIdUsuarioLogin());
+            ps.setInt(10, usuario.getContacto().getIdContacto());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -264,17 +264,22 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             ps.setDate(5, usuario.getFechaCreacion());
             ps.setString(6, usuario.getStatus());
             ps.setString(7, usuario.getGenero());
-            ps.setInt(8, usuario.getIdPerfil());
-            ps.setInt(9, usuario.getIdUsuarioLogin());
-            ps.setInt(10, usuario.getIdContacto());
+            ps.setInt(8, usuario.getPerfil().getIdPerfil());
+            ps.setInt(9, usuario.getUsuarioLogin().getIdUsuarioLogin());
+            ps.setInt(10, usuario.getContacto().getIdContacto());
             ps.setInt(11, usuario.getIdUsuario());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }

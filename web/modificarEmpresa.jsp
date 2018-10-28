@@ -30,7 +30,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <a href="empresa.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <a href="controladorEmpresaDifusora?opcion=listarEmpresa" class="btn btn-danger" id="btn-regresar">Regresar</a>
                         </div>
                     </div>
 
