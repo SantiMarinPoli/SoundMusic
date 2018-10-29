@@ -168,39 +168,27 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
         } finally {
             try {
                 if (conexion != null) {
-                    DbUtils.closeQuietly(rs);                    
+                    DbUtils.closeQuietly(rs);
                     DbUtils.closeQuietly(conexion);
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }  
+        }
         return lstArtistasPorEmpresa;
     }
 
     @Override
-    public List<EmpresaDifusora> obtenerEmpresas(int idArtista) {
-        List<EmpresaDifusora> lstEmpresasPorArtista = new ArrayList<>();
+    public List<String> obtenerEmpresas(int idArtista) {
+        List<String> lstNombreEmpesas = new ArrayList<>();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_EMPRESAS_POR_ID_ARTISTA);
             ps.setInt(1, idArtista);
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                int idEmpresaDifusora = rs.getInt("ID_EMPRESA_DIFUSORA");
-                String nombreEmpresa = rs.getString("NOMBRE");
-                Date fechaCreacion = rs.getDate("FECHA_CREACION");
-                Date fechaTerminacion = rs.getDate("FECHA_TERMINACION");
-                String status = rs.getString("STATUS");
-                String rutaImagen = rs.getString("RUTA_IMAGEN");
-                int idTipoActividad = rs.getInt("ID_TIPO_ACTIVIDAD");
-                int idContacto = rs.getInt("ID_CONTACTO");
-                int idCostoOperacion = rs.getInt("ID_COSTO_ACTIVIDAD");
-
-                EmpresaDifusora empresaDifusora = new EmpresaDifusora(idEmpresaDifusora, nombreEmpresa, fechaCreacion,
-                        fechaTerminacion, status, rutaImagen, idTipoActividad, idContacto, idCostoOperacion);
-                lstEmpresasPorArtista.add(empresaDifusora);
+                lstNombreEmpesas.add(rs.getString("NOMBRE"));
             }
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -208,15 +196,15 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
         } finally {
             try {
                 if (conexion != null) {
-                    DbUtils.closeQuietly(rs);                    
+                    DbUtils.closeQuietly(rs);
                     DbUtils.closeQuietly(conexion);
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException ex) {
                 Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }        
-        return lstEmpresasPorArtista;
+        }
+        return lstNombreEmpesas;
     }
 
     static {
@@ -242,8 +230,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
                 + "FROM ARTISTA_EMPRESA \n"
                 + "WHERE ID_EMPRESA_DIFUSORA = ? ORDER BY ID_ARTISTA";
 
-        SELECT_EMPRESAS_POR_ID_ARTISTA = "SELECT AE.ID_EMPRESA_DIFUSORA, ED.NOMBRE,ED.FECHA_CREACION,ED.FECHA_TERMINACION,ED.STATUS,\n"
-                + "ED.RUTA_IMAGEN, ED.ID_TIPO_ACTIVIDAD, ED.ID_CONTACTO,ED.ID_COSTO_ACTIVIDAD \n"
+        SELECT_EMPRESAS_POR_ID_ARTISTA = "SELECT ED.NOMBRE \n"
                 + "FROM ARTISTA_EMPRESA AE INNER JOIN EMPRESA_DIFUSORA ED \n"
                 + "ON AE.ID_EMPRESA_DIFUSORA = ED.ID_EMPRESA_DIFUSORA \n"
                 + "WHERE AE.ID_ARTISTA=? ORDER BY ED.ID_EMPRESA_DIFUSORA";

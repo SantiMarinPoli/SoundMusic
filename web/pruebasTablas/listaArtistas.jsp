@@ -38,9 +38,11 @@
                 out.print("<td>" + art.getFechaCreacion() + "</td>");
 
                 if (art.getStatus().equalsIgnoreCase("a")) {
-                    out.print("<td><a href='#'' class='badge badge-success btnActivar' activarUsuario='0'>Activo</a></td>");
+                    out.print("<td><a href='controladorArtista?opcion=borrar&IdArtista="
+                            + art.getIdArtista()+ "&estado=I' class='badge badge-success btnActivar' activarUsuario='0'>Activo</a></td>");
                 } else {
-                    out.print("<td><a href='#'' class='badge badge-danger btnActivar' activarUsuario='0'>Inactivo</a></td>");
+                    out.print("<td><a href='controladorArtista?opcion=borrar&IdArtista="
+                            + art.getIdArtista()+ "&estado=A' class='badge btnActivar badge-danger' activarUsuario='1'>Inactivo</a></td>");
                 }
 
                 out.print("<td><a href='modificarArtista.jsp' class='btn btn-warning'>Actualizar</a></td>");

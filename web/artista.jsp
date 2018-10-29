@@ -25,7 +25,7 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <a href="registrarArtista.jsp" class="btn btn-success" id="btnRegistrar">Registrar Artista</a>
+                            <a href="controladorArtista?opcion=crearArtista" class="btn btn-success" id="btnRegistrar">Registrar Artista</a>
                         </div>
                     </div>
 

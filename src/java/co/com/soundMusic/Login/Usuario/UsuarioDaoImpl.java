@@ -292,8 +292,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         }
     }
 
-    public int getUltimoIdUsuario() {
-        getConexion();
+    /*public int getUltimoIdUsuario() {        
         int idUsuario = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
@@ -312,7 +311,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             }
         }
         return idUsuario;
-    }
+    }*/
 
     static {
         SELECT_USUARIOS = "SELECT US.ID_USUARIO,US.PRIMER_NOMBRE,US.SEGUNDO_NOMBRE,US.PRIMER_APELLIDO,US.SEGUNDO_APELLIDO,\n"

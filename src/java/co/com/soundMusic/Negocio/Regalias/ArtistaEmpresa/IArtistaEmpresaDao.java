@@ -14,7 +14,7 @@ public interface IArtistaEmpresaDao {
 
     List<ArtistaEmpresa> obtenerNumeroDeArtistas(int idEmpresaDifusora);
 
-    List<EmpresaDifusora> obtenerEmpresas(int idArtista);
+    List<String> obtenerEmpresas(int idArtista);
 
     ArtistaEmpresa obtenerArtistaEmpresa(int idArtistaEmpresa);
 

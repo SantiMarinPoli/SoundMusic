@@ -1,10 +1,8 @@
 package co.com.soundMusic.Artista;
 
 import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.EmpresaDifusora.EmpresaDifusora;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,10 +38,12 @@ public class Artista {
         this.fechaCreacion = fechasArtista[1];
         this.status = datosArtista[6];
         this.rutaImagen = datosArtista[7];
+        this.contacto = new Contacto();
         this.idContacto = idContacto;
     }
 
     public Artista() {
+        this.contacto = new Contacto();
     }
 
     public Integer getIdArtista() {
@@ -180,13 +180,9 @@ public class Artista {
     }
 
     public List<String> getNumeroEmpresas() {
-        List<String> nombreEmpresas = new ArrayList<>();
         ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
-        List<EmpresaDifusora> lstEmpresas = daoArtistaEmpresa.obtenerEmpresas(idArtista);
+        List<String> nombreEmpresas = daoArtistaEmpresa.obtenerEmpresas(idArtista);
 
-        for (EmpresaDifusora empDif : lstEmpresas) {
-            nombreEmpresas.add(empDif.getNombre());
-        }
         return nombreEmpresas;
     }
 }

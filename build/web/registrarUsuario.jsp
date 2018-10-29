@@ -39,7 +39,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <a href="usuario.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <a href="controladorUsuario?opcion=listarUsuarios" class="btn btn-danger" id="btn-regresar">Regresar</a>
                             <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nuevo Usuario</button>
                         </div>
                     </div>

@@ -22,8 +22,8 @@ import org.apache.commons.dbutils.DbUtils;
 public class ArtistaDaoImpl implements IArtistaDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
-
+    private Connection conexion;
+    private Boolean isProduction = true;
     private Statement stmt;
     private ResultSet rs;
 
@@ -36,17 +36,12 @@ public class ArtistaDaoImpl implements IArtistaDao {
     private static final String SELECT_ULTIMO_ID;
 
     public ArtistaDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
     public List<Artista> obtenerArtistas() {
+        getConexion();
         List<Artista> listaArtistas = new ArrayList<>();
         try {
             stmt = conexion.createStatement();
@@ -110,6 +105,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public Artista obtenerArtista(int idArtista) {
+        getConexion();
         Artista artista = new Artista();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTA_POR_ID);
@@ -171,6 +167,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public void crearArtista(Artista artista) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_ARTISTA);
 
@@ -203,6 +200,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public void eliminarArtista(String status, int idArtista) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_STATUS);
             ps.setString(1, status);
@@ -225,6 +223,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     @Override
     public void actualizarArtista(Artista artista) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_ARTISTA);
 
@@ -234,12 +233,11 @@ public class ArtistaDaoImpl implements IArtistaDao {
             ps.setString(4, artista.getSegundoApellido());
             ps.setString(5, artista.getNombreArtistico());
             ps.setString(6, artista.getGenero());
-            ps.setDate(7, artista.getFechaNacimiento());
-            ps.setDate(8, artista.getFechaCreacion());
-            ps.setString(9, artista.getStatus());
-            ps.setString(10, artista.getRutaImagen());
-            ps.setInt(11, artista.getIdContacto());
-            ps.setInt(12, artista.getIdArtista());
+            ps.setDate(7, artista.getFechaNacimiento());            
+            ps.setString(8, artista.getStatus());
+            ps.setString(9, artista.getRutaImagen());
+            ps.setInt(10, artista.getContacto().getIdContacto());
+            ps.setInt(11, artista.getIdArtista());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -323,7 +321,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
         UPDATE_ARTISTA = "UPDATE ARTISTA\n"
                 + "SET PRIMER_NOMBRE=?,SEGUNDO_NOMBRE=?,PRIMER_APELLIDO=?,SEGUNDO_APELLIDO=?,\n"
-                + "NOMBRE_ARTISTICO=?,GENERO=?,FECHA_NACIMIENTO=?,FECHA_CREACION=?,STATUS=?, RUTA_IMAGEN=?,ID_CONTACTO=?\n"
+                + "NOMBRE_ARTISTICO=?,GENERO=?,FECHA_NACIMIENTO=?,STATUS=?, RUTA_IMAGEN=?,ID_CONTACTO=?\n"
                 + "WHERE ID_ARTISTA=?";
 
         SELECT_ULTIMO_ID = "SELECT ARTISTA_SEQ.CURRVAL\n"
@@ -336,5 +334,17 @@ public class ArtistaDaoImpl implements IArtistaDao {
         } else {
             return "";
         }
+
     }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
+    }
+
 }
