@@ -19,28 +19,25 @@ import org.apache.commons.dbutils.DbUtils;
 public class TipoEmpresaDifusoraDaoImpl implements ITipoEmpresaDifusoraDao {
 
 //Conexion a la base de datos
-    private final Connection conexion;
+    private Connection conexion;
     private Statement stmt;
     private ResultSet rs;
+    private Boolean isProduction = true;
     //Constantes con las querys a la base de datos
     private static final String SELECT_TIPOS_EMPRESAS;
     private static final String SELECT_TIPO_EMPRESA_POR_ID;
     private static final String INSERT_TIPO_EMPRESA;
     private static final String UPDATE_TIPO_EMPRESA;
+    private static final String SELECT_ULTIMO_ID;
 
     public TipoEmpresaDifusoraDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
     public List<TipoEmpresaDifusora> obtenerTipoEmpresaDifusora() {
         List<TipoEmpresaDifusora> lstTipoEmpresa = new ArrayList<>();
+        getConexion();
         try {
             stmt = conexion.createStatement();
             rs = stmt.executeQuery(SELECT_TIPOS_EMPRESAS);
@@ -58,13 +55,23 @@ public class TipoEmpresaDifusoraDaoImpl implements ITipoEmpresaDifusoraDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return lstTipoEmpresa;
     }
 
     @Override
     public TipoEmpresaDifusora obtenerTipoEmpresaDifusora(int idTipoEmpresaDifusora) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_TIPO_EMPRESA_POR_ID);
 
@@ -82,23 +89,42 @@ public class TipoEmpresaDifusoraDaoImpl implements ITipoEmpresaDifusoraDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return null;
     }
 
     @Override
-    public void crearArtista(TipoEmpresaDifusora tipoEmpresaDifusora) {
+    public int crearTipoEmpresaDifusora(TipoEmpresaDifusora tipoEmpresaDifusora) {
+        getConexion();
+        int id = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_TIPO_EMPRESA);
             ps.setString(1, tipoEmpresaDifusora.getTipoActividad());
             ps.executeUpdate();
+            id = getUltimoIdTipoEmpresa();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        return id;
     }
 
     @Override
@@ -112,16 +138,48 @@ public class TipoEmpresaDifusoraDaoImpl implements ITipoEmpresaDifusoraDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
+    private int getUltimoIdTipoEmpresa() {
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ULTIMO_ID);
+            while (rs.next()) {
+                return rs.getInt("CURRVAL");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(TipoEmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
+
     static {
-        SELECT_TIPOS_EMPRESAS = "SELECT ID_TIPO_ACTIVIDAD, NOMRE \n"
+        SELECT_TIPOS_EMPRESAS = "SELECT ID_TIPO_ACTIVIDAD, NOMBRE \n"
                 + "FROM TIPO_ACTIVIDAD \n"
                 + "ORDER BY ID_TIPO_ACTIVIDAD";
 
-        SELECT_TIPO_EMPRESA_POR_ID = "SELECT NOMRE \n"
+        SELECT_TIPO_EMPRESA_POR_ID = "SELECT NOMBRE \n"
                 + "FROM TIPO_ACTIVIDAD \n"
                 + "WHERE ID_TIPO_ACTIVIDAD=?";
 
@@ -131,5 +189,18 @@ public class TipoEmpresaDifusoraDaoImpl implements ITipoEmpresaDifusoraDao {
         UPDATE_TIPO_EMPRESA = "UPDATE TIPO_ACTIVIDAD\n"
                 + "SET NOMBRE=? \n"
                 + "WHERE ID_TIPO_ACTIVIDAD=?";
+
+        SELECT_ULTIMO_ID = "SELECT TIPO_ACTIVIDAD_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }

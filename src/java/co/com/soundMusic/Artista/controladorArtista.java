@@ -72,7 +72,7 @@ public class controladorArtista extends HttpServlet {
                 mostrarPaginaArtista(request, response);
                 break;
             case "borrar":
-                int idArtista = Integer.parseInt((String) request.getParameter("idArtista"));
+                int idArtista = Integer.parseInt((String) request.getParameter("IdArtista"));
                 String status = request.getParameter("estado");
                 ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
                 daoArtista.eliminarArtista(status, idArtista);
@@ -85,10 +85,10 @@ public class controladorArtista extends HttpServlet {
                 break;
             case "editar":
                 actualizarDatosFormulario(request);
-                identificacion = Integer.parseInt((String) request.getParameter("idArtista"));
+                identificacion = Integer.parseInt((String) request.getParameter("IdArtista"));
                 for (Artista artista : lstArtistasp) {
                     if (artista.getIdArtista() == identificacion) {
-                        request.setAttribute("artista", artista);
+                        request.setAttribute("artistaEditar", artista);
                         break;
                     }
                 }

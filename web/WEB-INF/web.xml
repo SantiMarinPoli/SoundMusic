@@ -44,12 +44,6 @@
         <servlet-name>controladorLogAuditoria</servlet-name>
         <url-pattern>/controladorLogAuditoria</url-pattern>
     </servlet-mapping>
-    <resource-ref>
-        <description>Oracle Datasource</description>
-        <res-ref-name>jdbc/SoundMusic</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-    </resource-ref>
     <servlet-mapping>
         <servlet-name>controladorAlbum</servlet-name>
         <url-pattern>/controladorAlbum</url-pattern>

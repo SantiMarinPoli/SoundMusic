@@ -56,7 +56,15 @@ public class ContactoDaoImpl implements IContactoDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ContactoDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return null;
     }
@@ -121,7 +129,7 @@ public class ContactoDaoImpl implements IContactoDao {
         }
     }
 
-    public int getUltimoIdContacto() {
+    private int getUltimoIdContacto() {
         try {
             stmt = conexion.createStatement();
             rs = stmt.executeQuery(SELECT_ULTIMO_ID);

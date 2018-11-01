@@ -21,14 +21,14 @@ public class EmpresaDifusora {
     private Date fechaTerminacion;
     private String status;
     private String rutaImagen;
-    private Integer idTipoActividad;
-    private Integer idContacto;
-    private Integer idCostoOperacion;
     private Contacto contacto;
     private TipoEmpresaDifusora tipoActividad;
     private CostoActividad costoOperacion;
 
     public EmpresaDifusora() {
+        this.contacto= new Contacto();
+        this.tipoActividad=new TipoEmpresaDifusora();
+        this.costoOperacion=new CostoActividad();
     }
 
     public EmpresaDifusora(Integer idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
@@ -39,9 +39,12 @@ public class EmpresaDifusora {
         this.fechaTerminacion = fechaTerminacion;
         this.status = status;
         this.rutaImagen = rutaImagen;
-        this.idTipoActividad = idTipoActividad;
-        this.idContacto = idContacto;
-        this.idCostoOperacion = idCostoOperacion;
+        this.contacto= new Contacto();
+        this.tipoActividad=new TipoEmpresaDifusora();
+        this.costoOperacion=new CostoActividad();
+        this.contacto.setIdContacto(idContacto);
+        this.tipoActividad.setIdTipoActividad(idTipoActividad);
+        this.costoOperacion.setIdCostoActividad(idCostoOperacion);    
     }
 
     public Integer getIdEmpresaDifusora() {
@@ -90,31 +93,7 @@ public class EmpresaDifusora {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
-    }
-
-    public Integer getIdTipoActividad() {
-        return idTipoActividad;
-    }
-
-    public void setTipoActividad(Integer idTipoActividad) {
-        this.idTipoActividad = idTipoActividad;
-    }
-
-    public Integer getIdCostoOperacion() {
-        return idCostoOperacion;
-    }
-
-    public void setIdCostoOperacion(Integer idCostoOperacion) {
-        this.idCostoOperacion = idCostoOperacion;
-    }
-
-    public Integer getIdContacto() {
-        return idContacto;
-    }
-
-    public void setIdContacto(Integer idContacto) {
-        this.idContacto = idContacto;
-    }
+    }    
 
     public Contacto getContacto() {
         return contacto;

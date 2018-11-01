@@ -179,9 +179,7 @@ public class controladorUsuario extends HttpServlet {
         usuario.setPerfil(perfil);
 
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-
         daoUsuario.actualizarUsuario(usuario);
-
     }
 
     private void actualizarDatosFormulario(HttpServletRequest request) {
@@ -203,6 +201,7 @@ public class controladorUsuario extends HttpServlet {
         daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
     }
 
+    //Metodo para tener el id del usuario en la sesion
     private int UsuarioId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idUsuario = 0;
         response.setContentType("text/html");
@@ -217,15 +216,12 @@ public class controladorUsuario extends HttpServlet {
     }
 
     private Usuario obtenerUsuarioAEditar(List<Usuario> lstUsuario, int idUsuario) {
-        Usuario usuario = new Usuario();
-
-        for (int i = 1; i < lstUsuario.size(); i++) {
-            if (lstUsuario.get(i).getIdUsuario() == idUsuario) {
-                usuario = lstUsuario.get(i);
-                break;
+        for (Usuario usuario : lstUsuario) {
+            if (usuario.getIdUsuario() == idUsuario) {
+                return usuario;
             }
         }
-        return usuario;
+        return null;
     }
 
     private UsuarioLogin crearUsuarioLogin(HttpServletRequest request) {

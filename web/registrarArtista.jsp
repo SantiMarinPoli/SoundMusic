@@ -98,11 +98,6 @@
                                 <input type="number" class="form-control" name="numCel" id="numCel"placeholder="Ingrese el numero de celular" >
                                 <div class="invalid-feedback ">El numero celular debe ser obligatorio</div>
                             </div>
-                            <div class="col">
-                                <label >Numero del Telefono</label>
-                                <input type="number" class="form-control" name="numTel" id="numTel" placeholder="Ingrese el numero de telefonico" >
-                                <div class="invalid-feedback ">El numero telefonico debe ser obligatorio</div>
-                            </div>
                         </div>
 
                         <div class="form-row">

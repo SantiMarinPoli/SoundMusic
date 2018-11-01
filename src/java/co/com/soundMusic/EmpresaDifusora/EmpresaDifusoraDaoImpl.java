@@ -192,9 +192,9 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             ps.setDate(3, empresaDifusora.getFechaTerminacion());
             ps.setString(4, empresaDifusora.getStatus());
             ps.setString(5, empresaDifusora.getRutaImagen());
-            ps.setInt(6, empresaDifusora.getIdTipoActividad());
-            ps.setInt(7, empresaDifusora.getIdContacto());
-            ps.setInt(8, empresaDifusora.getIdCostoOperacion());
+            ps.setInt(6, empresaDifusora.getTipoActividad().getIdTipoActividad());
+            ps.setInt(7, empresaDifusora.getContacto().getIdContacto());
+            ps.setInt(8, empresaDifusora.getCostoOperacion().getIdCostoActividad());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -242,9 +242,9 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             ps.setDate(2, empresaDifusora.getFechaTerminacion());
             ps.setString(3, empresaDifusora.getStatus());
             ps.setString(4, empresaDifusora.getRutaImagen());
-            ps.setInt(5, empresaDifusora.getIdTipoActividad());
-            ps.setInt(6, empresaDifusora.getIdContacto());
-            ps.setInt(7, empresaDifusora.getIdCostoOperacion());
+            ps.setInt(5, empresaDifusora.getTipoActividad().getIdTipoActividad());
+            ps.setInt(6, empresaDifusora.getContacto().getIdContacto());
+            ps.setInt(7, empresaDifusora.getCostoOperacion().getIdCostoActividad());
             ps.setInt(8, empresaDifusora.getIdEmpresaDifusora());
             ps.executeUpdate();
         } catch (SQLException ex) {

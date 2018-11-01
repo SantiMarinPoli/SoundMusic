@@ -12,7 +12,7 @@ public interface ITipoEmpresaDifusoraDao {
 
     TipoEmpresaDifusora obtenerTipoEmpresaDifusora(int idTipoEmpresaDifusora);
 
-    void crearArtista(TipoEmpresaDifusora tipoEmpresaDifusora);
+    int crearTipoEmpresaDifusora(TipoEmpresaDifusora tipoEmpresaDifusora);
 
     void actualizarTipoEmpresaDifusora(TipoEmpresaDifusora tipoEmpresaDifusora);
 }

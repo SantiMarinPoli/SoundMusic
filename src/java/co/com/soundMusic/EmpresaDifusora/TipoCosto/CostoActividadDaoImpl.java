@@ -17,8 +17,8 @@ import org.apache.commons.dbutils.DbUtils;
 public class CostoActividadDaoImpl implements ICostoActividadDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
-
+    private Connection conexion;
+    private Boolean isProduction = true;
     private Statement stmt;
     private ResultSet rs;
     //Constantes con las querys a la base de datos
@@ -29,13 +29,7 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
     private static final String SELECT_ULTIMO_ID;
 
     public CostoActividadDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
@@ -56,29 +50,49 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return null;
     }
 
     @Override
-    public void crearCostoActividad(CostoActividad costoActividad) {
+    public int crearCostoActividad(CostoActividad costoActividad) {
+        getConexion();
+        int id = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_COSTO_ACTIVIDAD);
 
             ps.setFloat(1, costoActividad.getCostoPorOperacion());
             ps.setDate(2, costoActividad.getFechaCreacion());
             ps.executeUpdate();
+            id = getUltimoIdCostoActividad();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        return id;
     }
 
     @Override
     public void actualizarCostoActividad(CostoActividad costoActividad) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_COSTO_ACTIVIDAD);
             ps.setFloat(1, costoActividad.getCostoPorOperacion());
@@ -88,12 +102,20 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
     public void eliminarCostoActividad(CostoActividad costoActividad) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_FECHA_FINAL);
             ps.setDate(1, costoActividad.getFechaUsoFinal());
@@ -103,24 +125,39 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
     public int getUltimoIdCostoActividad() {
         try {
-            PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
-            rs = ps.executeQuery();
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ULTIMO_ID);
             while (rs.next()) {
-                int idCostoActividad = rs.getInt("CURRVAL");
-                return idCostoActividad;
+                return rs.getInt("CURRVAL");
             }
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         return -1;
     }
@@ -143,5 +180,15 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
 
         SELECT_ULTIMO_ID = "SELECT COSTO_ACTIVITIDAD_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }
