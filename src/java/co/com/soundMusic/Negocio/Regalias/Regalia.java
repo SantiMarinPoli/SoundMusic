@@ -14,29 +14,32 @@ public class Regalia {
 
     private int idRegalia;
     private float totalGanado;
-    private int numeroOperacio;
+    private int numeroOperaciones;
     private Timestamp fecha;
     private ArtistaEmpresa artistaEmpresa;
     private CostoActividad costo;
 
     public Regalia() {
+        this.artistaEmpresa = new ArtistaEmpresa();
+        this.costo = new CostoActividad();
     }
 
-    public Regalia(int idRegalia, float totalGanado, int numeroOperacio, Timestamp fecha,
-            ArtistaEmpresa artistaEmpresa, CostoActividad costo) {
+    public Regalia(int idRegalia, float totalGanado, int numeroOperaciones, Timestamp fecha) {
         this.idRegalia = idRegalia;
         this.totalGanado = totalGanado;
-        this.numeroOperacio = numeroOperacio;
+        this.numeroOperaciones = numeroOperaciones;
+        this.fecha = fecha;
+        this.artistaEmpresa = new ArtistaEmpresa();
+        this.costo = new CostoActividad();
+    }
+
+    public Regalia(int idRegalia, float totalGanado, int numeroOperaciones, Timestamp fecha, ArtistaEmpresa artistaEmpresa, CostoActividad costo) {
+        this.idRegalia = idRegalia;
+        this.totalGanado = totalGanado;
+        this.numeroOperaciones = numeroOperaciones;
         this.fecha = fecha;
         this.artistaEmpresa = artistaEmpresa;
         this.costo = costo;
-    }
-
-    public Regalia(int idRegalia, float totalGanado, int numeroOperacio, Timestamp fecha) {
-        this.idRegalia = idRegalia;
-        this.totalGanado = totalGanado;
-        this.numeroOperacio = numeroOperacio;
-        this.fecha = fecha;
     }
 
     public int getIdRegalia() {
@@ -79,12 +82,12 @@ public class Regalia {
         this.costo = costo;
     }
 
-    public int getNumeroOperacio() {
-        return numeroOperacio;
+    public int getNumeroOperaciones() {
+        return numeroOperaciones;
     }
 
-    public void setNumeroOperacio(int numeroOperacio) {
-        this.numeroOperacio = numeroOperacio;
+    public void setNumeroOperaciones(int numeroOperaciones) {
+        this.numeroOperaciones = numeroOperaciones;
     }
 
     @Override
@@ -113,7 +116,7 @@ public class Regalia {
     }
 
     public float calcularRegalias() {
-        float regalias = numeroOperacio * costo.getCostoPorOperacion();
+        float regalias = numeroOperaciones * costo.getCostoPorOperacion();
         return regalias;
     }
 

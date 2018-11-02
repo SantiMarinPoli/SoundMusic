@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * Clase consiste de métodos para el mansejo y creación de objetos Usuario.
  *
  * @author Santiago Medina Pelaez
+ * @since 0.0.0
  */
 public class Usuario {
 
@@ -31,16 +33,43 @@ public class Usuario {
     private Contacto contacto;
     private UsuarioLogin usuarioLogin;
 
+    /**
+     * Constructor vacio de la clase Usuario.
+     * <p>
+     * El contructor se encarga de ininicalizar las variables Perfil, Contacto y
+     * UsuarioLogin.
+     */
     public Usuario() {
         this.perfil = new Perfil();
-        this.contacto=new Contacto();
-        this.usuarioLogin=new UsuarioLogin();
+        this.contacto = new Contacto();
+        this.usuarioLogin = new UsuarioLogin();
     }
 
+    /**
+     * Constructor vacio de la clase Usuario.
+     *
+     * @param idUsuario conteniendo el número id del nuevo objeto Usuario.
+     * @since 2.5.
+     */
     public Usuario(Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
+    /**
+     * Constructor de la clase Usuario.
+     *
+     * @param primerNombre
+     * @param segundoNombre
+     * @param primerApellido
+     * @param segundoApellido
+     * @param fechaCreacion
+     * @param status
+     * @param genero
+     * @param idPerfil
+     * @param idUsuarioLogin
+     * @param idContacto
+     * @since 2.8.
+     */
     public Usuario(String primerNombre, String segundoNombre, String primerApellido,
             String segundoApellido, Date fechaCreacion, String status, String genero,
             Integer idPerfil, Integer idUsuarioLogin, Integer idContacto) {
@@ -73,6 +102,19 @@ public class Usuario {
         this.idContacto = idContacto;
     }
 
+    /**
+     * Constructor del objeto Usuario.
+     *
+     * @param idUsuario conteniendo el número id del nuevo objeto Usuario.
+     * @param primerNombre
+     * @param segundoNombre
+     * @param primerApellido
+     * @param segundoApellido
+     * @param fechaCreacion
+     * @param status
+     * @param genero
+     * @since 2.8.
+     */
     public Usuario(Integer idUsuario, String primerNombre, String segundoNombre,
             String primerApellido, String segundoApellido, Date fechaCreacion,
             String status, String genero) {
@@ -239,7 +281,15 @@ public class Usuario {
                 + ", status=" + status + '}';
     }
 
-    public Object obtenerUsuarioLogeado(String nom_usuario, String password_us) {
+    /**
+     *
+     *
+     *
+     * @param nom_usuario
+     * @param password_us
+     * @return
+     */
+    public Usuario obtenerUsuarioLogeado(String nom_usuario, String password_us) {
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
         List<Usuario> lstUsuario = daoUsuario.obtenerUsuarios();
         for (Usuario usuario : lstUsuario) {

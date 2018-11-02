@@ -21,6 +21,7 @@ import org.apache.commons.dbutils.DbUtils;
 /**
  *
  * @author Santiago Medina Pelaez
+ * @since 0.0.
  */
 public class UsuarioDaoImpl implements IUsuarioDao {
 
@@ -37,6 +38,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     private static final String UPDTAE_USUARIO;
     private static final String SELECT_ULTIMO_ID;
 
+    /**
+     *
+     */
     public UsuarioDaoImpl(Boolean production) {
         isProduction = production;
     }
@@ -46,63 +50,56 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         getConexion();
         List<Usuario> listaUsuarios = new ArrayList<>();
         try {
-            //conexion = DBUtil.getConexion();
             stmt = conexion.createStatement();
             rs = stmt.executeQuery(SELECT_USUARIOS);
 
             while (rs.next()) {
-                //Datos Usuario
-                Integer idUsuario = rs.getInt("ID_USUARIO");
-                String primerNombre = rs.getString("PRIMER_NOMBRE");
-                String segundoNombre = validacion(rs.getString("SEGUNDO_NOMBRE"));
-                String primerApellido = rs.getString("PRIMER_APELLIDO");
-                String segundoApellido = validacion(rs.getString("SEGUNDO_APELLIDO"));
-                Date fechaCreacion = rs.getDate("FECHA_CREACION");
-                String status = rs.getString("STATUS");
-                String genero = validacion(rs.getString("GENERO"));
+                Perfil perfil = new Perfil();
+                UsuarioLogin usuarioLogin = new UsuarioLogin();
+                Contacto contacto = new Contacto();
+                Pais pais = new Pais();
+                Ciudad ciudad = new Ciudad();
+                Usuario usuario = new Usuario();
 
                 //Datos Perfil
-                Integer idPerfilUsuario = rs.getInt("ID_PERFIL");
-                String nombrePerfil = rs.getString("NOMBRE_PERFIL");
+                perfil.setIdPerfil(rs.getInt("ID_PERFIL"));
+                perfil.setNombrePerfil(rs.getString("NOMBRE_PERFIL"));
 
                 //Datos Usuario_Login
-                Integer idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
-                String nombreUsLog = rs.getString("NOMBRE_USUARIO");
-                String passUsLog = rs.getString("CONTRASENA");
+                usuarioLogin.setIdUsuarioLogin(rs.getInt("ID_USUARIO_LOGIN"));
+                usuarioLogin.setNombreUsuario(rs.getString("NOMBRE_USUARIO"));
+                usuarioLogin.setContrasena(rs.getString("CONTRASENA"));
 
-                //Datos Contacto
-                Integer idContacto = rs.getInt("ID_CONTACTO");
-                String celular = rs.getString("CELULAR");
-                String telefono = validacion(rs.getString("TELEFONO"));
-                String direccion = validacion(rs.getString("DIRECCION"));
-                String barrio = validacion(rs.getString("BARRIO"));
-                String email = validacion(rs.getString("EMAIL"));
+                //Datos Pais
+                pais.setIdPais(rs.getInt("PAIS"));
+                pais.setNombre(rs.getString("NOMBRE_PAIS"));
 
-                Integer idPais = rs.getInt("PAIS");
-                String nombrePais = rs.getString("NOMBRE_PAIS");
-
-                Integer idCiudad = rs.getInt("CIUDAD");
-                String nombreCiudad = rs.getString("NOMBRE_CIUDAD");
-
-                Perfil perfil = new Perfil(idPerfilUsuario, nombrePerfil);
-                UsuarioLogin usuarioLogin = new UsuarioLogin(idLoginUsuario,
-                        nombreUsLog, passUsLog);
-
-                Pais pais = new Pais(idPais, nombrePais);
-                Ciudad ciudad = new Ciudad(idCiudad, nombreCiudad);
+                //Datos Ciudad
+                ciudad.setIdCiudad(rs.getInt("CIUDAD"));
+                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
                 ciudad.setPais(pais);
 
-                Contacto contacto = new Contacto(idContacto, celular, telefono,
-                        direccion, barrio, email);
+                //Datos Contacto
+                contacto.setIdContacto(rs.getInt("ID_CONTACTO"));
+                contacto.setCelular(rs.getString("CELULAR"));
+                contacto.setTelefono(validacion(rs.getString("TELEFONO")));
+                contacto.setDireccion(validacion(rs.getString("DIRECCION")));
+                contacto.setBarrio(validacion(rs.getString("BARRIO")));
+                contacto.setEmail(validacion(rs.getString("EMAIL")));
                 contacto.setCiudad(ciudad);
 
-                Usuario usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                        primerApellido, segundoApellido, fechaCreacion, status,
-                        genero);
-
+                //Datos Usuario
+                usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+                usuario.setPrimerNombre(rs.getString("PRIMER_NOMBRE"));
+                usuario.setSegundoNombre(validacion(rs.getString("SEGUNDO_NOMBRE")));
+                usuario.setPrimerApellido(rs.getString("PRIMER_APELLIDO"));
+                usuario.setSegundoApellido(validacion(rs.getString("SEGUNDO_APELLIDO")));
+                usuario.setFechaCreacion(rs.getDate("FECHA_CREACION"));
+                usuario.setStatus(rs.getString("STATUS"));
+                usuario.setGenero(validacion(rs.getString("GENERO")));
                 usuario.setPerfil(perfil);
-                usuario.setUsuarioLogin(usuarioLogin);
                 usuario.setContacto(contacto);
+                usuario.setUsuarioLogin(usuarioLogin);
 
                 listaUsuarios.add(usuario);
             }
@@ -135,56 +132,51 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                String primerNombre = rs.getString("PRIMER_NOMBRE");
-                String segundoNombre = validacion(rs.getString("SEGUNDO_NOMBRE"));
-                String primerApellido = rs.getString("PRIMER_APELLIDO");
-                String segundoApellido = validacion(rs.getString("SEGUNDO_APELLIDO"));
-                Date fechaCreacion = rs.getDate("FECHA_CREACION");
-                String status = rs.getString("STATUS");
-                String genero = validacion(rs.getString("GENERO"));
+                Perfil perfil = new Perfil();
+                UsuarioLogin usuarioLogin = new UsuarioLogin();
+                Contacto contacto = new Contacto();
+                Pais pais = new Pais();
+                Ciudad ciudad = new Ciudad();
 
                 //Datos Perfil
-                Integer idPerfilUsuario = rs.getInt("ID_PERFIL");
-                String nombrePerfil = rs.getString("NOMBRE_PERFIL");
+                perfil.setIdPerfil(rs.getInt("ID_PERFIL"));
+                perfil.setNombrePerfil(rs.getString("NOMBRE_PERFIL"));
 
                 //Datos Usuario_Login
-                Integer idLoginUsuario = rs.getInt("ID_USUARIO_LOGIN");
-                String nombreUsLog = rs.getString("NOMBRE_USUARIO");
-                String passUsLog = rs.getString("CONTRASENA");
+                usuarioLogin.setIdUsuarioLogin(rs.getInt("ID_USUARIO_LOGIN"));
+                usuarioLogin.setNombreUsuario(rs.getString("NOMBRE_USUARIO"));
+                usuarioLogin.setContrasena(rs.getString("CONTRASENA"));
 
-                //Datos Contacto
-                Integer idContacto = rs.getInt("ID_CONTACTO");
-                String celular = rs.getString("CELULAR");
-                String telefono = rs.getString("TELEFONO");
-                String direccion = rs.getString("DIRECCION");
-                String barrio = rs.getString("BARRIO");
-                String email = rs.getString("EMAIL");
+                //Datos Pais
+                pais.setIdPais(rs.getInt("PAIS"));
+                pais.setNombre(rs.getString("NOMBRE_PAIS"));
 
-                Integer idPais = rs.getInt("PAIS");
-                String nombrePais = rs.getString("NOMBRE_PAIS");
-
-                Integer idCiudad = rs.getInt("CIUDAD");
-                String nombreCiudad = rs.getString("NOMBRE_CIUDAD");
-
-                Perfil perfil = new Perfil(idPerfilUsuario, nombrePerfil);
-                UsuarioLogin usuarioLogin = new UsuarioLogin(idLoginUsuario,
-                        nombreUsLog, passUsLog);
-
-                Pais pais = new Pais(idPais, nombrePais);
-                Ciudad ciudad = new Ciudad(idCiudad, nombreCiudad);
+                //Datos Ciudad
+                ciudad.setIdCiudad(rs.getInt("CIUDAD"));
+                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
                 ciudad.setPais(pais);
 
-                Contacto contacto = new Contacto(idContacto, celular, telefono,
-                        direccion, barrio, email);
+                //Datos Contacto
+                contacto.setIdContacto(rs.getInt("ID_CONTACTO"));
+                contacto.setCelular(rs.getString("CELULAR"));
+                contacto.setTelefono(validacion(rs.getString("TELEFONO")));
+                contacto.setDireccion(validacion(rs.getString("DIRECCION")));
+                contacto.setBarrio(validacion(rs.getString("BARRIO")));
+                contacto.setEmail(validacion(rs.getString("EMAIL")));
                 contacto.setCiudad(ciudad);
 
-                usuario = new Usuario(idUsuario, primerNombre, segundoNombre,
-                        primerApellido, segundoApellido, fechaCreacion, status,
-                        genero);
-
+                //Datos Usuario
+                usuario.setIdUsuario(rs.getInt("ID_USUARIO"));
+                usuario.setPrimerNombre(rs.getString("PRIMER_NOMBRE"));
+                usuario.setSegundoNombre(validacion(rs.getString("SEGUNDO_NOMBRE")));
+                usuario.setPrimerApellido(rs.getString("PRIMER_APELLIDO"));
+                usuario.setSegundoApellido(validacion(rs.getString("SEGUNDO_APELLIDO")));
+                usuario.setFechaCreacion(rs.getDate("FECHA_CREACION"));
+                usuario.setStatus(rs.getString("STATUS"));
+                usuario.setGenero(validacion(rs.getString("GENERO")));
                 usuario.setPerfil(perfil);
-                usuario.setUsuarioLogin(usuarioLogin);
                 usuario.setContacto(contacto);
+                usuario.setUsuarioLogin(usuarioLogin);
 
                 return usuario;
             }
@@ -312,7 +304,6 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         }
         return idUsuario;
     }*/
-
     static {
         SELECT_USUARIOS = "SELECT US.ID_USUARIO,US.PRIMER_NOMBRE,US.SEGUNDO_NOMBRE,US.PRIMER_APELLIDO,US.SEGUNDO_APELLIDO,\n"
                 + "US.FECHA_CREACION,US.STATUS,US.GENERO,US.ID_PERFIL,US.ID_USUARIO_LOGIN,US.ID_CONTACTO,\n"

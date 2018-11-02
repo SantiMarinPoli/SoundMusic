@@ -15,7 +15,6 @@ public class Contacto {
     private String direccion;
     private String barrio;
     private String email;
-    //private int idCiudad;
     private Ciudad ciudad;
 
     public Contacto() {

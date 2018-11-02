@@ -53,14 +53,16 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             rs = stmt.executeQuery(SELECT_ARTISTAS_EMPRESAS);
 
             while (rs.next()) {
-                int idArtistaEmpresa = rs.getInt("ID_ARTISTA_EMPRESA");
-                int idArtista = rs.getInt("ID_ARTISTA");
-                int idEmpresa = rs.getInt("ID_EMPRESA_DIFUSORA");
+                ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
+                Artista artista = new Artista();
+                EmpresaDifusora empresaDifusora = new EmpresaDifusora();
 
-                ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa(idArtistaEmpresa, idArtista, idEmpresa);
+                artista.setIdArtista(rs.getInt("ID_ARTISTA"));
+                empresaDifusora.setIdEmpresaDifusora(rs.getInt("ID_EMPRESA_DIFUSORA"));
 
-                artistaEmpresa.obtenerArtista();
-                artistaEmpresa.obtenerEmpresa();
+                artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
+                artistaEmpresa.setArtista(artista);
+                artistaEmpresa.setEmpresaDifusora(empresaDifusora);
 
                 lstArtistaEmpresa.add(artistaEmpresa);
             }
@@ -68,8 +70,15 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return lstArtistaEmpresa;
@@ -84,13 +93,15 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                int idArtista = rs.getInt("ID_ARTISTA");
-                int idEmpresa = rs.getInt("ID_EMPRESA_DIFUSORA");
+                Artista artista = new Artista();
+                EmpresaDifusora empresaDifusora = new EmpresaDifusora();
 
-                artistaEmpresa = new ArtistaEmpresa(idArtistaEmpresa, idArtista, idEmpresa);
+                artista.setIdArtista(rs.getInt("ID_ARTISTA"));
+                empresaDifusora.setIdEmpresaDifusora(rs.getInt("ID_EMPRESA_DIFUSORA"));
 
-                artistaEmpresa.obtenerArtista();
-                artistaEmpresa.obtenerEmpresa();
+                artistaEmpresa.setIdArtistaEmpresa(idArtistaEmpresa);
+                artistaEmpresa.setArtista(artista);
+                artistaEmpresa.setEmpresaDifusora(empresaDifusora);
 
                 return artistaEmpresa;
             }
@@ -98,8 +109,14 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return artistaEmpresa;
@@ -126,8 +143,14 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return lstArtistasPorEmpresa;

@@ -1,9 +1,7 @@
 package co.com.soundMusic.Negocio.Regalias;
 
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
-import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividadDaoImpl;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresa;
-import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +12,9 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.commons.dbutils.DbUtils;
 
 /**
  *
@@ -22,69 +23,120 @@ import java.util.List;
 public class RegaliaDaoImpl implements IRegaliaDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
-
+    private Connection conexion;
+    private Boolean isProduction = true;
+    private Statement stmt;
+    private ResultSet rs;
     //Constantes con las querys a la base de datos
     private static final String SELECT_REGALIAS;
     private static final String SELECT_REGALIA_POR_ID;
     private static final String INSERT_REGALIA;
     private static final String UPDATE_REGALIA;
-    
-    public RegaliaDaoImpl() {
-        conexion = DBUtil.getConexion();
+
+    public RegaliaDaoImpl(Boolean production) {
+        isProduction = production;
     }
-    
+
     @Override
-    public List<Regalia> obtenerRegalias() throws SQLException {
+    public List<Regalia> obtenerRegalias() {
+        getConexion();
         List<Regalia> listaRegalias = new ArrayList<>();
-        
-        Statement stmt = conexion.createStatement();
-        ResultSet rs = stmt.executeQuery(SELECT_REGALIAS);
-        
-        while (rs.next()) {
-            int idRegalia = rs.getInt("ID_REGALIA");
-            float totalGanado = rs.getFloat("TOTAL_GANADO");
-            Timestamp fecha = rs.getTimestamp("FECHA");
-            int idArtistaEmpresa = rs.getInt("ID_ARTISTA_EMPRESA");
-            int idCosto = rs.getInt("ID_COSTO");
-            
-            Regalia regalia = new Regalia(idRegalia, totalGanado, idRegalia, fecha,
-                    new ArtistaEmpresa(idArtistaEmpresa), new CostoActividad(idCosto));
-            
-            regalia.obtenerArtistaEmpresa();
-            regalia.obtenerCosto();
-            
-            listaRegalias.add(regalia);
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_REGALIAS);
+
+            while (rs.next()) {
+                ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
+                CostoActividad costo = new CostoActividad();;
+                Regalia regalia = new Regalia();
+
+                //Datos CostoActividad
+                costo.setIdCostoActividad(rs.getInt("ID_COSTO_ACTIVIDAD"));
+                costo.setCostoPorOperacion(rs.getFloat("COSTO_POR_OPERACION"));
+                costo.setFechaCreacion(rs.getDate("FECHA_CREACION"));
+                costo.setFechaUsoFinal(rs.getDate("FECHA_USO_FINAL"));
+                //Datos ArtistaEmpresa
+                artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
+                artistaEmpresa.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
+                artistaEmpresa.getEmpresaDifusora().setIdEmpresaDifusora(rs.getInt("ID_EMPRESA_DIFUSORA"));
+                //Datos Regalia
+                regalia.setIdRegalia(rs.getInt("ID_REGALIA"));
+                regalia.setTotalGanado(rs.getFloat("TOTAL_GANADO"));
+                regalia.setFecha(rs.getTimestamp("FECHA"));
+                regalia.setArtistaEmpresa(artistaEmpresa);
+                regalia.setCosto(costo);
+
+                listaRegalias.add(regalia);
+            }
+        } catch (SQLException | NullPointerException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        stmt.close();
         return listaRegalias;
     }
-    
+
     @Override
-    public Regalia obtenerRegalia(int idRegalia) throws SQLException {
-        PreparedStatement ps = conexion.prepareStatement(SELECT_REGALIA_POR_ID);
-        ps.setInt(1, idRegalia);
-        ResultSet rs = ps.executeQuery();
-        
-        while (rs.next()) {
-            
-            float totalGanado = rs.getFloat("TOTAL_GANADO");
-            Timestamp fecha = rs.getTimestamp("FECHA");
-            int idArtistaEmpresa = rs.getInt("ID_ARTISTA_EMPRESA");
-            int idCosto = rs.getInt("ID_COSTO");
-            Regalia regalia = new Regalia(idRegalia, totalGanado, idRegalia, fecha,
-                    new ArtistaEmpresa(idArtistaEmpresa), new CostoActividad(idCosto));
-            
-            regalia.obtenerArtistaEmpresa();
-            regalia.obtenerCosto();
-            
-            return regalia;
+    public Regalia obtenerRegalia(int idRegalia) {
+        getConexion();
+        Regalia regalia = new Regalia();
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_REGALIA_POR_ID);
+            ps.setInt(1, idRegalia);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
+                CostoActividad costo = new CostoActividad();;
+
+                //Datos CostoActividad
+                costo.setIdCostoActividad(rs.getInt("ID_COSTO_ACTIVIDAD"));
+                costo.setCostoPorOperacion(rs.getFloat("COSTO_POR_OPERACION"));
+                costo.setFechaCreacion(rs.getDate("FECHA_CREACION"));
+                costo.setFechaUsoFinal(rs.getDate("FECHA_USO_FINAL"));
+                //Datos ArtistaEmpresa
+                artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
+                artistaEmpresa.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
+                artistaEmpresa.getEmpresaDifusora().setIdEmpresaDifusora(rs.getInt("ID_EMPRESA_DIFUSORA"));
+                //Datos Regalia
+                regalia.setIdRegalia(rs.getInt("ID_REGALIA"));
+                regalia.setTotalGanado(rs.getFloat("TOTAL_GANADO"));
+                regalia.setFecha(rs.getTimestamp("FECHA"));
+                regalia.setArtistaEmpresa(artistaEmpresa);
+                regalia.setCosto(costo);
+            }
+        } catch (SQLException | NullPointerException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        return null;
+        return regalia;
     }
-    
+
     @Override
     public void crearERegalia(Regalia regalia) throws SQLException {
+        getConexion();
         PreparedStatement ps = conexion.prepareStatement(INSERT_REGALIA);
         ps.setFloat(1, regalia.getTotalGanado());
         ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
@@ -92,9 +144,10 @@ public class RegaliaDaoImpl implements IRegaliaDao {
         ps.setInt(4, regalia.getCosto().getIdCostoActividad());
         ps.executeUpdate();
     }
-    
+
     @Override
     public void actualizarRegalia(Regalia regalia) throws SQLException {
+        getConexion();
         PreparedStatement ps = conexion.prepareStatement(UPDATE_REGALIA);
         ps.setFloat(1, regalia.getTotalGanado());
         ps.setTimestamp(2, regalia.getFecha());
@@ -103,25 +156,45 @@ public class RegaliaDaoImpl implements IRegaliaDao {
         ps.setInt(5, regalia.getIdRegalia());
         ps.executeUpdate();
     }
-    
+
     static {
-        SELECT_REGALIAS = "SELECT ID_REGALIA, TOTAL_GANADO, FECHA, \n"
-                + "ID_ARTISTA_EMPRESA, ID_COSTO"
-                + "FROM REGALIA \n"
+        SELECT_REGALIAS = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO, REG.FECHA, \n"
+                + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, \n"
+                + "ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA, "
+                + "COSTA.COSTO_POR_OPERACION, COSTA.FECHA_CREACION, COSTA.FECHA_USO_FINAL \n"
+                + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP  \n"
+                + "ON TEG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"
+                + "INNER JOIN COSTO_ACTIVIDAD COSTA \n"
+                + "ON REG.ID_COSTO = COSTA.ID_COSTO_ACTIVIDAD \n"
                 + "ORDER BY ID_REGALIA";
-        
-        SELECT_REGALIA_POR_ID = "SELECT TOTAL_GANADO, FECHA, \n"
-                + "ID_ARTISTA_EMPRESA, ID_COSTO \n"
-                + "FROM REGALIA \n"
+
+        SELECT_REGALIA_POR_ID = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO, REG.FECHA, \n"
+                + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, \n"
+                + "ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA, "
+                + "COSTA.COSTO_POR_OPERACION, COSTA.FECHA_CREACION, COSTA.FECHA_USO_FINAL \n"
+                + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP  \n"
+                + "ON TEG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"
+                + "INNER JOIN COSTO_ACTIVIDAD COSTA \n"
+                + "ON REG.ID_COSTO = COSTA.ID_COSTO_ACTIVIDAD \n"
                 + "WHERE ID_REGALIA=?";
-        
+
         INSERT_REGALIA = "INSERT INTO REGALIA (TOTAL_GANADO, FECHA, \n"
                 + "ID_ARTISTA_EMPRESA, ID_COSTO)\n"
                 + "VALUES (?,?,?,?)";
-        
+
         UPDATE_REGALIA = "UPDATE REGALIA \n"
                 + "SET TOTAL_GANADO=?, FECHA=?, \n"
                 + "ID_ARTISTA_EMPRESA=?, ID_COSTO=? \n"
                 + "WHERE ID_REGALIA=?";
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }

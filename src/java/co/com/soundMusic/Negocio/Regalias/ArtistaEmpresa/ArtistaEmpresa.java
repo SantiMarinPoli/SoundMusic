@@ -1,9 +1,7 @@
 package co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa;
 
 import co.com.soundMusic.Artista.Artista;
-import co.com.soundMusic.Artista.ArtistaDaoImpl;
 import co.com.soundMusic.EmpresaDifusora.EmpresaDifusora;
-import co.com.soundMusic.EmpresaDifusora.EmpresaDifusoraDaoImpl;
 
 /**
  *
@@ -12,22 +10,26 @@ import co.com.soundMusic.EmpresaDifusora.EmpresaDifusoraDaoImpl;
 public class ArtistaEmpresa {
 
     private int idArtistaEmpresa;
-    private int idArtista;
-    private int idEmpresaDifusora;
     private Artista artista;
     private EmpresaDifusora empresaDifusora;
 
     public ArtistaEmpresa() {
+        this.artista = new Artista();
+        this.empresaDifusora = new EmpresaDifusora();
     }
 
     public ArtistaEmpresa(int idArtistaEmpresa) {
         this.idArtistaEmpresa = idArtistaEmpresa;
+        this.artista = new Artista();
+        this.empresaDifusora = new EmpresaDifusora();
     }
 
     public ArtistaEmpresa(int idArtistaEmpresa, int idArtista, int idEmpresaDifusora) {
         this.idArtistaEmpresa = idArtistaEmpresa;
-        this.idArtista = idArtista;
-        this.idEmpresaDifusora = idEmpresaDifusora;
+        this.artista = new Artista();
+        this.empresaDifusora = new EmpresaDifusora();
+        this.artista.setIdArtista(idArtista);
+        this.empresaDifusora.setIdEmpresaDifusora(idEmpresaDifusora);
     }
 
     public int getIdArtistaEmpresa() {
@@ -52,31 +54,5 @@ public class ArtistaEmpresa {
 
     public void setEmpresaDifusora(EmpresaDifusora empresaDifusora) {
         this.empresaDifusora = empresaDifusora;
-    }
-
-    public int getIdArtista() {
-        return idArtista;
-    }
-
-    public void setIdArtista(int idArtista) {
-        this.idArtista = idArtista;
-    }
-
-    public int getIdEmpresaDifusora() {
-        return idEmpresaDifusora;
-    }
-
-    public void setIdEmpresaDifusora(int idEmpresaDifusora) {
-        this.idEmpresaDifusora = idEmpresaDifusora;
-    }
-
-    public void obtenerArtista() {
-        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
-        this.setArtista(daoArtista.obtenerArtista(this.idArtista));
-    }
-
-    public void obtenerEmpresa() {
-        EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
-        this.setEmpresaDifusora(daoEmpresa.obtenerEmpresaDifusora(this.idEmpresaDifusora));
     }
 }
