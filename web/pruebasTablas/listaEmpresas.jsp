@@ -13,7 +13,7 @@
             <th scope="col">#</th>
             <th scope="col">Nombre de Empresa</th>
             <th scope="col">Total Artista</th>
-            <th scope="col">Total Albunes</th>
+            <th scope="col">Total Álbumes</th>
             <th scope="col">Mes y Año</th>
             <th scope="col"></th>
         </tr>
@@ -28,7 +28,8 @@
                 out.print("<td>" + emDif.getNumeroArtistas() + "</td>");
                 out.print("<td>" + emDif.getNumeroArtistas() + "</td>");
                 out.print("<td>" + emDif.getFechaCreacion() + "</td>");
-                out.print("<td><a href='modificarEmpresa.jsp' class='btn btn-warning'>Actualizar</a></td>");
+                out.print("<td><a href='controladorEmpresaDifusora?opcion=editar&IdEmpresa="
+                        + emDif.getIdEmpresaDifusora() + "' class='btn btn-warning'>Actualizar</a></td>");
                 out.print("</tr>");
             }
         %>

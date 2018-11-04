@@ -89,7 +89,6 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 empresaDifusora.setFechaCreacion(rs.getDate("FECHA_CREACION"));
                 empresaDifusora.setFechaTerminacion(rs.getDate("FECHA_TERMINACION"));
                 empresaDifusora.setStatus(rs.getString("STATUS"));
-                empresaDifusora.setRutaImagen(rs.getString("RUTA_IMAGEN"));
                 empresaDifusora.setContacto(contacto);
                 empresaDifusora.setCostoOperacion(costoOperacion);
                 empresaDifusora.setTipoActividad(tipoActividad);
@@ -158,7 +157,6 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 empresaDifusora.setFechaCreacion(rs.getDate("FECHA_CREACION"));
                 empresaDifusora.setFechaTerminacion(rs.getDate("FECHA_TERMINACION"));
                 empresaDifusora.setStatus(rs.getString("STATUS"));
-                empresaDifusora.setRutaImagen(rs.getString("RUTA_IMAGEN"));
                 empresaDifusora.setContacto(contacto);
                 empresaDifusora.setCostoOperacion(costoOperacion);
                 empresaDifusora.setTipoActividad(tipoActividad);
@@ -189,12 +187,10 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
 
             ps.setString(1, empresaDifusora.getNombre());
             ps.setDate(2, empresaDifusora.getFechaCreacion());
-            ps.setDate(3, empresaDifusora.getFechaTerminacion());
-            ps.setString(4, empresaDifusora.getStatus());
-            ps.setString(5, empresaDifusora.getRutaImagen());
-            ps.setInt(6, empresaDifusora.getTipoActividad().getIdTipoActividad());
-            ps.setInt(7, empresaDifusora.getContacto().getIdContacto());
-            ps.setInt(8, empresaDifusora.getCostoOperacion().getIdCostoActividad());
+            ps.setString(3, empresaDifusora.getStatus());
+            ps.setInt(4, empresaDifusora.getTipoActividad().getIdTipoActividad());
+            ps.setInt(5, empresaDifusora.getContacto().getIdContacto());
+            ps.setInt(6, empresaDifusora.getCostoOperacion().getIdCostoActividad());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -241,11 +237,10 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             ps.setString(1, empresaDifusora.getNombre());
             ps.setDate(2, empresaDifusora.getFechaTerminacion());
             ps.setString(3, empresaDifusora.getStatus());
-            ps.setString(4, empresaDifusora.getRutaImagen());
-            ps.setInt(5, empresaDifusora.getTipoActividad().getIdTipoActividad());
-            ps.setInt(6, empresaDifusora.getContacto().getIdContacto());
-            ps.setInt(7, empresaDifusora.getCostoOperacion().getIdCostoActividad());
-            ps.setInt(8, empresaDifusora.getIdEmpresaDifusora());
+            ps.setInt(4, empresaDifusora.getTipoActividad().getIdTipoActividad());
+            ps.setInt(5, empresaDifusora.getContacto().getIdContacto());
+            ps.setInt(6, empresaDifusora.getCostoOperacion().getIdCostoActividad());
+            ps.setInt(7, empresaDifusora.getIdEmpresaDifusora());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -289,10 +284,10 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
 
     static {
         SELECT_EMPRESAS = "SELECT EMDI.ID_EMPRESA_DIFUSORA,EMDI.NOMBRE,EMDI.FECHA_CREACION, \n"
-                + "EMDI.FECHA_TERMINACION,EMDI.STATUS,EMDI.RUTA_IMAGEN, \n"
-                + "EMDI.ID_TIPO_ACTIVIDAD AS TIPO_ACTIVIDAD, EMDI.ID_CONTACTO AS CONTACTO, \n"
-                + "EMDI.ID_COSTO_ACTIVIDAD AS COSTO,CONT.CELULAR AS CELULAR, \n"
-                + "CONT.TELEFONO AS TELEFONO,CONT.DIRECCION AS DIRECCION, \n"
+                + "EMDI.FECHA_TERMINACION,EMDI.STATUS,EMDI.ID_TIPO_ACTIVIDAD AS TIPO_ACTIVIDAD,\n"
+                + " EMDI.ID_CONTACTO AS CONTACTO,EMDI.ID_COSTO_ACTIVIDAD AS COSTO,\n"
+                + "CONT.CELULAR AS CELULAR, CONT.TELEFONO AS TELEFONO,\n"
+                + "CONT.DIRECCION AS DIRECCION, \n"
                 + "CONT.BARRIO AS BARRIO, CONT.EMAIL AS EMAIL, \n"
                 + "CIU.ID_CIUDAD AS CIUDAD,CIU.NOMBRE AS NOMBRE_CIUDAD,\n"
                 + "PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS,TIPACT.NOMBRE AS NOMBRE_ACTIVIDAD,\n"
@@ -311,7 +306,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 + "ORDER BY ID_EMPRESA_DIFUSORA";
 
         SELECT_EMPRESA_POOR_ID = "SELECT EMDI.NOMBRE,EMDI.FECHA_CREACION, \n"
-                + "EMDI.FECHA_TERMINACION,EMDI.STATUS,EMDI.RUTA_IMAGEN, \n"
+                + "EMDI.FECHA_TERMINACION,EMDI.STATUS, \n"
                 + "EMDI.ID_TIPO_ACTIVIDAD AS TIPO_ACTIVIDAD, EMDI.ID_CONTACTO AS CONTACTO, \n"
                 + "EMDI.ID_COSTO_ACTIVIDAD AS COSTO,CONT.CELULAR AS CELULAR, \n"
                 + "CONT.TELEFONO AS TELEFONO,CONT.DIRECCION AS DIRECCION, \n"
@@ -332,16 +327,16 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 + "ON EMDI.ID_COSTO_ACTIVIDAD = COSACT.ID_COSTO_ACTIVIDAD \n"
                 + "WHERE ID_EMPRESA_DIFUSORA=?";
 
-        INSERT_EMPRESA = "INSERT INTO EMPRESA_DIFUSORA (NOMBRE,FECHA_CREACION,FECHA_TERMINACION,STATUS,\n"
-                + "RUTA_IMAGEN, ID_TIPO_ACTIVIDAD, ID_CONTACTO, ID_COSTO_ACTIVIDAD)\n"
-                + "VALUES (?,?,?,?,?,?,?,?)";
+        INSERT_EMPRESA = "INSERT INTO EMPRESA_DIFUSORA (NOMBRE,FECHA_CREACION,STATUS,\n"
+                + "ID_TIPO_ACTIVIDAD, ID_CONTACTO, ID_COSTO_ACTIVIDAD)\n"
+                + "VALUES (?,?,?,?,?,?)";
 
         UPDATE_STATUS = "UPDATE EMPRESA_DIFUSORA\n"
                 + "SET STATUS=?\n"
                 + "WHERE ID_EMPRESA_DIFUSORA=?";
 
         UPDATE_EMPRSA = "UPDATE EMPRESA_DIFUSORA\n"
-                + "SET NOMBRE=?,FECHA_TERMINACION=?,STATUS=?,RUTA_IMAGEN=?,\n"
+                + "SET NOMBRE=?,FECHA_TERMINACION=?,STATUS=?,\n"
                 + "ID_TIPO_ACTIVIDAD=?, ID_CONTACTO=?, ID_COSTO_ACTIVIDAD=?\n"
                 + "WHERE ID_EMPRESA_DIFUSORA=?";
 

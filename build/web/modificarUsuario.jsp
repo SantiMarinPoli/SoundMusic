@@ -237,7 +237,7 @@
                         </div>
 
                         <br>
-                        <input type="submit" value="Registrar Usuario" class="btn btn-primary" id="btnGuardar">
+                        <input type="submit" value="Mofidicar Usuario" class="btn btn-primary" id="btnGuardar">
                     </form>
                 </div>
             </div>

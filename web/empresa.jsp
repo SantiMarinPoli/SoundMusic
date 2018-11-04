@@ -26,7 +26,7 @@
                     <br>
                     <div class="row">
                         <div class="col">
-                            <a href="registrarEmpresa.jsp" class="btn btn-success" id="btnRegistrar">Registrar Empresa</a>
+                            <a href="controladorEmpresaDifusora?opcion=crearEmpresa" class="btn btn-success" id="btnRegistrar">Registrar Empresa</a>
                         </div>
                     </div>
 

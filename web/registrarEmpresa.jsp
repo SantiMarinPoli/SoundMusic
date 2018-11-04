@@ -1,3 +1,5 @@
+<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
+<%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
 <%@page import="java.util.List"%>
 <%@page import="co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -48,44 +50,80 @@
                             <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresaTxt" placeholder="Ingresar la empresa difunsora">
                             <div class="invalid-feedback">El campo nombre empresa debe ser obligatorio</div>
                         </div>
+                        <div class="form-row">
+                            <div class="col">
+                                <label >Tipo de Empresa*</label>
+                                <select class="form-control" name="tipoEmpresa" id="tipoEmpresa">
+                                    <%//Listar los tipos de empresas de la base de datos
+                                        List<TipoEmpresaDifusora> listaTipoEmpresa
+                                                = (List<TipoEmpresaDifusora>) request.getAttribute("lstTipoEmpresa");
+                                        for (TipoEmpresaDifusora tipoEmpresa : listaTipoEmpresa) {
+                                            out.println("<option value='" + tipoEmpresa.getIdTipoActividad() + "'>"
+                                                    + tipoEmpresa.getTipoActividad() + "</option>");
+                                        }
+                                    %>         
+                                </select>
+                                <div class="invalid-feedback ">El campo Tipo Empresa debe ser obligatorio</div>
+                            </div>                        
 
-                        <div class="form-group radio">
-                            <h8> Tipo de Empresa*</h8>
-                                <%//Listar los tipos de empresas de la base de datos
-                                    /*List<TipoEmpresaDifusora> listaTipoEmpresa
-                                            = (List<TipoEmpresaDifusora>) request.getAttribute("lstTipoEmpresa");
-                                    for (TipoEmpresaDifusora tipoEmpresa : listaTipoEmpresa) {
-                                        out.println("<div class='form-check'>");
-                                        out.println("<input type='radio' class='form-check-input' name='tipoEmpresa' id='tipoEmpresa1Txt' value=''"
-                                                + tipoEmpresa.getIdTipoActividad() + "''>");
-                                        out.println("<label for='tipoEmpresa1Txt' class='form-check-label error'>"
-                                                + tipoEmpresa.getTipoActividad() + "</label>");
-                                        out.println("</div>");
-                                    }*/
-                                %>
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa1Txt" value="Audio">
-                                <label for="tipoEmpresa1Txt" class="form-check-label error">Audio</label>
+
+                            <div class="col">
+                                <label>Correo de la empresa*</label>
+                                <input type="email" class="form-control" name="correo" id="correo" placeholder="Ingresar el correo electronico principal">
+                                <div class="invalid-feedback">El campo correo sera obligatorio.</div>
                             </div>
+                        </div>    
 
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa2Txt" value="Descarga">
-                                <label for="tipoEmpresa2Txt" class="form-check-label">Descarga</label>
+                        <br>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label >Pais*</label>
+                                <select class="form-control" name="pais" id="pais">
+                                    <option value="">Seleccionar el pais</option>
+                                    <%//Listar los paises en la base de datos
+                                        List<Pais> listaPais
+                                                = (List<Pais>) request.getAttribute("lstPais");
+                                        for (Pais pais : listaPais) {
+                                            out.print("<option value='" + pais.getIdPais()
+                                                    + "'>" + pais.getNombre() + "</option>");
+                                        }
+                                    %>
+                                </select>
+                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
                             </div>
-
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa3Txt" value="Video">
-                                <label for="tipoEmpresa3Txt" class="form-check-label">Video</label>
+                            <div class="col">
+                                <label >Ciudad</label>
+                                <!-- <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ingrese la ciudad" > -->
+                                <select class="form-control" name="ciudad" id="ciudad">
+                                    <option value="">Seleccionar la ciudad</option>
+                                    <%//Listar las ciudades en la base de datos
+                                        List<Ciudad> listaCiudad
+                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
+                                        for (Ciudad ciudad : listaCiudad) {
+                                            out.print("<option value='" + ciudad.getIdCiudad()
+                                                    + "'>" + ciudad.getNombre() + "</option>");
+                                        }
+                                    %>
+                                </select>
+                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
                             </div>
-
-                            <div class="form-check">
-                                <input type="radio" class="form-check-input" name="tipoEmpresa" id="tipoEmpresa3Txt" value="Video">
-                                <label for="tipoEmpresa3Txt" class="form-check-label">Disco Fisico</label>
-                                <div class="invalid-feedback">Seleccionar una seleccion en el campo tipo empresa.</div>
-                            </div>
-
                         </div>
 
+                        <br>
+
+                        <div class="form-row">
+                            <div class="col">
+                                <label>Numero Celular</label>
+                                <input type="number" class="form-control" name="numFijo"  id="numFijo" placeholder="Ingresar el numero telefonico principal">
+                            </div>
+                            <div class="col">
+                                <label>Valor de la Operacion*</label>
+                                <input type="number" class="form-control" name="valorOp"  id="valorOp" placeholder="Ingresar el valor de la operacion">
+                                <div class="invalid-feedback">El campo valor operacion sera obligatorio.</div>
+                            </div>
+                        </div>
+                        <br>
                         <div class="form-group">
                             <label>Agregar Artista</label>
                             <input type="text" name="agregarArtista"  class="form-control" id="textAgregarArtista" placeholder="Agregar artista"> 
@@ -105,23 +143,6 @@
                         </div>
 
                         <br>
-
-                        <div class="form-group">
-                            <label>Correo de la empresa*</label>
-                            <input type="email" class="form-control" name="correo" id="correo" placeholder="Ingresar el correo electronico principal">
-                            <div class="invalid-feedback">El campo correo sera obligatorio.</div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Numero Telefonico</label>
-                            <input type="number" class="form-control" name="numFijo"  id="numFijo" placeholder="Ingresar el numero telefonico principal">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Valor de la Operacion*</label>
-                            <input type="number" class="form-control" name="valorOp"  id="valorOp" placeholder="Ingresar el valor de la operacion">
-                            <div class="invalid-feedback">El campo valor operacion sera obligatorio.</div>
-                        </div>
 
                         <div class="form-group">
                             <div class="form-check checkbox">

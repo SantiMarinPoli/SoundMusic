@@ -168,7 +168,7 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
                 + "WHERE ID_COSTO_ACTIVIDAD=?";
 
         INSERT_COSTO_ACTIVIDAD = "INSERT INTO COSTO_ACTIVITIDAD (COSTO_POR_OPERACION,FECHA_CREACION)\n"
-                + "VALES (?,?)";
+                + "VALUES (?,?)";
 
         UPDATE_COSTO_ACTIVIDAD = "UPDATE COSTO_ACTIVITIDAD \n"
                 + "SET COSTO_POR_OPERACION=? \n"

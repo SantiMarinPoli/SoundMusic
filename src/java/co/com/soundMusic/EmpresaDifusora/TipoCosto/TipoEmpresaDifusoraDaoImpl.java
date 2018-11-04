@@ -72,17 +72,16 @@ public class TipoEmpresaDifusoraDaoImpl implements ITipoEmpresaDifusoraDao {
     @Override
     public TipoEmpresaDifusora obtenerTipoEmpresaDifusora(int idTipoEmpresaDifusora) {
         getConexion();
+        TipoEmpresaDifusora tipoEmpresa = new TipoEmpresaDifusora();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_TIPO_EMPRESA_POR_ID);
 
             ps.setInt(1, idTipoEmpresaDifusora);
 
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while (rs.next()) {
-                String tipoActividad = rs.getString("NOMBRE");
-
-                TipoEmpresaDifusora tipoEmpresa = new TipoEmpresaDifusora(idTipoEmpresaDifusora, tipoActividad);
-
+                tipoEmpresa.setIdTipoActividad(idTipoEmpresaDifusora);
+                tipoEmpresa.setTipoActividad(rs.getString("NOMBRE"));
                 return tipoEmpresa;
             }
         } catch (SQLException ex) {

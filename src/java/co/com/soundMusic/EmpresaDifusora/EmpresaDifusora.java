@@ -20,31 +20,29 @@ public class EmpresaDifusora {
     private Date fechaCreacion;
     private Date fechaTerminacion;
     private String status;
-    private String rutaImagen;
     private Contacto contacto;
     private TipoEmpresaDifusora tipoActividad;
     private CostoActividad costoOperacion;
 
     public EmpresaDifusora() {
-        this.contacto= new Contacto();
-        this.tipoActividad=new TipoEmpresaDifusora();
-        this.costoOperacion=new CostoActividad();
+        this.contacto = new Contacto();
+        this.tipoActividad = new TipoEmpresaDifusora();
+        this.costoOperacion = new CostoActividad();
     }
 
     public EmpresaDifusora(Integer idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
-            String status, String rutaImagen, Integer idTipoActividad, Integer idContacto, Integer idCostoOperacion) {
+            String status, Integer idTipoActividad, Integer idContacto, Integer idCostoOperacion) {
         this.idEmpresaDifusora = idEmpresaDifusora;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaTerminacion = fechaTerminacion;
         this.status = status;
-        this.rutaImagen = rutaImagen;
-        this.contacto= new Contacto();
-        this.tipoActividad=new TipoEmpresaDifusora();
-        this.costoOperacion=new CostoActividad();
+        this.contacto = new Contacto();
+        this.tipoActividad = new TipoEmpresaDifusora();
+        this.costoOperacion = new CostoActividad();
         this.contacto.setIdContacto(idContacto);
         this.tipoActividad.setIdTipoActividad(idTipoActividad);
-        this.costoOperacion.setIdCostoActividad(idCostoOperacion);    
+        this.costoOperacion.setIdCostoActividad(idCostoOperacion);
     }
 
     public Integer getIdEmpresaDifusora() {
@@ -87,14 +85,6 @@ public class EmpresaDifusora {
         this.status = status;
     }
 
-    public String getRutaImagen() {
-        return rutaImagen;
-    }
-
-    public void setRutaImagen(String rutaImagen) {
-        this.rutaImagen = rutaImagen;
-    }    
-
     public Contacto getContacto() {
         return contacto;
     }
@@ -125,27 +115,6 @@ public class EmpresaDifusora {
         hash = 13 * hash + this.idEmpresaDifusora;
         hash = 13 * hash + Objects.hashCode(this.nombre);
         return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EmpresaDifusora other = (EmpresaDifusora) obj;
-        if (this.idEmpresaDifusora != other.idEmpresaDifusora) {
-            return false;
-        }
-        if (!Objects.equals(this.nombre, other.nombre)) {
-            return false;
-        }
-        return true;
     }
 
     public Integer getNumeroArtistas() {

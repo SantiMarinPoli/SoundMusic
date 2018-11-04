@@ -90,10 +90,10 @@ public class controladorEmpresaDifusora extends HttpServlet {
                 break;
             case "editar":
                 actualizarDatosFormulario(request);
-                identificacion = Integer.parseInt((String) request.getParameter("idEmpresa"));
+                identificacion = Integer.parseInt((String) request.getParameter("IdEmpresa"));
                 for (EmpresaDifusora empresaDifusora : lstEmpresasDifusorasp) {
                     if (empresaDifusora.getIdEmpresaDifusora() == identificacion) {
-                        request.setAttribute("empresaDfifusora", empresaDifusora);
+                        request.setAttribute("empresaDfifusoraAEditar", empresaDifusora);
                     }
                 }
                 request.getRequestDispatcher("modificarEmpresa.jsp").forward(request, response);
@@ -156,7 +156,6 @@ public class controladorEmpresaDifusora extends HttpServlet {
         empresaDifusora.setNombre(request.getParameter("nomEmpresa"));
         empresaDifusora.setFechaCreacion(Date.valueOf(LocalDate.now()));
         empresaDifusora.setStatus("A");
-        empresaDifusora.setRutaImagen(request.getParameter("rutaImagenemprea"));
         empresaDifusora.setContacto(contacto);
         empresaDifusora.setTipoActividad(tipoEmpresa);
         empresaDifusora.setCostoOperacion(costoOperacion);
@@ -172,9 +171,9 @@ public class controladorEmpresaDifusora extends HttpServlet {
         TipoEmpresaDifusora tipoEmpresa = obtenerTipoEmpresa(request);
         EmpresaDifusora empresaDifusora = new EmpresaDifusora();
 
+        empresaDifusora.setIdEmpresaDifusora(idEmpresaDifusora);
         empresaDifusora.setNombre(request.getParameter("nomEmpresa"));
         empresaDifusora.setStatus("A");
-        empresaDifusora.setRutaImagen(request.getParameter("rutaImagenemprea"));
         empresaDifusora.setContacto(contacto);
         empresaDifusora.setTipoActividad(tipoEmpresa);
         empresaDifusora.setCostoOperacion(costoOperacion);
@@ -229,7 +228,7 @@ public class controladorEmpresaDifusora extends HttpServlet {
         Contacto contacto = new Contacto();
         contacto.setCelular(request.getParameter("numFijo"));
         contacto.setEmail(request.getParameter("correo"));
-        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("IdCiudad")));
+        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
 
         ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
         int idContacto = daoContacto.crearContacto(contacto);
@@ -241,13 +240,14 @@ public class controladorEmpresaDifusora extends HttpServlet {
     private TipoEmpresaDifusora obtenerTipoEmpresa(HttpServletRequest request) {
         TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
         TipoEmpresaDifusora tipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora(
-                Integer.parseInt((String) request.getParameter("idTipoActividad")));
+                Integer.parseInt((String) request.getParameter("tipoEmpresa")));
         return tipoEmpresa;
     }
 
     private CostoActividad crearCostoActividad(HttpServletRequest request) {
         CostoActividad costoActividad = new CostoActividad();
         costoActividad.setCostoPorOperacion(Float.parseFloat((String) request.getParameter("valorOp")));
+        costoActividad.setFechaCreacion(Date.valueOf(LocalDate.now()));
 
         CostoActividadDaoImpl daoCostoActividad = new CostoActividadDaoImpl(true);
         int idCostoActividad = daoCostoActividad.crearCostoActividad(costoActividad);
@@ -261,7 +261,7 @@ public class controladorEmpresaDifusora extends HttpServlet {
         contacto.setIdContacto(Integer.parseInt(request.getParameter("idContacto")));
         contacto.setCelular(request.getParameter("numFijo"));
         contacto.setEmail(request.getParameter("correo"));
-        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("IdCiudad")));
+        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
 
         ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
         daoContacto.actualizarContacto(contacto);

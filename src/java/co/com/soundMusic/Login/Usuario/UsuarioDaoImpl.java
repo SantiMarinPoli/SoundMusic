@@ -7,7 +7,6 @@ import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,6 +39,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
 
     /**
      *
+     * @param production
      */
     public UsuarioDaoImpl(Boolean production) {
         isProduction = production;
