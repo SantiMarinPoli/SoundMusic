@@ -46,7 +46,7 @@
                 }
 
                 out.print("<td><a href='controladorArtista?opcion=editar&IdArtista="
-                        + art.getIdArtista() + "' class='btn btn-warning'>Actualizar</a></td>");
+                        + art.getIdArtista() + "' class='btn btn-warning'>Actualizar</a></td>");                
                 out.print("</tr>");
             }
         %>

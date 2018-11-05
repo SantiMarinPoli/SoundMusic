@@ -2,7 +2,6 @@ package co.com.soundMusic.Artista.Album;
 
 import co.com.soundMusic.utilidades.DBUtil;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,8 +19,8 @@ import org.apache.commons.dbutils.DbUtils;
 public class AlbumDaoImpl implements IAlbumDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
-
+    private Connection conexion;
+    private Boolean isProduction = true;
     private Statement stmt;
     private ResultSet rs;
     //Constantes con las querys a la base de datos
@@ -31,35 +30,27 @@ public class AlbumDaoImpl implements IAlbumDao {
     private static final String UPDATE_ALBUM;
 
     public AlbumDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
     public List<Album> obtenerAlbumes() {
+        getConexion();
         List<Album> listaAlbumes = new ArrayList<>();
         try {
             stmt = conexion.createStatement();
             rs = stmt.executeQuery(SELECT_ALBUMES);
 
             while (rs.next()) {
-                int idAlbum = rs.getInt("ID_ALBUM");
-                String nombre = rs.getString("NOMBRE");
-                int numeroCanciones = rs.getInt("NUMERO_CANCIONES");
-                Date fechaFinalizacion = rs.getDate("FECHA_FINALIZACION");
-                String rutaImagen = rs.getString("RUTA_IMAGEN");
-                int idCiudad = rs.getInt("ID_CIUDAD");
-                int idArtista = rs.getInt("ID_ARTISTA");
-
-                Album album = new Album(idAlbum, nombre, numeroCanciones,
-                        fechaFinalizacion, rutaImagen, idCiudad, idArtista);
-                album.obtenerArtista();
-                album.obtenerCiudad();
+                Album album = new Album();
+                album.setIdAlbum(rs.getInt("ID_ALBUM"));
+                album.setNombre(rs.getString("NOMBRE"));
+                album.setNumeroCanciones(rs.getInt("NUMERO_CANCIONES"));
+                album.setFechaFinalizacion(rs.getDate("FECHA_FINALIZACION"));
+                album.setRutaImagen(validacion(rs.getString("RUTA_IMAGEN")));
+                album.getCiudad().setIdCiudad(rs.getInt("ID_CIUDAD"));
+                album.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
+                album.getArtista().setNombreArtistico(rs.getString("NOMBRE_ARTISTICO"));
 
                 listaAlbumes.add(album);
             }
@@ -76,6 +67,7 @@ public class AlbumDaoImpl implements IAlbumDao {
 
     @Override
     public Album obtenerAlbum(int idAlbum) {
+        getConexion();
         Album album = new Album();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ALBUM_POR_ID);
@@ -83,18 +75,15 @@ public class AlbumDaoImpl implements IAlbumDao {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                String nombre = rs.getString("NOMBRE");
-                int numeroCanciones = rs.getInt("NUMERO_CANCIONES");
-                Date fechaFinalizacion = rs.getDate("FECHA_FINALIZACION");
-                String rutaImagen = rs.getString("RUTA_IMAGEN");
-                int idCiudad = rs.getInt("ID_CIUDAD");
-                int idArtista = rs.getInt("ID_ARTISTA");
+                album.setIdAlbum(idAlbum);
+                album.setNombre(rs.getString("NOMBRE"));
+                album.setNumeroCanciones(rs.getInt("NUMERO_CANCIONES"));
+                album.setFechaFinalizacion(rs.getDate("FECHA_FINALIZACION"));
+                album.setRutaImagen(validacion(rs.getString("RUTA_IMAGEN")));
+                album.getCiudad().setIdCiudad(rs.getInt("ID_CIUDAD"));
+                album.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
+                album.getArtista().setNombreArtistico(rs.getString("NOMBRE_ARTISTICO"));
 
-                album = new Album(idAlbum, nombre, numeroCanciones,
-                        fechaFinalizacion, rutaImagen, idCiudad, idArtista);
-                album.obtenerArtista();
-                album.obtenerCiudad();
-                
                 return album;
             }
         } catch (SQLException | NullPointerException ex) {
@@ -110,14 +99,15 @@ public class AlbumDaoImpl implements IAlbumDao {
 
     @Override
     public void crearAlbum(Album album) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_ALBUM);
             ps.setString(1, album.getNombre());
             ps.setInt(2, album.getNumeroCanciones());
             ps.setDate(3, album.getFechaFinalizacion());
             ps.setString(4, album.getRutaImagen());
-            ps.setInt(5, album.getIdCiudad());
-            ps.setInt(6, album.getIdArtista());
+            ps.setInt(5, album.getCiudad().getIdCiudad());
+            ps.setInt(6, album.getArtista().getIdArtista());
             ps.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -131,14 +121,15 @@ public class AlbumDaoImpl implements IAlbumDao {
 
     @Override
     public void actualizarAlbum(Album album) {
+        getConexion();
         try {
             PreparedStatement ps = conexion.prepareStatement(UPDATE_ALBUM);
             ps.setString(1, album.getNombre());
             ps.setInt(2, album.getNumeroCanciones());
             ps.setDate(3, album.getFechaFinalizacion());
             ps.setString(4, album.getRutaImagen());
-            ps.setInt(5, album.getIdCiudad());
-            ps.setInt(6, album.getIdArtista());
+            ps.setInt(5, album.getCiudad().getIdCiudad());
+            ps.setInt(6, album.getArtista().getIdArtista());
             ps.executeUpdate();
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -151,14 +142,16 @@ public class AlbumDaoImpl implements IAlbumDao {
     }
 
     static {
-        SELECT_ALBUMES = "SELECT ID_ALBUM,NOMBRE,NUMERO_CANCIONES,FECHA_FINALIZACION,\n"
-                + "RUTA_IMAGEN, ID_CIUDAD, ID_ARTISTA \n"
-                + "FROM ALBUM \n"
+        SELECT_ALBUMES = "SELECT AL.ID_ALBUM,AL.NOMBRE,AL.NUMERO_CANCIONES,AL.FECHA_FINALIZACION,\n"
+                + "AL.RUTA_IMAGEN, AL.ID_CIUDAD, AL.ID_ARTISTA, AR.NOMBRE_ARTISTICO \n"
+                + "FROM ALBUM AL INNER JOIN ARTISTA AR \n"
+                + "ON AL.ID_ARTISTA = AR.ID_ARTISTA \n"
                 + "ORDER BY ID_ALBUM";
 
-        SELECT_ALBUM_POR_ID = "SELECT NOMBRE,NUMERO_CANCIONES,FECHA_FINALIZACION,\n"
-                + "RUTA_IMAGEN, ID_CIUDAD, ID_ARTISTA \n"
-                + "FROM ALBUM\n"
+        SELECT_ALBUM_POR_ID = "SELECT AL.ID_ALBUM,AL.NOMBRE,AL.NUMERO_CANCIONES,AL.FECHA_FINALIZACION,\n"
+                + "AL.RUTA_IMAGEN, AL.ID_CIUDAD, AL.ID_ARTISTA, AR.NOMBRE_ARTISTICO \n"
+                + "FROM ALBUM AL INNER JOIN ARTISTA AR \n"
+                + "ON AL.ID_ARTISTA = AR.ID_ARTISTA \n"
                 + "WHERE ID_ALBUM=?";
 
         INSERT_ALBUM = "INSERT INTO ALBUM (NOMBRE, NUMERO_CANCIONES, FECHA_FINALIZACION,\n"
@@ -169,5 +162,23 @@ public class AlbumDaoImpl implements IAlbumDao {
                 + "SET NOMBRE=?, NUMERO_CANCIONES=?, FECHA_FINALIZACION=?,\n"
                 + "RUTA_IMAGEN=?, ID_CIUDAD=?, ID_ARTISTA=? \n"
                 + "WHERE ID_ALBUM=?";
+    }
+
+    private String validacion(String aValidar) {
+        if (aValidar != null) {
+            return aValidar.trim();
+        } else {
+            return "";
+        }
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }

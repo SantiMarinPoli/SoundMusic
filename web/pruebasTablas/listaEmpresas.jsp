@@ -15,7 +15,7 @@
             <th scope="col">Total Artista</th>
             <th scope="col">Total Álbumes</th>
             <th scope="col">Mes y Año</th>
-            <th scope="col"></th>
+            <th scope="col" colspan="2">Operaciones</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +30,10 @@
                 out.print("<td>" + emDif.getFechaCreacion() + "</td>");
                 out.print("<td><a href='controladorEmpresaDifusora?opcion=editar&IdEmpresa="
                         + emDif.getIdEmpresaDifusora() + "' class='btn btn-warning'>Actualizar</a></td>");
+                /*out.print("<td><a href='controladorEmpresaDifusora?opcion=editar&IdEmpresa="
+                        + emDif.getIdEmpresaDifusora() + "' class='btn btn-warning'>Agregar Artista</a></td>");*/
+                out.print("<td><a href='controladorArtistaEmpresa?opcion=agregarAEmpresa&IdEmpresa="
+                        + emDif.getIdEmpresaDifusora() + "' class='btn btn-warning'>Agregar Artista</a></td>");
                 out.print("</tr>");
             }
         %>

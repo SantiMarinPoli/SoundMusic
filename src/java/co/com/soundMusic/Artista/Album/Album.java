@@ -17,12 +17,14 @@ public class Album {
     private int numeroCanciones;
     private Date fechaFinalizacion;
     private String rutaImagen;
-    private int idCiudad;
-    private int idArtista;
+    //private int idCiudad;
+    //private int idArtista;
     private Artista artista;
     private Ciudad ciudad;
 
     public Album() {
+        this.artista = new Artista();
+        this.ciudad = new Ciudad();
     }
 
     public Album(int idAlbum, String nombre, int numeroCanciones, Date fechaFinalizacion,
@@ -32,8 +34,10 @@ public class Album {
         this.numeroCanciones = numeroCanciones;
         this.fechaFinalizacion = fechaFinalizacion;
         this.rutaImagen = rutaImagen;
-        this.idCiudad = idCiudad;
-        this.idArtista = idArtista;
+        this.artista = new Artista();
+        this.ciudad = new Ciudad();
+        this.ciudad.setIdCiudad(idCiudad);
+        this.artista.setIdArtista(idArtista);
     }
 
     public int getIdAlbum() {
@@ -76,22 +80,6 @@ public class Album {
         this.rutaImagen = rutaImagen;
     }
 
-    public int getIdCiudad() {
-        return idCiudad;
-    }
-
-    public void setIdCiudad(int idCiudad) {
-        this.idCiudad = idCiudad;
-    }
-
-    public int getIdArtista() {
-        return idArtista;
-    }
-
-    public void setIdArtista(int idArtista) {
-        this.idArtista = idArtista;
-    }
-
     public Artista getArtista() {
         return artista;
     }
@@ -106,15 +94,5 @@ public class Album {
 
     public void setCiudad(Ciudad ciudad) {
         this.ciudad = ciudad;
-    }
-
-    public void obtenerArtista() {
-        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
-        this.setArtista(daoArtista.obtenerArtista(this.idArtista));
-    }
-
-    public void obtenerCiudad() {
-        CiudadDaoImpl daoCiudad = new CiudadDaoImpl(true);
-        this.setCiudad(daoCiudad.obtenerCiudad(this.idCiudad));
     }
 }

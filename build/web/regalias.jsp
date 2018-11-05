@@ -12,8 +12,7 @@
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
-    </head>
-
+    </head>    
     <body>
 
         <%@include file="navbar.jsp" %>
@@ -28,7 +27,8 @@
 
                     <div class="row">
                         <div class="col">
-                            <button href="caluloRegalias.jsp" class="btn btn-success" data-toggle="modal" data-target="#modalRegalias">Calcular Regalias</button>
+                            <!-- <button type="button" href="caluloRegalias.jsp"  class="btn btn-success" data-toggle="modal" data-target="#modalRegalias">Calcular Regalias</button>-->                                                       
+                            <a href="caluloRegalias.jsp" class="btn btn-success" data-toggle="modal" data-target="#modalRegalias">Calcular Regalias</a>
                         </div>
                     </div>
 
@@ -66,7 +66,8 @@
                             </tr>
                         </tbody>
                     </table>
-
+                    <br>
+                    <%@include file="pruebasTablas/listaRegalias.jsp" %>
                     <!-- Modal -->
                     <div class="modal fade" id="modalRegalias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
@@ -115,7 +116,7 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <img src="icon/discoOro.png"  class="img-thumbnail previsualizar" width="100px" />
+                                            <img src="icon/discoOro.png"  class="img-thumbnail previsualizar" width="100" alt=""/>
                                         </div>
 
                                         <input type="submit" id="btnGuardar" class="btn btn-primary btn-block" value="Guardar "/>

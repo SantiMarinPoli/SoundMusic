@@ -67,6 +67,7 @@ public class controladorArtista extends HttpServlet {
             throws ServletException, IOException {
         String opcion = (String) request.getParameter("opcion");
         RequestDispatcher vista;
+        ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
         switch (opcion) {
             case "listarArtistas":
                 mostrarPaginaArtista(request, response);
@@ -74,7 +75,6 @@ public class controladorArtista extends HttpServlet {
             case "borrar":
                 int idArtista = Integer.parseInt((String) request.getParameter("IdArtista"));
                 String status = request.getParameter("estado");
-                ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
                 daoArtista.eliminarArtista(status, idArtista);
                 for (int i = 0; i < lstArtistasp.size(); i++) {
                     if (lstArtistasp.get(i).getIdArtista() == idArtista) {

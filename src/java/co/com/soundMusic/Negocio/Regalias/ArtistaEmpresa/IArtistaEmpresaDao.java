@@ -18,7 +18,7 @@ public interface IArtistaEmpresaDao {
 
     ArtistaEmpresa obtenerArtistaEmpresa(int idArtistaEmpresa);
 
-    void crearArtistaEmpresa(ArtistaEmpresa artistaEmpresa);
+    int crearArtistaEmpresa(ArtistaEmpresa artistaEmpresa);
 
     void actualizarArtistaEmpresa(ArtistaEmpresa artistaEmpresa);
 }

@@ -24,6 +24,10 @@
         <servlet-name>controladorAlbum</servlet-name>
         <servlet-class>co.com.soundMusic.Artista.Album.controladorAlbum</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>controladorArtistaEmpresa</servlet-name>
+        <servlet-class>co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.controladorArtistaEmpresa</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>controladorArtista</servlet-name>
         <url-pattern>/controladorArtista</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>controladorAlbum</servlet-name>
         <url-pattern>/controladorAlbum</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>controladorArtistaEmpresa</servlet-name>
+        <url-pattern>/controladorArtistaEmpresa</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home.jsp</welcome-file>

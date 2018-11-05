@@ -22,10 +22,10 @@ import org.apache.commons.dbutils.DbUtils;
 public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
     //Conexion a la base de datos
-    private final Connection conexion;
+    private Connection conexion;
     private Statement stmt;
     private ResultSet rs;
-
+    private Boolean isProduction = true;
     //Constantes con las querys a la base de datos
     private static final String SELECT_ARTISTAS_EMPRESAS;
     private static final String SELECT_ARTISTA_EMPRESA_POR_ID;
@@ -34,19 +34,15 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     private static final String UPDATE_ARTISTA_EMPRESA;
     private static final String SELECT_ARTISTAS_POR_ID_EMPRESA;
     private static final String SELECT_EMPRESAS_POR_ID_ARTISTA;
+    private static final String SELECT_ULTIMO_ID;
 
     public ArtistaEmpresaDaoImpl(Boolean production) {
-        if (production) {
-            conexion = DBUtil.getConexion();
-        } else {
-            conexion = DBUtil.getTestConexion();
-        }
-        stmt = null;
-        rs = null;
+        isProduction = production;
     }
 
     @Override
     public List<ArtistaEmpresa> obtenerTodoArtistaEmpresa() {
+        getConexion();
         List<ArtistaEmpresa> lstArtistaEmpresa = new ArrayList<>();
         try {
             stmt = conexion.createStatement();
@@ -86,6 +82,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
     @Override
     public ArtistaEmpresa obtenerArtistaEmpresa(int idArtistaEmpresa) {
+        getConexion();
         ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTA_EMPRESA_POR_ID);
@@ -123,6 +120,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     }
 
     public List<Artista> obtenerArtistas(int idArtista) {
+        getConexion();
         List<Artista> lstArtistasPorEmpresa = new ArrayList<>();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTAS_POR_ID);
@@ -157,9 +155,52 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     }
 
     @Override
-    public void crearArtistaEmpresa(ArtistaEmpresa artistaEmpresa) {
-        throw new UnsupportedOperationException("Not supported yet."); // To change body of generated methods, choose
-        // Tools | Templates.
+    public int crearArtistaEmpresa(ArtistaEmpresa artistaEmpresa) {
+        getConexion();
+        int id = -1;
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_ARTISTA_EMPRESA);
+
+            ps.setInt(1, artistaEmpresa.getArtista().getIdArtista());
+            ps.setInt(2, artistaEmpresa.getEmpresaDifusora().getIdEmpresaDifusora());
+            ps.executeUpdate();
+            id = getUltimoIdArtistaEmpresa();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return id;
+    }
+
+    public void insertarArtistaEmpresa(ArtistaEmpresa artistaEmpresa) {
+        getConexion();
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_ARTISTA_EMPRESA);
+            ps.setInt(1, artistaEmpresa.getArtista().getIdArtista());
+            ps.setInt(2, artistaEmpresa.getEmpresaDifusora().getIdEmpresaDifusora());
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @Override
@@ -170,6 +211,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
     @Override
     public List<ArtistaEmpresa> obtenerNumeroDeArtistas(int idEmpresaDifusora) {
+        getConexion();
         List<ArtistaEmpresa> lstArtistasPorEmpresa = new ArrayList<>();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTAS_POR_ID_EMPRESA);
@@ -204,6 +246,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
     @Override
     public List<String> obtenerEmpresas(int idArtista) {
+        getConexion();
         List<String> lstNombreEmpesas = new ArrayList<>();
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_EMPRESAS_POR_ID_ARTISTA);
@@ -230,22 +273,79 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
         return lstNombreEmpesas;
     }
 
+    private int getUltimoIdArtistaEmpresa() {
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ULTIMO_ID);
+            while (rs.next()) {
+                return rs.getInt("CURRVAL");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
+
     static {
         SELECT_ARTISTAS_EMPRESAS = "SELECT ID_ARTISTA_EMPRESA, ID_ARTISTA, ID_EMPRESA_DIFUSORA \n"
                 + "FROM ARTISTA_EMPRESA \n"
+                + "ORDER BY ID_ARTISTA_EMPRESA";
+
+        String SELECT_ARTISTAS_EMPRESAS_C = "SELECT ARTEMP.ID_ARTISTA_EMPRESA, \n"
+                + "ARTEMP.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, \n"
+                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
+                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO,\n"
+                + "ARTEMP.ID_EMPRESA_DIFUSORA, EMDI.NOMBRE,EMDI.FECHA_CREACION AS FECHA_EMPRESA, \n"
+                + "EMDI.FECHA_TERMINACION,EMDI.STATUS, EMDI.ID_TIPO_ACTIVIDAD, \n"
+                + "EMDI.ID_CONTACTO, EMDI.ID_COSTO_ACTIVIDAD\n"
+                + "FROM ARTISTA_EMPRESA ARTEMP \n"
+                + "INNER JOIN ARTISTA AR\n"
+                + "ON ARTEMP.ID_ARTISTA=AR.ID_ARTISTA\n"
+                + "INNER JOIN EMPRESA_DIFUSORA EMDI\n"
+                + "ON ARTEMP.ID_EMPRESA_DIFUSORA=EMDI.ID_EMPRESA_DIFUSORA\n"
                 + "ORDER BY ID_ARTISTA_EMPRESA";
 
         SELECT_ARTISTA_EMPRESA_POR_ID = "SELECT ID_ARTISTA, ID_EMPRESA_DIFUSORA \n"
                 + "FROM ARTISTA_EMPRESA \n"
                 + "WHERE ID_ARTISTA_EMPRESA=?";
 
+        String SELECT_ARTISTA_EMPRESA_POR_ID_C = "SELECT ARTEMP.ID_ARTISTA_EMPRESA, \n"
+                + "ARTEMP.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, \n"
+                + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
+                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO,\n"
+                + "ARTEMP.ID_EMPRESA_DIFUSORA, EMDI.NOMBRE,EMDI.FECHA_CREACION AS FECHA_EMPRESA, \n"
+                + "EMDI.FECHA_TERMINACION,EMDI.STATUS, EMDI.ID_TIPO_ACTIVIDAD, \n"
+                + "EMDI.ID_CONTACTO, EMDI.ID_COSTO_ACTIVIDAD\n"
+                + "FROM ARTISTA_EMPRESA ARTEMP \n"
+                + "INNER JOIN ARTISTA AR\n"
+                + "ON ARTEMP.ID_ARTISTA=AR.ID_ARTISTA\n"
+                + "INNER JOIN EMPRESA_DIFUSORA EMDI\n"
+                + "ON ARTEMP.ID_EMPRESA_DIFUSORA=EMDI.ID_EMPRESA_DIFUSORA\n"
+                + "WHERE ID_ARTISTA_EMPRESA=?";
+
         SELECT_ARTISTAS_POR_ID = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, "
                 + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
                 + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
-                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO \n" + "FROM ARTISTA_EMPRESA AE INNER JOIN ARTISTA AR \n"
-                + "ON AE.ID_ARTISTA = AR.ID_ARTISTA \n" + "WHERE AE.ID_ARTISTA=? ORDER BY AR.ID_ARTISTA";
+                + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO \n"
+                + "FROM ARTISTA_EMPRESA AE INNER JOIN ARTISTA AR \n"
+                + "ON AE.ID_ARTISTA = AR.ID_ARTISTA \n"
+                + "WHERE AE.ID_ARTISTA=? ORDER BY AR.ID_ARTISTA";
 
-        INSERT_ARTISTA_EMPRESA = " ";
+        INSERT_ARTISTA_EMPRESA = "INSERT INTO ARTISTA_EMPRESA(ID_ARTISTA,ID_EMPRESA_DIFUSORA)\n"
+                + "VALUES (?,?)";
 
         UPDATE_ARTISTA_EMPRESA = " ";
 
@@ -257,5 +357,18 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
                 + "FROM ARTISTA_EMPRESA AE INNER JOIN EMPRESA_DIFUSORA ED \n"
                 + "ON AE.ID_EMPRESA_DIFUSORA = ED.ID_EMPRESA_DIFUSORA \n"
                 + "WHERE AE.ID_ARTISTA=? ORDER BY ED.ID_EMPRESA_DIFUSORA";
+
+        SELECT_ULTIMO_ID = "SELECT ARTISTA_EMPRESA_SEQ.CURRVAL\n"
+                + "FROM DUAL";
+    }
+
+    private void getConexion() {
+        if (isProduction) {
+            conexion = DBUtil.getConexion();
+        } else {
+            conexion = DBUtil.getTestConexion();
+        }
+        stmt = null;
+        rs = null;
     }
 }

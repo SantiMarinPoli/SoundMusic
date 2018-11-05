@@ -30,6 +30,9 @@ import javax.servlet.http.HttpSession;
  */
 public class controladorAlbum extends HttpServlet {
 
+    List<Album> lstAlbump;
+    int identificacion;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

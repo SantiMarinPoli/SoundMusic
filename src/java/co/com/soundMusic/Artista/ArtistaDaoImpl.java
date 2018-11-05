@@ -334,7 +334,6 @@ public class ArtistaDaoImpl implements IArtistaDao {
         } else {
             return "";
         }
-
     }
 
     private void getConexion() {
