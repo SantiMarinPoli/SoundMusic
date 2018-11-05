@@ -22,8 +22,7 @@ public class Artista {
     private Date fechaNacimiento;
     private Date fechaCreacion;
     private String status;
-    private String rutaImagen;
-    private Integer idContacto;
+    private String rutaImagen;    
     private Contacto contacto;
 
     public Artista(Integer idArtista, String[] datosArtista, Date[] fechasArtista, Integer idContacto) {
@@ -39,7 +38,7 @@ public class Artista {
         this.status = datosArtista[6];
         this.rutaImagen = datosArtista[7];
         this.contacto = new Contacto();
-        this.idContacto = idContacto;
+        this.contacto.setIdContacto(idContacto);
     }
 
     public Artista() {
@@ -132,14 +131,6 @@ public class Artista {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
-    }
-
-    public Integer getIdContacto() {
-        return idContacto;
-    }
-
-    public void setIdContacto(Integer idContacto) {
-        this.idContacto = idContacto;
     }
 
     public Contacto getContacto() {

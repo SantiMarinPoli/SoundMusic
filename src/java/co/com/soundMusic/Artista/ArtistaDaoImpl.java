@@ -181,7 +181,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
             ps.setDate(8, artista.getFechaCreacion());
             ps.setString(9, artista.getStatus());
             ps.setString(10, artista.getRutaImagen());
-            ps.setInt(11, artista.getIdContacto());
+            ps.setInt(11, artista.getContacto().getIdContacto());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());

@@ -52,13 +52,13 @@
                     <div class="form-row">
                         <div class="col">
                             <label>Primer Nombre*</label>
-                            <% out.println("<input type='text' class='form-control' name='nombre1' id='nom1' value='"+artista.getPrimerNombre()+"'>");%>
+                            <% out.println("<input type='text' class='form-control' name='nom1' id='nom1' value='"+artista.getPrimerNombre()+"'>");%>
                             <div class="invalid-feedback ">El primer nombre es un campo obligatorio</div>
 
                         </div>
                         <div class="col">
                             <label>Segundo Nombre</label>
-                            <% out.println("<input type='text' class='form-control' name='nombre2' id='nom2' value='"+artista.getSegundoNombre()+"'>");%>
+                            <% out.println("<input type='text' class='form-control' name='nom2' id='nom2' value='"+artista.getSegundoNombre()+"'>");%>
                         </div>
                     </div>
 

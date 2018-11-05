@@ -74,7 +74,7 @@
 
                         <div class="form-group radio">
                             <br>
-                            <h8>Genero*</h8>
+                            <h6>Genero*</h6>
                             <br>
                             <input class="form-check-input " type="radio" name="sexo" id="textSex1" value="M" >
                             <label class="form-check-label " for="textSex1">Masculino</label>
@@ -95,7 +95,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <label >Numero del Celular*</label>
-                                <input type="number" class="form-control" name="numCel" id="numCel"placeholder="Ingrese el numero de celular" >
+                                <input type="number" class="form-control" name="numCel" id="numCel" placeholder="Ingrese el numero de celular" >
                                 <div class="invalid-feedback ">El numero celular debe ser obligatorio</div>
                             </div>
                         </div>
@@ -156,6 +156,6 @@
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
         <script src="js/validacionArtista.js" type="text/javascript"></script>
-    </body>
 
+    </body>
 </html>

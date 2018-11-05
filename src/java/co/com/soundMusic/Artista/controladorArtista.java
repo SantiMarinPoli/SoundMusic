@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Santiago Medina Pelaez
  */
 public class controladorArtista extends HttpServlet {
-    
+
     List<Artista> lstArtistasp;
     int identificacion;
 
@@ -37,9 +37,9 @@ public class controladorArtista extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        /*        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            
+
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -49,7 +49,7 @@ public class controladorArtista extends HttpServlet {
             out.println("<h1>Servlet controladorArtista at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
-        }
+        }*/
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -76,7 +76,14 @@ public class controladorArtista extends HttpServlet {
                 String status = request.getParameter("estado");
                 ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
                 daoArtista.eliminarArtista(status, idArtista);
-                mostrarPaginaArtista(request, response);
+                for (int i = 0; i < lstArtistasp.size(); i++) {
+                    if (lstArtistasp.get(i).getIdArtista() == idArtista) {
+                        lstArtistasp.get(i).setStatus(status);
+                    }
+                }
+                request.setAttribute("lstArtista", lstArtistasp);
+                //mostrarPaginaArtista(request, response);
+                request.getRequestDispatcher("/artista.jsp").forward(request, response);
                 break;
             case "crearArtista":
                 actualizarDatosFormulario(request);
@@ -92,7 +99,7 @@ public class controladorArtista extends HttpServlet {
                         break;
                     }
                 }
-                
+
                 vista = request.getRequestDispatcher("modificarArtista.jsp");
                 vista.forward(request, response);
                 break;
@@ -111,7 +118,7 @@ public class controladorArtista extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String operacion = request.getParameter("operacion");
-        
+
         switch (operacion) {
             case "crear":
                 crearArtista(request);
@@ -141,106 +148,112 @@ public class controladorArtista extends HttpServlet {
         request.setAttribute("lstArtista", lstArtistasp);
         request.getRequestDispatcher("/artista.jsp").forward(request, response);
     }
-    
+
     private void crearArtista(HttpServletRequest request)
             throws ServletException, IOException {
         Contacto contacto = crearContacto(request);
         Artista artista = new Artista();
-        
-        artista.setPrimerNombre(request.getParameter("nombre1"));
-        artista.setSegundoNombre(request.getParameter("nombre2"));
+
+        artista.setPrimerNombre(request.getParameter("nom1"));
+        artista.setSegundoNombre(request.getParameter("nom2"));
         artista.setPrimerApellido(request.getParameter("apellido1"));
         artista.setSegundoApellido(request.getParameter("apellido2"));
         artista.setNombreArtistico(request.getParameter("nomArtista"));
         artista.setGenero(request.getParameter("sexo"));
-        artista.setFechaNacimiento(Date.valueOf(request.getParameter("fechaNac")));
-        artista.setFechaCreacion(Date.valueOf(LocalDate.now()));        
+        //artista.setFechaNacimiento(Date.valueOf(request.getParameter("fechaNac")));
+        artista.setFechaCreacion(Date.valueOf(LocalDate.now()));
         artista.setStatus("A");
+        artista.setRutaImagen(request.getParameter("nuevaFoto"));
+        if (artista.getRutaImagen().equals("") || artista.getRutaImagen() == null) {
+            artista.setRutaImagen("img/artistas/default/anonymous.png");
+        }
         artista.setContacto(contacto);
-        
+
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
         daoArtista.crearArtista(artista);
     }
-    
+
     private void editarArtista(HttpServletRequest request, HttpServletResponse response, int idArtista) throws IOException, NumberFormatException, ServletException {
-        Contacto contacto = editarContacto(request);        
+        Contacto contacto = editarContacto(request);
         Artista artista = new Artista();
-        
+
         artista.setIdArtista(idArtista);
-        artista.setPrimerNombre(request.getParameter("nombre1"));
-        artista.setSegundoNombre(request.getParameter("nombre2"));
+        artista.setPrimerNombre(request.getParameter("nom1"));
+        artista.setSegundoNombre(request.getParameter("nom2"));
         artista.setPrimerApellido(request.getParameter("apellido1"));
         artista.setSegundoApellido(request.getParameter("apellido2"));
         artista.setNombreArtistico(request.getParameter("nomArtista"));
         artista.setGenero(request.getParameter("sexo"));
-        artista.setFechaNacimiento(Date.valueOf(request.getParameter("fechaNac")));        
+        //artista.setFechaNacimiento(Date.valueOf(request.getParameter("fechaNac")));        
         artista.setStatus("A");
+        artista.setRutaImagen(request.getParameter("nuevaFoto"));
+        if (artista.getRutaImagen().equals("") || artista.getRutaImagen() == null) {
+            artista.setRutaImagen("img/artistas/default/anonymous.png");
+        }
         artista.setContacto(contacto);
-        
+
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
         daoArtista.actualizarArtista(artista);
-        
-        mostrarPaginaArtista(request, response);
     }
-    
+
     private Pais obtenerPais(int idPais, String nombrePais) {
         PaisDaoImpl paisDao = new PaisDaoImpl(true);
-        
+
         if (idPais == 0) {
             paisDao.crearPais(new Pais(idPais, nombrePais));
         }
         return paisDao.obtenerPais(idPais);
-        
+
     }
-    
+
     private Ciudad obtenerCiudad(int idCiudad, String nombreCiudad, Pais pais) {
         CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-        
+
         if (idCiudad == 0) {
             ciudadDao.crearCiudad(new Ciudad(idCiudad, nombreCiudad, pais.getIdPais()));
         }
         return ciudadDao.obtenerCiudad(idCiudad);
     }
-    
+
     private void actualizarDatosFormulario(HttpServletRequest request) {
         PaisDaoImpl daoPais = new PaisDaoImpl(true);
         List<Pais> lstPais = daoPais.obtenerPaises();
         request.setAttribute("lstPais", lstPais);
-        
+
         CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
         List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
         request.setAttribute("lstCiudad", lstCiudad);
     }
-    
+
     private Contacto crearContacto(HttpServletRequest request) {
         Contacto contacto = new Contacto();
         contacto.setCelular(request.getParameter("numCel"));
-        contacto.setTelefono(request.getParameter("numTel"));
+        /*contacto.setTelefono(request.getParameter("numTel"));
         contacto.setDireccion(request.getParameter("direccion"));
         contacto.setBarrio(request.getParameter("barrio"));
-        contacto.setEmail(request.getParameter("email"));
+        contacto.setEmail(request.getParameter("email"));*/
         contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
-        
+
         ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
         int idContacto = daoContacto.crearContacto(contacto);
         contacto.setIdContacto(idContacto);
-        
+
         return contacto;
     }
-    
+
     private Contacto editarContacto(HttpServletRequest request) {
         Contacto contacto = new Contacto();
         contacto.setIdContacto(Integer.parseInt(request.getParameter("idContacto")));
         contacto.setCelular(request.getParameter("numCel"));
-        contacto.setTelefono(request.getParameter("numTel"));
+        /*contacto.setTelefono(request.getParameter("numTel"));
         contacto.setDireccion(request.getParameter("direccion"));
         contacto.setBarrio(request.getParameter("barrio"));
-        contacto.setEmail(request.getParameter("email"));
+        contacto.setEmail(request.getParameter("email"));*/
         contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
-        
+
         ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
         daoContacto.actualizarContacto(contacto);
-        
+
         return contacto;
     }
 }

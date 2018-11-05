@@ -25,8 +25,8 @@
             for (Artista art : lstArtista) {
                 out.print("<tr>");
                 out.print("<td  scope='row'>" + art.getIdArtista() + "</td>");
-                out.print("<td>" + art.getPrimerNombre() + " " + art.getPrimerApellido() + "</td>");
-                out.print("<td><img src=''" + art.getRutaImagen() + "'  class='img img-fluid icon-artista'/></td>");
+                out.print("<td>" + art.getNombreArtistico() + "</td>");
+                out.print("<td><img src='" + art.getRutaImagen() + "'  class='img img-fluid icon-artista'/></td>");
                 out.print("<td class='text-success'>");
 
                 List<String> lstNombreEmpresas = art.getNumeroEmpresas();
@@ -39,13 +39,14 @@
 
                 if (art.getStatus().equalsIgnoreCase("a")) {
                     out.print("<td><a href='controladorArtista?opcion=borrar&IdArtista="
-                            + art.getIdArtista()+ "&estado=I' class='badge badge-success btnActivar' activarUsuario='0'>Activo</a></td>");
+                            + art.getIdArtista() + "&estado=I' class='badge badge-success btnActivar' activarUsuario='0'>Activo</a></td>");
                 } else {
                     out.print("<td><a href='controladorArtista?opcion=borrar&IdArtista="
-                            + art.getIdArtista()+ "&estado=A' class='badge btnActivar badge-danger' activarUsuario='1'>Inactivo</a></td>");
+                            + art.getIdArtista() + "&estado=A' class='badge btnActivar badge-danger' activarUsuario='1'>Inactivo</a></td>");
                 }
 
-                out.print("<td><a href='modificarArtista.jsp' class='btn btn-warning'>Actualizar</a></td>");
+                out.print("<td><a href='controladorArtista?opcion=editar&IdArtista="
+                        + art.getIdArtista() + "' class='btn btn-warning'>Actualizar</a></td>");
                 out.print("</tr>");
             }
         %>
