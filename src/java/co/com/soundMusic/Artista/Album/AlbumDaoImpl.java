@@ -28,6 +28,7 @@ public class AlbumDaoImpl implements IAlbumDao {
     private static final String SELECT_ALBUM_POR_ID;
     private static final String INSERT_ALBUM;
     private static final String UPDATE_ALBUM;
+    private static final String SELECT_ULTIMO_ID;
 
     public AlbumDaoImpl(Boolean production) {
         isProduction = production;
@@ -58,8 +59,15 @@ public class AlbumDaoImpl implements IAlbumDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return listaAlbumes;
@@ -90,16 +98,23 @@ public class AlbumDaoImpl implements IAlbumDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {                    
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return album;
     }
 
     @Override
-    public void crearAlbum(Album album) {
+    public int crearAlbum(Album album) {
         getConexion();
+        int id = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_ALBUM);
             ps.setString(1, album.getNombre());
@@ -109,14 +124,22 @@ public class AlbumDaoImpl implements IAlbumDao {
             ps.setInt(5, album.getCiudad().getIdCiudad());
             ps.setInt(6, album.getArtista().getIdArtista());
             ps.executeUpdate();
+            id = getUltimoIdAlbum();
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {                    
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
+        return id;
     }
 
     @Override
@@ -135,10 +158,39 @@ public class AlbumDaoImpl implements IAlbumDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {                    
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    private int getUltimoIdAlbum() {
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ULTIMO_ID);
+            while (rs.next()) {
+                return rs.getInt("CURRVAL");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(AlbumDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
     }
 
     static {
@@ -162,6 +214,9 @@ public class AlbumDaoImpl implements IAlbumDao {
                 + "SET NOMBRE=?, NUMERO_CANCIONES=?, FECHA_FINALIZACION=?,\n"
                 + "RUTA_IMAGEN=?, ID_CIUDAD=?, ID_ARTISTA=? \n"
                 + "WHERE ID_ALBUM=?";
+
+        SELECT_ULTIMO_ID = "SELECT ALBUM_SEQ.CURRVAL\n"
+                + "FROM DUAL";
     }
 
     private String validacion(String aValidar) {

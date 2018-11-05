@@ -32,7 +32,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <a href="album.jsp" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                            <a href="controladorAlbum?opcion=listarAlbumes" class="btn btn-danger" id="btn-regresar">Regresar</a>
                             <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nuevo Album</button>
                         </div>
                     </div>
@@ -40,29 +40,7 @@
                     <br>
 
                     <form name="formulario_album" action="controladorAlbum" method="post">
-                        <input type ="hidden" name="operacion" value="crear" />
-                        <div class="form-group">
-                            <label>Nombre de Artista*</label>
-                            <select class="form-control" name="nomArtista" id="nomArtista" class="form-control">
-                                <option value="0">Seleccionar el Artista</option>
-                                <%//Listar los artistas en la base de datos
-                                    List<Artista> listaArtistas
-                                            = (List<Artista>) request.getAttribute("lstArtistas");
-                                    for (Artista artista : listaArtistas) {
-                                        out.print("<option value='" + artista.getIdArtista()
-                                                + "'>" + artista.getNombreArtistico()+ "</option>");
-                                    }
-                                %>
-                            </select>
-                            <div class="invalid-feedback">Debes seleccionar un artista</div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="panel">Subir Foto Del Album</div>
-                            <input type="file" class="nuevaFoto" name="nuevaFoto">
-                            <p class="help-block">Peso maximo de la foto 2MB</p>
-                            <img src="img/album/default/no-image.png" class="img-thumbnail previsualizar" width="100px"/>
-                        </div>
+                        <input type ="hidden" name="operacion" value="crear" />                        
                         <div class="form-row">
                             <div class="col">
                                 <label>Nombre del Album*</label>
@@ -82,7 +60,6 @@
                             <div class="col">
                                 <label>Ciudad Realizacion*</label>                                
                                 <select class="form-control" name="ciudadAlbum" id="ciudadAlbum">
-                                    <option value="0">Seleccionar la ciudad</option>
                                     <%//Listar las ciudades en la base de datos
                                         List<Ciudad> listaCiudad
                                                 = (List<Ciudad>) request.getAttribute("lstCiudad");
@@ -99,6 +76,28 @@
                                 <input type="date" name="fechaLanzamiento" id="fechaLanzamiento" class="form-control">
                                 <div class="invalid-feedback">El campo fecha finalizada es obligatorio</div>
                             </div>
+                        </div>
+                        <br>
+                        <div class="form-group">
+                            <label>Nombre de Artista*</label>
+                            <select class="form-control" name="nomArtista" id="nomArtista">                                
+                                <%//Listar los artistas en la base de datos
+                                    List<Artista> listaArtistas
+                                            = (List<Artista>) request.getAttribute("lstArtistas");
+                                    for (Artista artista : listaArtistas) {
+                                        out.print("<option value='" + artista.getIdArtista()+"-"+artista.getNombreArtistico()
+                                                + "'>" + artista.getNombreArtistico() + "</option>");
+                                    }
+                                %>
+                            </select>
+                            <div class="invalid-feedback">Debes seleccionar un artista</div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="panel">Subir Foto Del Album</div>
+                            <input type="file" class="nuevaFoto" name="nuevaFoto">
+                            <p class="help-block">Peso maximo de la foto 2MB</p>
+                            <img src="img/album/default/no-image.png" class="img-thumbnail previsualizar" width="100" alt=""/>
                         </div>
                         <br>
                         <input type="submit" value="Registrar Album" class="btn btn-primary btn-block" id="btnGuardar">

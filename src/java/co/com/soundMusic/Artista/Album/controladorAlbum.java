@@ -16,6 +16,7 @@ import co.com.soundMusic.Seguridad.Permisos.Permisos;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -107,9 +108,10 @@ public class controladorAlbum extends HttpServlet {
 
         switch (operacion) {
             case "crear":
-                crearUsuario(request, response);
+                crearAlbum(request, response);
                 //ingresarLogAuditoria(UsuarioId(request, response), 4);
-                mostrarPaginaAlbum(request, response);
+                request.setAttribute("lstAlbum", lstAlbump);
+                request.getRequestDispatcher("/album.jsp").forward(request, response);
                 break;
             case "editar":
                 break;
@@ -130,10 +132,9 @@ public class controladorAlbum extends HttpServlet {
             throws ServletException, IOException {
         AlbumDaoImpl daoAlbum = new AlbumDaoImpl(true);
 
-        List<Album> lstAlbum = daoAlbum.obtenerAlbumes();
-        request.setAttribute("lstAlbum", lstAlbum);
-        RequestDispatcher vista = request.getRequestDispatcher("/album.jsp");
-        vista.forward(request, response);
+        lstAlbump = daoAlbum.obtenerAlbumes();
+        request.setAttribute("lstAlbum", lstAlbump);
+        request.getRequestDispatcher("/album.jsp").forward(request, response);
     }
 
     private void actualizarDatosFormulario(HttpServletRequest request) {
@@ -146,22 +147,28 @@ public class controladorAlbum extends HttpServlet {
         request.setAttribute("lstCiudad", lstCiudad);
     }
 
-    private void crearUsuario(HttpServletRequest request, HttpServletResponse response) {
-        String nombre = request.getParameter("nomAlbum");
-        int numeroCanciones = Integer.parseInt(request.getParameter("numCanciones"));
-        String fechaFinalizacion2 = request.getParameter("fechaLanzamiento");
-        Date fechaFinalizacion = Date.valueOf(fechaFinalizacion2);
-        String rutaImagen = request.getParameter("nuevaFoto");
-        if (rutaImagen.equalsIgnoreCase("")) {
-            rutaImagen = "img/album/default/no-image.png";
+    private void crearAlbum(HttpServletRequest request, HttpServletResponse response) {
+        Album album = new Album();
+        album.setNombre(request.getParameter("nomAlbum"));
+        album.setNumeroCanciones(Integer.parseInt(request.getParameter("numCanciones")));
+        String fechaFinalizacion = validarFecha(request.getParameter("fechaLanzamiento"));
+        if (fechaFinalizacion != null) {
+            album.setFechaFinalizacion(Date.valueOf(fechaFinalizacion));
         }
-        int idArtista = Integer.parseInt(request.getParameter("nomArtista"));
-        int idCiudad = Integer.parseInt(request.getParameter("ciudadAlbum"));
+        album.setRutaImagen(request.getParameter("nuevaFoto"));
 
-        Album album = new Album(0, nombre, numeroCanciones, fechaFinalizacion,
-                rutaImagen, idCiudad, idArtista);
+        if (album.getRutaImagen().equalsIgnoreCase("")) {
+            album.setRutaImagen("img/album/default/no-image.png");
+        }
+        String prueba=request.getParameter("nomArtista");
+        String[] datosArtista = prueba.split("-");
+
+        album.getArtista().setIdArtista(Integer.parseInt(datosArtista[0]));
+        album.getArtista().setNombreArtistico(datosArtista[1]);
+        album.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudadAlbum")));
         AlbumDaoImpl daoAlbum = new AlbumDaoImpl(true);
-        daoAlbum.crearAlbum(album);
+        album.setIdAlbum(daoAlbum.crearAlbum(album));
+        lstAlbump.add(album);
     }
 
     private int UsuarioId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -180,5 +187,12 @@ public class controladorAlbum extends HttpServlet {
     private void ingresarLogAuditoria(int idUsuario, int idPermisos) {
         LogAuditoriaDaoImpl daoLogAuditoria = new LogAuditoriaDaoImpl(true);
         daoLogAuditoria.crearLog(new LogAuditoria(0, new Usuario(idUsuario), new Permisos(idPermisos)));
+    }
+
+    private String validarFecha(String parameter) {
+        if (parameter.trim().equals("")) {
+            parameter = null;
+        }
+        return parameter;
     }
 }

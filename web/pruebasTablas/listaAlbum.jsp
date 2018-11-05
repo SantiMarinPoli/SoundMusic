@@ -29,7 +29,11 @@
                 out.print("<td>" + album.getNombre() + "</td>");
                 out.print("<td><img src='" + album.getRutaImagen() + "'  class='img img-fluid icon-artista'/></td>");
                 out.print("<td><span class='badge badge-primary'>" + album.getNumeroCanciones() + "</span></td>");
-                out.print("<td>" + album.getFechaFinalizacion() + "</td>");
+                if (album.getFechaFinalizacion() != null) {
+                    out.print("<td>" + album.getFechaFinalizacion() + "</td>");
+                } else {
+                    out.print("<td>" + " " + "</td>");
+                }
                 out.print("<td>"
                         + "<button type='button' href='controladorAlbum?opcion=editar&IdAlbum=" + album.getIdAlbum()
                         + "' class='btn btn-warning'>Actualizar</button></td>");

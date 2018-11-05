@@ -1,7 +1,5 @@
 package co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa;
 
-import co.com.soundMusic.EmpresaDifusora.EmpresaDifusora;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -12,7 +10,7 @@ public interface IArtistaEmpresaDao {
 
     List<ArtistaEmpresa> obtenerTodoArtistaEmpresa();
 
-    List<ArtistaEmpresa> obtenerNumeroDeArtistas(int idEmpresaDifusora);
+    int obtenerNumeroDeArtistas(int idEmpresaDifusora);
 
     List<String> obtenerEmpresas(int idArtista);
 

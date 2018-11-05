@@ -210,22 +210,16 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     }
 
     @Override
-    public List<ArtistaEmpresa> obtenerNumeroDeArtistas(int idEmpresaDifusora) {
+    public int obtenerNumeroDeArtistas(int idEmpresaDifusora) {
         getConexion();
-        List<ArtistaEmpresa> lstArtistasPorEmpresa = new ArrayList<>();
+        int NumeroDeArtistas = 0;
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTAS_POR_ID_EMPRESA);
             ps.setInt(1, idEmpresaDifusora);
             rs = ps.executeQuery();
-
             while (rs.next()) {
-                int idArtistaEmpresa = rs.getInt("ID_ARTISTA_EMPRESA");
-                int idArtista = rs.getInt("ID_ARTISTA");
-                int idEmpresa = rs.getInt("ID_EMPRESA_DIFUSORA");
+                NumeroDeArtistas++;
 
-                ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa(idArtistaEmpresa, idArtista, idEmpresa);
-
-                lstArtistasPorEmpresa.add(artistaEmpresa);
             }
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -241,7 +235,38 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
                 Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        return lstArtistasPorEmpresa;
+        return NumeroDeArtistas;
+    }
+
+    public int[] obtenerNumeroDeArtistas2(List<EmpresaDifusora> lstEmpresa) {
+        getConexion();
+        int[] numeroArtistas = new int[lstEmpresa.size()];
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ARTISTAS_EMPRESAS);
+            while (rs.next()) {
+                for (int i = 0; i < lstEmpresa.size(); i++) {
+                    if (lstEmpresa.get(i).getIdEmpresaDifusora() == rs.getInt("ID_EMPRESA_DIFUSORA")) {
+                        numeroArtistas[i] = numeroArtistas[i] + 1;
+                        break;
+                    }
+                }
+            }
+        } catch (SQLException | NullPointerException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return numeroArtistas;
     }
 
     @Override

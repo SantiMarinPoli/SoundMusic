@@ -32,6 +32,7 @@ import javax.servlet.http.HttpSession;
 public class controladorEmpresaDifusora extends HttpServlet {
 
     List<EmpresaDifusora> lstEmpresasDifusorasp;
+    int[] numeroArtistas;
     int identificacion;
 
     /**
@@ -142,7 +143,9 @@ public class controladorEmpresaDifusora extends HttpServlet {
             throws ServletException, IOException {
         EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
         lstEmpresasDifusorasp = daoEmpresa.obtenerEmpresasDifusoras();
+        numeroArtistas = new EmpresaDifusora().getNumeroArtistas(lstEmpresasDifusorasp);
         request.setAttribute("lstEmpresas", lstEmpresasDifusorasp);
+        request.setAttribute("numeroArtistas", numeroArtistas);        
         request.getRequestDispatcher("/empresa.jsp").forward(request, response);
     }
 
