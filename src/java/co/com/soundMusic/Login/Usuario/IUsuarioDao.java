@@ -12,7 +12,7 @@ public interface IUsuarioDao {
 
     Usuario obtenerUsuario(int idUsuario);
 
-    void crearUsuario(Usuario usuario);
+    int crearUsuario(Usuario usuario);
 
     void eliminarUsuario(String status, int idUsuario);
 

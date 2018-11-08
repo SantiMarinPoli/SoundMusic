@@ -1,9 +1,7 @@
 package co.com.soundMusic.Artista.Album;
 
 import co.com.soundMusic.Artista.Artista;
-import co.com.soundMusic.Artista.ArtistaDaoImpl;
 import co.com.soundMusic.Contacto.Ciudad.Ciudad;
-import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
 import java.sql.Date;
 
 /**

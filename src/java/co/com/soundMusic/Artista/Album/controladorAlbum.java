@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package co.com.soundMusic.Artista.Album;
 
 import co.com.soundMusic.Artista.Artista;
@@ -79,16 +74,21 @@ public class controladorAlbum extends HttpServlet {
                 mostrarPaginaAlbum(request, response);
                 break;
             case "borrar":
-                actualizarDatosFormulario(request);
-                vista = request.getRequestDispatcher("/registrarAlbum.jsp");
-                vista.forward(request, response);
+
                 break;
             case "crearAlbum":
                 actualizarDatosFormulario(request);
-                vista = request.getRequestDispatcher("/registrarAlbum.jsp");
-                vista.forward(request, response);
+                request.getRequestDispatcher("/registrarAlbum.jsp").forward(request, response);
                 break;
             case "editar":
+                actualizarDatosFormulario(request);
+                identificacion = Integer.parseInt((String) request.getParameter("IdAlbum"));
+                for (Album album : lstAlbump) {
+                    if (album.getIdAlbum() == identificacion) {
+                        request.setAttribute("albumEditar", album);
+                    }
+                }
+                request.getRequestDispatcher("/modificarAlbum.jsp").forward(request, response);
                 break;
         }
     }
@@ -160,7 +160,7 @@ public class controladorAlbum extends HttpServlet {
         if (album.getRutaImagen().equalsIgnoreCase("")) {
             album.setRutaImagen("img/album/default/no-image.png");
         }
-        String prueba=request.getParameter("nomArtista");
+        String prueba = request.getParameter("nomArtista");
         String[] datosArtista = prueba.split("-");
 
         album.getArtista().setIdArtista(Integer.parseInt(datosArtista[0]));

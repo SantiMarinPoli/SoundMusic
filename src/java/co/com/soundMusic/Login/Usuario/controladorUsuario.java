@@ -87,8 +87,7 @@ public class controladorUsuario extends HttpServlet {
                         break;
                     }
                 }
-                vista = request.getRequestDispatcher("modificarUsuario.jsp");
-                vista.forward(request, response);
+                request.getRequestDispatcher("modificarUsuario.jsp").forward(request, response);
                 break;
         }
     }
@@ -111,6 +110,8 @@ public class controladorUsuario extends HttpServlet {
                 crearUsuario(request);
                 //ingresarLogAuditoria(UsuarioId(request, response), 3);
                 mostrarPaginaUsuario(request, response);
+                request.setAttribute("lstUsuario", lstUsuariop);
+                request.getRequestDispatcher("/usuario.jsp").forward(request, response);
                 break;
             case "editar":
                 editarUsuario(request, response, identificacion);
@@ -157,7 +158,8 @@ public class controladorUsuario extends HttpServlet {
         usuario.setPerfil(perfil);
 
         UsuarioDaoImpl daoUsuario = new UsuarioDaoImpl(true);
-        daoUsuario.crearUsuario(usuario);
+        usuario.setIdUsuario(daoUsuario.crearUsuario(usuario));
+        lstUsuariop.add(usuario);
     }
 
     private void editarUsuario(HttpServletRequest request, HttpServletResponse response, int idUsuario)

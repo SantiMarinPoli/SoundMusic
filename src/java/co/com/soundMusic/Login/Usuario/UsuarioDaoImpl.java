@@ -198,8 +198,9 @@ public class UsuarioDaoImpl implements IUsuarioDao {
     }
 
     @Override
-    public void crearUsuario(Usuario usuario) {
+    public int crearUsuario(Usuario usuario) {
         getConexion();
+        int id = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(INSERT_USUARIO);
 
@@ -214,6 +215,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             ps.setInt(9, usuario.getUsuarioLogin().getIdUsuarioLogin());
             ps.setInt(10, usuario.getContacto().getIdContacto());
             ps.executeUpdate();
+            id = getUltimoIdUsuario();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -227,6 +229,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
                 Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return id;
     }
 
     @Override
@@ -284,7 +287,7 @@ public class UsuarioDaoImpl implements IUsuarioDao {
         }
     }
 
-    /*public int getUltimoIdUsuario() {        
+    public int getUltimoIdUsuario() {
         int idUsuario = -1;
         try {
             PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
@@ -298,12 +301,19 @@ public class UsuarioDaoImpl implements IUsuarioDao {
             System.out.println("Excepción " + ex.getMessage());
             Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            if (conexion != null) {
-                DbUtils.closeQuietly(conexion, stmt, rs);
+            try {
+                if (conexion != null) {
+                    DbUtils.close(rs);
+                    DbUtils.close(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException | SQLException ex) {
+                Logger.getLogger(UsuarioDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return idUsuario;
-    }*/
+    }
+
     static {
         SELECT_USUARIOS = "SELECT US.ID_USUARIO,US.PRIMER_NOMBRE,US.SEGUNDO_NOMBRE,US.PRIMER_APELLIDO,US.SEGUNDO_APELLIDO,\n"
                 + "US.FECHA_CREACION,US.STATUS,US.GENERO,US.ID_PERFIL,US.ID_USUARIO_LOGIN,US.ID_CONTACTO,\n"
