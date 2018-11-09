@@ -10,15 +10,15 @@
             </li>
             <li class="nav-item">
                 <!--<a class="nav-link" href="usuario.jsp" id="usuarios">Usuarios</a>-->
-                <a class="nav-link" href="controladorUsuario?opcion=listarUsuarios">Usuarios</a>
+                <a class="nav-link" href="controladorUsuario?opcion=listarUsuarios" id="usuarios">Usuarios</a>
             </li>
             <li class="nav-item">
                 <!--<a class="nav-link" href="empresa.jsp" id="empresas">Empresas Difusoras</a>-->
-                <a class="nav-link" href="controladorEmpresaDifusora?opcion=listarEmpresa">Empresas Difusoras</a>
+                <a class="nav-link" href="controladorEmpresaDifusora?opcion=listarEmpresa" id="empresas">Empresas Difusoras</a>
             </li>
             <li class="nav-item ">
                 <!--<a class="nav-link" href="artista.jsp" id="artista">Artistas</a>-->
-                <a class="nav-link" href="controladorArtista?opcion=listarArtistas">Artistas</a>
+                <a class="nav-link" href="controladorArtista?opcion=listarArtistas" id="artista">Artistas</a>
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="album.jsp" id="album">Album</a>
@@ -29,7 +29,7 @@
             </li>
             <li class="nav-item ">
                 <!--<a class="nav-link" href="auditoria.jsp" id="auditoria">Log de Auditoria</a>-->
-                <a class="nav-link" href="controladorLogAuditoria?opcion=listarLogAuditoria">Log de Auditoria</a>
+                <a class="nav-link" href="controladorLogAuditoria?opcion=listarLogAuditoria" id="auditoria">Log de Auditoria</a>
             </li>            
         </ul>
         <div class="row">

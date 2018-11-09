@@ -80,17 +80,7 @@ $(document).ready(function () {
             return false;
         } else {
             $("#pass2").removeClass("is-invalid");
-
-        }
-
-        if (pass1 !== pass2) {
-            alert("La contraseña debe ser igual");
-            pass1 = "";
-            pass2 = "";
-            return false;
-        } else {
-            alert("La constraseña esta segura");
-        }
+        }  
 
         if (numCel == "") {
             $("#numCel").addClass("is-invalid");
