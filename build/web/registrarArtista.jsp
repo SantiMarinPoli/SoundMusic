@@ -40,13 +40,13 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Nombre*</label>
-                                <input type="text" class="form-control" name="nom1" id="nom1" placeholder="Ingresar el primer nombre" >
+                                <input type="text" class="form-control" name="nom1" id="nom1" placeholder="Ingresar el primer nombre" onkeypress="return validarSoloLetras(event);">
                                 <div class="invalid-feedback ">El primer nombre es un campo obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Segundo Nombre</label>
-                                <input type="text" class="form-control" name="nom2" id="nom2" placeholder="Ingresar el segundo nombre">
+                                <input type="text" class="form-control" name="nom2" id="nom2" placeholder="Ingresar el segundo nombre" onkeypress="return validarSoloLetras(event);">
                             </div>
                         </div>
 
@@ -55,13 +55,13 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Primer Apellido*</label>
-                                <input type="text" class="form-control" name="apellido1" id="apellido1" placeholder="Ingresar el primer apellido " >
+                                <input type="text" class="form-control" name="apellido1" id="apellido1" placeholder="Ingresar el primer apellido "  onkeypress="return validarSoloLetras(event);">
                                 <div class="invalid-feedback ">El primer apellido es un campo obligatorio</div>
 
                             </div>
                             <div class="col">
                                 <label>Segundo Apellido*</label>
-                                <input type="text" class="form-control" name="apellido2" id="apellido2" placeholder="Ingresar el segundo apellido">
+                                <input type="text" class="form-control" name="apellido2" id="apellido2" placeholder="Ingresar el segundo apellido" onkeypress="return validarSoloLetras(event);">
                                 <div class="invalid-feedback ">El segundo apellido es un campo obligatorio</div>
                             </div>
                         </div>
@@ -122,6 +122,7 @@
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
         <script src="js/validacionArtista.js" type="text/javascript"></script>
+        <script src="js/validacionLetras.js" type="text/javascript"></script>
     </body>
 
 </html>

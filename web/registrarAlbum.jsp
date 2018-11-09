@@ -58,7 +58,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <label>Nombre del Album*</label>
-                                <input type="text" class="form-control" name="nomAlbum" id="nomAlbum" placeholder="Ingresar el nuevo album">
+                                <input type="text" class="form-control" name="nomAlbum" id="nomAlbum" placeholder="Ingresar el nuevo album" onkeypress="return validarSoloLetras(event);">
                                 <div class="invalid-feedback">El campo nombre de album es obligatorio</div>
 
                             </div>
@@ -103,7 +103,7 @@
                             </div>
                             <div class="col">
                                 <label>Ciudad Realizacion*</label>
-                                <input type="text" name="ciudadAlbum" id="ciudadAlbum" class="form-control" placeholder="Ingresar la ciudad ">
+                                <input type="text" name="ciudadAlbum" id="ciudadAlbum" class="form-control" placeholder="Ingresar la ciudad " onkeypress="return validarSoloLetras(event);">
                                 <div class="invalid-feedback">El campo de ciudad es obligatorio</div>
                             </div>
                         </div>
@@ -130,6 +130,7 @@
         <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
         <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
         <script src="js/album.js" type="text/javascript"></script>
+        <script src="js/validacionLetras.js" type="text/javascript"></script>
     </body>
 
 </html>
