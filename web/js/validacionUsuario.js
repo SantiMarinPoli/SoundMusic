@@ -80,7 +80,7 @@ $(document).ready(function () {
             return false;
         } else {
             $("#pass2").removeClass("is-invalid");
-        }  
+        }
 
         if (numCel == "") {
             $("#numCel").addClass("is-invalid");

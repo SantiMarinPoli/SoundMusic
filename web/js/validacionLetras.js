@@ -16,4 +16,3 @@ function validarSoloLetras(e){
         return false;
     }
 }
-

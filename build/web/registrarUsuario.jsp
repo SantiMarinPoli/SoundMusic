@@ -13,6 +13,7 @@
         <link rel="icon" type="img/png" href="icon/musica.png"/>
         <link href="style/style.css" rel="stylesheet" type="text/css"/>
         <link href="style/usuario.sytle.css" rel="stylesheet" type="text/css"/>
+        <link href="style/usuario.sytle.css" rel="stylesheet" type="text/css"/>
         <link href="bootstrap/CSS/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="sweetarlert/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
 
@@ -141,7 +142,7 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="form-row">
                             <label >Perfil*</label>
                             <select class="form-control" name="perfil" id="perfil">
@@ -239,7 +240,7 @@
 
     <!--SCRIPT-->
     <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
-    <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
+     <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
     <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
     <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
     <script src="js/validacionUsuario.js" type="text/javascript"></script>

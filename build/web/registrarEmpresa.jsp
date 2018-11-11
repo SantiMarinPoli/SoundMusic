@@ -47,7 +47,7 @@
 
                         <div class="form-group">
                             <label>Nombre de la Compañia*</label>
-                            <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresaTxt" placeholder="Ingresar la empresa difunsora">
+                            <input type="text" class="form-control" name="nomEmpresa" id="nomEmpresaTxt" placeholder="Ingresar la empresa difunsora" onkeypress="return validarSoloLetras(event);">
                             <div class="invalid-feedback">El campo nombre empresa debe ser obligatorio</div>
                         </div>
                         <div class="form-row">
@@ -169,6 +169,8 @@
         <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
         <script src="js/validacionEmpresa.js" type="text/javascript"></script>
         <script src="js/agregarArtista.js" type="text/javascript"></script>
+        <script src="js/validacionLetras.js" type="text/javascript"></script>
+
     </body>
 
 </html>
