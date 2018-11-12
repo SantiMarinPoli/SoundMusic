@@ -1,3 +1,5 @@
+<%@page import="co.com.soundMusic.Artista.Artista"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -43,52 +45,39 @@
                                 <th scope="col">Operaciones</th>
                             </tr>
                         </thead>
-
                         <tbody>
-                            <tr>
-                                <td scope="row">1</td>
-                                <td>Avicci</td>
-                                <td><img src="img/art1.jpg"  class="img img-fluid icon-artista"/></td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Spotyfy</span>
-                                </td>
-                                <td>Abril 2018</td>
-                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
-                            </tr>
+                            <%
+                                List<Artista> lstArtista = (List<Artista>) request.getAttribute("lstArtista");
+                                for (Artista art : lstArtista) {
+                                    out.print("<tr>");
+                                    out.print("<td  scope='row'>" + art.getIdArtista() + "</td>");
+                                    out.print("<td>" + art.getNombreArtistico() + "</td>");
+                                    out.print("<td><img src='" + art.getRutaImagen() + "'  class='img img-fluid icon-artista'/></td>");
+                                    out.print("<td class='text-success'>");
 
-                            <tr>
-                                <td scope="row">2</td>
-                                <td>Bad Bunny</td>
-                                <td><img src="img/art2.png"  class="img img-fluid icon-artista"/></td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Google Music</span>
-                                </td>
+                                    List<String> lstNombreEmpresas = art.getNumeroEmpresas();
+                                    for (String nombreempresa : lstNombreEmpresas) {
+                                        out.print("<span class='badge badge-primary'>" + nombreempresa + "</span>");
+                                    }
+                                    out.print("</td>");
 
-                                <td>Agosto 2018</td>
-                                <td><a href="#" class="badge badge-danger btnActivar" activarUsuario="0">Inactivo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
-                            </tr>
+                                    out.print("<td>" + art.getFechaCreacion() + "</td>");
 
-                            <tr>
-                                <td scope="row">3</td>
-                                <td>Guns And Roses</td>
-                                <td><img src="img/art3.png"  class="img img-fluid icon-artista"/></td>
-                                <td class="text-success">
-                                    <span class="badge badge-primary">Youtube</span>
-                                    <span class="badge badge-primary">Spotyfy</span>
-                                    <span class="badge badge-primary">Itunes Music</span>
-                                </td>
-                                <td>Abril 2018</td>
-                                <td><a href="#" class="badge badge-success btnActivar" activarUsuario="0">Activo</a></td>
-                                <td><a href="modificarArtista.jsp" class="btn btn-warning">Actualizar</a></td>
-                            </tr>
+                                    if (art.getStatus().equalsIgnoreCase("a")) {
+                                        out.print("<td><a href='controladorArtista?opcion=borrar&IdArtista="
+                                                + art.getIdArtista() + "&estado=I' class='badge badge-success btnActivar' activarUsuario='0'>Activo</a></td>");
+                                    } else {
+                                        out.print("<td><a href='controladorArtista?opcion=borrar&IdArtista="
+                                                + art.getIdArtista() + "&estado=A' class='badge btnActivar badge-danger' activarUsuario='1'>Inactivo</a></td>");
+                                    }
+
+                                    out.print("<td><a href='controladorArtista?opcion=editar&IdArtista="
+                                            + art.getIdArtista() + "' class='btn btn-warning'>Actualizar</a></td>");
+                                    out.print("</tr>");
+                                }
+                            %>
                         </tbody>
                     </table>
-                    
-                    <%@include file="pruebasTablas/listaArtistas.jsp" %>
                 </div>
             </div>
             <br>

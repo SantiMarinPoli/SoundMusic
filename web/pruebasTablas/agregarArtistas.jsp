@@ -4,6 +4,7 @@
     Author     : Santiago Medina Pelaez
 --%>
 
+<%@page import="co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresa"%>
 <%@page import="co.com.soundMusic.Artista.Artista"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -26,13 +27,18 @@
 
                     <h3>Agregar Artistas</h3>
                     <hr>
+                    <div class="row">
+                        <div class="col">
+                            <a href="controladorEmpresaDifusora?opcion=listarEmpresa" class="btn btn-danger" id="btn-regresar">Regresar</a>
+                        </div>
+                    </div>
                     <br>                    
                     <form name="formulario_usuario" action="controladorArtistaEmpresa" method="post">
                         <input type ="hidden" name="operacion" value="agregar" />
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">#</th>
+                                    <th scope="col"> </th>
                                     <th scope="col">#</th>
                                     <th scope="col">Nombre de Artista</th>
                                 </tr>
@@ -40,12 +46,34 @@
                             <tbody>
                                 <%
                                     List<Artista> lstArtista = (List<Artista>) request.getAttribute("lstArtista");
+                                    List<ArtistaEmpresa> lstArtistasDeEmpresa
+                                            = (List<ArtistaEmpresa>) request.getAttribute("lstArtistasDeEmpresa");
+                                    int auxiliar = 0;
                                     for (Artista art : lstArtista) {
-                                        out.print("<tr>");
-                                        out.print(" <td><input type='checkbox' name='selected' value='" + art.getIdArtista() + "'></td>");
-                                        out.print("<td  scope='row'>" + art.getIdArtista() + "</td>");
-                                        out.print("<td>" + art.getNombreArtistico() + "</td>");
-                                        out.print("</tr>");
+                                        boolean artistaEncontrado = false;
+                                        for (ArtistaEmpresa artistaEmpresa : lstArtistasDeEmpresa) {
+                                            if (auxiliar < lstArtistasDeEmpresa.size()) {
+                                                if (artistaEmpresa.getArtista().getIdArtista() == art.getIdArtista()) {
+                                                    artistaEncontrado = true;
+                                                    auxiliar++;
+                                                    /*out.print("<tr>");
+                                                    out.print(" <td><input type='checkbox' name='selected' value='" + art.getIdArtista() + "' checked='' readonly></td>");
+                                                    out.print("<td  scope='row'>" + art.getIdArtista() + "</td>");
+                                                    out.print("<td>" + art.getNombreArtistico() + "</td>");
+                                                    out.print("</tr>");*/
+                                                    break;
+                                                }
+                                            } else {
+                                                break;
+                                            }
+                                        }
+                                        if (!artistaEncontrado) {
+                                            out.print("<tr>");
+                                            out.print(" <td><input type='checkbox' name='selected' value='" + art.getIdArtista() + "'></td>");
+                                            out.print("<td  scope='row'>" + art.getIdArtista() + "</td>");
+                                            out.print("<td>" + art.getNombreArtistico() + "</td>");
+                                            out.print("</tr>");
+                                        }
                                     }
                                 %>
                             </tbody>

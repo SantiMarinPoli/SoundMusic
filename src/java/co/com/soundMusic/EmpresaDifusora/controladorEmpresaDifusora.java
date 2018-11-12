@@ -1,5 +1,6 @@
 package co.com.soundMusic.EmpresaDifusora;
 
+import co.com.soundMusic.Artista.Artista;
 import co.com.soundMusic.Contacto.Ciudad.Ciudad;
 import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
 import co.com.soundMusic.Contacto.Contacto;
@@ -33,7 +34,7 @@ public class controladorEmpresaDifusora extends HttpServlet {
 
     List<EmpresaDifusora> lstEmpresasDifusorasp;
     int[] numeroArtistas;
-    int identificacion;
+    int identificacion, cantidadArtistas;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -144,8 +145,10 @@ public class controladorEmpresaDifusora extends HttpServlet {
         EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
         lstEmpresasDifusorasp = daoEmpresa.obtenerEmpresasDifusoras();
         numeroArtistas = new EmpresaDifusora().getNumeroArtistas(lstEmpresasDifusorasp);
+        cantidadArtistas = new Artista().getNumeroArtistas();
         request.setAttribute("lstEmpresas", lstEmpresasDifusorasp);
-        request.setAttribute("numeroArtistas", numeroArtistas);        
+        request.setAttribute("numeroArtistas", numeroArtistas);
+        request.setAttribute("cantidadArtistas", cantidadArtistas);
         request.getRequestDispatcher("/empresa.jsp").forward(request, response);
     }
 

@@ -1,3 +1,5 @@
+<%@page import="co.com.soundMusic.Artista.Album.Album"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,35 +35,40 @@
 
                     <table class="table">
                         <thead class="thead-dark">
-                        <th scope="col">#</th>
-                        <th scope="col">Nombre Artista</th>
-                        <th scope="col">Foto Album</th>
-                        <th scope="col">Nombre del albun</th>
-                        <th scope="col">No. Cancion</th>
-                        <th scope="col">Total</th>
-                        <th scope="col">Empresa Difunsora</th>
-                        <th scope="col">Fecha Lanzamiento</th>
-                        <th></th>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Nombre Artista</th>
+                                <th scope="col">Nombre del albun</th>
+                                <th scope="col">Foto Album</th>            
+                                <th scope="col">No. Canciones</th>            
+                                <th scope="col">Fecha Lanzamiento</th>
+                                <th scope="col">Operación</th>
+                            </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <th>Avicci</th>
-                                <td>Wake Up</td>
-                                <td><img src="img/album/default/no-image.png"  class="img img-fluid icon-artista"/></td>
-                                <td>
-                                    <span class="badge badge-primary">10</span>
-                                </td>
-                                <td class="text-success">$500.000 USD</td>
-                                <td>Spotify</td>
-                                <td>26/08/2018</td>
-                                <td>
-                                    <button type="button" class="btn btn-warning">Actualizar</button>
-                                </td>
-                            </tr>
+                            <%
+                                List<Album> lstAlbum = (List<Album>) request.getAttribute("lstAlbum");
+                                for (Album album : lstAlbum) {
+                                    out.print("<tr>");
+                                    out.print("<th  scope='row'>" + album.getIdAlbum() + "</th>");
+                                    out.print("<td>" + album.getArtista().getNombreArtistico() + "</td>");
+                                    out.print("<td>" + album.getNombre() + "</td>");
+                                    out.print("<td><img src='" + album.getRutaImagen() + "'  class='img img-fluid icon-artista'/></td>");
+                                    out.print("<td><span class='badge badge-primary'>" + album.getNumeroCanciones() + "</span></td>");
+                                    if (album.getFechaFinalizacion() != null) {
+                                        out.print("<td>" + album.getFechaFinalizacion() + "</td>");
+                                    } else {
+                                        out.print("<td>" + " " + "</td>");
+                                    }
+                                    out.print("<td>"
+                                            + "<button type='button' href='controladorAlbum?opcion=editar&IdAlbum=" + album.getIdAlbum()
+                                            + "' class='btn btn-warning'>Actualizar</button></td>");
+                                    out.print("</tr>");
+                                }
+                            %>
                         </tbody>
                     </table>
-                    <%@include file="pruebasTablas/listaAlbum.jsp" %>
+
                 </div>
             </div>
             <br>

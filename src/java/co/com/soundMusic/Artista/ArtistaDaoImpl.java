@@ -29,6 +29,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
     //Constantes con las querys a la base de datos
     private static final String SELECT_ARTISTAS;
+    private static final String SELECT_ID_ARTISTAS;
     private static final String SELECT_ARTISTA_POR_ID;
     private static final String INSERT_ARTISTA;
     private static final String UPDATE_ARTISTA;
@@ -233,7 +234,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
             ps.setString(4, artista.getSegundoApellido());
             ps.setString(5, artista.getNombreArtistico());
             ps.setString(6, artista.getGenero());
-            ps.setDate(7, artista.getFechaNacimiento());            
+            ps.setDate(7, artista.getFechaNacimiento());
             ps.setString(8, artista.getStatus());
             ps.setString(9, artista.getRutaImagen());
             ps.setInt(10, artista.getContacto().getIdContacto());
@@ -270,6 +271,7 @@ public class ArtistaDaoImpl implements IArtistaDao {
             try {
                 if (conexion != null) {
                     DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
                     DbUtils.closeQuietly(conexion);
                     Thread.sleep(1000);
                 }
@@ -278,6 +280,33 @@ public class ArtistaDaoImpl implements IArtistaDao {
             }
         }
         return idArtista;
+    }
+
+    public int getNumeroDeArtistas() {
+        int artistas = 0;
+        getConexion();
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_ID_ARTISTAS);
+            while (rs.next()) {
+                artistas++;
+            }
+        } catch (SQLException | NullPointerException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return artistas;
     }
 
     static {
@@ -326,6 +355,9 @@ public class ArtistaDaoImpl implements IArtistaDao {
 
         SELECT_ULTIMO_ID = "SELECT ARTISTA_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+
+        SELECT_ID_ARTISTAS = "SELECT ID_ARTISTA "
+                + "FROM ARTISTA";
     }
 
     private String validacion(String aValidar) {

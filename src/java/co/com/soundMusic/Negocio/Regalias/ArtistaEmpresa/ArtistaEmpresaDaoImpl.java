@@ -219,7 +219,6 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             rs = ps.executeQuery();
             while (rs.next()) {
                 NumeroDeArtistas++;
-
             }
         } catch (SQLException | NullPointerException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -236,6 +235,38 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
             }
         }
         return NumeroDeArtistas;
+    }
+
+    public List<ArtistaEmpresa> obtenerArtistaDeEmpresa(int idEmpresaDifusora) {
+        getConexion();
+        List<ArtistaEmpresa> lstArtistas = new ArrayList<>();
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_ARTISTAS_POR_ID_EMPRESA);
+            ps.setInt(1, idEmpresaDifusora);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
+                artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
+                artistaEmpresa.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
+                artistaEmpresa.getEmpresaDifusora().setIdEmpresaDifusora(rs.getInt("ID_EMPRESA_DIFUSORA"));
+                
+                lstArtistas.add(artistaEmpresa);
+            }
+        } catch (SQLException | NullPointerException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return lstArtistas;
     }
 
     public int[] obtenerNumeroDeArtistas2(List<EmpresaDifusora> lstEmpresa) {

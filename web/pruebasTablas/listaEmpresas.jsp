@@ -14,13 +14,15 @@
             <th scope="col">Nombre de Empresa</th>
             <th scope="col">Total Artista</th>
             <th scope="col">Mes y Año</th>
-            <th scope="col" colspan="2">Operaciones</th>
+            <th scope="col"> </th>
+            <th scope="col"> </th>
         </tr>
     </thead>
     <tbody>
         <%
             List<EmpresaDifusora> lstEmpresas = (List<EmpresaDifusora>) request.getAttribute("lstEmpresas");
             int[] numeroArtistas = (int[]) request.getAttribute("numeroArtistas");
+            int cantidadArtistas = (int) request.getAttribute("cantidadArtistas");
             for (EmpresaDifusora emDif : lstEmpresas) {
                 out.print("<tr>");
                 out.print("<th  scope='row'>" + emDif.getIdEmpresaDifusora() + "</th>");
@@ -29,9 +31,14 @@
                 out.print("<td>" + emDif.getFechaCreacion() + "</td>");
                 out.print("<td><a href='controladorEmpresaDifusora?opcion=editar&IdEmpresa="
                         + emDif.getIdEmpresaDifusora() + "' class='btn btn-warning'>Actualizar</a></td>");
-                out.print("<td><a href='controladorArtistaEmpresa?opcion=agregarAEmpresa&IdEmpresa="
-                        + emDif.getIdEmpresaDifusora() + "' class='btn btn-warning'>Agregar Artista</a></td>");
-                out.print("</tr>");
+                if (cantidadArtistas != numeroArtistas[lstEmpresas.indexOf(emDif)]) {
+                    out.print("<td><a href='controladorArtistaEmpresa?opcion=agregarAEmpresa&IdEmpresa="
+                            + emDif.getIdEmpresaDifusora() + "' class='btn btn-warning'>Agregar Artista</a></td>");
+                    out.print("</tr>");
+                }else{
+                    out.print("<td> </td>");
+                    out.print("</tr>");
+                }
             }
         %>
     </tbody>

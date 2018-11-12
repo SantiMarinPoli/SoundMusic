@@ -22,7 +22,7 @@ public class Artista {
     private Date fechaNacimiento;
     private Date fechaCreacion;
     private String status;
-    private String rutaImagen;    
+    private String rutaImagen;
     private Contacto contacto;
 
     public Artista(Integer idArtista, String[] datosArtista, Date[] fechasArtista, Integer idContacto) {
@@ -175,5 +175,12 @@ public class Artista {
         List<String> nombreEmpresas = daoArtistaEmpresa.obtenerEmpresas(idArtista);
 
         return nombreEmpresas;
+    }
+
+    public int getNumeroArtistas() {
+        int numeroArtistas;
+        ArtistaDaoImpl daArtista = new ArtistaDaoImpl(true);
+        numeroArtistas = daArtista.getNumeroDeArtistas();
+        return numeroArtistas;
     }
 }

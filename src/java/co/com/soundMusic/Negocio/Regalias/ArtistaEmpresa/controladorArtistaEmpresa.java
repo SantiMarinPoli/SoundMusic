@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 public class controladorArtistaEmpresa extends HttpServlet {
 
     List<Artista> lstArtistasp;
+    List<ArtistaEmpresa> lstArtistasDeEmpresa;
     int idEmpresa;
 
     /**
@@ -64,8 +65,11 @@ public class controladorArtistaEmpresa extends HttpServlet {
             case "agregarAEmpresa":
                 idEmpresa = Integer.parseInt((String) request.getParameter("IdEmpresa"));
                 ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
+                ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
                 lstArtistasp = daoArtista.obtenerArtistas();
+                lstArtistasDeEmpresa = daoArtistaEmpresa.obtenerArtistaDeEmpresa(idEmpresa);
                 request.setAttribute("lstArtista", lstArtistasp);
+                request.setAttribute("lstArtistasDeEmpresa", lstArtistasDeEmpresa);
                 request.getRequestDispatcher("/pruebasTablas/agregarArtistas.jsp").forward(request, response);
                 break;
         }
