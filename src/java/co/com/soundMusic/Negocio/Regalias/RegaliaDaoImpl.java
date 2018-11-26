@@ -29,6 +29,7 @@ public class RegaliaDaoImpl implements IRegaliaDao {
     private ResultSet rs;
     //Constantes con las querys a la base de datos
     private static final String SELECT_REGALIAS;
+    private static final String SELECT_REGALIAS_SIMPLE;
     private static final String SELECT_REGALIA_POR_ID;
     private static final String INSERT_REGALIA;
     private static final String UPDATE_REGALIA;
@@ -47,14 +48,63 @@ public class RegaliaDaoImpl implements IRegaliaDao {
 
             while (rs.next()) {
                 ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
-                CostoActividad costo = new CostoActividad();;
+                CostoActividad costo = new CostoActividad();
                 Regalia regalia = new Regalia();
 
                 //Datos CostoActividad
-                costo.setIdCostoActividad(rs.getInt("ID_COSTO_ACTIVIDAD"));
+                costo.setIdCostoActividad(rs.getInt("ID_COSTO"));
                 costo.setCostoPorOperacion(rs.getFloat("COSTO_POR_OPERACION"));
                 costo.setFechaCreacion(rs.getDate("FECHA_CREACION"));
                 costo.setFechaUsoFinal(rs.getDate("FECHA_USO_FINAL"));
+                //Datos ArtistaEmpresa
+                artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
+                artistaEmpresa.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
+                artistaEmpresa.getArtista().setNombreArtistico(rs.getString("NOMBRE_ARTISTICO"));
+                artistaEmpresa.getEmpresaDifusora().setIdEmpresaDifusora(rs.getInt("ID_EMPRESA_DIFUSORA"));
+                artistaEmpresa.getEmpresaDifusora().setNombre(rs.getString("NOMBRE"));
+                //Datos Regalia
+                regalia.setIdRegalia(rs.getInt("ID_REGALIA"));
+                regalia.setTotalGanado(rs.getFloat("TOTAL_GANADO"));
+                regalia.setNumeroOperaciones(rs.getInt("NUMERO_OPERACIONES"));
+                regalia.setFecha(rs.getTimestamp("FECHA"));
+                regalia.setArtistaEmpresa(artistaEmpresa);
+                regalia.setCosto(costo);
+
+                listaRegalias.add(regalia);
+            }
+        } catch (SQLException | NullPointerException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(stmt);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return listaRegalias;
+    }
+
+    public List<Regalia> obtenerRegaliasSimple() {
+        getConexion();
+        List<Regalia> listaRegalias = new ArrayList<>();
+        try {
+            stmt = conexion.createStatement();
+            rs = stmt.executeQuery(SELECT_REGALIAS_SIMPLE);
+
+            while (rs.next()) {
+                ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
+                CostoActividad costo = new CostoActividad();
+                Regalia regalia = new Regalia();
+
+                //Datos CostoActividad
+                costo.setIdCostoActividad(rs.getInt("ID_COSTO"));                
                 //Datos ArtistaEmpresa
                 artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
                 artistaEmpresa.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
@@ -62,6 +112,7 @@ public class RegaliaDaoImpl implements IRegaliaDao {
                 //Datos Regalia
                 regalia.setIdRegalia(rs.getInt("ID_REGALIA"));
                 regalia.setTotalGanado(rs.getFloat("TOTAL_GANADO"));
+                regalia.setNumeroOperaciones(rs.getInt("NUMERO_OPERACIONES"));
                 regalia.setFecha(rs.getTimestamp("FECHA"));
                 regalia.setArtistaEmpresa(artistaEmpresa);
                 regalia.setCosto(costo);
@@ -101,7 +152,7 @@ public class RegaliaDaoImpl implements IRegaliaDao {
                 CostoActividad costo = new CostoActividad();;
 
                 //Datos CostoActividad
-                costo.setIdCostoActividad(rs.getInt("ID_COSTO_ACTIVIDAD"));
+                costo.setIdCostoActividad(rs.getInt("ID_COSTO"));
                 costo.setCostoPorOperacion(rs.getFloat("COSTO_POR_OPERACION"));
                 costo.setFechaCreacion(rs.getDate("FECHA_CREACION"));
                 costo.setFechaUsoFinal(rs.getDate("FECHA_USO_FINAL"));
@@ -112,6 +163,7 @@ public class RegaliaDaoImpl implements IRegaliaDao {
                 //Datos Regalia
                 regalia.setIdRegalia(rs.getInt("ID_REGALIA"));
                 regalia.setTotalGanado(rs.getFloat("TOTAL_GANADO"));
+                regalia.setNumeroOperaciones(rs.getInt("NUMERO_OPERACIONES"));
                 regalia.setFecha(rs.getTimestamp("FECHA"));
                 regalia.setArtistaEmpresa(artistaEmpresa);
                 regalia.setCosto(costo);
@@ -158,24 +210,34 @@ public class RegaliaDaoImpl implements IRegaliaDao {
     }
 
     static {
-        SELECT_REGALIAS = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO, REG.FECHA, \n"
-                + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, \n"
-                + "ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA, "
+        SELECT_REGALIAS = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO,REG.NUMERO_OPERACIONES ,REG.FECHA,\n"
+                + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA,\n"
+                + "AR.NOMBRE_ARTISTICO, EMDI.NOMBRE,\n"
                 + "COSTA.COSTO_POR_OPERACION, COSTA.FECHA_CREACION, COSTA.FECHA_USO_FINAL \n"
-                + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP  \n"
-                + "ON TEG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"
-                + "INNER JOIN COSTO_ACTIVIDAD COSTA \n"
-                + "ON REG.ID_COSTO = COSTA.ID_COSTO_ACTIVIDAD \n"
+                + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP \n"
+                + "ON REG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"
+                + "INNER JOIN ARTISTA AR\n"
+                + "ON ARTEMP.ID_ARTISTA = AR.ID_ARTISTA\n"
+                + "INNER JOIN EMPRESA_DIFUSORA EMDI\n"
+                + "ON ARTEMP.ID_EMPRESA_DIFUSORA=EMDI.ID_EMPRESA_DIFUSORA\n"
+                + "INNER JOIN COSTO_ACTIVITIDAD COSTA\n"
+                + "ON REG.ID_COSTO = COSTA.ID_COSTO_ACTIVIDAD\n"
                 + "ORDER BY ID_REGALIA";
 
-        SELECT_REGALIA_POR_ID = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO, REG.FECHA, \n"
+        SELECT_REGALIAS_SIMPLE = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO,REG.NUMERO_OPERACIONES ,REG.FECHA,\n"
+                + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA \n"                               
+                + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP \n"
+                + "ON REG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"                
+                + "ORDER BY ID_REGALIA";
+
+        SELECT_REGALIA_POR_ID = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO,REG.NUMERO_OPERACIONES ,REG.FECHA,\n"
                 + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, \n"
-                + "ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA, "
+                + "ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA,\n"
                 + "COSTA.COSTO_POR_OPERACION, COSTA.FECHA_CREACION, COSTA.FECHA_USO_FINAL \n"
-                + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP  \n"
-                + "ON TEG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"
-                + "INNER JOIN COSTO_ACTIVIDAD COSTA \n"
-                + "ON REG.ID_COSTO = COSTA.ID_COSTO_ACTIVIDAD \n"
+                + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP \n"
+                + "ON REG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"
+                + "INNER JOIN COSTO_ACTIVITIDAD COSTA\n"
+                + "ON REG.ID_COSTO = COSTA.ID_COSTO_ACTIVIDAD\n"
                 + "WHERE ID_REGALIA=?";
 
         INSERT_REGALIA = "INSERT INTO REGALIA (TOTAL_GANADO, FECHA, \n"

@@ -25,7 +25,8 @@
                 <a class="nav-link" href="controladorAlbum?opcion=listarAlbumes">Album</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="regalias.jsp" id="regalias">Regalias</a>
+                <!--<a class="nav-link" href="regalias.jsp" id="regalias">Regalias</a>-->
+                <a class="nav-link" href="ControladorRegalias?opcion=listarRegalias" id="regalias">Regalias</a>
             </li>
             <li class="nav-item ">
                 <!--<a class="nav-link" href="auditoria.jsp" id="auditoria">Log de Auditoria</a>-->

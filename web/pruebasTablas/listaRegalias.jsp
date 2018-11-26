@@ -4,36 +4,38 @@
     Author     : Santiago Medina Pelaez
 --%>
 
+<%@page import="co.com.soundMusic.Negocio.Regalias.Regalia"%>
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <table class="table">
     <thead class="thead-dark">
         <tr>
             <th>Nombre Artista</th>
-            <th>Bonificacion</th>
-            <th>Empresa Difunsora</th>
-            <th>Fecha de Pago</th>
-            <th>No# Operaciones</th>
-            <th>Sueldo</th>
+            <th>Empresa Difunsora</th>                  
+            <th>Fecha</th>
+            <th>Operaciones</th>
+            <th>Costo Operaión</th>
+            <th>Regalia</th>
+            <th>Bonificacion</th>     
+            <th>Pago</th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>Martin Garrix</td>
-            <td> </td>
-            <td>Spinin Records</td>
-            <td>11/09/2018 00:00PM</td>
-            <td class="text-success">$500.000 COP</td>
-            <td><a href="#" class="badge badge-danger btnActivar" activarRegalias="">Pendiente</a></td>
-        </tr>
-
-        <tr>
-            <td>Martin Garrix</td>
-            <td></td>
-            <td>Spinin Records</td>
-            <td>11/09/2018 00:00PM</td>
-            <td class="text-success">$500.000 COP</td>
-            <td><a href="#" class="badge badge-danger btnActivar" activarRegalias="">Pendiente</a></td>
-        </tr>
+        <%
+            List<Regalia> lstRegalias = (List<Regalia>) request.getAttribute("lstRegalias");
+            for (Regalia reg : lstRegalias) {
+                out.print("<tr>");
+                out.print("<td>" + reg.getArtistaEmpresa().getArtista().getNombreArtistico() + "</td>");
+                out.print("<td>" + reg.getArtistaEmpresa().getEmpresaDifusora().getNombre() + "</td>");
+                out.print("<td>" + reg.getFecha() + "</td>");
+                out.print("<td>" + reg.getNumeroOperaciones() + "</td>");
+                out.print("<td>" + "$ " + reg.getCosto().getCostoPorOperacion() + "</td>");
+                out.print("<td class='text-success'>" + "$ " + reg.getTotalGanado() + "</td>");
+                out.print("<td>" + "Pendiente" + "</td>");
+                out.print("<td><a href='#' class='badge badge-danger btnActivar' activarRegalias=''>" + "Pendiente" + "</a></td>");
+                out.print("</tr>");
+            }
+        %>       
     </tbody>
 </table>
