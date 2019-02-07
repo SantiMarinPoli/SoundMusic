@@ -1,7 +1,5 @@
 package co.com.soundMusic.Login.Usuario;
 
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Contacto.ContactoDaoImpl;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLogin;
 import co.com.soundMusic.Login.CuentaUsuario.UsuarioLoginDaoImpl;
 import co.com.soundMusic.Seguridad.Perfiles.Perfil;
@@ -28,9 +26,7 @@ public class Usuario {
     private String genero;
     private Integer idPerfil;
     private Integer idUsuarioLogin;
-    private Integer idContacto;
     private Perfil perfil;
-    private Contacto contacto;
     private UsuarioLogin usuarioLogin;
 
     /**
@@ -41,7 +37,6 @@ public class Usuario {
      */
     public Usuario() {
         this.perfil = new Perfil();
-        this.contacto = new Contacto();
         this.usuarioLogin = new UsuarioLogin();
     }
 
@@ -72,7 +67,7 @@ public class Usuario {
      */
     public Usuario(String primerNombre, String segundoNombre, String primerApellido,
             String segundoApellido, Date fechaCreacion, String status, String genero,
-            Integer idPerfil, Integer idUsuarioLogin, Integer idContacto) {
+            Integer idPerfil, Integer idUsuarioLogin) {
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
         this.primerApellido = primerApellido;
@@ -82,13 +77,11 @@ public class Usuario {
         this.genero = genero;
         this.idPerfil = idPerfil;
         this.idUsuarioLogin = idUsuarioLogin;
-        this.idContacto = idContacto;
     }
 
     public Usuario(Integer idUsuario, String primerNombre, String segundoNombre,
             String primerApellido, String segundoApellido, Date fechaCreacion,
-            String status, String genero, Integer idPerfil, Integer idUsuarioLogin,
-            int idContacto) {
+            String status, String genero, Integer idPerfil, Integer idUsuarioLogin) {
         this.idUsuario = idUsuario;
         this.primerNombre = primerNombre;
         this.segundoNombre = segundoNombre;
@@ -99,7 +92,6 @@ public class Usuario {
         this.genero = genero;
         this.idPerfil = idPerfil;
         this.idUsuarioLogin = idUsuarioLogin;
-        this.idContacto = idContacto;
     }
 
     /**
@@ -184,14 +176,6 @@ public class Usuario {
         this.status = status;
     }
 
-    public Integer getIdContacto() {
-        return idContacto;
-    }
-
-    public void setIdContacto(Integer idContacto) {
-        this.idContacto = idContacto;
-    }
-
     public Integer getIdUsuarioLogin() {
         return idUsuarioLogin;
     }
@@ -223,15 +207,7 @@ public class Usuario {
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
     }
-
-    public Contacto getContacto() {
-        return contacto;
-    }
-
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
-    }
-
+   
     public UsuarioLogin getUsuarioLogin() {
         return usuarioLogin;
     }
@@ -301,10 +277,10 @@ public class Usuario {
         return null;
     }
 
-    public void obtenerContactoUsuario() {
-        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
-        this.setContacto(daoContacto.obtenerContacto(this.idContacto));
-    }
+//    public void obtenerContactoUsuario() {
+//        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
+//        this.setContacto(daoContacto.obtenerContacto(this.idContacto));
+//    }
 
     public void obtenerPerfilUsuario() {
         PerfilDaoImpl daoPerfil = new PerfilDaoImpl(true);

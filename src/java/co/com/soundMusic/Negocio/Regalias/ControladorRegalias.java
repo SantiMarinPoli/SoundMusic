@@ -9,6 +9,10 @@ import co.com.soundMusic.Artista.Artista;
 import co.com.soundMusic.Artista.ArtistaDaoImpl;
 import co.com.soundMusic.EmpresaDifusora.EmpresaDifusora;
 import co.com.soundMusic.EmpresaDifusora.EmpresaDifusoraDaoImpl;
+import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
+import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividadDaoImpl;
+import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresa;
+import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -94,6 +98,9 @@ public class ControladorRegalias extends HttpServlet {
         switch (operacion) {
             case "crear":
                 crearRegalias(request, response);
+                //Ingresar al log de auditoria
+                mostrarPaginaRegalias(request, response);
+                
                 break;
         }
     }
@@ -155,7 +162,40 @@ public class ControladorRegalias extends HttpServlet {
 
     private void crearRegalias(HttpServletRequest request, HttpServletResponse response) {
         Regalia regalia = new Regalia();
+        ArtistaEmpresa artistaEmpresa = crearArtistaEmpresa(request);
+        CostoActividad costo = crearCosto(request);
+
+        regalia.setNumeroOperaciones(Integer.parseInt(request.getParameter("numOp")));
         regalia.setFecha(Timestamp.from(Instant.now()));
-        
+        regalia.setArtistaEmpresa(artistaEmpresa);
+        regalia.setCosto(costo);
+        regalia.calcularRegalias();
+
+        RegaliaDaoImpl regaliaDao=new RegaliaDaoImpl(true);
+        regalia.setIdRegalia(regaliaDao.crearRegalia(regalia));
+    }
+
+    private ArtistaEmpresa crearArtistaEmpresa(HttpServletRequest request) {
+        ArtistaEmpresaDaoImpl artistaEmpresaDao = new ArtistaEmpresaDaoImpl(true);
+        ArtistaDaoImpl artistaDao = new ArtistaDaoImpl(true);
+        EmpresaDifusoraDaoImpl empresaDao = new EmpresaDifusoraDaoImpl(true);
+
+        ArtistaEmpresa artistaEmpresa = new ArtistaEmpresa();
+
+        artistaEmpresa.setArtista(artistaDao.obtenerArtista(Integer.parseInt(request.getParameter("nomArtista"))));
+        artistaEmpresa.setEmpresaDifusora(empresaDao.obtenerEmpresaDifusora(Integer.parseInt(request.getParameter("nomEmpresa"))));
+
+        artistaEmpresa.setIdArtistaEmpresa(artistaEmpresaDao.
+                getIdArtistaEmpresaPorArtistayEmpresa(
+                        artistaEmpresa.getArtista().getIdArtista(),
+                        artistaEmpresa.getEmpresaDifusora().getIdEmpresaDifusora()));
+        return artistaEmpresa;
+    }
+
+    private CostoActividad crearCosto(HttpServletRequest request) {
+        CostoActividadDaoImpl costoDao = new CostoActividadDaoImpl(true);
+        CostoActividad costo = costoDao.getCostoPorIdEmpresa(
+                Integer.parseInt(request.getParameter("nomEmpresa")));
+        return costo;
     }
 }

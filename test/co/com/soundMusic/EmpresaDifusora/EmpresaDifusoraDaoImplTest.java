@@ -36,9 +36,9 @@ public class EmpresaDifusoraDaoImplTest {
     public void setUp() throws SQLException {
         daoEmpresaDifusora = new EmpresaDifusoraDaoImpl(false);
         empresaPrueba = new EmpresaDifusora(1, "YOUTUBE", Date.valueOf("2018-06-01"), null, "A",
-                1, 1, 1);
+                1, 1);
         empresaPruebaAct = new EmpresaDifusora(1, "YOUTUBE", Date.valueOf("2018-06-01"), null, "A",
-                1, 1, 1);
+                1, 1);
     }
 
     @After

@@ -1,5 +1,3 @@
-<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
-<%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,7 +31,6 @@
                     <div class="row">
                         <div class="col">
                             <a href="controladorArtista?opcion=listarArtistas" class="btn btn-danger" id="btn-regresar">Regresar</a>
-                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Cancion</button>
                         </div>
                     </div>
 
@@ -94,49 +91,7 @@
                             <input type="text" class="form-control" id="nomArtista" name="nomArtista" placeholder="ingresar el nombre del artista">
                             <div class="invalid-feedback">El campo nombre artista es obligatorio</div>
                         </div>
-                        <br>
-                        <div class="form-row">
-                            <div class="col">
-                                <label >Numero del Celular*</label>
-                                <input type="number" class="form-control" name="numCel" id="numCel" placeholder="Ingrese el numero de celular" >
-                                <div class="invalid-feedback ">El numero celular debe ser obligatorio</div>
-                            </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="col">
-                                <label >Pais*</label>
-                                <select class="form-control" name="pais" id="pais">
-                                    <option value="">Seleccionar el pais</option>
-                                    <%//Listar los paises en la base de datos
-                                        List<Pais> listaPais
-                                                = (List<Pais>) request.getAttribute("lstPais");
-                                        for (Pais pais : listaPais) {
-                                            out.print("<option value='" + pais.getIdPais()
-                                                    + "'>" + pais.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
-                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
-                            </div>
-                            <div class="col">
-                                <label >Ciudad</label>
-                                <!-- <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ingrese la ciudad" > -->
-                                <select class="form-control" name="ciudad" id="ciudad">
-                                    <option value="">Seleccionar la ciudad</option>
-                                    <%//Listar las ciudades en la base de datos
-                                        List<Ciudad> listaCiudad
-                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
-                                        for (Ciudad ciudad : listaCiudad) {
-                                            out.print("<option value='" + ciudad.getIdCiudad()
-                                                    + "'>" + ciudad.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
-                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
-                            </div>
-                        </div>                     
-
+                        <br>                               
                         <div class="form-group">
                             <div class="panel">Subir Foto Del Artista</div>
                             <input type="file" class="nuevaFoto" name="nuevaFoto">

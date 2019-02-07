@@ -13,7 +13,7 @@ public interface IRegaliaDao {
 
     Regalia obtenerRegalia(int idRegalia);
 
-    void crearERegalia(Regalia regalia) throws SQLException;
+    int crearRegalia(Regalia regalia);
 
     void actualizarRegalia(Regalia regalia) throws SQLException;
 }

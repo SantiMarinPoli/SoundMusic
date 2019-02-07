@@ -27,7 +27,7 @@ public class DBUtil {
     public static Connection getConexion() {
         try {
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            return DriverManager.getConnection(URL, USER_TEST, PASS_TEST);
+            return DriverManager.getConnection(URL, USER, PASS);
 
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());

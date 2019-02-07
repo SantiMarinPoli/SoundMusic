@@ -35,6 +35,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
     private static final String SELECT_ARTISTAS_POR_ID_EMPRESA;
     private static final String SELECT_EMPRESAS_POR_ID_ARTISTA;
     private static final String SELECT_ULTIMO_ID;
+    private static final String SELECT_ID_ARTISTA_EMPRESA;
 
     public ArtistaEmpresaDaoImpl(Boolean production) {
         isProduction = production;
@@ -132,9 +133,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
                     rs.getString("PRIMER_APELLIDO"), rs.getString("SEGUNDO_APELLIDO"), rs.getString("NOMBRE_ARTISTICO"),
                     rs.getString("GENERO"), rs.getString("STATUS"), rs.getString("RUTA_IMAGEN")};
 
-                Date[] fechasArtista = {rs.getDate("FECHA_NACIMIENTO"), rs.getDate("FECHA_CREACION")};
-
-                Artista artista = new Artista(idArtista, datosArtista, fechasArtista, rs.getInt("CONTACTO"));
+                Artista artista = new Artista(idArtista, datosArtista, rs.getDate("FECHA_CREACION"));
                 lstArtistasPorEmpresa.add(artista);
             }
         } catch (SQLException | NullPointerException ex) {
@@ -249,7 +248,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
                 artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
                 artistaEmpresa.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
                 artistaEmpresa.getEmpresaDifusora().setIdEmpresaDifusora(rs.getInt("ID_EMPRESA_DIFUSORA"));
-                
+
                 lstArtistas.add(artistaEmpresa);
             }
         } catch (SQLException | NullPointerException ex) {
@@ -353,6 +352,34 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
         return -1;
     }
 
+    public int getIdArtistaEmpresaPorArtistayEmpresa(int idArtista, int IdEmpresa) {
+        int id=-1;        
+        try {
+            getConexion();
+            PreparedStatement ps = conexion.prepareStatement(SELECT_ID_ARTISTA_EMPRESA);
+            ps.setInt(1, idArtista);
+            ps.setInt(2, IdEmpresa);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                id= rs.getInt("ID_ARTISTA_EMPRESA");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ArtistaEmpresaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return id;
+    }
+
     static {
         SELECT_ARTISTAS_EMPRESAS = "SELECT ID_ARTISTA_EMPRESA, ID_ARTISTA, ID_EMPRESA_DIFUSORA \n"
                 + "FROM ARTISTA_EMPRESA \n"
@@ -361,7 +388,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
         String SELECT_ARTISTAS_EMPRESAS_C = "SELECT ARTEMP.ID_ARTISTA_EMPRESA, \n"
                 + "ARTEMP.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, \n"
                 + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
-                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.FECHA_CREACION, AR.STATUS, \n"
                 + "AR.RUTA_IMAGEN, AR.ID_CONTACTO,\n"
                 + "ARTEMP.ID_EMPRESA_DIFUSORA, EMDI.NOMBRE,EMDI.FECHA_CREACION AS FECHA_EMPRESA, \n"
                 + "EMDI.FECHA_TERMINACION,EMDI.STATUS, EMDI.ID_TIPO_ACTIVIDAD, \n"
@@ -380,7 +407,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
         String SELECT_ARTISTA_EMPRESA_POR_ID_C = "SELECT ARTEMP.ID_ARTISTA_EMPRESA, \n"
                 + "ARTEMP.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, \n"
                 + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
-                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.FECHA_CREACION, AR.STATUS, \n"
                 + "AR.RUTA_IMAGEN, AR.ID_CONTACTO,\n"
                 + "ARTEMP.ID_EMPRESA_DIFUSORA, EMDI.NOMBRE,EMDI.FECHA_CREACION AS FECHA_EMPRESA, \n"
                 + "EMDI.FECHA_TERMINACION,EMDI.STATUS, EMDI.ID_TIPO_ACTIVIDAD, \n"
@@ -394,7 +421,7 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
         SELECT_ARTISTAS_POR_ID = "SELECT AR.ID_ARTISTA, AR.PRIMER_NOMBRE, AR.SEGUNDO_NOMBRE, "
                 + "AR.PRIMER_APELLIDO, AR.SEGUNDO_APELLIDO, AR.NOMBRE_ARTISTICO, AR.GENERO, \n"
-                + "AR.FECHA_NACIMIENTO, AR.FECHA_CREACION, AR.STATUS, \n"
+                + "AR.FECHA_CREACION, AR.STATUS, \n"
                 + "AR.RUTA_IMAGEN, AR.ID_CONTACTO AS CONTACTO \n"
                 + "FROM ARTISTA_EMPRESA AE INNER JOIN ARTISTA AR \n"
                 + "ON AE.ID_ARTISTA = AR.ID_ARTISTA \n"
@@ -416,6 +443,10 @@ public class ArtistaEmpresaDaoImpl implements IArtistaEmpresaDao {
 
         SELECT_ULTIMO_ID = "SELECT ARTISTA_EMPRESA_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+
+        SELECT_ID_ARTISTA_EMPRESA = "SELECT ID_ARTISTA_EMPRESA\n"
+                + "FROM ARTISTA_EMPRESA\n"
+                + "WHERE ID_ARTISTA=? AND ID_EMPRESA_DIFUSORA=?";
     }
 
     private void getConexion() {

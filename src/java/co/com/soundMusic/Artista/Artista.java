@@ -1,6 +1,5 @@
 package co.com.soundMusic.Artista;
 
-import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresaDaoImpl;
 import java.sql.Date;
 import java.util.List;
@@ -19,13 +18,11 @@ public class Artista {
     private String segundoApellido;
     private String nombreArtistico;
     private String genero;
-    private Date fechaNacimiento;
     private Date fechaCreacion;
     private String status;
     private String rutaImagen;
-    private Contacto contacto;
 
-    public Artista(Integer idArtista, String[] datosArtista, Date[] fechasArtista, Integer idContacto) {
+    public Artista(Integer idArtista, String[] datosArtista, Date fechasCreacion) {
         this.idArtista = idArtista;
         this.primerNombre = datosArtista[0];
         this.segundoNombre = datosArtista[1];
@@ -33,16 +30,13 @@ public class Artista {
         this.segundoApellido = datosArtista[3];
         this.nombreArtistico = datosArtista[4];
         this.genero = datosArtista[5];
-        this.fechaNacimiento = fechasArtista[0];
-        this.fechaCreacion = fechasArtista[1];
+        this.fechaCreacion = fechasCreacion;
         this.status = datosArtista[6];
         this.rutaImagen = datosArtista[7];
-        this.contacto = new Contacto();
-        this.contacto.setIdContacto(idContacto);
     }
 
     public Artista() {
-        this.contacto = new Contacto();
+
     }
 
     public Integer getIdArtista() {
@@ -101,14 +95,6 @@ public class Artista {
         this.genero = genero;
     }
 
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
-
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
@@ -131,14 +117,6 @@ public class Artista {
 
     public void setRutaImagen(String rutaImagen) {
         this.rutaImagen = rutaImagen;
-    }
-
-    public Contacto getContacto() {
-        return contacto;
-    }
-
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
     }
 
     @Override

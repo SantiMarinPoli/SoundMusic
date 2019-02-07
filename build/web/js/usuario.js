@@ -21,6 +21,25 @@ $(function () {
             $(this).html("Activado");
             $(this).attr("activarUsuario", 0);
         }
-
     });
 }());
+
+//MOSTRAR SOLO USUARIOS ACTIVOS O TODOS
+function cambiarLista() {
+    // Get the checkbox
+    var checkBox = document.getElementById("modoListar");
+
+    if (checkBox.checked === true) {
+        $("table tr").each(function () {
+            var fila = $(this).find(":nth-child(7)");
+            if (fila.text() === "Inactivo")
+                $(this).hide();
+        });
+    } else {
+        $("table tr").each(function () {
+            var fila = $(this).find(":nth-child(7)");
+            if (fila.text() === "Inactivo")
+                $(this).show();
+        });
+    }
+}

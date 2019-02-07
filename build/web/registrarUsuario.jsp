@@ -1,7 +1,4 @@
-
 <%@page import="co.com.soundMusic.Seguridad.Perfiles.Perfil"%>
-<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
-<%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -95,14 +92,6 @@
                             <div class="invalid-feedback ">Debe seleccionar un sexo</div>
 
                         </div>
-
-                        <div class="form-group">
-                            <label>Correo*</label>
-                            <input type="email" name="email" id="email" class="form-control" placeholder="Ingresar el correo electronico">
-                            <div class="invalid-feedback ">El correo electronico es un campo obligatorio</div>
-
-                        </div>
-
                         <div class="form-group">
                             <label>Nombre del Usuario*</label>
                             <input type="text" class="form-control" name="nomUsuario" id="nomUsuario" placeholder="Ingresar el nuevo usuario del operador"  >
@@ -157,69 +146,8 @@
                                 %>
                             </select>
                             <div class="invalid-feedback ">El campo perfil debe ser obligatorio</div>
-                        </div>
+                        </div>  
                         <br>
-                        <div class="form-row">
-                            <div class="col">
-                                <label >Numero del Celular*</label>
-                                <input type="number" class="form-control" name="numCel" id="numCel"placeholder="Ingrese el numero de celular" >
-                                <div class="invalid-feedback ">El numero celular debe ser obligatorio</div>
-                            </div>
-                            <div class="col">
-                                <label >Numero del Telefono</label>
-                                <input type="number" class="form-control" name="numTel" id="numTel" placeholder="Ingrese el numero de telefonico" >
-                                <div class="invalid-feedback ">El numero telefonico debe ser obligatorio</div>
-                            </div>
-                        </div>
-
-                        <br>
-
-                        <div class="form-row">
-                            <div class="col">
-                                <label >Pais*</label>
-                                <select class="form-control" name="pais" id="pais">
-                                    <option value="">Seleccionar el pais</option>
-                                    <%//Listar los paises en la base de datos
-                                        List<Pais> listaPais
-                                                = (List<Pais>) request.getAttribute("lstPais");
-                                        for (Pais pais : listaPais) {
-                                            out.print("<option value='" + pais.getIdPais()
-                                                    + "'>" + pais.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
-                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
-                            </div>
-                            <div class="col">
-                                <label >Ciudad</label>
-                                <!-- <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ingrese la ciudad" > -->
-                                <select class="form-control" name="ciudad" id="ciudad">
-                                    <option value="">Seleccionar la ciudad</option>
-                                    <%//Listar las ciudades en la base de datos
-                                        List<Ciudad> listaCiudad
-                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
-                                        for (Ciudad ciudad : listaCiudad) {
-                                            out.print("<option value='" + ciudad.getIdCiudad()
-                                                    + "'>" + ciudad.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
-                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
-                            </div>
-                        </div>
-
-                        <br>
-
-                        <div class="form-group">
-                            <label>Direccion Actual</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control" placeholder="Ingresar la direccion actual">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Barrio</label>
-                            <input type="text" name="barrio" id="barrio" class="form-control" placeholder="Ingresar el barrio">
-                        </div>
-
                         <div class="form-check checkbox">
                             <input class="form-check-input" type="checkbox" id="check" >
                             <label class="form-check-label" for="check">
@@ -240,7 +168,7 @@
 
     <!--SCRIPT-->
     <script src="bootstrap/JS/popper.min.js" type="text/javascript"></script>
-     <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
+    <script src="bootstrap/JS/jquery.min.js" type="text/javascript"></script>
     <script src="bootstrap/JS/bootstrap.min.js" type="text/javascript"></script>
     <script src="sweetarlert/sweetalert2.min.js" type="text/javascript"></script>
     <script src="js/validacionUsuario.js" type="text/javascript"></script>

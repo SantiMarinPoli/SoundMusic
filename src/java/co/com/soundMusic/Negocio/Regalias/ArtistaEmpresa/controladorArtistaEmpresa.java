@@ -118,7 +118,11 @@ public class controladorArtistaEmpresa extends HttpServlet {
             throws ServletException, IOException {
         EmpresaDifusoraDaoImpl daoEmpresa = new EmpresaDifusoraDaoImpl(true);
         List<EmpresaDifusora> lstEmpresasDifusorasp = daoEmpresa.obtenerEmpresasDifusoras();
+        int[] numeroArtistas = new EmpresaDifusora().getNumeroArtistas(lstEmpresasDifusorasp);
+        int cantidadArtistas = new Artista().getNumeroArtistas();
         request.setAttribute("lstEmpresas", lstEmpresasDifusorasp);
+        request.setAttribute("numeroArtistas", numeroArtistas);
+        request.setAttribute("cantidadArtistas", cantidadArtistas);
         request.getRequestDispatcher("/empresa.jsp").forward(request, response);
     }
 }

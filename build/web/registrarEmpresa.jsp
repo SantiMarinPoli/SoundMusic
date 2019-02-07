@@ -1,5 +1,3 @@
-<%@page import="co.com.soundMusic.Contacto.Ciudad.Ciudad"%>
-<%@page import="co.com.soundMusic.Contacto.Pais.Pais"%>
 <%@page import="java.util.List"%>
 <%@page import="co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -34,8 +32,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <a href="controladorEmpresaDifusora?opcion=listarEmpresa" class="btn btn-danger" id="btn-regresar">Regresar</a>
-                            <button type="button" class="btn btn-success" id="btn-nuevoRegistro">Agregar Nueva Empresa</button>
+                            <a href="controladorEmpresaDifusora?opcion=listarEmpresa" class="btn btn-danger" id="btn-regresar">Regresar</a>                         
                         </div>
                     </div>
 
@@ -65,58 +62,9 @@
                                 </select>
                                 <div class="invalid-feedback ">El campo Tipo Empresa debe ser obligatorio</div>
                             </div>                        
-
-
-                            <div class="col">
-                                <label>Correo de la empresa*</label>
-                                <input type="email" class="form-control" name="correo" id="correo" placeholder="Ingresar el correo electronico principal">
-                                <div class="invalid-feedback">El campo correo sera obligatorio.</div>
-                            </div>
                         </div>    
-
                         <br>
-
                         <div class="form-row">
-                            <div class="col">
-                                <label >Pais*</label>
-                                <select class="form-control" name="pais" id="pais">
-                                    <option value="">Seleccionar el pais</option>
-                                    <%//Listar los paises en la base de datos
-                                        List<Pais> listaPais
-                                                = (List<Pais>) request.getAttribute("lstPais");
-                                        for (Pais pais : listaPais) {
-                                            out.print("<option value='" + pais.getIdPais()
-                                                    + "'>" + pais.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
-                                <div class="invalid-feedback ">El campo pais debe ser obligatorio</div>
-                            </div>
-                            <div class="col">
-                                <label >Ciudad</label>
-                                <!-- <input type="text" class="form-control" name="ciudad" id="ciudad" placeholder="Ingrese la ciudad" > -->
-                                <select class="form-control" name="ciudad" id="ciudad">
-                                    <option value="">Seleccionar la ciudad</option>
-                                    <%//Listar las ciudades en la base de datos
-                                        List<Ciudad> listaCiudad
-                                                = (List<Ciudad>) request.getAttribute("lstCiudad");
-                                        for (Ciudad ciudad : listaCiudad) {
-                                            out.print("<option value='" + ciudad.getIdCiudad()
-                                                    + "'>" + ciudad.getNombre() + "</option>");
-                                        }
-                                    %>
-                                </select>
-                                <div class="invalid-feedback ">El campo ciudad debe ser obligatorio</div>
-                            </div>
-                        </div>
-
-                        <br>
-
-                        <div class="form-row">
-                            <div class="col">
-                                <label>Numero Celular</label>
-                                <input type="number" class="form-control" name="numFijo"  id="numFijo" placeholder="Ingresar el numero telefonico principal">
-                            </div>
                             <div class="col">
                                 <label>Valor de la Operacion*</label>
                                 <input type="number" class="form-control" name="valorOp"  id="valorOp" placeholder="Ingresar el valor de la operacion">
@@ -124,26 +72,6 @@
                             </div>
                         </div>
                         <br>
-                        <div class="form-group">
-                            <label>Agregar Artista</label>
-                            <input type="text" name="agregarArtista"  class="form-control" id="textAgregarArtista" placeholder="Agregar artista"> 
-                        </div>
-
-                        <div class="form-group">
-                            <button type="button" class="btn btn-outline-primary  " id="btnAgregarArtista">Agregar Artista</button>
-                        </div>
-
-                        <div class="form-group ">
-                            <ul class="list-group listaArtista" id="lista">
-                                <li class="list-group-item disabled "><a href="#" >Guns and Roses</a></li>
-                                <li class="list-group-item disabled "><a href="#" >JBailvin</a></li>
-                                <li class="list-group-item disabled "><a href="#" >Beatles</a></li>
-                                <li class="list-group-item disabled "><a href="#" >Avicci</a></li>
-                            </ul>
-                        </div>
-
-                        <br>
-
                         <div class="form-group">
                             <div class="form-check checkbox">
                                 <input class="form-check-input" type="checkbox" id="terminos" name="terminos">

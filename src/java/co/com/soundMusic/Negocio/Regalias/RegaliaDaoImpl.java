@@ -33,6 +33,7 @@ public class RegaliaDaoImpl implements IRegaliaDao {
     private static final String SELECT_REGALIA_POR_ID;
     private static final String INSERT_REGALIA;
     private static final String UPDATE_REGALIA;
+    private static final String SELECT_ULTIMO_ID;
 
     public RegaliaDaoImpl(Boolean production) {
         isProduction = production;
@@ -104,7 +105,7 @@ public class RegaliaDaoImpl implements IRegaliaDao {
                 Regalia regalia = new Regalia();
 
                 //Datos CostoActividad
-                costo.setIdCostoActividad(rs.getInt("ID_COSTO"));                
+                costo.setIdCostoActividad(rs.getInt("ID_COSTO"));
                 //Datos ArtistaEmpresa
                 artistaEmpresa.setIdArtistaEmpresa(rs.getInt("ID_ARTISTA_EMPRESA"));
                 artistaEmpresa.getArtista().setIdArtista(rs.getInt("ID_ARTISTA"));
@@ -187,14 +188,33 @@ public class RegaliaDaoImpl implements IRegaliaDao {
     }
 
     @Override
-    public void crearERegalia(Regalia regalia) throws SQLException {
+    public int crearRegalia(Regalia regalia) {
         getConexion();
-        PreparedStatement ps = conexion.prepareStatement(INSERT_REGALIA);
-        ps.setFloat(1, regalia.getTotalGanado());
-        ps.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
-        ps.setInt(3, regalia.getArtistaEmpresa().getIdArtistaEmpresa());
-        ps.setInt(4, regalia.getCosto().getIdCostoActividad());
-        ps.executeUpdate();
+        int id = -1;
+        try {
+            PreparedStatement ps = conexion.prepareStatement(INSERT_REGALIA);
+
+            ps.setFloat(1, regalia.getTotalGanado());
+            ps.setInt(2, regalia.getNumeroOperaciones());
+            ps.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            ps.setInt(4, regalia.getArtistaEmpresa().getIdArtistaEmpresa());
+            ps.setInt(5, regalia.getCosto().getIdCostoActividad());
+            ps.executeUpdate();
+            id = getUltimoIdRegalia();
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.close(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException | SQLException ex) {
+                Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return id;
     }
 
     @Override
@@ -225,9 +245,9 @@ public class RegaliaDaoImpl implements IRegaliaDao {
                 + "ORDER BY ID_REGALIA";
 
         SELECT_REGALIAS_SIMPLE = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO,REG.NUMERO_OPERACIONES ,REG.FECHA,\n"
-                + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA \n"                               
+                + "REG.ID_ARTISTA_EMPRESA, REG.ID_COSTO, ARTEMP.ID_ARTISTA, ARTEMP.ID_EMPRESA_DIFUSORA \n"
                 + "FROM REGALIA REG INNER JOIN ARTISTA_EMPRESA ARTEMP \n"
-                + "ON REG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"                
+                + "ON REG.ID_ARTISTA_EMPRESA = ARTEMP.ID_ARTISTA_EMPRESA \n"
                 + "ORDER BY ID_REGALIA";
 
         SELECT_REGALIA_POR_ID = "SELECT REG.ID_REGALIA, REG.TOTAL_GANADO,REG.NUMERO_OPERACIONES ,REG.FECHA,\n"
@@ -240,14 +260,16 @@ public class RegaliaDaoImpl implements IRegaliaDao {
                 + "ON REG.ID_COSTO = COSTA.ID_COSTO_ACTIVIDAD\n"
                 + "WHERE ID_REGALIA=?";
 
-        INSERT_REGALIA = "INSERT INTO REGALIA (TOTAL_GANADO, FECHA, \n"
-                + "ID_ARTISTA_EMPRESA, ID_COSTO)\n"
-                + "VALUES (?,?,?,?)";
+        INSERT_REGALIA = "INSERT INTO REGALIA (TOTAL_GANADO,NUMERO_OPERACIONES, FECHA, ID_ARTISTA_EMPRESA, ID_COSTO)\n"
+                + "VALUES(?,?,?,?,?)";
 
         UPDATE_REGALIA = "UPDATE REGALIA \n"
                 + "SET TOTAL_GANADO=?, FECHA=?, \n"
                 + "ID_ARTISTA_EMPRESA=?, ID_COSTO=? \n"
                 + "WHERE ID_REGALIA=?";
+
+        SELECT_ULTIMO_ID = "SELECT REGALIA_SEQ.CURRVAL\n"
+                + "FROM DUAL";
     }
 
     private void getConexion() {
@@ -258,5 +280,32 @@ public class RegaliaDaoImpl implements IRegaliaDao {
         }
         stmt = null;
         rs = null;
+    }
+
+    private int getUltimoIdRegalia() {
+        int idRegalia = -1;
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_ULTIMO_ID);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                idRegalia = rs.getInt("CURRVAL");
+                return idRegalia;
+            }
+        } catch (SQLException | NullPointerException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.close(rs);
+                    DbUtils.close(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException | SQLException ex) {
+                Logger.getLogger(RegaliaDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return idRegalia;
     }
 }

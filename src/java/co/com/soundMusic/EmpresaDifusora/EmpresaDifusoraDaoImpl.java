@@ -1,8 +1,5 @@
 package co.com.soundMusic.EmpresaDifusora;
 
-import co.com.soundMusic.Contacto.Ciudad.Ciudad;
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Contacto.Pais.Pais;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora;
 import co.com.soundMusic.utilidades.DBUtil;
@@ -35,6 +32,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
     private static final String UPDATE_STATUS;
     private static final String UPDATE_EMPRSA;
     private static final String SELECT_ULTIMO_ID;
+    private static final String SELECT_ID_COSTO;
 
     public EmpresaDifusoraDaoImpl(Boolean production) {
         if (production) {
@@ -55,26 +53,9 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
 
             while (rs.next()) {
                 EmpresaDifusora empresaDifusora = new EmpresaDifusora();
-                Contacto contacto = new Contacto();
                 TipoEmpresaDifusora tipoActividad = new TipoEmpresaDifusora();
                 CostoActividad costoOperacion = new CostoActividad();
-                Pais pais = new Pais();
-                Ciudad ciudad = new Ciudad();
-                //Crear Pais
-                pais.setIdPais(rs.getInt("PAIS"));
-                pais.setNombre(rs.getString("NOMBRE_PAIS"));
-                //Crear Ciudad
-                ciudad.setIdCiudad(rs.getInt("CIUDAD"));
-                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
-                ciudad.setPais(pais);
-                //Crear Contacto
-                contacto.setIdContacto(rs.getInt("CONTACTO"));
-                contacto.setCelular(rs.getString("CELULAR"));
-                contacto.setTelefono(rs.getString("TELEFONO"));
-                contacto.setDireccion(rs.getString("DIRECCION"));
-                contacto.setBarrio(rs.getString("BARRIO"));
-                contacto.setEmail(rs.getString("EMAIL"));
-                contacto.setCiudad(ciudad);
+
                 //Crear Tipo Empres Difusora
                 tipoActividad.setIdTipoActividad(rs.getInt("TIPO_ACTIVIDAD"));
                 tipoActividad.setTipoActividad(rs.getString("NOMBRE_ACTIVIDAD"));
@@ -89,7 +70,6 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 empresaDifusora.setFechaCreacion(rs.getDate("FECHA_CREACION"));
                 empresaDifusora.setFechaTerminacion(rs.getDate("FECHA_TERMINACION"));
                 empresaDifusora.setStatus(rs.getString("STATUS"));
-                empresaDifusora.setContacto(contacto);
                 empresaDifusora.setCostoOperacion(costoOperacion);
                 empresaDifusora.setTipoActividad(tipoActividad);
 
@@ -123,26 +103,10 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             rs = ps.executeQuery();
 
             while (rs.next()) {
-                Contacto contacto = new Contacto();
+
                 TipoEmpresaDifusora tipoActividad = new TipoEmpresaDifusora();
                 CostoActividad costoOperacion = new CostoActividad();
-                Pais pais = new Pais();
-                Ciudad ciudad = new Ciudad();
-                //Crear Pais
-                pais.setIdPais(rs.getInt("PAIS"));
-                pais.setNombre(rs.getString("NOMBRE_PAIS"));
-                //Crear Ciudad
-                ciudad.setIdCiudad(rs.getInt("CIUDAD"));
-                ciudad.setNombre(rs.getString("NOMBRE_CIUDAD"));
-                ciudad.setPais(pais);
-                //Crear Contacto
-                contacto.setIdContacto(rs.getInt("CONTACTO"));
-                contacto.setCelular(rs.getString("CELULAR"));
-                contacto.setTelefono(rs.getString("TELEFONO"));
-                contacto.setDireccion(rs.getString("DIRECCION"));
-                contacto.setBarrio(rs.getString("BARRIO"));
-                contacto.setEmail(rs.getString("EMAIL"));
-                contacto.setCiudad(ciudad);
+
                 //Crear Tipo Empres Difusora
                 tipoActividad.setIdTipoActividad(rs.getInt("TIPO_ACTIVIDAD"));
                 tipoActividad.setTipoActividad(rs.getString("NOMBRE_ACTIVIDAD"));
@@ -157,7 +121,6 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
                 empresaDifusora.setFechaCreacion(rs.getDate("FECHA_CREACION"));
                 empresaDifusora.setFechaTerminacion(rs.getDate("FECHA_TERMINACION"));
                 empresaDifusora.setStatus(rs.getString("STATUS"));
-                empresaDifusora.setContacto(contacto);
                 empresaDifusora.setCostoOperacion(costoOperacion);
                 empresaDifusora.setTipoActividad(tipoActividad);
 
@@ -189,8 +152,7 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             ps.setDate(2, empresaDifusora.getFechaCreacion());
             ps.setString(3, empresaDifusora.getStatus());
             ps.setInt(4, empresaDifusora.getTipoActividad().getIdTipoActividad());
-            ps.setInt(5, empresaDifusora.getContacto().getIdContacto());
-            ps.setInt(6, empresaDifusora.getCostoOperacion().getIdCostoActividad());
+            ps.setInt(5, empresaDifusora.getCostoOperacion().getIdCostoActividad());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -238,9 +200,8 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
             ps.setDate(2, empresaDifusora.getFechaTerminacion());
             ps.setString(3, empresaDifusora.getStatus());
             ps.setInt(4, empresaDifusora.getTipoActividad().getIdTipoActividad());
-            ps.setInt(5, empresaDifusora.getContacto().getIdContacto());
-            ps.setInt(6, empresaDifusora.getCostoOperacion().getIdCostoActividad());
-            ps.setInt(7, empresaDifusora.getIdEmpresaDifusora());
+            ps.setInt(5, empresaDifusora.getCostoOperacion().getIdCostoActividad());
+            ps.setInt(6, empresaDifusora.getIdEmpresaDifusora());
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Excepción " + ex.getMessage());
@@ -281,25 +242,38 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
         }
         return idEmpresaDifusora;
     }
+    
+    public int getIdCosto(int IdEmpresa) {
+        try {
+            PreparedStatement ps = conexion.prepareStatement(SELECT_ID_COSTO);
+            ps.setInt(1, IdEmpresa);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                return rs.getInt("ID_COSTO_ACTIVIDAD");
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(EmpresaDifusoraDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return -1;
+    }
 
     static {
         SELECT_EMPRESAS = "SELECT EMDI.ID_EMPRESA_DIFUSORA,EMDI.NOMBRE,EMDI.FECHA_CREACION, \n"
                 + "EMDI.FECHA_TERMINACION,EMDI.STATUS,EMDI.ID_TIPO_ACTIVIDAD AS TIPO_ACTIVIDAD,\n"
-                + " EMDI.ID_CONTACTO AS CONTACTO,EMDI.ID_COSTO_ACTIVIDAD AS COSTO,\n"
-                + "CONT.CELULAR AS CELULAR, CONT.TELEFONO AS TELEFONO,\n"
-                + "CONT.DIRECCION AS DIRECCION, \n"
-                + "CONT.BARRIO AS BARRIO, CONT.EMAIL AS EMAIL, \n"
-                + "CIU.ID_CIUDAD AS CIUDAD,CIU.NOMBRE AS NOMBRE_CIUDAD,\n"
-                + "PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS,TIPACT.NOMBRE AS NOMBRE_ACTIVIDAD,\n"
-                + "COSACT.COSTO_POR_OPERACION AS COSTO_OPERACION,COSACT.FECHA_CREACION AS COSTO_CREACION,\n"
+                + "EMDI.ID_COSTO_ACTIVIDAD AS COSTO, TIPACT.NOMBRE AS NOMBRE_ACTIVIDAD,\n"
+                + "COSACT.COSTO_POR_OPERACION AS COSTO_OPERACION,COSACT.FECHA_CREACION AS COSTO_CREACION, \n"
                 + "COSACT.FECHA_USO_FINAL AS COSTO_FECHA_FINAL \n"
-                + "FROM EMPRESA_DIFUSORA EMDI INNER JOIN CONTACTO CONT \n"
-                + "ON EMDI.ID_CONTACTO = CONT.ID_CONTACTO \n"
-                + "INNER JOIN CIUDAD CIU \n"
-                + "ON CONT.ID_CIUDAD = CIU.ID_CIUDAD \n"
-                + "INNER JOIN PAIS PA \n"
-                + "ON CIU.ID_PAIS = PA.ID_PAIS \n"
-                + "INNER JOIN TIPO_ACTIVIDAD TIPACT \n"
+                + "FROM EMPRESA_DIFUSORA EMDI INNER JOIN TIPO_ACTIVIDAD TIPACT \n"
                 + "ON EMDI.ID_TIPO_ACTIVIDAD = TIPACT.ID_TIPO_ACTIVIDAD \n"
                 + "INNER JOIN COSTO_ACTIVITIDAD COSACT \n"
                 + "ON EMDI.ID_COSTO_ACTIVIDAD = COSACT.ID_COSTO_ACTIVIDAD \n"
@@ -307,40 +281,34 @@ public class EmpresaDifusoraDaoImpl implements IEmpresaDifusoraDao {
 
         SELECT_EMPRESA_POOR_ID = "SELECT EMDI.NOMBRE,EMDI.FECHA_CREACION, \n"
                 + "EMDI.FECHA_TERMINACION,EMDI.STATUS, \n"
-                + "EMDI.ID_TIPO_ACTIVIDAD AS TIPO_ACTIVIDAD, EMDI.ID_CONTACTO AS CONTACTO, \n"
-                + "EMDI.ID_COSTO_ACTIVIDAD AS COSTO,CONT.CELULAR AS CELULAR, \n"
-                + "CONT.TELEFONO AS TELEFONO,CONT.DIRECCION AS DIRECCION, \n"
-                + "CONT.BARRIO AS BARRIO, CONT.EMAIL AS EMAIL, \n"
-                + "CIU.ID_CIUDAD AS CIUDAD,CIU.NOMBRE AS NOMBRE_CIUDAD,\n"
-                + "PA.ID_PAIS AS PAIS, PA.NOMBRE AS NOMBRE_PAIS,TIPACT.NOMBRE AS NOMBRE_ACTIVIDAD,\n"
+                + "EMDI.ID_TIPO_ACTIVIDAD AS TIPO_ACTIVIDAD, \n"
+                + "EMDI.ID_COSTO_ACTIVIDAD AS COSTO,TIPACT.NOMBRE AS NOMBRE_ACTIVIDAD,\n"
                 + "COSACT.COSTO_POR_OPERACION AS COSTO_OPERACION,COSACT.FECHA_CREACION AS COSTO_CREACION,\n"
                 + "COSACT.FECHA_USO_FINAL AS COSTO_FECHA_FINAL \n"
-                + "FROM EMPRESA_DIFUSORA EMDI INNER JOIN CONTACTO CONT \n"
-                + "ON EMDI.ID_CONTACTO = CONT.ID_CONTACTO \n"
-                + "INNER JOIN CIUDAD CIU \n"
-                + "ON CONT.ID_CIUDAD = CIU.ID_CIUDAD \n"
-                + "INNER JOIN PAIS PA \n"
-                + "ON CIU.ID_PAIS = PA.ID_PAIS \n"
-                + "INNER JOIN TIPO_ACTIVIDAD TIPACT \n"
+                + "FROM EMPRESA_DIFUSORA EMDI  INNER JOIN TIPO_ACTIVIDAD TIPACT \n"
                 + "ON EMDI.ID_TIPO_ACTIVIDAD = TIPACT.ID_TIPO_ACTIVIDAD \n"
                 + "INNER JOIN COSTO_ACTIVITIDAD COSACT \n"
                 + "ON EMDI.ID_COSTO_ACTIVIDAD = COSACT.ID_COSTO_ACTIVIDAD \n"
                 + "WHERE ID_EMPRESA_DIFUSORA=?";
 
         INSERT_EMPRESA = "INSERT INTO EMPRESA_DIFUSORA (NOMBRE,FECHA_CREACION,STATUS,\n"
-                + "ID_TIPO_ACTIVIDAD, ID_CONTACTO, ID_COSTO_ACTIVIDAD)\n"
-                + "VALUES (?,?,?,?,?,?)";
+                + "ID_TIPO_ACTIVIDAD, ID_COSTO_ACTIVIDAD)\n"
+                + "VALUES (?,?,?,?,?)";
 
         UPDATE_STATUS = "UPDATE EMPRESA_DIFUSORA\n"
                 + "SET STATUS=?\n"
                 + "WHERE ID_EMPRESA_DIFUSORA=?";
 
-        UPDATE_EMPRSA = "UPDATE EMPRESA_DIFUSORA\n"
+        UPDATE_EMPRSA = " UPDATE EMPRESA_DIFUSORA\n"
                 + "SET NOMBRE=?,FECHA_TERMINACION=?,STATUS=?,\n"
-                + "ID_TIPO_ACTIVIDAD=?, ID_CONTACTO=?, ID_COSTO_ACTIVIDAD=?\n"
+                + "ID_TIPO_ACTIVIDAD=?,ID_COSTO_ACTIVIDAD=?\n"
                 + "WHERE ID_EMPRESA_DIFUSORA=?";
 
         SELECT_ULTIMO_ID = "SELECT EMPRESA_DIFUSORA_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+
+        SELECT_ID_COSTO = "SELECT ID_COSTO_ACTIVIDAD\n"
+                + "FROM EMPRESA_DIFUSORA\n"
+                + "WHERE ID_EMPRESA_DIFUSORA=?";
     }
 }

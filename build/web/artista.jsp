@@ -22,18 +22,22 @@
             <div class="row animated fadeIn fast">
                 <div class="col-md-12">
 
-                    <h3>Modulo de Artista </h3>
+                    <h3>Modulo de Artistas </h3>
                     <hr>
                     <br>
                     <div class="row">
                         <div class="col">
                             <a href="controladorArtista?opcion=crearArtista" class="btn btn-success" id="btnRegistrar">Registrar Artista</a>
                         </div>
+                        <div class="col">
+                            <label>Listar solo activos</label>                            
+                            <input type="checkbox" id="modoListar" onclick="cambiarLista()">
+                        </div>
                     </div>
 
                     <br>
 
-                    <table class="table">
+                    <table class="table" id="listaArtistas">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
@@ -41,7 +45,7 @@
                                 <th scope="col">Foto</th>
                                 <th scope="col">Contrato</th>
                                 <th scope="col">Mes y Año</th>
-                                <th scope="col">Permisos</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Operaciones</th>
                             </tr>
                         </thead>

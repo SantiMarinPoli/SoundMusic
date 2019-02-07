@@ -21,10 +21,6 @@
         <servlet-class>co.com.soundMusic.LogAuditoria.controladorLogAuditoria</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>controladorAlbum</servlet-name>
-        <servlet-class>co.com.soundMusic.Artista.Album.controladorAlbum</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>controladorArtistaEmpresa</servlet-name>
         <servlet-class>co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.controladorArtistaEmpresa</servlet-class>
     </servlet>
@@ -51,10 +47,6 @@
     <servlet-mapping>
         <servlet-name>controladorLogAuditoria</servlet-name>
         <url-pattern>/controladorLogAuditoria</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>controladorAlbum</servlet-name>
-        <url-pattern>/controladorAlbum</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>controladorArtistaEmpresa</servlet-name>

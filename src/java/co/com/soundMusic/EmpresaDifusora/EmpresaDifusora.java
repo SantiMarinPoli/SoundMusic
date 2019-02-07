@@ -1,6 +1,5 @@
 package co.com.soundMusic.EmpresaDifusora;
 
-import co.com.soundMusic.Contacto.Contacto;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora;
 import co.com.soundMusic.Negocio.Regalias.ArtistaEmpresa.ArtistaEmpresa;
@@ -21,27 +20,23 @@ public class EmpresaDifusora {
     private Date fechaCreacion;
     private Date fechaTerminacion;
     private String status;
-    private Contacto contacto;
     private TipoEmpresaDifusora tipoActividad;
     private CostoActividad costoOperacion;
 
     public EmpresaDifusora() {
-        this.contacto = new Contacto();
         this.tipoActividad = new TipoEmpresaDifusora();
         this.costoOperacion = new CostoActividad();
     }
 
     public EmpresaDifusora(Integer idEmpresaDifusora, String nombre, Date fechaCreacion, Date fechaTerminacion,
-            String status, Integer idTipoActividad, Integer idContacto, Integer idCostoOperacion) {
+            String status, Integer idTipoActividad, Integer idCostoOperacion) {
         this.idEmpresaDifusora = idEmpresaDifusora;
         this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaTerminacion = fechaTerminacion;
         this.status = status;
-        this.contacto = new Contacto();
         this.tipoActividad = new TipoEmpresaDifusora();
         this.costoOperacion = new CostoActividad();
-        this.contacto.setIdContacto(idContacto);
         this.tipoActividad.setIdTipoActividad(idTipoActividad);
         this.costoOperacion.setIdCostoActividad(idCostoOperacion);
     }
@@ -84,14 +79,6 @@ public class EmpresaDifusora {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public Contacto getContacto() {
-        return contacto;
-    }
-
-    public void setContacto(Contacto contacto) {
-        this.contacto = contacto;
     }
 
     public TipoEmpresaDifusora getTipoActividad() {
@@ -143,7 +130,6 @@ public class EmpresaDifusora {
         ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
         return daoArtistaEmpresa.obtenerNumeroDeArtistas(this.idEmpresaDifusora);
     }*/
-
     public int[] getNumeroArtistas(List<EmpresaDifusora> lstEmpresa) {
         ArtistaEmpresaDaoImpl daoArtistaEmpresa = new ArtistaEmpresaDaoImpl(true);
         int[] numeroArtistas = daoArtistaEmpresa.obtenerNumeroDeArtistas2(lstEmpresa);

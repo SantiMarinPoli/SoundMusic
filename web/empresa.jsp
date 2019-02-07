@@ -23,7 +23,7 @@
             <div class="row animated fadeIn fast">
                 <div class="col-md-12">
 
-                    <h3>Modulo de Empresa Difunsora </h3>
+                    <h3>Modulo de Empresa Difusora </h3>
                     <hr>
                     <br>
                     <div class="row">
@@ -34,7 +34,7 @@
 
                     <br>
 
-                    <table class="table">
+                    <table class="table" id="listaEmpresas">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>

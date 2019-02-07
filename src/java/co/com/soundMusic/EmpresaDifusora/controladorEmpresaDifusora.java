@@ -1,12 +1,6 @@
 package co.com.soundMusic.EmpresaDifusora;
 
 import co.com.soundMusic.Artista.Artista;
-import co.com.soundMusic.Contacto.Ciudad.Ciudad;
-import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Contacto.ContactoDaoImpl;
-import co.com.soundMusic.Contacto.Pais.Pais;
-import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividad;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.CostoActividadDaoImpl;
 import co.com.soundMusic.EmpresaDifusora.TipoCosto.TipoEmpresaDifusora;
@@ -119,12 +113,12 @@ public class controladorEmpresaDifusora extends HttpServlet {
         switch (operacion) {
             case "crear":
                 crearEmpresaDifusora(request, response);
-                //ingresarLogAuditoria(UsuarioId(request, response), 3);
+                ingresarLogAuditoria(UsuarioId(request, response), 3);
                 mostrarPaginaEmpresas(request, response);
                 break;
             case "editar":
                 editarEmpresaDifusora(request, response, identificacion);
-                //ingresarLogAuditoria(UsuarioId(request, response), 3);
+                ingresarLogAuditoria(UsuarioId(request, response), 3);
                 mostrarPaginaEmpresas(request, response);
                 break;
         }
@@ -155,14 +149,12 @@ public class controladorEmpresaDifusora extends HttpServlet {
     private void crearEmpresaDifusora(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CostoActividad costoOperacion = crearCostoActividad(request);
-        Contacto contacto = crearContacto(request);
         TipoEmpresaDifusora tipoEmpresa = obtenerTipoEmpresa(request);
         EmpresaDifusora empresaDifusora = new EmpresaDifusora();
 
         empresaDifusora.setNombre(request.getParameter("nomEmpresa"));
         empresaDifusora.setFechaCreacion(Date.valueOf(LocalDate.now()));
         empresaDifusora.setStatus("A");
-        empresaDifusora.setContacto(contacto);
         empresaDifusora.setTipoActividad(tipoEmpresa);
         empresaDifusora.setCostoOperacion(costoOperacion);
 
@@ -173,14 +165,12 @@ public class controladorEmpresaDifusora extends HttpServlet {
     private void editarEmpresaDifusora(HttpServletRequest request, HttpServletResponse response, int idEmpresaDifusora)
             throws IOException, NumberFormatException, ServletException {
         CostoActividad costoOperacion = editarCostoActividad(request);
-        Contacto contacto = editarContato(request);
         TipoEmpresaDifusora tipoEmpresa = obtenerTipoEmpresa(request);
         EmpresaDifusora empresaDifusora = new EmpresaDifusora();
 
         empresaDifusora.setIdEmpresaDifusora(idEmpresaDifusora);
         empresaDifusora.setNombre(request.getParameter("nomEmpresa"));
         empresaDifusora.setStatus("A");
-        empresaDifusora.setContacto(contacto);
         empresaDifusora.setTipoActividad(tipoEmpresa);
         empresaDifusora.setCostoOperacion(costoOperacion);
 
@@ -189,14 +179,6 @@ public class controladorEmpresaDifusora extends HttpServlet {
     }
 
     private void actualizarDatosFormulario(HttpServletRequest request) {
-        PaisDaoImpl daoPais = new PaisDaoImpl(true);
-        List<Pais> lstPais = daoPais.obtenerPaises();
-        request.setAttribute("lstPais", lstPais);
-
-        CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-        List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-        request.setAttribute("lstCiudad", lstCiudad);
-
         TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
         List<TipoEmpresaDifusora> lstTipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora();
         request.setAttribute("lstTipoEmpresa", lstTipoEmpresa);
@@ -230,19 +212,6 @@ public class controladorEmpresaDifusora extends HttpServlet {
         return null;
     }
 
-    private Contacto crearContacto(HttpServletRequest request) {
-        Contacto contacto = new Contacto();
-        contacto.setCelular(request.getParameter("numFijo"));
-        contacto.setEmail(request.getParameter("correo"));
-        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
-
-        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
-        int idContacto = daoContacto.crearContacto(contacto);
-        contacto.setIdContacto(idContacto);
-
-        return contacto;
-    }
-
     private TipoEmpresaDifusora obtenerTipoEmpresa(HttpServletRequest request) {
         TipoEmpresaDifusoraDaoImpl daoTipoEmpresa = new TipoEmpresaDifusoraDaoImpl(true);
         TipoEmpresaDifusora tipoEmpresa = daoTipoEmpresa.obtenerTipoEmpresaDifusora(
@@ -260,19 +229,6 @@ public class controladorEmpresaDifusora extends HttpServlet {
         costoActividad.setIdCostoActividad(idCostoActividad);
 
         return costoActividad;
-    }
-
-    private Contacto editarContato(HttpServletRequest request) {
-        Contacto contacto = new Contacto();
-        contacto.setIdContacto(Integer.parseInt(request.getParameter("idContacto")));
-        contacto.setCelular(request.getParameter("numFijo"));
-        contacto.setEmail(request.getParameter("correo"));
-        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
-
-        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
-        daoContacto.actualizarContacto(contacto);
-
-        return contacto;
     }
 
     private CostoActividad editarCostoActividad(HttpServletRequest request) {

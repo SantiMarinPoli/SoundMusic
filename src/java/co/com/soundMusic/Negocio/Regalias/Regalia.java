@@ -115,9 +115,8 @@ public class Regalia {
         return true;
     }
 
-    public float calcularRegalias() {
-        float regalias = numeroOperaciones * costo.getCostoPorOperacion();
-        return regalias;
+    public void calcularRegalias() {
+        this.setTotalGanado(this.numeroOperaciones * this.costo.getCostoPorOperacion());
     }
 
     public void obtenerArtistaEmpresa() {

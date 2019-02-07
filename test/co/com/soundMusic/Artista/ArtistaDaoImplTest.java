@@ -63,9 +63,8 @@ public class ArtistaDaoImplTest {
         int idArtista = 1;
         String[] datosArtista = {"SANTIAGO", null,
             "MEDINA", "PELAEZ", "MC DINA", "M", "A", null};
-        Date[] fechasArtista = {Date.valueOf("1992-06-01"), Date.valueOf("2018-09-23")};
 
-        Artista resultadoEsperado = new Artista(1, datosArtista, fechasArtista, 1);
+        Artista resultadoEsperado = new Artista(1, datosArtista, Date.valueOf("2018-09-23"));
         Artista resultadoActual = daoArtista.obtenerArtista(idArtista);
 
         assertEquals(resultadoEsperado, resultadoActual);
@@ -132,8 +131,7 @@ public class ArtistaDaoImplTest {
     public void testGetUltimmoIdArtista() throws Exception {
         String[] datosArtista = {"SANTIAGO", null,
             "MEDINA", "PELAEZ", "MC DINA", "M", "A", null};
-        Date[] fechasArtista = {Date.valueOf("1992-06-01"), Date.valueOf(LocalDate.now())};
-        Artista artistaPrueba = new Artista(1, datosArtista, fechasArtista, 1);
+        Artista artistaPrueba = new Artista(1, datosArtista, Date.valueOf(LocalDate.now()));
         daoArtista.crearArtista(artistaPrueba);
         List<Artista> pruebaLstArtista = daoArtista.obtenerArtistas();
 

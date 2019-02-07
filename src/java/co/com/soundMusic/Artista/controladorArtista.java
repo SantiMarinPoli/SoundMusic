@@ -1,13 +1,6 @@
 package co.com.soundMusic.Artista;
 
-import co.com.soundMusic.Contacto.Ciudad.Ciudad;
-import co.com.soundMusic.Contacto.Contacto;
-import co.com.soundMusic.Contacto.ContactoDaoImpl;
-import co.com.soundMusic.Contacto.Ciudad.CiudadDaoImpl;
-import co.com.soundMusic.Contacto.Pais.Pais;
-import co.com.soundMusic.Contacto.Pais.PaisDaoImpl;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
@@ -86,12 +79,10 @@ public class controladorArtista extends HttpServlet {
                 request.getRequestDispatcher("/artista.jsp").forward(request, response);
                 break;
             case "crearArtista":
-                actualizarDatosFormulario(request);
                 vista = request.getRequestDispatcher("/registrarArtista.jsp");
                 vista.forward(request, response);
                 break;
             case "editar":
-                actualizarDatosFormulario(request);
                 identificacion = Integer.parseInt((String) request.getParameter("IdArtista"));
                 for (Artista artista : lstArtistasp) {
                     if (artista.getIdArtista() == identificacion) {
@@ -125,7 +116,7 @@ public class controladorArtista extends HttpServlet {
                 mostrarPaginaArtista(request, response);
                 break;
             case "editar":
-                editarArtista(request, response, identificacion);
+                editarArtista(request, identificacion);
                 mostrarPaginaArtista(request, response);
                 break;
         }
@@ -151,7 +142,6 @@ public class controladorArtista extends HttpServlet {
 
     private void crearArtista(HttpServletRequest request)
             throws ServletException, IOException {
-        Contacto contacto = crearContacto(request);
         Artista artista = new Artista();
 
         artista.setPrimerNombre(request.getParameter("nom1"));
@@ -159,22 +149,20 @@ public class controladorArtista extends HttpServlet {
         artista.setPrimerApellido(request.getParameter("apellido1"));
         artista.setSegundoApellido(request.getParameter("apellido2"));
         artista.setNombreArtistico(request.getParameter("nomArtista"));
-        artista.setGenero(request.getParameter("sexo"));
-        //artista.setFechaNacimiento(Date.valueOf(request.getParameter("fechaNac")));
+        artista.setGenero(request.getParameter("sexo"));        
         artista.setFechaCreacion(Date.valueOf(LocalDate.now()));
         artista.setStatus("A");
         artista.setRutaImagen(request.getParameter("nuevaFoto"));
         if (artista.getRutaImagen().equals("") || artista.getRutaImagen() == null) {
             artista.setRutaImagen("img/artistas/default/anonymous.png");
         }
-        artista.setContacto(contacto);
 
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
         daoArtista.crearArtista(artista);
     }
 
-    private void editarArtista(HttpServletRequest request, HttpServletResponse response, int idArtista) throws IOException, NumberFormatException, ServletException {
-        Contacto contacto = editarContacto(request);
+    private void editarArtista(HttpServletRequest request, int idArtista)
+            throws IOException, NumberFormatException, ServletException {
         Artista artista = new Artista();
 
         artista.setIdArtista(idArtista);
@@ -184,76 +172,13 @@ public class controladorArtista extends HttpServlet {
         artista.setSegundoApellido(request.getParameter("apellido2"));
         artista.setNombreArtistico(request.getParameter("nomArtista"));
         artista.setGenero(request.getParameter("sexo"));
-        //artista.setFechaNacimiento(Date.valueOf(request.getParameter("fechaNac")));        
         artista.setStatus("A");
         artista.setRutaImagen(request.getParameter("nuevaFoto"));
         if (artista.getRutaImagen().equals("") || artista.getRutaImagen() == null) {
             artista.setRutaImagen("img/artistas/default/anonymous.png");
         }
-        artista.setContacto(contacto);
 
         ArtistaDaoImpl daoArtista = new ArtistaDaoImpl(true);
         daoArtista.actualizarArtista(artista);
-    }
-
-    private Pais obtenerPais(int idPais, String nombrePais) {
-        PaisDaoImpl paisDao = new PaisDaoImpl(true);
-
-        if (idPais == 0) {
-            paisDao.crearPais(new Pais(idPais, nombrePais));
-        }
-        return paisDao.obtenerPais(idPais);
-
-    }
-
-    private Ciudad obtenerCiudad(int idCiudad, String nombreCiudad, Pais pais) {
-        CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-
-        if (idCiudad == 0) {
-            ciudadDao.crearCiudad(new Ciudad(idCiudad, nombreCiudad, pais.getIdPais()));
-        }
-        return ciudadDao.obtenerCiudad(idCiudad);
-    }
-
-    private void actualizarDatosFormulario(HttpServletRequest request) {
-        PaisDaoImpl daoPais = new PaisDaoImpl(true);
-        List<Pais> lstPais = daoPais.obtenerPaises();
-        request.setAttribute("lstPais", lstPais);
-
-        CiudadDaoImpl ciudadDao = new CiudadDaoImpl(true);
-        List<Ciudad> lstCiudad = ciudadDao.obtenerCiudades();
-        request.setAttribute("lstCiudad", lstCiudad);
-    }
-
-    private Contacto crearContacto(HttpServletRequest request) {
-        Contacto contacto = new Contacto();
-        contacto.setCelular(request.getParameter("numCel"));
-        /*contacto.setTelefono(request.getParameter("numTel"));
-        contacto.setDireccion(request.getParameter("direccion"));
-        contacto.setBarrio(request.getParameter("barrio"));
-        contacto.setEmail(request.getParameter("email"));*/
-        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
-
-        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
-        int idContacto = daoContacto.crearContacto(contacto);
-        contacto.setIdContacto(idContacto);
-
-        return contacto;
-    }
-
-    private Contacto editarContacto(HttpServletRequest request) {
-        Contacto contacto = new Contacto();
-        contacto.setIdContacto(Integer.parseInt(request.getParameter("idContacto")));
-        contacto.setCelular(request.getParameter("numCel"));
-        /*contacto.setTelefono(request.getParameter("numTel"));
-        contacto.setDireccion(request.getParameter("direccion"));
-        contacto.setBarrio(request.getParameter("barrio"));
-        contacto.setEmail(request.getParameter("email"));*/
-        contacto.getCiudad().setIdCiudad(Integer.parseInt(request.getParameter("ciudad")));
-
-        ContactoDaoImpl daoContacto = new ContactoDaoImpl(true);
-        daoContacto.actualizarContacto(contacto);
-
-        return contacto;
     }
 }

@@ -27,6 +27,7 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
     private static final String UPDATE_COSTO_ACTIVIDAD;
     private static final String UPDATE_FECHA_FINAL;
     private static final String SELECT_ULTIMO_ID;
+    private static final String SELECT_COSTO_ACTIVIDAD_EMPRESA_ID;
 
     public CostoActividadDaoImpl(Boolean production) {
         isProduction = production;
@@ -162,6 +163,36 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
         return -1;
     }
 
+    public CostoActividad getCostoPorIdEmpresa(int IdEmpresa) {
+        CostoActividad costo= new CostoActividad();
+        try {
+            getConexion();
+            PreparedStatement ps = conexion.prepareStatement(SELECT_COSTO_ACTIVIDAD_EMPRESA_ID);
+            ps.setInt(1, IdEmpresa);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                costo.setIdCostoActividad(rs.getInt("ID_COSTO_ACTIVIDAD"));
+                costo.setCostoPorOperacion(rs.getFloat("COSTO_POR_OPERACION"));
+                costo.setFechaCreacion(rs.getDate("FECHA_CREACION"));
+                costo.setFechaUsoFinal(rs.getDate("FECHA_USO_FINAL"));
+            }
+        } catch (SQLException ex) {
+            System.out.println("Excepción " + ex.getMessage());
+            Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                if (conexion != null) {
+                    DbUtils.closeQuietly(rs);
+                    DbUtils.closeQuietly(conexion);
+                    Thread.sleep(1000);
+                }
+            } catch (InterruptedException ex) {
+                Logger.getLogger(CostoActividadDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return costo;
+    }
+    
     static {
         SELECT_COSTO_ACTIVIDAD = "SELECT COSTO_POR_OPERACION, FECHA_CREACION, FECHA_USO_FINAL"
                 + "FROM COSTO_ACTIVIDAD"
@@ -180,6 +211,12 @@ public class CostoActividadDaoImpl implements ICostoActividadDao {
 
         SELECT_ULTIMO_ID = "SELECT COSTO_ACTIVITIDAD_SEQ.CURRVAL\n"
                 + "FROM DUAL";
+        SELECT_COSTO_ACTIVIDAD_EMPRESA_ID = "SELECT ID_COSTO_ACTIVIDAD, COSTO_POR_OPERACION, FECHA_CREACION,FECHA_USO_FINAL \n"
+                + "FROM COSTO_ACTIVITIDAD\n"
+                + "WHERE ID_COSTO_ACTIVIDAD IN (\n"
+                + "SELECT EMPRESA_DIFUSORA.ID_COSTO_ACTIVIDAD \n"
+                + "FROM EMPRESA_DIFUSORA \n"
+                + "WHERE EMPRESA_DIFUSORA.ID_EMPRESA_DIFUSORA=?)";
     }
 
     private void getConexion() {

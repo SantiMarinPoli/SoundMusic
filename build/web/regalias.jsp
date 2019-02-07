@@ -121,10 +121,10 @@
                                             <div class="invalid-feedback">El campo numero de operaciones es obligatorio</div>
                                         </div>
 
-                                        <div class="form-group">
+                                     <!--   <div class="form-group">
                                             <label>Total Operaciones</label>
                                             <input type="text" name="totalOp" class="form-control" id="totalOp" value="$0.0" disabled>
-                                        </div>
+                                        </div>-->
 
                                         <div class="form-group">
                                             <img src="icon/discoOro.png"  class="img-thumbnail previsualizar" width="100" alt=""/>

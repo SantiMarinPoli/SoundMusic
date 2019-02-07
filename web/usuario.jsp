@@ -25,25 +25,27 @@
                     <hr>
                     <br>
                     <div class="row">
-
                         <div class="col">
-                            <a href="controladorUsuario?opcion=crearUsuario" class="btn btn-success" id="registrarUsuario">Registrar Usuario</a>
+                            <a href="controladorUsuario?opcion=crearUsuario" class="btn btn-success" id="registrarUsuario">Registrar Usuario</a>                            
+                        </div>
+                        <div class="col">
+                            <label>Listar solo activos</label>                            
+                            <input type="checkbox" id="modoListar" onclick="cambiarLista()">
                         </div>
                     </div>
 
                     <br>
 
-                    <table class="table">
+                    <table class="table" id="listaUsuarios">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Nombre Completo</th>
                                 <th scope="col">Sexo</th>
-                                <th scope="col">Correo</th>
                                 <th scope="col">Tipo de Usuario</th>
                                 <th scope="col">Nombre Usuario</th>
                                 <th scope="col">Fecha Entrada</th>
-                                <th scope="col">Activo</th>
+                                <th scope="col">Estado</th>
                                 <th scope="col">Operaciones</th>
                             </tr>
                         </thead>
@@ -55,18 +57,17 @@
                                     out.print("<th  scope='row'>" + usu.getIdUsuario() + "</th>");
                                     out.print("<td>" + usu.getPrimerNombre() + " " + usu.getPrimerApellido() + "</td>");
                                     out.print("<td>" + usu.getGenero() + "</td>");
-                                    out.print("<td>" + usu.getContacto().getEmail() + "</td>");
                                     out.print("<td>" + usu.getPerfil().getNombrePerfil() + "</td>");
                                     out.print("<td>" + usu.getUsuarioLogin().getNombreUsuario() + "</td>");
                                     out.print("<td>" + usu.getFechaCreacion() + "</td>");
                                     if (usu.getStatus().equalsIgnoreCase("A")) {
                                         out.print(
-                                                "<td><a href='controladorUsuario?opcion=borrar&IdUsuario="
+                                                "<td><a href='controladorUsuario?opcion=editarEstado&IdUsuario="
                                                 + usu.getIdUsuario() + "&estado=I' class='badge badge-success btnActivar' idUsuario="
                                                 + usu.getIdUsuario() + " activarUsuario='0'> Activado </a></td>");
                                     } else {
                                         out.print(
-                                                "<td><a href='controladorUsuario?opcion=borrar&IdUsuario="
+                                                "<td><a href='controladorUsuario?opcion=editarEstado&IdUsuario="
                                                 + usu.getIdUsuario() + "&estado=A' class='badge btnActivar badge-danger' idUsuario="
                                                 + usu.getIdUsuario() + " activarUsuario='1'>Inactivo</a></td>");
                                     }
